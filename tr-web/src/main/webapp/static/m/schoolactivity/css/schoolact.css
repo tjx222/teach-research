@@ -1,0 +1,134 @@
+.activity_option_edit{
+	width:3em;
+	height:3em;
+	background:url(../../../common/images_m/edit.png) no-repeat;
+	position: absolute;
+    bottom: 0;
+    right: 7rem; 
+    animation:edit .5s;
+	-moz-animation:edit .5s; /* Firefox */
+	-webkit-animation:edit .5s; /* Safari and Chrome */
+	-o-animation:edit .5s;  /*  Opera */
+	animation-fill-mode:forwards;
+	-webkit-animation-fill-mode:forwards;
+	-o-animation-fill-mode:forwards;
+	-moz-animation-fill-mode:forwards; 
+	cursor:pointer;
+}
+.activity_option_jz_edit{
+	width:3em;
+	height:3em;
+	background:url(../../../common/images_m/jz_edit.png) no-repeat;
+	position: absolute;
+    bottom: 0;
+    right: 7rem;
+    animation:edit .5s;
+	-moz-animation:edit .5s; /* Firefox */
+	-webkit-animation:edit .5s; /* Safari and Chrome */
+	-o-animation:edit .5s;  /*  Opera */
+	animation-fill-mode:forwards;
+	-webkit-animation-fill-mode:forwards;
+	-o-animation-fill-mode:forwards;
+	-moz-animation-fill-mode:forwards; 
+	cursor:not-allowed;
+}
+@keyframes edit
+{
+100% {left:0; bottom:1rem;}
+}
+.activity_option_del{
+	width:3em;
+	height:3em;
+	background:url(../../../common/images_m/del.png) no-repeat;
+	position: absolute;
+    bottom:0;
+    right: 7rem;
+    animation:del .5s;
+	-moz-animation:del .5s; /* Firefox */
+	-webkit-animation:del .5s; /*  Safari and Chrome*/
+	-o-animation:del .5s; /* Opera */
+	animation-fill-mode:forwards;
+	-webkit-animation-fill-mode:forwards;
+	-o-animation-fill-mode:forwards;
+	-moz-animation-fill-mode:forwards; 
+	cursor:pointer;
+}
+.activity_option_jz_del{
+	width:3em;
+	height:3em;
+	background:url(../../../common/images_m/jz_del.png) no-repeat;
+	position: absolute;
+    bottom:0;
+    right: 7rem;
+     animation:del .5s;
+	-moz-animation:del .5s; /* Firefox */
+	-webkit-animation:del .5s; /* Safari and Chrome */
+	-o-animation:del .5s; /* Opera */
+	animation-fill-mode:forwards;
+	-webkit-animation-fill-mode:forwards;
+	-o-animation-fill-mode:forwards;
+	-moz-animation-fill-mode:forwards;
+	cursor: not-allowed; 
+}
+@keyframes del
+{
+100% { left:7rem; bottom:5rem;}
+} 
+.activity_option_share{
+	width:3em;
+	height:3em;
+	background:url(../../../common/images_m/share.png) no-repeat;
+	position: absolute;
+     bottom:0;
+    right: 7rem;
+    animation:share .5s;
+	 animation:share .5s;
+	-moz-animation:share .5s; /* Firefox */
+	-webkit-animation:share .5s; /* Safari and Chrome */
+	-o-animation:share .5s; /* Opera */
+	animation-fill-mode:forwards;
+	-webkit-animation-fill-mode:forwards;
+	-o-animation-fill-mode:forwards;
+	-moz-animation-fill-mode:forwards; 
+	cursor:pointer;
+}
+.activity_option_qx_share1{
+	width:3em;
+	height:3em;
+	background:url(../../../common/images_m/qx_share.png) no-repeat; 
+	position: absolute;
+    bottom:0;
+    right: 7rem;
+    animation:share .5s;
+	-moz-animation:share .5s;/*  Firefox */
+	-webkit-animation:share .5s;/*  Safari and Chrome */
+	-o-animation:share .5s; /* Opera */
+	animation-fill-mode:forwards;
+	-webkit-animation-fill-mode:forwards;
+	-o-animation-fill-mode:forwards;
+	-moz-animation-fill-mode:forwards;
+	cursor:pointer;
+}
+.activity_option_jz_share1{
+	width:3em;
+	height:3em;
+	background:url(../../../common/images_m/jz_share.png) no-repeat; 
+	position: absolute;
+    right:0; bottom:1rem;
+    animation:share .5s;
+	-moz-animation:share .5s; /* Firefox */
+	-webkit-animation:share .5s; /* Safari and Chrome */
+	-o-animation:share .5s; /* Opera */
+	animation-fill-mode:forwards;
+	-webkit-animation-fill-mode:forwards;
+	-o-animation-fill-mode:forwards;
+	-moz-animation-fill-mode:forwards;
+	cursor: not-allowed;
+}
+@keyframes share
+{
+100% {right:0; bottom:1rem;}
+}
+#fileToUpload_1{
+	cursor:pointer;
+}

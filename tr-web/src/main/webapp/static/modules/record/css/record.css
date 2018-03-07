@@ -1,0 +1,233 @@
+body,html{
+	background: #f2f2f2;
+	font-family: "Microsoft Yahei";
+}
+.record_cont{
+	width:1200px;
+	height:auto;
+	min-height: 500px;
+	margin:0 auto;
+	background: #fff;
+}
+.record_cont1{
+	width: 1100px;
+	height:auto;
+	margin:0 auto;
+	min-height: 500px;
+}
+.record_cont1_h3{
+	height: 37px;
+	width: 1100px;
+	line-height: 37px;
+	padding-top: 16px; 
+	border-bottom: 1px #c4c4c4 solid;
+	text-align: center;
+}
+.record_cont1_h3 span{ 
+	margin-left: 18px;
+	margin-right: 18px;
+	font-size: 14px;
+	color: #4a4a4a;
+}
+.Growth_Portfolio_cont{
+	width: 1100px;
+	height: auto;
+	padding:30px 0 0 0;
+}
+.Growth_Portfolio_model{
+	width:130px;
+	height: 160px;
+	float: left;
+	border:1px #fff solid;
+	cursor: pointer;
+	position: relative;
+	margin-right: 25px;
+	margin-left: 25px;
+	margin-bottom: 25px;
+}
+.Growth_Portfolio_model_1{
+	width:130px;
+	height: 160px;
+	float: left;
+	border:1px #fff solid;
+	cursor: pointer;
+	position: relative;
+	margin-right: 17px;
+	margin-left: 17px;
+	margin-bottom: 25px;
+}
+.Growth_Portfolio_model:hover{
+	-moz-box-shadow: 0px 3px 11px #a9a9a9;/* for firefox */
+	-webkit-box-shadow: 0px 3px 11px #a9a9a9;/* for safari or chrome */
+	box-shadow:0px 3px 11px #a9a9a9;/* for opera or ie9 */
+}
+.Growth_Portfolio_model:hover .show_p{ 
+	display: block;
+}
+.Growth_Portfolio_model_bg{
+	width: 95px;
+	height:120px;
+	background: url('../images/record/bg.png');
+	background-position: 0 0;
+	margin:10px auto;
+	
+}
+.Growth_Portfolio_model_bg span{
+	width: 75px;
+    height: 50px;
+    display: inline-block;
+    font-size: 18px;
+    color: #ae6000;
+    margin-left: 10px;
+    margin-top: 41px;
+    line-height: 21px;
+    text-align: center;
+} 
+.Growth_Portfolio_model .show_p{
+	width:140px;
+	height: 32px; 
+	display: none;
+	position: absolute;
+    bottom: 0;
+}
+.Growth_Portfolio_model .show_p ol{
+}
+.Growth_Portfolio_model .show_p ol li{
+	float: left; 
+	margin-left: 9px;
+	margin-top: 10px;
+	cursor: pointer;
+	position: relative;
+} 
+.spot{
+	width: 8px;
+    height: 8px;
+    position: absolute;
+    display: block;
+    top: -3px;
+    right: -3px;
+	background: url('../images/record/bg.png');
+	background-position: -45px -123px;
+}
+.add{
+	width: 39px;
+	height: 39px;
+	background: url('../images/record/bg.png');
+	background-position: 0 -121px;
+	margin:50px auto;
+
+}
+.li_edit{
+	width: 16px;
+	height: 16px;
+	background: url('../images/record/bg.png');
+	background-position: -102px -3px; 
+}
+.li_del{
+	width: 13px;
+	height: 16px;
+	background: url('../images/record/bg.png');
+	background-position: -123px -3px; 
+} 
+.li_share{
+	width: 12px;
+	height: 16px;
+	background: url('../images/record/bg.png');
+	background-position: -142px -3px; 
+}
+.li_share_cancle{
+	width: 12px;
+	height: 16px;
+	background: url('../images/record/bg.png');
+	background-position: -142px -45px; 
+}
+.li_yue{
+	width: 17px;
+	height: 17px;
+	background: url('../images/record/bg.png');
+	background-position: -160px -2px; 
+}
+.li_ping{
+	width: 18px;
+	height: 17px;
+	background: url('../images/record/bg.png');
+	background-position: -180px -2px; 
+}
+
+.Growth_Portfolio_bottom{
+	width: 446px;
+	height:260px;
+	background: #fff;
+	padding-top: 30px;
+	overflow: auto;
+	padding-left:50px;
+	padding-right: 50px;
+}
+.Growth_Portfolio_bottom p{
+	width: 435px;
+	position: relative;
+}
+.Growth_Portfolio_bottom p textarea{
+	margin-left:0\0;
+	width:300px;
+	height:100px;
+	border:1px #9f9f9f solid;
+}
+.Growth_Portfolio_bottom p label{
+	width:50px;	
+	float:left;
+	font-size: 14px;
+	line-height:21px;
+}
+.Growth_Portfolio_bottom p span{
+	float:left;
+	width:360px;
+	height:55px;
+	text-align:left;
+	line-height:20px;
+}
+.Growth_Portfolio_bottom p label b{
+	color:red;
+	font-size: 14px;
+	position: absolute;
+	left: 0;
+	top: 3px;
+}
+.Growth_Portfolio_bottom strong{
+	color:#aeaeae;
+	font-weight:bold;
+}
+.Growth_Portfolio_bottom .strong_sty{
+	display: block;
+	line-height:25px;
+	width: 140px;
+	margin-left: 48px;
+}
+.Growth_Portfolio_btn{
+	background: #fe7e37;
+	width: 97px;
+	height: 28px;
+	border:0;
+	display:block;
+	color:#fff;
+	font-size:14px;
+	margin:0 auto;
+}
+
+.btn_bottom .btn_bottom_3{
+	width: 85px;
+	height: 28px;
+	border: none;
+	background:#fe7e37;
+	color:#fff;
+	font-size:14px;
+	margin-right:25px;
+}
+.btn_bottom .btn_bottom_4{
+	width: 85px;
+	height: 28px;
+	border: none;
+	background:#3ab4f0;
+	font-size:14px;
+	color:#fff;
+}

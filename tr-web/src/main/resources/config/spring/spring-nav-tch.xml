@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:navs="http://www.mainbo.com/schema/navs" 
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.mainbo.com/schema/navs http://www.mainbo.com/schema/navs-1.0.xsd"
+>
+	<navs:nav-context>
+		<navs:nav id="phase_select" >
+			<navs:elem name="选择学段" href="jy/uc/select" target="_self" />
+		</navs:nav>
+		<navs:nav id="index_select" extend="phase_select" >
+			<navs:elem name="空间首页" />
+		</navs:nav>
+		<!-- 个人空间首页 -->
+		<navs:nav id="tch_index" >
+			<navs:elem name="空间首页" href="index" target="_self" />
+		</navs:nav>
+		<navs:nav id="personal_index" extend="tch_index">
+			<navs:elem name="个人中心" />
+		</navs:nav>
+		<navs:nav id="zxja" extend="tch_index" rollback="true">
+			<navs:elem name="撰写教案" />
+		</navs:nav>
+		<navs:nav id="jxfs" extend="tch_index">
+			<navs:elem name="教学反思"  />
+		</navs:nav>
+		<navs:nav id="jhzj" extend="tch_index">
+			<navs:elem name="计划总结"  />
+		</navs:nav>
+		<navs:nav id="sckj" extend="tch_index">
+			<navs:elem name="上传课件"  />
+		</navs:nav>
+		<!-- 集体备课部分   start -->
+		<navs:nav id="jtbk" extend="tch_index">
+			<navs:elem name="集体备课" href="jy/activity/index" />
+		</navs:nav>
+		<navs:nav id="cgx" extend="jtbk">
+			<navs:elem name="草稿箱" />
+		</navs:nav>
+		<navs:nav id="fqhd" extend="jtbk">
+			<navs:elem name="发起"  />
+		</navs:nav>
+		<navs:nav id="xghd" extend="jtbk">
+			<navs:elem name="修改"  />
+		</navs:nav>
+		<navs:nav id="zlja" extend="jtbk">
+			<navs:elem name="参与"  />
+		</navs:nav>
+		<navs:nav id="ckztyt" extend="jtbk">
+			<navs:elem name="查看"  />
+		</navs:nav>
+		<navs:nav id="cktbja" extend="jtbk">
+			<navs:elem name="查看"  />
+		</navs:nav>
+		<navs:nav id="cytbja" extend="jtbk">
+			<navs:elem name="参与"  />
+		</navs:nav>
+		<navs:nav id="cyztyt" extend="jtbk">
+			<navs:elem name="参与"  />
+		</navs:nav>
+		<!-- 集体备课部分   end -->
+		<navs:nav id="tbzy" extend="tch_index">
+		    <navs:elem name="{:name}" />
+		</navs:nav>
+		<navs:nav id="jxlw" extend="tch_index">
+			<navs:elem name="{:name}" />
+		</navs:nav>
+		<navs:nav id="zyck" extend="jxlw" rollback="true">
+			<navs:elem name="{:name}" href="{:jxlwHref}" />
+		    <navs:elem name="{:ckname}" ></navs:elem>
+		</navs:nav>	
+		<navs:nav id="jxgljl_zyck" extend="jxgljl_jhzj">
+			<navs:elem name="资源查看"  />
+		</navs:nav>	
+		<!-- 备课本 -->
+		<navs:nav id="wdbkb" extend="tch_index">
+			<navs:elem name="{:name}"  />
+		</navs:nav>
+		<navs:nav id="bkbtkju" extend="tch_index">
+			<navs:elem name="{:name}"  href="jy/myplanbook/tomyplanbook"/>
+			<navs:elem name="{:name2}"  />
+		</navs:nav>		
+		<!-- 课题查阅 -->
+		<navs:nav id="ckkt_index" extend="tch_index">
+			<navs:elem name="{:name}"  />
+		</navs:nav>
+		<navs:nav id="ckkt_list" extend="ckkt_index" rollback="true">
+			<navs:elem name="{:name}"  href="{:indexHref}"/>
+			<navs:elem name="{:listName}" />
+		</navs:nav>
+		<navs:nav id="ckkt_detail" extend="ckkt_list" rollback="true">
+			<navs:elem name="{:listName}"  href="{:listHref}"/>
+			<navs:elem name="{:detailName}" />
+		</navs:nav>		
+		<!-- 课题查阅结束 -->		
+		<!-- 听课记录开始 -->
+		<navs:nav id="tkjl" extend="tch_index">
+			<navs:elem name="听课记录" href="jy/lecturerecords/list"/>
+		</navs:nav>
+		<navs:nav id="ck" extend="tkjl">
+			<navs:elem name="查看"  />
+		</navs:nav>
+		<navs:nav id="zxxntkjlzr" extend="tkjl">
+			<navs:elem name="撰写校内听课记录-找人" href="jy/lecturerecords/findpeople"/>
+		</navs:nav>
+		<navs:nav id="zxxntkjl" extend="zxxntkjlzr">
+			<navs:elem name="撰写校内听课记录"/>
+		</navs:nav>
+		<navs:nav id="ckja" extend="zxxntkjlzr">
+			<navs:elem name="查看教案"/>
+		</navs:nav>
+		<navs:nav id="zxxwtkjl" extend="tkjl">
+			<navs:elem name="撰写校外听课记录"  />
+		</navs:nav>
+<!-- 		<navs:nav id="cgxlist" extend="tkjl"> -->
+<!-- 			<navs:elem name="草稿箱" href="jy/lecturerecords/caogaoList"/> -->
+<!-- 		</navs:nav> -->
+		<navs:nav id="bjcgx" extend="tkjl">
+			<navs:elem name="编辑草稿箱"  />
+		</navs:nav>
+		<!-- 听课记录结束 -->
+		<!-- 成长档案袋开始 -->
+		<navs:nav id="czdad"  extend="tch_index">
+			<navs:elem name="成长档案袋"  href="jy/record/findList"  />
+		</navs:nav>
+		<!-- 成长档案袋结束 -->
+		<!-- 管理记录开始 -->
+		<navs:nav id="gljl"  extend="tch_index">
+			<navs:elem name="管理记录"  href="jy/managerecord/index"  />
+		</navs:nav>
+		<navs:nav id="cyjl"  extend="gljl">
+			<navs:elem name="查阅记录"  href="jy/managerecord/check"  />
+		</navs:nav>
+		<navs:nav id="cyjl_cyja"  extend="cyjl">
+			<navs:elem name="查阅教案"  href="jy/managerecord/check/0"  />
+		</navs:nav>
+		<navs:nav id="cyjl_cykj"  extend="cyjl">
+			<navs:elem name="查阅课件"  href="jy/managerecord/check/1"  />
+		</navs:nav>
+		<navs:nav id="cyjl_cyfs"  extend="cyjl">
+			<navs:elem name="查阅反思"  href="jy/managerecord/check/2-3"  />
+		</navs:nav>
+		<navs:nav id="cyjl_cyjb"  extend="cyjl">
+			<navs:elem name="查阅集备"  href="jy/managerecord/check/5"  />
+		</navs:nav>
+		<navs:nav id="cyjl_jhzj"  extend="cyjl">
+			<navs:elem name="查阅计划总结"  href="jy/managerecord/check/8-9"  />
+		</navs:nav>
+		<navs:nav id="cyjl_jhzj_view"  extend="cyjl_jhzj">
+			<navs:elem name="查看"  href=""  />
+		</navs:nav>
+		<navs:nav id="cyjl_tkjl"  extend="cyjl">
+			<navs:elem name="查阅听课记录"  href="jy/managerecord/check/6"  />
+		</navs:nav>
+		<navs:nav id="cyjl_jxwz"  extend="cyjl">
+			<navs:elem name="查阅教学文章"  href="jy/managerecord/check/10"  />
+		</navs:nav>
+		<navs:nav id="cyjl_jxwz_view"  extend="cyjl_jxwz">
+			<navs:elem name="查看"  href=""  />
+		</navs:nav>
+	   	<navs:nav id="jxgljl"  extend="gljl">
+			<navs:elem name="教学管理记录"  href="jy/managerecord/tch"  />
+		</navs:nav>
+	   	<navs:nav id="jxgljl_jhzj"  extend="jxgljl">
+			<navs:elem name="计划总结"  href="jy/managerecord/planDetail?listType=0"  />
+		</navs:nav>
+	   	<navs:nav id="jxgljl_tkjl"  extend="jxgljl">
+			<navs:elem name="听课记录"  href="jy/managerecord/lecturedetailed"  />
+		</navs:nav>
+	   	<navs:nav id="jxgljl_tkjlck"  extend="jxgljl_tkjl">
+			<navs:elem name="查看"/>
+		</navs:nav>
+	   	<navs:nav id="jyhdjl"  extend="gljl">
+			<navs:elem name="教研活动记录"  href="jy/managerecord/jyhd"  />
+		</navs:nav>
+		<navs:nav id="jyhdjl_jtbk"  extend="jyhdjl">
+			<navs:elem name="集体备课"  href="jy/managerecord/activity"  />
+		</navs:nav>
+	    <navs:nav id="jyhdjl_qyjy"  extend="jyhdjl">
+			<navs:elem name="区域教研"  href="jy/managerecord/region"  />
+		</navs:nav>
+	    <navs:nav id="jyhdjl_xjjy"  extend="jyhdjl">
+			<navs:elem name="校际教研"  href="jy/managerecord/school"  />
+		</navs:nav>		
+		<!-- 成长档案袋结束 -->
+		<!-- 计划总结开始 -->
+		<navs:nav id="jhzj_check" extend="tch_index">
+			<navs:elem name="查阅计划总结" href="./jy/planSummaryCheck/index"/>
+		</navs:nav>
+		<navs:nav id="jhzj_check_teacher" extend="jhzj_check">
+			<navs:elem name="查阅教师" href="./jy/planSummaryCheck/teacher"/>
+		</navs:nav>
+		<navs:nav id="jhzj_check_teacher_name" extend="jhzj_check_teacher">
+			<navs:elem name="{:teacherName}" href="./jy/planSummaryCheck/userSpace/{:workSpaceId}/planSummary?userId={:userId}"/>
+		</navs:nav>
+		<navs:nav id="jhzj_check_teacher_view" extend="jhzj_check_teacher_name">
+			<navs:elem name="查阅" href=""/>
+		</navs:nav>
+		<navs:nav id="jhzj_check_multi" extend="jhzj_check">
+			<navs:elem name="{:roleType}" href="./jy/planSummaryCheck/role/{:roleId}/planSummary"/>
+		</navs:nav>
+		<navs:nav id="jhzj_check_multi_view" extend="jhzj_check_multi">
+			<navs:elem name="查阅" href=""/>
+		</navs:nav>
+		<!-- 计划总结结束 -->		
+		<!-- 同伴互助 start -->
+		<navs:nav id="copanions" extend="tch_index">
+			 <navs:elem name="{:name}" href="jy/companion/companions/index?isSameSchool={:isSameSchool}"/>
+		</navs:nav>
+		<navs:nav id="copanions_detail" extend="copanions">
+			<navs:elem name="{:detailName}" href="jy/companion/companions/{:userIdCompanion}" />
+		</navs:nav>
+		<navs:nav id="copanions_messages" extend="copanions">
+			<navs:elem name="全部留言" href="jy/companion/companions/messages/index" />
+		</navs:nav>
+		<!-- 同伴互助 end -->		
+		<!-- 消息 start -->
+		<navs:nav id="notice" extend="tch_index">
+			<navs:elem name="我的消息" href="jy/notice/notices?receiverState=0" />
+		</navs:nav>
+		<navs:nav id="notice_detail" extend="notice">
+			<navs:elem name="查看" href="jy/notice/notices/{:noticeId}" />
+		</navs:nav>
+		<!-- 消息 end -->
+		<navs:nav id="punishPlanSummary" extend="tch_index">
+			<navs:elem name="计划总结" href="jy/planSummary/punishs" />
+		</navs:nav>
+		<navs:nav id="punishPlanSummaryView" extend="punishPlanSummary">
+			<navs:elem name="查看" href="#" />
+		</navs:nav>
+		<!-- 教研动态 start -->
+		<navs:nav id="tzggxx"  extend="tch_index">
+			<navs:elem name="通知公告"  href="jy/annunciate/noticeIndex"  />
+		</navs:nav>
+		<navs:nav id="cktzggxx"  extend="tzggxx">
+			<navs:elem name="查看"   />
+		</navs:nav>
+		<!-- 教研动态 end -->
+		<!-- 区域教研部分   start -->
+		<navs:nav id="qyjy" extend="tch_index">
+			<navs:elem name="区域教研" href="jy/region_activity/index" />
+		</navs:nav>
+		<navs:nav id="qyjycgx" extend="qyjy">
+			<navs:elem name="草稿箱" />
+		</navs:nav>
+		<navs:nav id="qyjyfqtbja" extend="qyjy">
+			<navs:elem name="发起"  />
+		</navs:nav>
+		<navs:nav id="qyjyfqztyt" extend="qyjy">
+			<navs:elem name="发起"  />
+		</navs:nav>
+		<navs:nav id="qyjyxgtbja" extend="qyjy">
+			<navs:elem name="修改"  />
+		</navs:nav>
+		<navs:nav id="qyjyxgztyt" extend="qyjy">
+			<navs:elem name="修改"  />
+		</navs:nav>
+		<navs:nav id="qyjyzl" extend="qyjy">
+			<navs:elem name="参与"  />
+		</navs:nav>
+		<navs:nav id="qyjyckztyt" extend="qyjy">
+			<navs:elem name="查看"  />
+		</navs:nav>
+		<navs:nav id="qyjycktbja" extend="qyjy">
+			<navs:elem name="查看"  />
+		</navs:nav>
+		<navs:nav id="qyjycytbja" extend="qyjy">
+			<navs:elem name="参与"  />
+		</navs:nav>
+		<navs:nav id="qyjycyztyt" extend="qyjy">
+			<navs:elem name="参与"  />
+		</navs:nav>
+		<!-- 区域教研部分   end -->		
+		<!-- 校际教研部分   start -->
+		<navs:nav id="xjjy" extend="tch_index">
+			<navs:elem name="校际教研" href="jy/schoolactivity/index" />
+		</navs:nav>
+		<navs:nav id="xjjy2" extend="tch_index">
+			<navs:elem name="校际教研" href="jy/schoolactivity/index?listType=1" />
+		</navs:nav>
+		<navs:nav id="xjjy_fq" extend="xjjy">
+			<navs:elem name="发起"  />
+		</navs:nav>
+		<navs:nav id="xjjy_xg" extend="xjjy">
+			<navs:elem name="修改"  />
+		</navs:nav>
+		<navs:nav id="xjjy_cyzl" extend="xjjy">
+			<navs:elem name="参与"  />
+		</navs:nav>
+		<navs:nav id="xjjy_ckzl" extend="xjjy">
+			<navs:elem name="查看"  />
+		</navs:nav>
+		<navs:nav id="xjjy_cy" extend="xjjy2">
+			<navs:elem name="参与"  />
+		</navs:nav>	
+		<navs:nav id="xjjy_ck" extend="xjjy2">
+			<navs:elem name="查看"  />
+		</navs:nav>
+		<navs:nav id="jyjdb" extend="xjjy">
+			<navs:elem name="教研进度表" href="jy/teachschedule/index"/>
+		</navs:nav>
+		<navs:nav id="jyjdb2" extend="xjjy2">
+			<navs:elem name="教研进度表" href="jy/teachschedule/read" />
+		</navs:nav>
+		<navs:nav id="ckjyjdbxq2" extend="jyjdb2">
+			<navs:elem name="查看教研进度表详情"  />
+		</navs:nav>
+		<navs:nav id="ckjyjdbxq" extend="jyjdb">
+			<navs:elem name="查看教研进度表详情"  />
+		</navs:nav>
+		<navs:nav id="cjjyq" extend="tch_index">
+			<navs:elem name="校际教研圈"  />
+		</navs:nav>
+		<navs:nav id="xjjy_ckjyq" extend="xjjy2">
+			<navs:elem name="校际教研圈"  />
+		</navs:nav>
+		<!-- 校际教研部分   end -->		
+		<!-- 学校资源展示开始-->
+		<navs:nav id="xxzyzsindex">
+			<navs:elem name="学校首页" href="jy/schoolview/index?orgID={:orgID}&amp;xdid={:xdid}"/>
+		</navs:nav>
+		<navs:nav id="xxyw" extend="xxzyzsindex">
+			<navs:elem name="学校要闻" href="jy/schoolview/show/bigNewsList?orgID={:orgID}&amp;xdid={:xdid}"/>
+		</navs:nav>
+		<navs:nav id="tpxw" extend="xxzyzsindex">
+			<navs:elem name="图片新闻" href="jy/schoolview/show/pic_new?orgID={:orgID}&amp;xdid={:xdid}"/>
+		</navs:nav>
+		<navs:nav id="tongbanxiao" extend="xxzyzsindex">
+			<navs:elem name="同伴校在线" />
+		</navs:nav>
+		<navs:nav id="beikeziyuan" extend="xxzyzsindex">
+			<navs:elem name="备课资源" href="jy/schoolview/res/lessonres/getPreparationResDetailed?orgID={:orgID}&amp;xdid={:xdid}&amp;subject=0"/>
+		</navs:nav>
+		<navs:nav id="zuck" extend="beikeziyuan">
+			<navs:elem name="资源查看"/>
+		</navs:nav>
+		<navs:nav id="jyhd" extend="xxzyzsindex">
+			<navs:elem name="教研活动" href="jy/schoolview/res/teachactive/getSpecificAvtive?orgID={:orgID}&amp;xdid={:xdid}&amp;restype=1&amp;subject=0"/>
+		</navs:nav>
+		<navs:nav id="hdck" extend="jyhd">
+			<navs:elem name="活动查看"/>
+		</navs:nav>
+		<navs:nav id="zycz" extend="xxzyzsindex">
+			<navs:elem name="专业成长" href="jy/schoolview/res/progrowth/getSpecificProfession?orgID={:orgID}&amp;xdid={:xdid}&amp;restype=1&amp;subject=0"/>
+		</navs:nav>
+		<navs:nav id="zych" extend="zycz">
+			<navs:elem name="专业查看"/>
+		</navs:nav>
+		<navs:nav id="czdads" extend="xxzyzsindex">
+			<navs:elem name="成长档案袋" href="jy/schoolview/res/recordbags/getSpecificRecordBag?orgID={:orgID}&amp;xdid={:xdid}"/>
+		</navs:nav>
+		<navs:nav id="bagmaster" extend="czdads">
+			<navs:elem name="{:bagmaster}"  href="jy/schoolview/res/recordbags/findList?orgID={:orgID}&amp;xdid={:xdid}&amp;teacherId={:teacherId}&amp;gradeId={:gradeId}&amp;subjectId={:subjectId}"/>
+		</navs:nav>
+		<navs:nav id="zylx" extend="bagmaster">
+			<navs:elem name="{:zyname}" href="jy/schoolview/res/recordbags/findresByBagID?orgID={:orgID}&amp;xdid={:xdid}&amp;userID={:userId}&amp;id={:id}&amp;teacherId={:teacherId}&amp;gradeId={:gradeId}&amp;subjectId={:subjectId}"/>
+		</navs:nav>
+		<navs:nav id="dadzych" extend="zylx">
+			<navs:elem name="资源查看"/>
+		</navs:nav>
+		<navs:nav id="xizy_tzgg"  extend="xxzyzsindex">
+			<navs:elem name="通知公告"  href="jy/schoolview/show/notice?orgID={:orgID}&amp;xdid={:xdid}"  />
+		</navs:nav>
+		<navs:nav id="ck_xizy_tzgg"  extend="xizy_tzgg">
+			<navs:elem name="查看"   />
+		</navs:nav>
+		<!-- 学校资源展示结束-->
+		<!-- 通知公告开始 -->
+		<navs:nav id="tzgg"  extend="tch_index">
+			<navs:elem name="通知公告"  href="jy/annunciate/punishs"  />
+		</navs:nav>
+		<navs:nav id="fbtzgg" extend="tzgg">
+			<navs:elem name="{:tzggname}" />
+		</navs:nav>
+		<navs:nav id="wzftzgg" extend="tzgg">
+			<navs:elem name="未转发"  href="jy/annunciate/notForwardIndex"/>
+		</navs:nav>
+		<navs:nav id="zftzgg" extend="wzftzgg">
+			<navs:elem name="转发通知公告"  />
+		</navs:nav>
+		<navs:nav id="ckwzftzgg" extend="wzftzgg">
+			<navs:elem name="查看" />
+		</navs:nav>	
+		<navs:nav id="cktzgg" extend="tzgg">
+			<navs:elem name="查看" />
+		</navs:nav>
+		<!-- 通知公告结束 -->
+		<!-- 教研一览start -->
+		<navs:nav id="jyyl"  extend="tch_index">
+			<navs:elem name="教研一览"  href="jy/teachingView/index"  />
+		</navs:nav>
+		<navs:nav id="jyyl_jsjy"  extend="jyyl">
+			<navs:elem name="教师教研情况一览"  href="jy/teachingView/manager/teachingView_t"  />
+		</navs:nav>
+		<navs:nav id="jyyl_njjy"  extend="jyyl">
+			<navs:elem name="年级教研情况一览"  href="jy/teachingView/manager/teachingView_g"  />
+		</navs:nav>
+		<navs:nav id="jyyl_xkjy"  extend="jyyl">
+			<navs:elem name="学科教研情况一览"  href="jy/teachingView/manager/teachingView_s"  />
+		</navs:nav>
+		<navs:nav id="jyyl_jsjy_grade"  extend="jyyl_njjy">
+			<navs:elem name="{:gradeName}"  href="jy/teachingView/manager/teachingView_t?flagz=grade"  />
+		</navs:nav>
+		<navs:nav id="jyyl_jsjy_subject"  extend="jyyl_xkjy">
+			<navs:elem name="{:subjectName}"  href="jy/teachingView/manager/teachingView_t?flagz=subject"  />
+		</navs:nav>
+		<navs:nav id="jyyl_jxgl"  extend="jyyl">
+			<navs:elem name="教学管理情况一览"  href="jy/teachingView/manager/m_user_list"/>
+		</navs:nav>
+		<navs:nav id="jyyl_glzxm"  extend="jyyl_jxgl">
+			<navs:elem name="{:username}"  href="{:url}"/>
+		</navs:nav>
+		<navs:nav id="jyyl_m_cylb"  extend="jyyl_glzxm">
+			<navs:elem name="{:name}"  href="{:urlxqlb}"/>
+		</navs:nav>
+		<navs:nav id="jyyl_js"  extend="jyyl_jsjy">
+			<navs:elem name="{:userName}"  href="{:url}"  />
+		</navs:nav>
+		<navs:nav id="jyyl_grade_js"  extend="jyyl_jsjy_grade">
+			<navs:elem name="{:userName}"  href="{:url}"  />
+		</navs:nav>
+		<navs:nav id="jyyl_subject_js"  extend="jyyl_jsjy_subject">
+			<navs:elem name="{:userName}"  href="{:url}"  />
+		</navs:nav>
+		<!-- 教研一览end -->
+		
+		<!-- 历史资源 -->
+		<navs:nav id="history"  extend="tch_index">
+			<navs:elem name="历年资源" />
+		</navs:nav>
+		<!-- 历史资源 end -->
+		
+		<!-- 查阅教学文章开始 -->
+		<navs:nav id="check_thesis" extend="tch_index">
+			<navs:elem name="查阅教学文章" href="./jy/check/thesis/index?subjectId={:subjectId}&amp;gradeId={:gradeId}&amp;sysRoleId={:sysRoleId}"/>
+		</navs:nav>
+		<navs:nav id="check_thesis_select" extend="check_thesis">
+			<navs:elem name="{:checkName}" href="./jy/check/thesis/select?flago={:flago}&amp;subjectId={:subjectId}&amp;gradeId={:gradeId}&amp;sysRoleId={:sysRoleId}"/>
+		</navs:nav>
+		<navs:nav id="check_thesis_detail" extend="check_thesis_select">
+			<navs:elem name="{:teacherName}" href="{:indexHref}"/>
+		</navs:nav>
+		<navs:nav id="check_thesis_detail_view" extend="check_thesis_detail">
+			<navs:elem name="查阅" href=""/>
+		</navs:nav>
+		<!-- 查阅教学文章结束 -->
+		
+		<!--查阅听课记录  -->
+		<navs:nav id="check_index" extend="tch_index">
+			<navs:elem name="查阅听课记录" href="jy/check/lectureRecords/toIndex"/>
+		</navs:nav>
+		<navs:nav id="check_teacher" extend="check_index">
+			<navs:elem name="查阅教师" href="jy/check/lectureRecords/toCheckTeacherIndex?gradeId={:gradeId}&amp;subjectId={:subjectId}&amp;term={:termId}"/>
+		</navs:nav>
+		<navs:nav id="check_leader" extend="check_index">
+			<navs:elem name="查阅管理者" href="jy/check/lectureRecords/toCheckLeaderIndex?term={:termId}&amp;sysRoleId={:sysRoleId}"/>
+		</navs:nav>
+		<navs:nav id="check_leader1" extend="check_index">
+			<navs:elem name="查阅管理者" href="jy/check/lectureRecords/toCheckLeaderIndex?gradeId={:gradeId}&amp;term={:termId}&amp;sysRoleId={:sysRoleId}"/>
+		</navs:nav>
+		<!-- 意见反馈 -->
+		<navs:nav id="jyfk" extend="tch_index">
+			<navs:elem name="意见反馈"/>
+		</navs:nav>
+		
+		<!-- 查阅分数统计start -->
+		<navs:nav id="ckfstj"  extend="tch_index">
+			<navs:elem name="分数统计"  href="jy/scoreview/index"  />
+		</navs:nav>
+		
+	</navs:nav-context>
+</beans>

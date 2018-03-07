@@ -1,0 +1,783 @@
+html,body{
+	font-family: "Microsoft Yahei"; 
+	color: #474747;
+}
+/* planSummary */
+.check_lesson{
+	width: 1200px;
+	margin:10px auto;
+	height:auto;
+	background: #fff;  
+	padding-bottom:10px;
+}
+.check_lesson_c1{
+	width: 208px;
+	height: 248px;
+	margin:100px auto;
+	background: url('../images/bg.png') no-repeat;
+
+}
+.check_lesson_c2{
+
+	width:150px;
+	height:180px;
+	margin:0 auto;
+	padding-top:70px;	
+	padding-right:10px;
+	word-wrap: break-word;
+	line-height:24px;
+}
+
+
+/* planSummary */
+.check_lesson_1{
+	float: left;
+	width: 163px;
+	height: 164px;
+	cursor: pointer;
+	margin:180px 20px 180px 170px;
+}
+.check_lesson_1 img{
+	width: 163px;
+	height: 164px;
+	display: block;
+
+}
+.check_lesson_2{
+	float: left;
+	width: 163px;
+	height: 164px;
+	cursor: pointer;
+	margin:180px 20px 180px 45px;
+}
+.check_lesson_2 img{
+	width: 163px;
+	height: 164px;
+	display: block;
+
+}
+.check_lesson_3{
+	float: left;
+	width: 163px;
+	height: 164px;
+	cursor: pointer;
+	margin:180px 20px 180px 45px;
+}
+.check_lesson_3 img{
+	width: 163px;
+	height: 164px;
+	display: block;
+
+}
+.check_lesson_4{
+	float: left;
+	width: 163px;
+	height: 164px;
+	cursor: pointer;
+	margin:180px 20px 180px 45px;
+}
+.check_lesson_4 img{
+	width: 163px;
+	height: 164px;
+	display: block;
+
+}
+.check_lesson_c{
+	float: left;
+	width: 930px;
+	height: 588px;
+	cursor: pointer;
+	margin-top: 100px;
+}
+.check_lesson_c img{
+	width: 223px;
+	height: 265px;
+	display: block;
+	margin:0 auto;
+
+}
+
+.check_lesson_wrap_1{
+	height: 92px;
+	border-bottom: 1px #a4e0c9 solid;
+	margin-top:20px;
+} 
+.check_lesson_wrap_1 b{
+	display: inline-block;
+	width: 90px;
+	float: left;
+	height: 90px;
+	padding-top: 43px;
+	font-size: 16px;
+	color:#ff6e37;
+}
+.check_lesson_wrap_1 strong{
+	display: inline-block;
+	float: left;
+	height: 90px;
+	padding-top: 45px;
+	font-size: 14px;
+	color:#525252;
+	margin-right:15px;
+}
+.check_sel{
+	float:right;
+	margin-right:25px;
+}
+.check_sel label{
+	display: inline-block;
+	width: 40px;
+	float: left;
+	height: 45px;
+	padding-top: 48px;
+	font-size: 14px; 
+	color:#525252;
+}
+.check_sel select{
+	width: 120px;
+	border-radius: 5px;
+	height: 25px;
+	margin-top: 40px;
+	float: right;
+	margin-right: 20px;
+}
+.check_lesson_wrap_2{
+	width: 1100px;
+	height: 518px;
+	background: #fff;
+	border-radius: 7px;
+	border:1px #bdbdbd solid;
+	margin:0 auto;
+}
+.check_lesson_wrap_2_left{
+	float: left;
+	width: 550px;
+	height: 518px;
+	border-right: 1px #51c7f8 dashed;
+	overflow: auto;
+}
+.check_lesson_wrap_2_left h4{
+	height: 35px;
+	line-height: 35px;
+	background: #ededed;
+	width: 109px;
+	border-bottom: 1px #51c7f8 dashed;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+	border-top-left-radius: 7px;
+	float: left;
+}
+.check_lesson_wrap_2_left strong{
+	display: inline-block;
+	width: 80px;
+	float: left;
+	height: 35px;
+	font-size: 14px;
+	line-height: 35px;
+	text-align: center;
+	color:#525252;
+}
+.check_lesson_wrap_2_right{
+	float: left;
+	width: 545px;
+	height: 518px;
+	overflow: auto;
+}
+.check_lesson_wrap_2_right h4{
+	height: 35px;
+	line-height: 35px;
+	background: #ededed;
+	width: 109px;
+	border-bottom: 1px #51c7f8 dashed;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+	float: left;
+}
+.check_lesson_wrap_2_right strong{
+	display: inline-block;
+	width: 80px;
+	float: left;
+	height: 35px;
+	font-size: 14px;
+	line-height: 35px;
+	text-align: center;
+	color:#525252;
+}
+.check_lesson_dl{
+	float: left;
+	width: 130px;
+	height: 130px;
+	border:1px #fff solid;
+	margin: 18px 0 0 5px;
+	cursor: pointer;
+	z-index: 997;
+}
+.check_lesson_dl dl strong{
+	background: url('../images/af.png') no-repeat;
+	width: 61px; 
+	height:20px;
+	position: absolute;
+	z-index: 999;
+	top:33px;
+	left:35px;
+}
+.check_lesson_dl:hover{
+	 display: block;
+	-moz-box-shadow: 0px 3px 11px #a9a9a9;/* for firefox */
+	-webkit-box-shadow: 0px 3px 11px #a9a9a9;/* for safari or chrome */
+	box-shadow:0px 3px 11px #a9a9a9;/* for opera or ie9 */
+}
+.check_lesson_dl dl{
+	width: 134px;
+	height: 134px;
+	float: left;
+	position: relative;
+}
+.check_lesson_dl dl dd{
+	width:64px;
+	height: 63px;
+	margin:0 auto;
+}
+.check_lesson_dl dl dd img{
+	display: block;
+	margin-top: 10px;
+}
+.check_lesson_dl dl dt{
+	width: 130px;
+	text-align: center;
+		
+}
+.check_lesson_dl dl dt span{
+	display: inline-block;
+	height: 21px;
+	line-height: 21px;
+	width:130px;
+}
+.check_lesson_wrap_2_wrap{
+	width: 890px;
+	height: 518px;
+	margin:30px auto; 
+}
+.check_lesson_wrap_2_wrap ul{
+	height: 25px;
+}
+.check_lesson_wrap_2_wrap ul li{
+	float: left;
+	width: 65px;
+	text-align: center;
+	height: 25px;
+	line-height: 25px;
+	border:1px #51c7f8 solid;
+	border-top-left-radius: 7px;
+	border-top-right-radius: 7px;
+	margin-right: 4px;
+	cursor: pointer;
+}
+.check_lesson_act{
+	background: #51c7f8;
+	color: #fff;
+}
+.check_lesson_wrap_2_wrap label{
+	display: inline-block;
+	width: 40px;
+	float: left;
+	height: 20px;
+	font-size: 14px;
+	color:#525252;
+	float: right;
+	padding-top: 5px;
+}
+.check_lesson_wrap_2_wrap select{
+	width: 120px;
+	border-radius: 5px;
+	height: 25px;
+	float: right;
+	margin-right: 20px;
+}
+
+.check_lesson_primary{
+	width:1200px;
+	margin:0 auto;
+	height:auto;
+	background:#fff;
+	padding:20px 0;
+}
+.check_lesson_primary_l{
+	width: 120px;
+	min-height:620px;
+	height:auto;
+	background: #fff;  
+	float: left;
+	margin-right:10px;
+}
+.check_lesson_primary_l h3{
+	font-size: 20px;
+	line-height: 60px;
+	height: 60px;
+	text-align: center;
+	font-weight: bold;
+}
+.check_lesson_primary_r{
+	width: 87%;
+	height:auto;  
+	float: right;
+	background:#fff;
+	min-height:620px; 
+}
+.bg{
+	width:920px;
+	margin:15px auto;
+	height:auto; 
+	background:#fff;
+	min-height:300px; 
+}
+.txt_seh_1{
+	width: 100px;
+	height: 20px;
+	float:right;
+	border:none;
+	border-radius: 5px;
+	border:1px #c1c1c1 solid;
+	margin-top: 5px;
+}
+.txt_btn_1{
+	width: 39px;
+	height: 27px;
+	margin-left: 3px;
+	background: url('../static/modules/planSummary/images/ser.png') no-repeat;
+	border:none;
+	float: right;
+	margin-right: 10px;
+	margin-top: 3px;
+}
+.check_lesson_primary_l h4{
+	width: 120px;
+	height: 30px;
+}
+.check_lesson_primary_l h4 img{
+	width: 22px;
+	height: 23px;
+	display: block;
+	float: left;
+	margin-left:35px;
+	margin-top: 13px;
+}
+.check_lesson_primary_l h4 span{
+	width: 110px;
+	height: 30px;
+	display: inline-block;
+	float: left;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+	line-height: 30px;
+	margin-top: 10px;
+	margin-left: 4px;
+	border:1px #fff solid;
+	cursor: pointer;
+	overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.check_lesson_primary_l h4 span:hover{
+	width: 110px;
+	height: 30px;
+	display: inline-block;
+	float: left;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+	line-height: 30px;
+	color:#fff;
+	margin-top:10px;
+	margin-left: 4px; 
+	background: #27bb8b;
+
+}
+.primary_act1{ 
+	background: #27bb8b;
+	color:#fff;
+}
+.primary_act{ 
+	background: #27bb8b;
+	color:#fff;
+}
+.check_lesson_primary_r h3{
+	height: 43px; 
+
+}
+.check_lesson_primary_r h3 label{
+	display: inline-block;
+	width: 40px;
+	font-size: 14px;
+	color: #525252;
+	float: right;
+	margin-top: 10px;
+}
+.check_lesson_primary_r h3 select{
+	width: 120px;
+	border-radius: 5px;
+	height: 25px;
+	margin-top: 5px;
+	float: right;
+	margin-right: 20px;
+}
+.check_lesson_primary_r h3 ol{
+	margin-left: 10px;
+	float: left;
+	width: 540px;
+}
+.check_lesson_primary_r h3 ol li{
+	float: left;
+    padding: 0 10px;
+    height: 33px;
+    font-size: 14px;
+    line-height: 33px;
+    text-align: center;
+    margin-top: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.grade{
+	background: #fff;
+}
+.nj_act{
+	background-color: #fff;
+    color: #ff971d;
+    border: 1px #e0e2e7 solid;
+    border-bottom: none;
+    font-weight: bold;
+}
+.grade_tab{
+	width: 100%;
+	height:auto;
+	float: left;
+	min-height:585px;
+	background: url('../images/contbg.png') repeat-y;
+	overflow: hidden;
+	margin-right: 25px;
+
+}
+.grade_tab h1{
+	width: 97%;
+	height: 30px;
+	border-bottom: 1px #cfcfcf solid;
+	line-height: 30px;
+	margin-bottom: 40px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+.grade_tab h1 span{
+	display: inline-block;
+	height: 30px;
+	line-height: 35px;
+	margin-left: 5px;
+	margin-right: 5px;
+	float: left;
+}
+.grade_tab h1 strong{
+	display: inline-block;
+	height: 30px;
+	line-height: 35px;
+	margin-left: 5px;
+	margin-right: 10px;
+	float: left;
+}
+.grade_tab dl{
+	width: 170px;
+	height: 80px;
+	float: left;
+	margin-left: 53px;
+	margin-bottom: 50px;
+
+}
+.grade_tab dl dd{
+	width: 80px;
+	height: 80px;
+	float:left;
+}
+.grade_tab dl dd img{
+	width: 80px;
+	height: 80px;
+	display: block;
+}
+.grade_tab dl dt{
+	width: 85px;
+	height: 80px;
+	float: left;
+	margin-left: 5px;
+}
+.grade_tab dl dt h2{
+	width: 70px;
+	overflow: hidden;
+	height: 20px;
+	line-height: 20px;
+	font-weight: bold;
+}
+.grade_tab dl dt span{
+	display: inline-block;
+	width: 70px;
+	height: 20px;
+	line-height: 20px;
+}
+
+
+.check_lesson1{ 
+	width: 1120px;
+    min-height: 300px;
+    height: auto;
+    margin: 0 auto;
+}
+.check_lesson_wrap_11{
+	height: auto;
+	width: 1120px;
+}
+.check_lesson_wrap_11 ol{
+	width: 150px;
+	margin-left: 20px;
+	height: 27px;
+	margin-top:20px;
+}
+.check_lesson_wrap_11 ol li{
+	float: left;
+	width: 70px;
+	height: 17px;
+	line-height: 17px;
+	text-align: center;
+	margin-right: 3px;
+	cursor: pointer;
+	font-size:14px;
+	border-right:1px #bebebe solid;
+}
+.check_lesson_wrap_11_act{
+	color:#fe7e37;
+} 
+
+.lecture_record_see{
+	width: 100%;
+	margin:10px auto;
+	height:433px; 
+	border-radius: 6px;
+	text-align:center;
+}
+.lecture_record_see h3{
+	font-size: 18px;
+	text-align: center;
+	line-height: 45px;
+	height: 45px;
+}
+.lecture_record_see h3 span{
+	margin-left: 10px;
+	background: #51c7f8;
+	color: #fff;
+	display: inline-block;
+	width:50px;
+	height: 25px;
+	line-height: 25px;
+	font-size: 12px;
+	border-radius: 8px;
+}
+.lecture_record_see h4{
+	font-size: 14px;
+	text-align: center;
+	line-height: 30px;
+	height: 30px;
+}
+.lecture_record_see h4 span{
+	margin-left: 20px;
+	margin-right: 10px;
+}
+.lecture_record_see_cont{
+	width: 800px;
+	height: 460px;
+	overflow: auto;
+	margin: 0 auto;
+}
+
+.up_down{
+	width: 100%;
+	height: 40px;
+	line-height: 61px;
+	font-size: 14px;
+	color: #51c7f8;
+	font-weight: bold;
+}
+.up_down .up{
+	float: left;
+	cursor: pointer;
+	padding-left: 20px;
+}
+.up_down .down{
+	float: right;
+	padding-right: 20px;
+	cursor: pointer;
+}
+
+
+
+.check_lesson_dl_1{
+	float: left;
+	width: 105px;
+	height: 130px;
+	border:1px #fff solid;
+	cursor: pointer;
+	z-index: 997;
+	margin-left: 2px;
+}
+.check_lesson_dl_1 dl strong{
+	background: url('../static/modules/planSummary/images/yi.png') no-repeat;
+	width: 61px; 
+	height:20px;
+	position: absolute;
+	z-index: 999;
+	top:33px;
+	left:21px;
+}
+.check_lesson_dl_1:hover{
+	width: 105px;
+	height: 130px;
+	border:1px #51c7f8 solid;
+	float: left;
+	margin-left: 2px;
+}
+.check_lesson_dl_1 dl{
+	width: 105px;
+	height: 134px;
+	float: left;
+	position: relative;
+}
+.check_lesson_dl_1 dl dd{
+	width:64px;
+	height: 63px;
+	margin:0 auto;
+}
+.check_lesson_dl_1 dl dd img{
+	display: block;
+	margin-top: 10px;
+}
+.check_lesson_dl_1 dl dt{
+	width: 105px;
+	text-align: center;
+		
+}
+.check_lesson_dl_1 dl dt span{
+	display: inline-block;
+	height: 21px;
+	line-height: 21px;
+}
+.check_lesson_wrap_2_left1{
+	float: left;
+	width: 50%;
+	height: 580px;
+	border-right: 1px #27bb8b dashed;
+	overflow: auto;
+}
+.check_lesson_wrap_2_left1 h4{
+	height: 35px;
+	line-height: 35px;
+	background: #ededed;
+	width: 109px;
+	border-bottom: 1px #27bb8b dashed;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+	float: left;
+}
+.check_lesson_wrap_2_left1 strong{
+	display: inline-block;
+	float: left;
+	height: 35px;
+	font-size: 14px;
+	line-height: 35px;
+	text-align: center;
+	color:#525252;
+	padding-right: 20px;
+}
+.check_lesson_wrap_2_right1{
+	float: left;
+	width: 49%;
+	height: 580px;
+	overflow: auto;
+}
+.check_lesson_wrap_2_right1 h4{
+	height: 35px;
+	line-height: 35px;
+	background: #ededed;
+	width: 109px;
+	border-bottom: 1px #27bb8b dashed;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+	float: left;
+}
+.check_lesson_wrap_2_right1 strong{
+	display: inline-block;
+	float: left;
+	padding-right: 20px;
+	height: 35px;
+	font-size: 14px;
+	line-height: 35px;
+	text-align: center;
+	color:#525252;
+}
+.check_lesson_wrap_21{
+	width: 100%;
+	height: 580px;
+	background: #fff;
+	margin:0 auto;
+	padding-top: 5px;
+}
+
+
+.check_lesson_wrap_111{
+	height: auto;
+	width:92%;
+	margin:0 auto; 
+}
+.check_lesson_wrap_111 ol{
+	width: 170px;
+	margin-left: 11px;
+	height: 27px;
+	font-size:14px;
+	padding-top: 15px;
+}
+.check_lesson_wrap_111 ol li{
+	float: left;
+	width: 70px;
+	height: 25px;
+	line-height: 25px;
+	text-align: center;
+	cursor: pointer;
+	margin-right: 14px;
+	font-size:14px;
+}
+.check_lesson_wrap_111_act{
+	color:#51c7f8;
+} 
+.jr{
+	border:1px #bdbdbd solid;
+	border-radius: 6px;
+	background: #fff;
+	line-height: 30px;
+	height: auto;
+	text-align: center;
+	width: 930px;
+	margin:10px auto;
+}
+.emptyWrap{
+	background: url('../images/bg.png') no-repeat;
+	width:220px;
+	height:400px;
+	margin:50px auto;
+}
+.emptyWrap1{
+	width:150px;
+	height:180px;
+	margin:0 auto;
+	padding-top:70px;	
+	padding-right:10px;
+	word-wrap: break-word;
+	line-height:24px;
+}

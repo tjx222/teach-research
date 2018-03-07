@@ -1,0 +1,101 @@
+.partake_discussion_content h3 {
+  margin-left: 1rem;
+  height: 4rem;
+  line-height: 4rem;
+  position: relative;
+  color: #696969;
+  font-size: 1.5rem;
+}
+
+.par_head {
+  clear: both;
+  height: 2.5rem;
+  width: 90%;
+  margin:0 auto; 
+  padding-bottom: 1rem;
+  border-bottom: 0.083rem #b1b1b1 solid;
+  overflow: hidden;
+}
+.participant{
+	width:3rem;
+	height:3rem;
+	background:url(../images/fq.png) no-repeat -247px 0;
+	margin-right:1rem;
+	margin-top:0.5rem;
+}
+.partake_discussion_content h3 span {
+  display: block;
+  float: left;
+}
+#partake_discussion{
+	width: 35.583rem;
+    bottom: 4rem;
+    top: 0;
+    overflow: hidden;
+    position: absolute;
+}
+.partake_discussion_content h3 q {
+  font-size: 1.333rem;
+}
+.par_head_r {
+  width: 4rem;
+  margin-top: 0.3rem;
+  height: 2.1rem;
+  line-height: 2rem;
+  color: #ff971d;
+  border: 0.167rem #ff971d solid;
+  border-radius: 0.5rem;
+  text-align: center;
+  display: block;
+  font-size: 1.333rem;
+  float: right;
+  margin-right: 2rem;
+  margin-top: 0.7rem;
+  cursor:pointer;
+}
+.par_head_r1{
+	width:4rem;
+	margin-top:0.3rem;
+	height:2.1rem;
+	line-height:2rem;
+	color:#ff971d;
+	border:0.167rem #ff971d solid;
+	border-radius:0.5rem;
+	text-align:center;
+	display:block;
+	font-size:1.333rem;
+	float:right;
+	margin-right: 2rem;
+    margin-top: 0.3rem;
+    cursor:pointer;
+}
+.head_independent {
+  float: left;
+  width: 3rem;
+  height: 3rem;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.head_independent img {
+  border-radius: 3rem;
+  width: 3rem;
+  height: 3rem;
+  background:#c0c0c0;
+  cursor:pointer;
+}
+
+.head_independent_r{
+	float:left;
+	line-height:3rem;
+	color:#767676;
+	font-size:1.333rem;
+}
+figure{
+    width:5em;
+    height:4.5rem;
+    text-align:center; 
+    margin:0 auto;
+    cursor:pointer;
+    padding-top:1rem;
+    padding-bottom:0.4rem; 
+}

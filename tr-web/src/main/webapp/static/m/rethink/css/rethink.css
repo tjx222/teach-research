@@ -1,0 +1,1033 @@
+.content{
+	border-top:0.083rem #fe7e37 solid;
+	width:100%;
+	background:#f7f8f9;
+}
+.content_top{
+	width:80%;
+	height:6.417rem;
+	margin:0 auto;
+	border-bottom:0.083rem #fe7e37 solid;
+}
+.content_top_left{
+	width:33rem;
+	height:6.417rem;
+	float: left;
+}
+.content_top_left .btn_submit{
+	width: 8.833rem;
+	height: 3rem;
+	background: #fe7e37;
+	font-size: 1.5rem;
+	color:#fff;
+	line-height:2.6rem;
+	margin-top:2.833rem;
+	display: block;
+	margin-left: 3.25rem;
+	float:left;
+	cursor:pointer;
+}
+.content_top_left .btn_cencel_r{
+	width: 8.833rem;
+	height: 3rem;
+	border: 0.167rem #fe7e37 solid;
+	font-size: 1.5rem;
+	color:#fe7e37;
+	line-height:2.6rem;
+	margin-top:2.833rem;
+	display: block;
+	margin-left: 3.25rem;
+	float:left;
+	background:none;
+	cursor:pointer;
+}
+.content_top_left span{
+	width:8rem;
+	height:3rem;
+	line-height:3rem;
+	text-align:center;
+	font-size:1.333rem;
+	color:#969696;
+	display:block;
+	margin-top: 2.833rem;
+	float:left;
+	cursor:pointer;
+}
+.content_top_right{
+	width:22rem;
+	height:3.583rem;
+	float:right;
+	padding-top: 2.833rem; 
+	cursor: pointer;
+}
+.content_top_right label{
+	display: inline-block;
+	width: 6rem;
+	float: left;
+	height: 3rem;
+	line-height:3rem;
+	font-size:1.167rem;
+	color:#999;
+}
+.content_top_right span{
+	display: inline-block;
+	width: 11.667rem;
+	float: left;
+	height: 3rem;
+	line-height:3rem;
+	font-size:1.167rem;
+	color:#999; 
+	text-align:center;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+.content_top_right strong{
+	width:2.5rem;
+	height:3rem;
+	display:block;
+	float:left;
+	background:url(../images/upload_courseware.png) no-repeat -25px -28px;
+}
+
+.content_bottom{
+	width: 100%;
+	position: absolute;
+	top: 11.6rem;
+	bottom: 0;
+	overflow:hidden;
+	background:#f7f8f9;
+}
+.content_bottom_width{
+	margin:0 auto;
+	width:80%;
+}
+
+.add_cour_div{
+	width:9.833rem;
+	height:15rem;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:2.167rem;
+}
+.add_cour_div_top{
+	width:9.833rem;
+	height:11.5rem;
+	border:0.083rem #e0e0e0 dashed;
+	border-radius:0.333rem;
+	cursor: pointer;
+}
+.add_cour_div_top_img{
+	width:6.333rem;
+	height:6.333rem;
+	background:url(../images/upload_courseware.png) no-repeat -29px -73px;
+	margin: 2.5rem auto;
+}
+.courseware_img_1{
+	width:5.333rem;
+	height:2rem;
+	background:url(../images/upload_courseware.png) no-repeat -114px -95px;
+	margin-top:-0.5rem;
+	margin-left:0.917rem;
+	text-align:center;
+	line-height:2rem;
+	color:#fff;
+	font-size:1.167rem;
+}
+.courseware_img_2{
+	width:2.25rem;
+	height:2.25rem; 
+	background:url(../images/upload_courseware.png) no-repeat -57px -36px;
+	margin-top:0.75rem;
+	margin-left:0.5rem;
+	float:left;
+	cursor: pointer;
+}
+.courseware_img_3{
+	width:2.25rem;
+	height:2.25rem; 
+	background:url(../images/upload_courseware.png) no-repeat -95px -36px;
+	margin-top:0.75rem;
+	margin-right:0.5rem;
+	float:right;cursor: pointer;
+	position: relative;
+}
+.courseware_img_3 span{
+	width: 0.5rem;
+	position: absolute;
+	height: 0.5rem;
+	background-color: red;
+	border-radius: 1rem;
+	right: 0;
+}
+.courseware_img_4{
+	width:2.25rem;
+	height:2.25rem; 
+	position: relative;
+	background:url(../images/ping.png) no-repeat;
+	margin-top:0.75rem;
+	margin-right:0.5rem;
+	float:right;
+	cursor: pointer;
+}
+.courseware_img_4 span{
+	width: 0.5rem;
+	position: absolute;
+	height: 0.5rem;
+	background-color: red;
+	border-radius: 1rem;
+	right: 0;
+}
+.add_cour_div_bottom{
+	width:9.833rem;
+	height:3.5rem;
+	line-height:3.5rem;
+	color:#979797;
+	font-size:1.167rem;
+	text-align:center;
+}
+.content_bottom_width>div{
+	float:left;
+	width:15rem;
+	height:17rem; 
+	border-radius:0.4rem;
+	margin:2.917rem 3rem 0 3rem;
+	background:#fff;
+	position: relative;
+}
+
+.content_bottom_width>div h3{
+	clear:both;
+	font-size:1.167rem;
+	width:12.833rem;
+	height:3.333rem;
+	line-height:3.333rem;
+	text-align:center;
+	margin:0 auto;
+	color:#707070;
+}
+.courseware_img p{
+	width:12.417rem;
+	height:8.5rem;
+	background:url(../images/upload_courseware.png) no-repeat -183px -277px;
+	margin: 0 auto;
+	cursor: pointer;
+}
+.courseware_ppt p img{
+	width:12.6rem;
+	height:8.5rem;
+	background:url(../images/upload_courseware.png) no-repeat -28px -164px;
+	margin: 0 auto;
+	cursor: pointer;
+	clear:both;
+	display:block;
+}
+.courseware_video p img{
+	width:12.417rem;
+	height:8.5rem;
+	background:url(../images/upload_courseware.png) no-repeat -183px -164px;
+	margin: 0 auto;
+	cursor: pointer;
+}
+.courseware_word p img{
+	width:12.417rem;
+	height:8.5rem;
+	background:url(../images/upload_courseware.png) no-repeat -28px -279px;
+	margin: 0 auto;
+	cursor: pointer;
+}
+/* .courseware_ppt p{
+	width:12.6rem;
+	height:8.5rem;
+	background:url(../images/upload_courseware.png) no-repeat -28px -164px;
+	margin: 0 auto;
+	cursor: pointer;
+	clear:both
+}
+.courseware_video p{
+	width:12.417rem;
+	height:8.5rem;
+	background:url(../images/upload_courseware.png) no-repeat -183px -164px;
+	margin: 0 auto;
+	cursor: pointer;
+}
+.courseware_word p{
+	width:12.417rem;
+	height:8.5rem;
+	background:url(../images/upload_courseware.png) no-repeat -28px -279px;
+	margin: 0 auto;
+	cursor: pointer;
+} */
+#originFileName{
+	background:none;
+	text-align: center;
+}
+.add_cour{
+	border:0.083rem #e3e3e3 solid;
+}
+.courseware_ppt{
+	border:0.083rem #e3e3e3 solid;
+}
+.courseware_video{
+	border:0.083rem #e3e3e3 solid;
+}
+.cw_option{
+	position: absolute;
+	width:15rem;
+	height:14rem;
+	left:0;
+	bottom:0; 
+	/* left: 35.5rem;
+  	top:19rem; */ 
+ 	 z-index: 1;
+}
+.cw_option_mask_act1{
+	width:15rem;
+	height:17rem;
+	background:url(../images/act1.png) no-repeat;
+	position: absolute;
+	left:0;
+	top:0; 
+	cursor:pointer;
+}
+.cw_option_mask_act2{
+    width:16rem;
+	height:17rem;
+	background:url(../images/act2.png) no-repeat;
+	position: absolute;
+	left:0;
+	top:0; 
+	cursor:pointer;
+}
+.cw_option_mask_act3{
+	width:15rem;
+	height:17rem;
+	background:url(../images/act3.png) no-repeat;
+	position: absolute;
+	left:0;
+	top:0; 
+}
+.cw_option_edit{
+	width:3em;
+	height:3em;
+	background:url(../images/upload_courseware.png) no-repeat -127px -30px;
+	position: absolute;
+    bottom:0;
+    left: 0;
+    animation:edit .5s;
+	-moz-animation:edit .5s; /* Firefox */
+	-webkit-animation:edit .5s; /* Safari and Chrome */
+	-o-animation:edit .5s; /* Opera */
+	animation-fill-mode:forwards;
+	-webkit-animation-fill-mode:forwards;
+	-o-animation-fill-mode:forwards;
+	-moz-animation-fill-mode:forwards;
+	cursor:pointer;
+}
+@keyframes edit
+{
+100% {left:0; bottom:10.5rem;}
+}
+.cw_option_del{
+	width:3em;
+	height:3em;
+	background:url(../images/upload_courseware.png) no-repeat -167px -30px;
+	position: absolute;
+    bottom:0;
+    left:0;
+    animation:del .5s;
+	-moz-animation:del .5s; /* Firefox */
+	-webkit-animation:del .5s; /* Safari and Chrome */
+	-o-animation:del .5s; /* Opera */
+	animation-fill-mode:forwards;
+	-webkit-animation-fill-mode:forwards;
+	-o-animation-fill-mode:forwards;
+	-moz-animation-fill-mode:forwards;
+	cursor:pointer;
+}
+@keyframes del
+{
+100% {left:3.5rem; bottom:9.5rem;}
+} 
+.cw_option_submit{
+	width:3em;
+	height:3em;
+	background:url(../images/upload_courseware.png) no-repeat -207px -30px;
+	position: absolute;
+    bottom: 0;
+    left:0;
+    animation:submit .5s;
+	-moz-animation:submit .5s; /* Firefox */
+	-webkit-animation:submit .5s; /* Safari and Chrome */
+	-o-animation:submit .5s; /* Opera */
+	animation-fill-mode:forwards;
+	-webkit-animation-fill-mode:forwards;
+	-o-animation-fill-mode:forwards;
+	-moz-animation-fill-mode:forwards;
+	cursor:pointer;
+}
+@keyframes submit
+{
+100% {left:7rem; bottom:7rem;}
+} 
+.cw_option_share{
+	width:3em;
+	height:3em;
+	background:url(../images/upload_courseware.png) no-repeat -247px -30px;
+	position: absolute;
+    bottom: 0;
+    left:0;
+     animation:share .5s;
+	-moz-animation:share .5s; /* Firefox */
+	-webkit-animation:share .5s; /* Safari and Chrome */
+	-o-animation:share .5s; /* Opera */
+	animation-fill-mode:forwards;
+	-webkit-animation-fill-mode:forwards;
+	-o-animation-fill-mode:forwards;
+	-moz-animation-fill-mode:forwards;
+	cursor:pointer;
+}
+@keyframes share
+{
+100% {left:9.8rem; bottom:3.7rem;}
+} 
+.cw_option_down{
+	width:3em;
+	height:3em;
+	background:url(../images/upload_courseware.png) no-repeat -286px -30px;
+	position: absolute;
+    bottom: 0;
+    left:0;
+     animation:down .5s;
+	-moz-animation:down .5s; /* Firefox */
+	-webkit-animation:down .5s; /* Safari and Chrome */
+	-o-animation:down .5s; /* Opera */
+	animation-fill-mode:forwards;
+	-webkit-animation-fill-mode:forwards;
+	-o-animation-fill-mode:forwards;
+	-moz-animation-fill-mode:forwards;
+	cursor:pointer;
+}
+ @keyframes down
+{
+100% {left:11.6rem; bottom:0.2rem;}
+}
+.cw_option_close{
+	width:2.5em;
+	height:2.5em;
+	background:url(../images/upload_courseware.png) no-repeat -246px -90px;
+	position: absolute;
+    bottom: 0.417rem;
+    left:0.333rem;
+    cursor:pointer;
+}
+.courseware_img{
+	border:0.083rem #e3e3e3 solid;
+}
+.courseware_vedio{
+	border:0.083rem #e3e3e3 solid;
+}
+.courseware_word{
+	border:0.083rem #e3e3e3 solid;
+}
+.border{
+	border:0.083rem #5eb262 solid;
+}
+
+/* dlog  add */
+.add_upload_wrap{
+	width:100%;
+	height:100%;
+	position: fixed;
+    z-index: 102;
+    display:none;
+}
+.add_upload_wrap1{
+	width:100%;
+	height:100%;
+	position: fixed;
+    z-index: 103;
+    display:none;
+}
+.add_upload{
+	width:45rem;
+	height:33rem;
+	position: absolute;
+	left:50%;
+	margin-left:-22.5rem;
+	top:20%; 
+	background:#fff;
+	z-index:104;
+}
+.add_upload_title{
+	width:45rem;
+	height:4.083rem; 
+	background:#f4f4f4; 
+	border-bottom:0.083rem #dbdbdb solid;
+}
+.add_upload_title h3{
+	width:42rem;
+	height:4.083rem; 
+	text-align:center;
+	font-size:1.5rem;
+	color:#666666;
+	line-height:4.083rem;
+	float:left;
+}
+.add_upload_title span{
+	    width: 1.583rem;
+    float: right;
+    height: 1.667rem;
+    display: block;
+    margin-right: 1.2rem;
+    margin-top: 1.3rem;
+    background: url(../images/upload_courseware.png) no-repeat -7px -37px;
+    cursor:pointer;
+}
+}
+.add_upload_content{
+	width:45rem;
+	height:24.25rem;
+}
+.add_upload_content form{
+	padding-top:3.75rem;
+}
+.add_upload_content form .form_input{
+	clear:both;
+	height:3.5rem;
+	margin-bottom:3.083rem;
+	margin-left: 5.7rem;
+	position: relative;
+}
+.add_upload_content form div .menu_list{
+	left:8.5rem;
+	top:4rem;
+	position: absolute; 
+	z-index:2;
+	width:18.25rem;
+	height:31rem; 
+}
+.add_upload_content form div .menu_list .menu_list_top{
+	width:2.333rem;
+	height:1.25rem;
+	display:block;
+	margin:0 auto;
+	background:url(../images/menu_top.png) no-repeat;
+}
+.add_upload_content form div .menu_list_wrap1 p.act{
+	background: url(../images/act.png) no-repeat 13rem 0.9rem;
+	display: block;
+	display: -webkit-box;
+	background-size: 12% 50%;
+}
+.add_upload_content form div .menu_list_wrap1{
+	background:#f3f2f2;
+	height:31rem; 
+	list-style:none; 
+	border-radius:0.5rem; 
+	border:0.083rem #DBDBDB solid;
+	position: relative;
+	overflow:hidden;
+}
+.add_upload_content form div .menu_list_wrap1 .menu_2{
+	padding-left:20px;
+}
+.add_upload_content form div .menu_list_wrap1 .menu_3{
+	padding-left:30px;
+}
+.add_upload_content form div .menu_list_wrap1 p{
+	height:3.167rem;
+	line-height:3.167rem;
+	font-size:1.167rem;
+	color:#4f4f4f;
+	padding-left:0.417rem;
+	border-bottom:0.083rem #b7b7b7 dotted;
+	cursor:pointer;
+}
+.add_upload_content form div label{
+	width:7rem;
+	height:3.5rem;
+	line-height:3.5rem;
+	font-size:1.333rem;
+	float:left;
+	
+}
+.add_upload_content form div strong q{
+	width:2.5rem;
+	height:3rem;
+	display:block;
+	top: 0.2rem;
+    right: 1rem;
+    position: absolute;
+	background:url(../images/upload_courseware.png) no-repeat -25px -28px; 
+}
+.add_upload_content form div strong{
+	width:23rem;
+	height:3.5rem;
+	background:#f1f1f1; 
+	border:0.083rem #DBDBDB solid; 
+	display:block;
+	float:left;
+	font-size:1.333rem;
+	line-height:3.5rem;
+	text-align:center; 
+	font-weight: normal;
+	border-radius:0.5rem;
+	color:#474747;
+	position: relative;
+	cursor:pointer;
+}
+.add_upload_content form div strong:active{ 
+	background:#D1D0D0;
+}
+#fileToUpload{
+	margin-left:-11.3rem;
+}
+.btn_upload{
+	width:23rem;
+	height:3.7rem;
+	line-height:3.333rem;
+	color:#fff;
+	text-align:center;
+	font-size:1.667rem;
+	display:block;
+	border-radius:0.5rem;
+	background:#fe7e37;
+	margin:6rem auto;
+	cursor:pointer;
+	/* margin-left: 11.5rem; */
+}
+
+/* dlog  edit */
+.edit_upload_wrap{
+	width:100%;
+	height:100%;
+	position: fixed;
+    z-index: 102;
+    display:none;
+}
+.edit_upload{
+	width:45rem;
+	height:33rem;
+	position: absolute;
+	left:50%;
+	margin-left:-22.5rem;
+	top:20%; 
+	background:#fff;
+	z-index:101;
+}
+.edit_upload_title{
+	width:45rem;
+	height:4.083rem; 
+	background:#f4f4f4; 
+	border-bottom:0.083rem #dbdbdb solid;
+}
+.edit_upload_title h3{
+	width:42rem;
+	height:4.083rem; 
+	text-align:center;
+	font-size:1.667rem;
+	color:#666666;
+	line-height:4.083rem;
+	float:left;
+}
+.edit_upload_title span{
+	width:1.583rem;
+	float:right;
+	height:1.667rem;
+	display:block;
+	margin-right:1.2rem;
+	margin-top:1.3rem;
+	background:url(../images/upload_courseware.png) no-repeat -7px -37px;
+}
+.edit_upload_content{
+	width:45rem;
+	height:24.25rem;
+}
+.edit_upload_content form{
+	padding-top:3.75rem;
+}
+.edit_upload_content form .form_input{
+	clear:both;
+	height:3.5rem;
+	margin-bottom:3.083rem;
+	margin-left: 5.7rem;
+	position: relative;
+}
+.edit_upload_content form div label{
+	width:6.333rem;
+	height:3.5rem;
+	line-height:3.5rem;
+	font-size:1.5rem;
+	float:left;
+}
+.edit_upload_content form div strong{
+	width:23rem;
+	height:3.5rem;
+	background:#f1f1f1; 
+	border:0.083rem #DBDBDB solid; 
+	display:block;
+	float:left;
+	font-size:1.5rem;
+	line-height:3.5rem;
+	text-align:center;
+	/* color:#fff; */
+	border-radius:0.5rem;
+	color:#474747;
+	position: relative;
+}
+.edit_upload_content form div strong q{
+	width:2.5rem;
+	height:3rem;
+	display:block;
+	top: 0.2rem;
+    right: 1rem;
+    position: absolute;
+	background:url(../images/upload_courseware.png) no-repeat -25px -28px; 
+}
+.edit_upload_content form div .menu_list{
+	left:8.5rem;
+	top:4rem;
+	position: absolute; 
+	z-index:1;
+	width:18.25rem;
+	height:31rem; 
+}
+.edit_upload_content form div .menu_list .menu_list_top{
+	width:2.333rem;
+	height:1.25rem;
+	display:block;
+	margin:0 auto;
+	background:url(../images/menu_top.png) no-repeat;
+}
+.edit_upload_content form div .menu_list_wrap1 p.act{
+	background: url(../images/act.png) no-repeat 13rem 0.9rem;
+	display: block;
+	display: -webkit-box;
+	background-size: 12% 50%;
+}
+.edit_upload_content form div .menu_list_wrap1{
+	background:#f3f2f2;
+	height:31rem; 
+	list-style:none; 
+	border-radius:0.5rem; 
+	border:0.083rem #DBDBDB solid;
+	position: relative;
+}
+.edit_upload_content form div .menu_list_wrap1 .menu_2{
+	padding-left:20px;
+}
+.edit_upload_content form div .menu_list_wrap1 .menu_3{
+	padding-left:30px;
+}
+.edit_upload_content form div .menu_list_wrap1 p{
+	height:3.167rem;
+	line-height:3.167rem;
+	font-size:1.333rem;
+	color:#4f4f4f;
+	padding-left:0.417rem;
+	border-bottom:0.083rem #b7b7b7 dotted;
+}
+.enclosure_name{
+	width:30rem;
+	height:3.5rem;
+	float:left;
+}
+.enclosure_name q{
+	width:3.5rem;
+	height:2.5rem;
+	display:block;
+	float:left;
+	background:url(../images/upload_courseware.png) no-repeat -174px -94px;
+	margin-top:0.5rem;
+	margin-left: 6rem;
+}
+.enclosure_name span{
+	float:left;
+	display:block;
+	height:3.5rem;
+	line-height:3.5rem;
+	color:#999;
+	font-size:1.5rem;
+	padding-left:0.4rem;
+	width: 18rem;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	
+}
+.enclosure_name .enclosure_del{
+	width:1.583rem;
+	float:left;
+	height:1.667rem;
+	margin-top:0.8rem;
+	display:block;
+	margin-left:0.5rem;
+	background:url(../images/upload_courseware.png) no-repeat  -223px -94px;
+	cursor:pointer;
+}
+.border_bottom{
+	border-bottom:0.083rem #dbdbdb solid;
+	height:0.083rem;
+	width: 34rem;
+  	margin: 4rem auto;
+}
+.btn_edit{
+	width:13rem;
+	height:3.7rem;
+	line-height:3.7rem;
+	color:#fff;
+	text-align:center;
+	font-size:1.5rem;
+	display:block;
+	border-radius:0.5rem;
+	background:#fe7e37;
+	margin-left:8rem;
+	float:left;
+	cursor:pointer;
+}
+.btn_cencel{
+	width:13rem;
+	height:3.7rem;
+	line-height:3.7rem;
+	color:#fff;
+	text-align:center;
+	font-size:1.5 rem;
+	display:block;
+	border-radius:0.5rem;
+	background:#999;
+	float:left;
+	margin-left:4rem;
+	cursor:pointer;
+}
+
+
+/* dlog  submit */
+.submit_upload_wrap{
+	width:100%;
+	height:100%;
+	position: fixed;
+    z-index: 102;
+    display:none;
+}
+.submit_upload{
+	width:45rem;
+	height:33rem;
+	position: absolute;
+	left:50%;
+	margin-left:-22.5rem;
+	top:20%; 
+	background:#fff;
+	z-index:101;
+}
+.submit_upload_title{
+	width:45rem;
+	height:4.083rem; 
+	background:#f4f4f4; 
+	border-bottom:0.083rem #dbdbdb solid;
+}
+.submit_upload_title h3{
+	width:42rem;
+	height:4.083rem; 
+	text-align:center;
+	font-size:1.5rem;
+	color:#666666;
+	line-height:4.083rem;
+	float:left;
+}
+.submit_upload_title span{
+	width: 1.583rem;
+    float: right;
+    height: 1.667rem;
+    display: block;
+    margin-right: 1.2rem;
+    margin-top: 1.3rem;
+    background: url(../images/upload_courseware.png) no-repeat -7px -37px;
+}
+.submit_upload_content{
+	width:45rem;
+	height:24.25rem;
+}
+.submit_width{
+	width:28rem;
+	height:3.5rem;
+	margin:7rem auto;
+}
+.submit_width q{
+	width:3em;
+	height:3em;
+	background:url(../images/upload_courseware.png) no-repeat -207px -30px;
+	float:left;
+	margin-top:0.2rem;
+}
+.submit_width span{
+	float:left;
+	font-size:1.333rem;
+	color:#666;
+	padding-left:0.4rem;
+	width:24rem;
+}
+
+
+
+
+/* dlog  list */
+.cw_menu_wrap{
+	width:100%;
+	height:100%;
+	position: fixed;
+    z-index: 102;
+    display:none;
+}
+.cw_menu_list{
+	left:100%;
+	margin-left:-29rem;
+	top:20%; 
+	position: absolute; 
+	z-index:105;
+	width:18rem;
+	height:31rem; 
+}
+.cw_menu_list .cw_menu_list_top{
+	width:2.333rem;
+	height:1.25rem;
+	display:block;
+	margin:0 auto;
+	background:url(../images/menu_top1.png) no-repeat;
+}
+.cw_menu_list_wrap1 p.act{
+	background: url(../images/act.png) no-repeat 14.5rem 0.9rem;
+	display: block;
+	display: -webkit-box;
+	background-size: 12% 50%;
+}
+.cw_menu_list_wrap1{
+	background:#fff;
+	height:31rem; 
+	list-style:none; 
+	border-radius:0.5rem; 
+	position: relative;
+}
+.cw_menu_list_wrap1 .cw_menu_2{
+	padding-left:20px;
+}
+.cw_menu_list_wrap1 .cw_menu_3{
+	padding-left:30px;
+}
+.cw_menu_list_wrap1 p{
+	width:18rem;
+	height:3.167rem;
+	line-height:3.167rem;
+	font-size:1.167rem;
+	color:#4f4f4f;
+	padding-left:0.417rem;
+	border-bottom:0.083rem #b7b7b7 dotted;
+	cursor:pointer;
+}
+#submitDiv{
+	position: fixed;
+    width: 100%;
+    height: 100%;
+    left:0;
+    top:0;
+    z-index:100;
+	
+}
+
+.share_width q{
+	
+}
+
+/*撰写反思*/
+.zx_option_wrap{
+	width:100%;
+	height:100%;
+	position: fixed;
+    z-index: 102;
+    display:none;
+}
+
+.zx_option{
+	width:36rem;
+	height:16.333rem;
+	position: absolute;
+	left:50%;
+	margin-left:-18rem;
+	top:40%; 
+	z-index:101;
+}
+.zx_option_kh{
+	width:16.333rem;
+	height:16.333rem;
+	float:left;
+	background:url(../images/zxkhfs.png) no-repeat;
+	cursor:pointer;
+	
+}
+.zx_option_qt{
+	width:16.333rem;
+	height:16.333rem;
+	float:right;
+	background:url(../images/zxqtfs.png) no-repeat;
+	cursor:pointer;
+}
+/* 查阅意见-dlog */
+.opinions_comment_wrap{
+	width:100%;
+	height:100%;
+	position: fixed;
+    z-index: 102;
+    display:none;
+}
+.opinions_comment{
+	width:45rem;
+	height:40rem;
+	position: absolute;
+	left:50%;
+	margin-left:-22.5rem;
+	top:15%; 
+	background:#fff;
+	z-index:101;
+}
+/* 查阅意见-dlog */
+
+/* 上传附件样式 */
+.file{
+    position: absolute;
+    display: inline-block;
+    background: #f1f1f1; 
+    border-radius: 4px; 
+    overflow: hidden; 
+    text-decoration: none;
+    left:0;
+    top:0;
+    text-indent: 0;
+    height:3.5rem;
+    width:23rem;
+    line-height: 3.5rem;
+}
+.file input {
+    position: absolute; 
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+/* 上传附件样式 */
+#fileToUpload_1{
+	margin-left:-10.5rem;
+	cursor:pointer;
+}
+
+.p_label{
+	 height: 3.167rem;
+    line-height: 3.167rem;
+    font-size: 1.333rem;
+    font-weight:bold;
+    color: #4f4f4f;
+    padding-left: 0.417rem;
+    border-bottom: 0.083rem #b7b7b7 dotted;
+    cursor: not-allowed;
+    background:#fff;
+    border-top-left-radius:0.5rem;
+    border-top-right-radius:0.5rem;
+}

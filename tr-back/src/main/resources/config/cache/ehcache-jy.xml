@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache name="jypt-back-bus">
+    <diskStore path="java.io.tmpdir"/>
+    <!-- sql mapping缓存  没必要过期 -->
+    <cache name="sqlMappingCache"
+           maxEntriesLocalHeap="10000"
+           overflowToDisk="false"
+           eternal="true"
+		   memoryStoreEvictionPolicy="FIFO"
+           statistics="true"/>
+ 
+    <!-- 登录记录缓存 锁定10分钟 -->
+    <cache name="loginRecordCache"
+           maxEntriesLocalHeap="2000"
+           eternal="false"
+           timeToIdleSeconds="600"
+           timeToLiveSeconds="600"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
+    
+    <!-- 区域树缓存 -->
+    <cache name="areaTree"
+           maxEntriesLocalHeap="20000"
+           eternal="true"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
+    
+      <!-- 用户权限缓存 -->
+    <cache name="authorizationInfoCache"
+           maxEntriesLocalHeap="2000"
+           eternal="false"
+           timeToIdleSeconds="600"
+           timeToLiveSeconds="600"
+           overflowToDisk="true"
+           statistics="true">
+    </cache>
+    
+    <!-- 元数据缓存 -->
+    <cache name="META_CACHE"
+           maxEntriesLocalHeap="20000"
+           eternal="true"
+           overflowToDisk="true"
+           statistics="true">
+    </cache>
+    
+    
+</ehcache>

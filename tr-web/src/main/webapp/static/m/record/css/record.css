@@ -1,0 +1,1246 @@
+.record_content{
+	border-top:0.083rem #fe7e37 solid;
+	width:100%;
+	background:#f7f8f9;
+	position: absolute;
+    top: 5rem;
+    bottom: 0;
+    overflow:hidden;
+}
+.record_content_top{
+	width:80%;
+	height:6.417rem;
+	margin:0 auto;
+	border-bottom:0.083rem #fe7e37 solid;
+}
+.record_content_top div{
+	width:33%;
+	display:inline-block;
+	text-align:center;
+	font-size:1.6rem;
+	height:6.417rem;
+	line-height:6.417rem;
+	text-align:center;
+	color:#4a4a4a;
+}
+.record_content_bottom{
+	width: 100%;
+	position: absolute;
+	top: 6.5rem;
+	bottom: 0;
+	background:#f7f8f9;
+	overflow:hidden;
+}
+.record_content_bottom_list{
+	margin:0 auto;
+	width:80%;
+}
+.record_list{
+	background:url(../images/list_bg.png) no-repeat;
+	width:13.417rem;
+	height:9.6rem; 
+	padding-top: 7rem;
+	margin:2.917rem 2rem 0 5rem;
+	float:left;
+	position: relative;
+}
+.record_list_span{
+	height:5.7rem;
+	cursor:pointer;
+}
+.record_list span{
+	width:6rem;
+	height:auto;
+	display:block;
+	font-size: 1.5rem; 
+	margin-left:auto;
+	margin-right:auto;
+	line-height: 2.2rem;
+	text-align: center; 
+	color:#4a4a4a;
+}
+.record_list span:first-child{
+	font-weight:500;
+}
+.record_list span:nth-of-type(2){
+	margin-top:0.3rem;
+}
+.add_cour{
+	border:0.083rem #e3e3e3 solid;
+	width:13.417rem;
+	height:16.417rem;
+	margin:3rem 3.1rem 2rem 5rem;;
+	float:left;
+	background:#fff;
+}
+.add_cour_div{
+	width:9.833rem;
+	height:14.6rem;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:1.817rem;
+}
+.add_cour_div_top{
+	width:9.833rem;
+	height:11.5rem;
+	border:0.083rem #e0e0e0 dashed;
+	border-radius:0.333rem;
+	cursor: pointer;
+}
+.add_cour_div_top_img{
+	width:6.333rem;
+	height:6.333rem;
+	background:url(../../courseware/images/upload_courseware.png) no-repeat -29px -73px;
+	margin: 2.5rem auto;
+}
+.add_cour_div_bottom{
+	width:9.833rem;
+	height:3rem;
+	line-height:3rem;
+	color:#979797;
+	font-size:1.167rem;
+	text-align:center;
+}
+
+.content_bottom_width{
+	margin:0 auto;
+	width:80%;
+	min-height:68rem;
+}
+.content_bottom_width>div{
+	float:left;
+	width:15rem;
+	height:17rem; 
+	border-radius:0.4rem;
+	margin:6rem 3rem 0 3rem;
+	background:#fff;
+	position: relative;
+}
+.content_bottom_width>div h3{
+	clear:both;
+	font-size:1.167rem;
+	width:12.833rem;
+	height:3.333rem;
+	line-height:3.333rem;
+	text-align:center;
+	margin:0 auto;
+	color:#707070;
+}
+.add_cour_wrap_div{
+	width:9.833rem;
+	height:15rem;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:2.167rem;
+}
+.add_cour_wrap_div_top{
+	width:9.833rem;
+	height:11.5rem;
+	border:0.083rem #e0e0e0 dashed;
+	border-radius:0.333rem;
+	cursor: pointer;
+}
+.add_cour_wrap_div_top_img{
+	width:6.333rem;
+	height:6.333rem;
+	background:url(../../courseware/images/upload_courseware.png) no-repeat -29px -73px;
+	margin: 2.5rem auto;
+}
+.add_cour_wrap_div_bottom{
+	width:9.833rem;
+	height:3.5rem;
+	line-height:3.5rem;
+	color:#979797;
+	font-size:1.167rem;
+	text-align:center;
+}
+.record_word_1{
+	width:7rem;
+	height:2rem;
+	background:url(../images/icon.png) no-repeat 2px -28px;
+	margin-top:-0.5rem;
+	margin-left:0.917rem;
+	text-align:center;
+	line-height:2rem;
+	color:#fff;
+	font-size:1.167rem;
+}
+.record_word p img{
+	width:12.6rem;
+	height:8.5rem;
+	margin: 0 auto;
+	cursor: pointer;
+	clear:both;
+	display:block;
+}
+.record_word_2{
+	width:2.25rem;
+	height:2.25rem; 
+	background:url(../images/icon.png) no-repeat 0 0;
+	margin-top:0.75rem;
+	margin-left:0.5rem;
+	float:left;
+	cursor: pointer;
+}
+.record_word_21{
+	width: 2.25rem;
+	height: 2.25rem;
+	background: url(../../courseware/images/upload_courseware.png) no-repeat -57px -36px;
+	margin-top: 0.75rem;
+	margin-left: 0.5rem;
+	float: left;
+	cursor: pointer;
+}
+.record_word_3{
+	width:2.25rem;
+	height:2.25rem; 
+	background:url(../images/icon.png) no-repeat -33px 0;
+	margin-top:0.75rem;
+	margin-right:0.5rem;
+	float:right;cursor: pointer;
+	position: relative;
+}
+.record_word_3 span{
+	width: 0.5rem;
+	position: absolute;
+	height: 0.5rem;
+	background-color: red;
+	border-radius: 1rem;
+	right: 0;
+}
+
+
+.record_content_1{
+	border-top:0.083rem #fe7e37 solid;
+	width:100%;
+	background:#eee;
+	height:4.167rem;
+}
+.record_content_1_ser{
+	margin:0 auto;
+	width:80%;
+}
+.serch {
+  float: right;
+  position: relative;
+  width: 18.4rem;
+  height: 3rem;
+  margin-left: 0.5rem;
+  margin-top:1rem;
+}
+.serch .search {
+  border: 0.083rem #ddd solid;
+  width: 16rem;
+  height: 2.4rem;
+  padding-right: 2rem;
+  font-size: 1.333rem;
+}
+.search_btn {
+  display: block;
+  width: 1.5rem;
+  position: absolute;
+  right: 0.5rem;
+  top: 0.1rem;
+  height: 2rem;
+  background: url(../../companion/images/icon.png) no-repeat -217px 0;
+}
+.record_content_table{
+	width:100%;
+	background:#fbfcfe;
+	height:4.75rem;
+	border-bottom:0.083rem #d3d4d6 solid;
+}
+.record_content_table table{
+	width:80%;
+	margin:0 auto;
+	height: 4.75rem;
+}
+.record_content_table table tr{}
+.record_content_table table tr th{
+	color:#3e3e3e;
+	font-size:1.5rem;
+	font-weight: 100;
+}
+.record_content_2{
+	width:100%;
+	background:#fbfcfe;
+	position: absolute;
+    top: 14.1rem;
+    bottom: 0;	
+    overflow:hidden;
+}
+.record_content_2 table{
+	width:80%;
+	margin:0 auto;
+}
+.record_content_2 table tr{
+	border-bottom: 0.083rem #d0d1d2 solid;
+    height: 5rem;
+}
+.record_content_2 table tr td strong{
+	display:inline-block;
+	width: 100%;
+    font-weight: normal;
+    cursor:pointer;
+}
+.record_content_2 table tr td:first-child{
+	width:2%;
+}
+.record_content_2 table tr td:nth-of-type(2){
+	width:60%;
+}
+.record_content_2 table tr td:nth-of-type(3){
+	text-align:center;
+	width:20%;
+}
+.record_content_2 table tr td:nth-of-type(4){
+	text-align:center;
+	color:#fe7e37;
+	width:16%;
+}
+.record_content_2 table tr td:nth-of-type(5){
+	width:2%;
+}
+.record_content_2 table tr td{
+	font-size: 1.333rem;
+    color: #3e3e3e;
+    
+}
+.record_content_2 table tr td span{
+	color: #169bd5;
+	cursor:pointer;
+}
+.record_content_2 table tr td img{
+    display:block;
+    float:right;
+}
+.record_content_2 table tr td span.jx_span{
+	display: inline-block;
+	float: left;
+	margin-top: 3%;
+	margin-right: 5%;
+	margin-left: 15%;
+}
+
+.record_content_2 table tr td q{
+	display: inline-block;
+	float: left;
+}
+
+
+
+.record_share{
+	width:2.25rem;
+	height:2.25rem; 
+	background:url(../images/icon.png) no-repeat -63px 0;
+	margin-top:0.55rem;
+	margin-left:0.5rem;   
+	float:left;
+	cursor: pointer;
+}
+.qx_record_share{
+	width:2.25rem;
+	height:2.25rem; 
+	background:url(../images/qx_share.png) no-repeat;
+	margin-top:0.55rem;
+	margin-left:0.5rem;
+	float:left;
+	cursor: pointer;
+}
+ .jz_qx_record_share{
+	width:2.25rem;
+	height:2.25rem; 	
+	background:url(../images/jz_qx_share.png) no-repeat;
+	margin-top:0.55rem;
+	margin-left:0.5rem;
+	float:left;
+	cursor: pointer;
+} 
+.record_ping{
+	width:2.25rem;
+	height:2.25rem; 
+	background:url(../images/icon.png) no-repeat -124px 0;
+	margin-top:0.55rem;
+	margin-right:0.5rem;
+	float:right;
+	cursor: pointer;
+	position: relative;
+}
+.record_ping span{
+	width: 0.5rem;
+	position: absolute;
+	height: 0.5rem;
+	background-color: red;
+	border-radius: 1rem;
+	right: 0;
+}
+.record_more{
+	width:2.25rem;
+	height:2.25rem; 
+	background:url(../images/icon.png) no-repeat -93px 0;
+	margin-top:1rem;
+	margin-left:0.5rem;
+	float:left;
+	cursor: pointer;
+}
+.record_option{
+	position: absolute;
+	width:15rem;
+	height:14rem;
+	left:0;
+	bottom:0; 
+	/* left: 35.5rem;
+  	top:19rem; */ 
+ 	 z-index: 1;
+}
+.record_edit{
+	width:3em;
+	height:3em;
+	background:url(../../courseware/images/upload_courseware.png) no-repeat -127px -30px;
+	position: absolute;
+    bottom:0;
+    left: 0;
+    animation:edit .5s;
+	-moz-animation:edit .5s; /* Firefox */
+	-webkit-animation:edit .5s; /* Safari and Chrome */
+	-o-animation:edit .5s; /* Opera */
+	animation-fill-mode:forwards;
+	-webkit-animation-fill-mode:forwards;
+	-o-animation-fill-mode:forwards;
+	-moz-animation-fill-mode:forwards;
+	cursor:pointer;
+}
+.jz_record_edit{
+	width:3em;
+	height:3em;
+	background:url(../../../common/images_m/jz_edit.png) no-repeat;
+	position: absolute;
+    bottom:0;
+    left: 0;
+    animation:edit .5s;
+	-moz-animation:edit .5s; /* Firefox */
+	-webkit-animation:edit .5s; /* Safari and Chrome */
+	-o-animation:edit .5s; /* Opera */
+	animation-fill-mode:forwards;
+	-webkit-animation-fill-mode:forwards;
+	-o-animation-fill-mode:forwards;
+	-moz-animation-fill-mode:forwards;
+	cursor:pointer;
+}
+@keyframes edit
+{
+100% {left:0; bottom:5.5rem;}
+}
+.record_del{
+	width:3em;
+	height:3em;
+	background:url(../../courseware/images/upload_courseware.png) no-repeat -167px -30px;
+	position: absolute;
+    bottom:0;
+    left:0;
+    animation:del .5s;
+	-moz-animation:del .5s; /* Firefox */
+	-webkit-animation:del .5s; /* Safari and Chrome */
+	-o-animation:del .5s; /* Opera */
+	animation-fill-mode:forwards;
+	-webkit-animation-fill-mode:forwards;
+	-o-animation-fill-mode:forwards;
+	-moz-animation-fill-mode:forwards;
+	cursor:pointer;
+}
+.jz_record_del{
+	width:3em;
+	height:3em; 
+	background:url(../../../common/images_m/jz_del.png) no-repeat;
+	position: absolute;
+    bottom:0;
+    left:0;
+    animation:del .5s;
+	-moz-animation:del .5s; /* Firefox */
+	-webkit-animation:del .5s; /* Safari and Chrome */
+	-o-animation:del .5s; /* Opera */
+	animation-fill-mode:forwards;
+	-webkit-animation-fill-mode:forwards;
+	-o-animation-fill-mode:forwards;
+	-moz-animation-fill-mode:forwards;
+	cursor:pointer;
+}
+@keyframes del
+{
+100% {left:3.8rem; bottom:4rem;}
+} 
+.record_share1{
+	width:3em;
+	height:3em;
+	background:url(../../courseware/images/upload_courseware.png) no-repeat -247px -30px;
+	position: absolute;
+    bottom: 0;
+    left:0;
+     animation:share .5s;
+	-moz-animation:share .5s; /* Firefox */
+	-webkit-animation:share .5s; /* Safari and Chrome */
+	-o-animation:share .5s; /* Opera */
+	animation-fill-mode:forwards;
+	-webkit-animation-fill-mode:forwards;
+	-o-animation-fill-mode:forwards;
+	-moz-animation-fill-mode:forwards;
+	cursor:pointer;
+}
+@keyframes share
+{
+100% {left:5.8rem; bottom:0.3rem;}
+} 
+.qx_record_share1{
+	width:3em;
+	height:3em;
+	background:url(../../../common/images_m/qx_share.png) no-repeat;
+	position: absolute;
+    bottom: 0;
+    left:0;
+     animation:share .5s;
+	-moz-animation:share .5s; /* Firefox */
+	-webkit-animation:share .5s; /* Safari and Chrome */
+	-o-animation:share .5s; /* Opera */
+	animation-fill-mode:forwards;
+	-webkit-animation-fill-mode:forwards;
+	-o-animation-fill-mode:forwards;
+	-moz-animation-fill-mode:forwards;
+	cursor:pointer;
+}
+.jz_qx_record_share1{
+	width:3em;
+	height:3em;
+	background:url(../../../common/images_m/jz_share.png) no-repeat;
+	position: absolute;
+    bottom: 0;
+    left:0;
+     animation:share .5s;
+	-moz-animation:share .5s; /* Firefox */
+	-webkit-animation:share .5s; /* Safari and Chrome */
+	-o-animation:share .5s; /* Opera */
+	animation-fill-mode:forwards;
+	-webkit-animation-fill-mode:forwards;
+	-o-animation-fill-mode:forwards;
+	-moz-animation-fill-mode:forwards;
+	cursor:pointer;
+}
+.record_close{
+	width:2.5em;
+	height:2.5em;
+	background:url(../../courseware/images/upload_courseware.png) no-repeat -246px -90px;
+	position: absolute;
+    bottom: 0.417rem;
+    left:0.333rem;
+    cursor:pointer;
+}
+.record_down{
+	width:3em;
+	height:3em;
+	background: url(../../courseware/images/upload_courseware.png) no-repeat -286px -30px;
+	position: absolute;
+    bottom: 0;
+    left:0;
+     animation:down .5s;
+	-moz-animation:down .5s; /* Firefox */
+	-webkit-animation:down .5s; /* Safari and Chrome */
+	-o-animation:down .5s; /* Opera */
+	animation-fill-mode:forwards;
+	-webkit-animation-fill-mode:forwards;
+	-o-animation-fill-mode:forwards;
+	-moz-animation-fill-mode:forwards;
+	cursor:pointer;
+}
+@keyframes down
+{
+100% {left:5.8rem; bottom:0.3rem;}
+} 
+
+/* 修改档案袋 */
+
+/* 添加档案袋 */
+.add_portfolio_wrap{
+	width:100%;
+	height:100%;
+	position: fixed;
+    z-index: 102;
+    display:none;
+}
+.btn_preserve{
+	width:23rem;
+	height:3.7rem;
+	line-height:3.333rem;
+	color:#fff;
+	text-align:center;
+	font-size:1.667rem;
+	display:block;
+	border-radius:0.5rem;
+	background:#fe7e37;
+	margin:3rem auto;
+	cursor:pointer;
+}
+.btn_sc{
+	width:23rem;
+	height:3.7rem;
+	line-height:3.333rem;
+	color:#fff;
+	font-size:1.667rem;
+	display:block;
+	border-radius:0.5rem; 
+	margin:3rem auto;
+	background:#fe7e37;
+}
+.spinner {
+  width: 8rem;
+   height: 2rem;
+  text-align: right;
+  font-size: 1rem;
+  float: left;
+  margin-top: 1rem;
+}
+ 
+.spinner > div {
+  background-color: #fff;
+  height: 100%;
+  width: 3px;
+  display: inline-block;
+   
+  -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+  animation: stretchdelay 1.2s infinite ease-in-out;
+}
+ 
+.spinner .rect2 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+ 
+.spinner .rect3 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+ 
+.spinner .rect4 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+ 
+.spinner .rect5 {
+  -webkit-animation-delay: -0.8s;
+  animation-delay: -0.8s;
+}
+ 
+@-webkit-keyframes stretchdelay {
+  0%, 40%, 100% { -webkit-transform: scaleY(0.4) } 
+  20% { -webkit-transform: scaleY(1.0) }
+}
+ 
+@keyframes stretchdelay {
+  0%, 40%, 100% {
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4);
+  }  20% {
+    transform: scaleY(1.0);
+    -webkit-transform: scaleY(1.0);
+  }
+}
+/* 添加档案袋 */
+.edit_portfolio_wrap{
+	width:100%;
+	height:100%;
+	position: fixed;
+    z-index: 102;
+    display:none;
+}
+.edit_portfolio{
+	width:45rem;
+	height:33rem;
+	position: absolute;
+	left:50%;
+	margin-left:-22.5rem;
+	top:20%; 
+	background:#fff;
+	z-index:101;
+}
+.edit_portfolio_title{
+	width:45rem;
+	height:4.083rem; 
+	background:#f4f4f4; 
+	border-bottom:0.083rem #dbdbdb solid;
+}
+.edit_portfolio_title h3{
+	width:42rem;
+	height:4.083rem; 
+	text-align:center;
+	font-size:1.5rem;
+	color:#666666;
+	line-height:4.083rem;
+	float:left;
+}
+.edit_portfolio_title span.close{
+	width:1.583rem;
+	float:right;
+	height:1.667rem;
+	display:block;
+	margin-right:1.2rem;
+	margin-top:1.3rem;
+	background:url(../../courseware/images/upload_courseware.png) no-repeat -7px -37px;
+	cursor:pointer;
+}
+.edit_portfolio_title span.portfolio_edit{
+	width:1.667rem;
+	float:right;
+	height:1.5rem;
+	display:block;
+	margin-right:1.2rem;
+	margin-top:1.4rem;
+	background:url(../images/edit.png) no-repeat;
+	cursor:pointer;
+}
+.edit_portfolio_content{
+	width:45rem;
+	height:24.25rem;
+}
+.edit_portfolio_content form {
+  padding-top: 3.75rem;
+}
+.edit_portfolio_content form .form_input {
+  clear: both;
+  margin-left: 5.7rem;
+  position: relative;
+}
+.edit_portfolio_content form .form_input label{
+	 width:11.4rem;
+ 	 height: 3.5rem;
+ 	 line-height: 2.833rem;
+ 	 font-size: 1.25rem;
+ 	 float: left;
+ 	 text-align:right;
+ 	 margin-right:1rem;
+}
+.edit_portfolio_content form .form_input label a{
+	color:#ff5e49;
+}
+.edit_portfolio_content form .form_input p a{
+	color:#ff5e49;
+	line-height:2.3rem;
+	font-size:1.167rem;
+}
+.edit_portfolio_content form .form_input p{
+	width:22rem;
+	height:6rem;
+	float: left;
+}
+.edit_portfolio_content form .form_input input{
+	width:21.5rem;
+	height:3rem;
+	border:0.083rem #dbdbdb solid;
+	border-radius: 0.5rem;
+    color: #474747;
+    padding-left:0.5rem;
+    font-size:1.167rem;
+}
+.edit_portfolio_content form .form_input textarea{
+	width:21.5rem;
+	height:6rem;
+	border:0.083rem #dbdbdb solid;
+	border-radius: 0.5rem;
+    color: #474747; 
+    padding-left:0.5rem;
+    font-size:1.167rem;
+}
+/* 修改档案袋 */
+.opinions_comment{
+	  width: 45rem;
+  height: 40rem;
+  position: absolute;
+  left: 50%;
+  margin-left: -22.5rem;
+  top: 15%;
+  background: #fff;
+  z-index: 101;
+}
+..opinions_comment_wrap{
+	width: 100%;
+   height: 100%;
+    position: fixed; 
+  z-index: 102;
+}
+
+
+
+
+/* 自己创建档案袋 */
+.edit1_portfolio_wrap{
+	width:100%;
+	height:100%;
+	position: fixed;
+    z-index: 102;
+    display:none;
+}
+.edit1_portfolio{
+	width:45rem;
+	height:33rem;
+	position: absolute;
+	left:50%;
+	margin-left:-22.5rem;
+	top:20%; 
+	background:#fff;
+	z-index:101;
+}
+.edit1_portfolio_title{
+	width:45rem;
+	height:4.083rem; 
+	background:#f4f4f4; 
+	border-bottom:0.083rem #dbdbdb solid;
+}
+.edit1_portfolio_title h3{
+	width:42rem;
+	height:4.083rem; 
+	text-align:center;
+	font-size:1.5rem;
+	color:#666666;
+	line-height:4.083rem;
+	float:left;
+}
+.edit1_portfolio_title span.close{
+	width:1.583rem;
+	float:right;
+	height:1.667rem;
+	display:block;
+	margin-right:1.2rem;
+	margin-top:1.3rem;
+	cursor:pointer;
+	background:url(../../courseware/images/upload_courseware.png) no-repeat -7px -37px;
+}
+.edit1_portfolio_title span.portfolio_edit{
+	width:1.667rem;
+	float:right;
+	height:1.5rem;
+	display:block;
+	margin-right:1.2rem;
+	margin-top:1.4rem;
+	background:url(../images/edit.png) no-repeat;
+}
+.edit1_portfolio_content{
+	width:45rem;
+	height:24.25rem;
+}
+.edit1_portfolio_content form {
+  padding-top: 2rem;
+}
+.edit1_portfolio_content form .form_input {
+  clear: both;
+  margin-left: 5.7rem;
+  position: relative; 
+  height: 3.5rem;
+  margin-bottom: 2rem; 
+}
+.edit1_portfolio_content form .form_input label{
+	 width:7rem;
+ 	 height: 3.5rem;
+ 	 line-height: 3.5rem;
+ 	 font-size: 1.333rem;
+ 	 float: left;
+ 	 padding-right:1rem;
+ 	 text-align:right;
+}
+.edit1_portfolio_content form .form_input strong {
+  width: 27.5rem;
+  height: 3.5rem;
+  background: #f1f1f1;
+  font-weight: normal;
+  border: 0.083rem #DBDBDB solid;
+  display: block;
+  float: left;
+  font-size: 1.333rem;
+  line-height: 3.5rem;
+  text-align: center;
+  border-radius: 0.5rem;
+  color: #474747;
+  position: relative;
+  cursor:pointer;
+}
+.edit1_portfolio_content form .form_input strong:active{ 
+	background:#D1D0D0;
+}
+.edit_strong{
+	height: 3.5rem;
+    float: left;
+    font-size: 1.333rem;
+    line-height: 3.5rem;
+    color: #474747;
+    margin-left: 7.9rem;
+    padding-left: 0.5rem;
+    width: 28rem;
+}
+.edit_strong a{
+	white-space: nowrap;
+    width: 25rem;
+    display: block;
+    text-overflow: ellipsis;
+    float: left;
+    overflow: hidden;
+}
+.edit1_portfolio_content form .form_input .edit_strong span{
+	width:1rem;
+	height:3.5rem;
+	display:block;
+	float:right;
+	margin-right:2rem;
+	background:url(../images/del1.png) no-repeat center;
+}
+.edit1_portfolio_content form .form_input label a{
+	color:#ff5e49;
+}
+.edit1_portfolio_content form .form_input p a{
+	color:#ff5e49;
+	line-height:2.3rem;
+	font-size:1.333rem;
+}
+.edit1_portfolio_content form .form_input p{
+	width:22rem;
+	height:6rem;
+	float: left;
+}
+.edit1_portfolio_content form .form_input .name_txt{
+	width:21.5rem;
+	height:3rem;
+	border:0.083rem #dbdbdb solid;
+	border-radius: 0.5rem;
+    color: #474747;
+    padding-left:0.5rem;
+    font-size:1.333rem;
+}
+#fileToUpload{
+	margin-left:-15.5rem;
+}
+.edit1_portfolio_content form .form_input textarea{
+	width:21.5rem;
+	height:6rem;
+	border:0.083rem #dbdbdb solid;
+	border-radius: 0.5rem;
+    color: #474747; 
+    padding-left:0.5rem;
+    font-size:1.167rem;
+}
+/* 自己创建档案袋 */
+
+
+
+/* 教研活动 */
+.record_c_t{
+	width:83%;
+	height:6.25rem;
+	margin:0 auto;
+	border-bottom:0.083rem #fe7e37 solid;
+}
+.record_c_t input{
+	float:right;
+	margin-right:3rem;
+	width:8rem;
+	height:3rem;
+	background:#fe7e37;
+	color:#fff;
+	line-height:3rem;
+	text-align:center;
+	margin-top:2rem;
+	font-size:1.5rem;
+	cursor:pointer;
+}
+.record_cont_bottom{ 
+	width:100%; 
+	position: absolute;
+    top: 6.5rem;
+    bottom: 0;
+    overflow:hidden;
+}
+.activity_tch{
+	width:80%;
+	height:auto;
+	border:0.083rem #e3e3e3 solid;
+	background:#fff;
+	border-radius:0.333rem;
+	margin: 1.5rem auto;
+	position: relative;
+	clear:both;
+}
+.activity_tch_left{
+	width:2.6rem;
+	height:12.083rem;
+	background:url(../../activity/images/act_bg.png) no-repeat left top; 
+	float:left;
+	margin-left: 1.2rem;
+	margin-right: 0.5rem; 
+	font-size: 1.333rem;
+    line-height: 1.5rem;
+    color: #fff; 
+    text-align: center;
+    padding-top: 0.3rem;
+    word-wrap:break-word
+}
+.activity_tch_left1{
+	width:2.6rem;
+	height:12.083rem;
+	background:url(../../activity/images/act_bg.png) no-repeat right top;
+	float:left;
+	margin-left: 1.2rem;
+	margin-right: 0.5rem;
+	font-size: 1.333rem;
+    line-height: 1.5rem;
+    color: #fff; 
+    text-align: center;
+    padding-top: 0.3rem; 
+    word-wrap:break-word
+}
+.activity_tch_left2{
+	width:2.6rem;
+	height:12.083rem;
+	background:url(../../activity/images/act_bg1.png) no-repeat right top;
+	float:left;
+	margin-left: 1.2rem;
+	margin-right: 0.5rem;
+	font-size: 1.333rem;
+    line-height: 1.5rem;
+    color: #fff; 
+    text-align: center;
+    padding-top: 0.3rem; 
+    word-wrap:break-word
+}
+.activity_tch_right{
+	width:90%;
+	float:left;
+	height:auto;
+	cursor:pointer;
+	position: relative;
+}
+.activity_tch_right h4{
+	width:8rem; 
+	height:4.417rem; 
+	float:right;
+	margin-right:1rem;
+}
+.activity_tch_right h4 strong{
+	display:inline-block;
+	font-weight:normal;
+}
+.activity_tch_right h4 span.wei{
+	width: 2.25rem;
+	height: 2.25rem;
+	background: url(../images/icon.png) no-repeat -33px 0;
+	margin-top: 0.75rem;
+	margin-right: 0.5rem;
+	float:right;
+	cursor: pointer;
+	position: relative;
+}
+.activity_tch_right h4 span.del{
+	width: 2.25rem;
+	height: 2.25rem;
+	background: url(../images/icon.png) no-repeat 0 0;
+	margin-top: 0.75rem;
+	margin-left: 0.5rem;
+	float: right;
+	cursor: pointer; 
+	margin-left:2rem;
+}
+.activity_tch_right h3{
+	width:27.5rem; 
+	height:4.417rem;
+	float:left;
+	border-bottom:0.083rem #ebf5fb solid;
+}
+.activity_tch_right span.title{
+	color:#696969;
+	font-size:1.333rem;
+	height:4.417rem;
+	line-height:4.417rem;
+	float:left;
+	margin-right:2rem;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 21rem;
+}
+.activity_tch_right span.end{
+	display:block;
+	width:3.667rem;
+	height:4.417rem;
+	background:url(../../activity/images/yjs.png) no-repeat left center;
+	float:left;
+}
+.activity_tch_right span.y_share{
+	display:block;
+	width:6.333rem;
+	height:6.333rem;
+	background:url(../images/share.png) no-repeat left center;
+	position: absolute;
+    right: 17rem;
+    top: 0.4rem;
+}
+.activity_tch_right span.y_submit{
+	display:block;
+	width:6.333rem;
+	height:6.333rem;
+	background:url(../images/submit.png) no-repeat left center; 
+	position: absolute;
+    right: 10rem;
+    top: 0.4rem;
+}
+.option{
+	clear:both;
+}
+.promoter{ 
+	height:3.583rem;
+	color:#696969;
+	font-size:1.167rem;
+	line-height:3.583rem; 
+	float:left;
+	margin-right:3rem;
+}
+.promoter strong{
+	width:1.4rem;
+	height:3.583rem;
+	background:url(../../activity/images/act_icon.png) no-repeat left center; 
+	display:block;
+	float:left;
+	margin-right: 1rem;
+}
+.partake_sub{ 
+	height:3.583rem;
+	color:#696969;
+	font-size:1.167rem;
+	line-height:3.583rem; 
+	float:left;
+	margin-right:3rem;
+}
+.partake_sub strong{
+	width:1.4rem;
+	height:3.583rem;
+	background:url(../../activity/images/act_icon.png) no-repeat -22px center; 
+	display:block;
+	float:left;
+	margin-right: 1rem;
+}
+.partake_class{ 
+	height:3.583rem;
+	color:#696969;
+	font-size:1.167rem;
+	line-height:3.583rem; 
+	float:left;
+}
+.partake_class strong{
+	width:1.4rem;
+	height:3.583rem;
+	background:url(../../activity/images/act_icon.png) no-repeat -42px center; 
+	display:block;
+	float:left;
+	margin-right: 1rem;
+}
+.time{ 
+	height:3.583rem;
+	color:#696969;
+	font-size:1.167rem;
+	line-height:3.583rem; 
+	float:left;
+	margin-right:2rem;
+}
+.time strong{
+	width:1.4rem;
+	height:3.583rem;
+	background:url(../../activity/images/act_icon.png) no-repeat -64px center; 
+	display:block;
+	float:left;
+	margin-right: 1rem;
+}
+.discussion_number{ 
+	height:3.583rem;
+	color:#696969;
+	font-size:1.167rem;
+	line-height:3.583rem; 
+	float:left;
+}
+.discussion_number strong{
+	width:1.4rem;
+	height:3.583rem;
+	background:url(../../activity/images/act_icon.png) no-repeat -82px center; 
+	display:block;
+	float:left;
+	margin-right: 1rem;
+}
+
+/* 教研活动 */
+
+
+/* 教研活动 -精选*/
+.record_cont_bottom_1{ 
+	width:100%; 
+	position: absolute;
+    top: 4.1rem;
+    bottom: 0;
+    overflow:hidden;
+}
+.record_c_s{
+	width:100%;
+	height:4rem; 
+	background:#eeeeee;
+}
+.record_c_w{
+	width:80%;
+	margin:0 auto; 
+}
+.activity_tch_right h4 span.jx_span{
+	float:left; 
+	margin-top:1rem;
+	margin-right:0.5rem;
+}
+.activity_tch_right h4 span.jx_span img{
+	display:block;
+}
+.activity_tch_right h4 q{
+	display: inline-block; 
+	font-size:1.333rem;
+	color:#fe7e37;margin-top:0.9rem;
+}
+
+.serch .search{
+	border:0.083rem #ddd solid;
+	width:16rem;
+	height:2.4rem;
+	padding-left:0.5rem;
+	padding-right:2rem; 
+	font-size:1.167rem;
+}
+.search_btn{
+	display:block;
+	width:1.5rem;
+	position: absolute;
+	right:0.5rem;
+	top:0.2rem;
+	height:2rem;
+	cursor:pointer;
+	background:url(../../companion/images/icon.png) no-repeat -217px 0;
+}
+/* 教研活动 -精选*/
+
+
+#fileToUpload_1{
+	cursor:pointer;
+	margin-left:-15rem;
+}
+.xiaowai{
+	width:4.083rem;
+	height:4.083rem;
+	background:url(../../lecturerecords/images/wai.png) no-repeat;
+	position: absolute;
+    top: 0;
+    right: 0;
+	
+}
+.xiaonei{
+	width:4.083rem;
+	height:4.083rem;
+	background:url(../../lecturerecords/images/nei.png) no-repeat;
+	position: absolute;
+    top: 0;
+    right: 0;
+	
+}

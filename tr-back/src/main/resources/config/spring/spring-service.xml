@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd"
+	default-lazy-init="true">
+   <description>Spring Service Configuration</description>
+    <!--  配置实体监听器 -->
+	<bean class="com.tmser.tr.common.listener.ListenableBeanPostProcessor"></bean>
+    
+    <!-- 	邮件服务  -->
+	<bean id="mailService" class="com.tmser.tr.common.service.impl.MailServiceImpl">
+        <property name="mailSender" ref="jyMailSender" />  
+        <property name="taskExecutor" ref="msgThreadPool" />  
+    </bean>
+</beans>
+	

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+	<bean id="resourcesType" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<map>
+					<entry key="id" value="0" />
+					<entry key="name" value="教案" />
+					<entry key="dicid" value="182" />
+				</map>
+				<map>
+					<entry key="id" value="1" />
+					<entry key="name" value="课件" />
+					<entry key="dicid" value="181" />
+				</map>
+				<map>
+					<entry key="id" value="2" />
+					<entry key="name" value="习题" />
+					<entry key="dicid" value="180" />
+				</map>
+				<map>
+					<entry key="id" value="3" />
+					<entry key="name" value="素材" />
+					<entry key="dicid" value="183" />
+				</map>
+			</list>
+		</constructor-arg>
+	</bean>
+	
+</beans>

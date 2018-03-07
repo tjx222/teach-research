@@ -1,0 +1,273 @@
+/* login */
+.login_wrap{
+	 width:100%;
+	 position: relative;
+	 z-index:1001;
+	 display:none;
+}
+.login{
+	position: fixed;
+	left: 50%;
+	width: 384px;
+	height: 328px;
+	margin-left: -192px;/* 
+	background: url('../images/school/loginbg2.png') no-repeat; */
+	top:130px;
+}
+.close1{
+	width: 30px;
+	height: 30px;
+	background: url('../images/school/close_1.png') no-repeat;
+	position: absolute;
+	right:-9px;
+	cursor: pointer;
+	top:-9px;
+}
+.close2{
+	width: 30px;
+	height: 40px;
+	background: url('../images/school/close2.png') no-repeat;
+	position: absolute;
+	right:-16px;
+	top:-11px;
+	cursor: pointer;
+}
+
+
+
+.return_1{
+	position: fixed;
+	right: 70px;
+	bottom: 60px;
+	bottom: 20px\0;
+	bottom: 20px !important;
+	background: url('../images/school/fh1.png') no-repeat;
+	width: 44px;
+	height: 39px;
+	cursor: pointer;
+	display:none;
+}
+.return_1:hover{
+	width: 44px;
+	height: 39px;
+	background: url('../images/school/fh.png') no-repeat;
+}
+.wraper{
+	width:100%;
+	height: auto;
+	background: #fff;
+	margin:0 auto;
+	overflow:hidden;
+}
+.top{
+	width:100%;
+	height:auto;
+}
+.top1{
+	width:100%;
+	height:22px;
+	border:1px #f5f7f8 solid;	
+}
+.top1_cont{
+	width:1002px;
+	height:22px;
+	margin:0 auto;
+	line-height:22px;
+}
+.top1_cont_right{
+	float:right;
+	margin-top:2px;
+}
+.top1_cont_right ul{
+	
+}
+.top1_cont_right ul li{
+	float:left;
+	height:18px;
+	line-height:18px;
+	padding-right:13px;
+	padding-left:13px;
+	border-right:1px #9d9d9d solid;
+	
+}
+.top1_cont_right ul li a{
+	margin-left:3px;
+}
+.top2{
+	width:100%;
+	height:87px;
+}
+.top2_logo{
+	width:1002px;
+	height:87px;
+	margin:0 auto;
+}
+.top2_logo_l{
+	width: 87px;
+    height: 87px;
+    float: left;
+    margin: 0 10px;
+}
+.top2_logo_r{
+	float:left;
+	width:650px;
+}
+.top2_logo_r1{
+	float:right; 
+	margin-top:30px;
+}
+.top2_logo_r1 span{
+	float:left;
+	display:block;
+	width:60px;
+	height:30px;
+	font-size:14px;
+	border:1px #ccc solid;
+	text-align:center; 
+	line-height:30px;
+	margin-right:10px;
+}
+.top2_logo_r1 span.span_act a{
+	background:#ff8400;
+	color:#fff;
+	border:none;
+	display:block;
+}
+.school_name{
+	height:50px;
+	line-height:50px;
+	font-size:30px;
+	color:#585858;
+}
+.top2_logo_r span{
+	height:30px;
+	line-height:30px;
+	font-size:18px;
+}
+.top3{
+	width:100%;
+	background:#ff8400;
+	height:40px;
+}
+.top3_nav{
+	height: 40px;
+	width:1002px;
+	margin:0 auto;
+}
+.top3_nav ul{ 
+	height: 40px;
+	float: left;    
+	left: 50%;    
+	position: relative;
+}
+.top3_nav ul li{
+	padding-left:22px;
+	padding-right:22px;
+	font-size:16px;
+	float: left;    
+	position: relative;    
+	right: 50%;
+	cursor: pointer;	
+}
+.top3_nav ul li a{
+	height:40px;
+	line-height:40px;
+	color:#fff;
+	display:block;
+	padding-left:10px;
+	padding-right:10px;
+}
+.top3_nav_act{
+	background:#ff9d33;
+} 
+.footer{
+	width:100%;
+	background:#e1e1e1;
+	height:50px;
+}
+.fter{
+	height:50px;
+	line-height:50px;
+	font-size:12px;
+	text-align:center;
+}
+
+.top_nav{
+	width:1002px;
+	height:60px;
+	line-height:60px;
+	border-bottom: 1px #f5f7f8 solid;
+	color:#656565;
+}
+.top_nav a{color:#656565;}
+
+
+
+.banner_login_r{
+	width: 384px;
+	height: 360px;  
+	background: #fff;  
+}
+.banner_login_r_c{
+	width:242px;
+	height: 360px;
+	margin:0 auto;
+}
+.banner_login_r_c h3{
+	height: 86px;
+	line-height: 86px;
+	font-size: 16px;
+}
+.banner_login_r_c .txt{
+	width:228px;
+	height:41px;
+	border:1px #eeeeee solid;
+	margin-bottom: 25px;
+	padding-left: 10px;
+	font-size: 14px;
+}
+.banner_login_r_c .pwd{
+	width:228px;
+	height:41px;
+	border:1px #eeeeee solid;
+	margin-bottom: 25px;
+	padding-left: 10px;
+	font-size: 14px;
+}
+.banner_login_r_c .btn{
+	width: 242px;
+	height: 44px;
+	background: url('../images/dl1.png') no-repeat;
+	border: none;
+}
+.banner_login_r_c h4{
+	text-align: center;
+	height: 35px;
+	line-height: 35px;
+}
+.banner_login_r_c h4 a{
+	color: #919191;
+	font-size: 13px;
+}
+.banner_login_r_c h5{
+	margin-top: 7px;
+}
+
+.resources_empty{
+	width:210px;
+	height:235px;
+	margin:30px auto;
+}
+.resources_empty dl{}
+.resources_empty dl dd{
+	width:210px;
+	height:210px;
+	background:url(../images/empty.png) no-repeat center center;
+}
+.resources_empty dl dt{
+	font-size:18px;
+	text-align:center;
+	line-height:25px;
+	height:25px;
+	color:#848484;
+}

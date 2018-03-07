@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd"
+	default-lazy-init="true">
+
+   <description>Spring Service Configuration</description>
+   
+    <!--  配置实体监听器 -->
+	<bean class="com.tmser.tr.common.listener.ListenableBeanPostProcessor"></bean>
+   
+<!--    	<bean id="jyMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">  
+        <property name="protocol" value="smtp" />  
+        <property name="host" value="${mail_host}" />  
+        <property name="port" value="${mail_port}"/>  
+        <property name="username" value="${mail_username}" />  
+        <property name="password" value="${mail_password}" />
+          
+        <property name="javaMailProperties">  
+            <props>  
+                <prop key="mail.smtp.auth">true</prop>  
+                如果是网易邮箱， mail.smtp.starttls.enable 设置为 false  
+                <prop key="mail.smtp.starttls.enable">false</prop>  
+                <prop key="mail.debug">true</prop>
+                <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>  
+            </props>  
+        </property>  
+    </bean> -->
+    
+    <!-- Freemarker配置 -->
+    <bean id="noticeFreemarkerConfig"
+          class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
+        <property name="templateLoaderPath" value="classpath:/template/notice/" />
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="template_update_delay">0</prop>
+                <prop key="default_encoding">UTF-8</prop>
+                <prop key="number_format">#</prop>
+                <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+                <prop key="classic_compatible">true</prop>
+                <prop key="template_exception_handler">ignore</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- 邮件服务  -->
+	<bean id="mailService" class="com.tmser.tr.common.service.impl.MailServiceImpl">  
+        <property name="mailSender" ref="jyMailSender" />  
+        <property name="taskExecutor" ref="msgThreadPool" />  
+    </bean>
+    
+    <!-- 数据库配置 -->
+    <bean id="flywayDbInit" class="org.flywaydb.core.Flyway" init-method="migrate" lazy-init="false">
+	 <property name="dataSource" > <!--数据源-->
+	    <bean class="com.mysql.jdbc.jdbc2.optional.MysqlDataSource">
+	       <property name="Url" value="${jdbc.url}"></property>
+         <property name="user" value="${jdbc.username}"></property>
+         <property name="password" value="${jdbc.password}"></property>
+	    </bean>
+	  </property>
+	  <property name="locations" value="dbmigrate"/> <!--脚本文件夹地址 默认src/db/migration-->
+	  <property name="validateOnMigrate" value="false"/> <!--迁移验证 默认true-->
+	  <property name="baselineOnMigrate" value="true"/> <!--基线迁移 默认false-->
+	  <property name="placeholderPrefix" value="ignore"/> <!--占位符前缀-->
+	  <property name="baselineVersionAsString" value="0"></property>
+	  <property name="outOfOrder" value="false"/> 
+	</bean>
+	
+    
+    <!-- 移动端判定工具设置 -->
+	<bean class="com.tmser.tr.common.web.mobile.SpringMobileDevice"></bean>
+</beans>
+	

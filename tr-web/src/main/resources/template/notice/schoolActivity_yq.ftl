@@ -1,0 +1,1 @@
+<iframe id="schoolActivity_yq" style="border:none;border:0;width:100%;height:100%;background:none;" frameborder="0" scrolling="no" src="jy/schoolactivity/circle/yaoQingIndex?stcId=${stcId }&spaceId=${spaceId}" allowtransparency="true"></iframe>

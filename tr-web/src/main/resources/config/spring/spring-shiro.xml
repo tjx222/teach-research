@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+	default-lazy-init="true">
+
+	<description>Shiro Configuration</description>
+	
+	<!-- 登录监听器，监听登录成功设置相关信息 
+	<bean class="com.tmser.tr.uc.listenner.DefaultLoginSuccesssListenner" />-->
+	
+	<bean id="userRealm" class="com.tmser.tr.uc.shiro.UserRealm">
+        <!-- 用切面缓存代理了 此处就不缓存了 
+        <property name="authenticationCachingEnabled" value="false"/>
+        <property name="authorizationCachingEnabled" value="false"/>-->
+    </bean>
+    
+    <!-- 接入app 配置 -->
+    <bean class="com.tmser.tr.uc.service.impl.CompositeSsoServiceImpl">
+        <property name="ssoServiceMap">
+            <map>
+                <!-- 平台 回调方式对接 -->
+                 <entry key="platform_callback" >
+	                <bean class="com.tmser.tr.uc.controller.ws.wx.WenxuanLogincodeSsoServiceImpl">
+	                </bean>
+                </entry>
+                <!-- 身份证登录方式对接  -->
+                <entry key="user_idcard" >
+	                <bean class="com.tmser.tr.uc.controller.ws.wx.FeitianLogincodeSsoServiceImpl"></bean>
+                </entry>
+                <entry key="7d9b9cd7-20fb-426a-9fc7-0b8331e148dd" >
+	                <bean class="com.tmser.tr.uc.controller.ws.wx.FeitianLogincodeSsoServiceImpl"></bean>
+                </entry>
+                <!-- 二小平台  已关闭
+                <entry key="a342bed3579-1e73-1323-96ff-6827e54fa" >
+	                <bean class="com.tmser.tr.uc.controller.ws.ex.ErxiaoSsoService"></bean>
+                </entry>
+                -->
+             </map>
+        </property>
+    </bean>
+    
+    <bean id="logincodeUserRealm" class="com.tmser.tr.uc.controller.ws.LogincodeUserRealm">
+    </bean>
+    
+    <!-- mobile config -->
+    <bean id="mobileFilter" class="com.tmser.tr.uc.mobile.MobileAuthorFilter" />
+    <bean id="mobileUserRealm" class="com.tmser.tr.uc.mobile.MobileUserRealm"></bean>
+    
+	<!-- 定义 Shiro 主要业务对象 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realms"> 
+			<list>
+				<ref bean="logincodeUserRealm"/>
+				<ref bean="mobileUserRealm" />
+				<ref bean="userRealm"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="formAuthenticationFilter" class="com.tmser.tr.uc.shiro.CustomFormAutenticationFilter">
+	     <property name="usernameParam" value="username"/>
+	     <property name="passwordParam" value="password"/>
+	     <property name="loginUrl" value="/jy/uc/login"/>
+	</bean>
+	
+	<bean id="sysUserFilter" class="com.tmser.tr.uc.shiro.SysUserFilter" >
+		<property name="unusePhaseUrlPatterns">
+		<list>
+			<value>/jy/uc/*</value>
+			<value>/jy/scanResFile*</value>
+			<value>/jy/index/getSpecificAvtive*</value>
+			<value>/jy/comment/**</value>
+			<value>/jy/schoolview/**</value>
+			<value>/jy/notice/**</value>
+			<value>/jy/manage/res/*</value>
+			<value>/jy/planSummary/punishs/unViewNum*</value>
+			<value>/jy/annunciate/**</value>
+			<value>/jy/manage/publishRelationship/list*</value>
+		</list>
+		</property>
+	</bean>
+	
+	<!-- 权限过滤 ，有序列表 -->
+	<bean id="securityConfig" class="com.tmser.tr.uc.shiro.SecurityConfigFactoryBean">
+        <property name="locations">
+        	<list>
+        		<value>classpath:/config/security/kpi.ini</value>
+        	 	<value>classpath:/config/security/evl.ini</value>
+        	 	<value>classpath:/config/security/security.ini</value>
+        	</list>
+        </property>
+    </bean>
+    
+    <bean id="logoutFilter" class="com.tmser.tr.uc.shiro.JyLogoutFilter" />
+    
+	<!-- 安全认证过滤器 -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/index" />
+		<property name="unauthorizedUrl" value="/jy/uc/login_unauthorized"></property>
+		<property name="filters">
+			<util:map>
+			 <entry key="authc" value-ref="formAuthenticationFilter"></entry>
+			 <entry key="jyuser" value-ref="sysUserFilter"></entry>
+			 <entry key="logout" value-ref="logoutFilter"></entry>
+			 <entry key="mobile" value-ref="mobileFilter"></entry>
+			</util:map>
+        </property>
+		<property name="filterChainDefinitionMap" ref="securityConfig">
+		</property>
+	</bean>
+     
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+	
+	<!-- AOP式方法级权限检查 
+	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
+		<property name="proxyTargetClass" value="true" />
+	</bean>
+	
+	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+	    <property name="securityManager" ref="securityManager"/>
+	</bean> -->
+</beans>

@@ -1,0 +1,108 @@
+.push_resources_content{
+	width:60rem;
+	height:31.25rem;
+	overflow: hidden;
+}
+.push_resources_content ul{
+	width:80%;
+	margin:1.5rem auto;
+	height:3rem;
+	border-bottom:0.083rem #d8d8d8 solid;
+}
+.push_resources_content ul li{
+	float:left;
+	width:25%;
+	height:2rem;
+	text-align:center;
+	font-size:1.667rem;
+	line-height:2.5rem;
+}
+.push_resources_content ul li a{
+	width: 35%; 
+    display: block;
+    margin: 0 auto;
+    height:2.7rem;
+}
+.push_act{
+	border-bottom:0.333rem #e99634 solid; 
+}
+.resources_wrap{
+	position: relative;
+    height: 29.5rem;
+}
+.resources_wraper{
+	position: relative;
+    height: 29.5rem;
+}
+.resources_wrap_li{
+	width:100%;
+	position: absolute;
+    top: 0;
+    bottom: 0;
+    overflow:hidden;
+}
+.resources_wraper_li{
+	width:100%;
+	position: absolute;
+    top: 0;
+    bottom: 0;
+    overflow:hidden;
+}
+.courseware_ppt{
+  float: left;
+  width: 15rem;
+  height: 14.2rem;
+  border-radius: 0.4rem;
+  margin: 1.5rem 1rem 0 3rem;
+  background: #fff;
+  position: relative;
+  border: 0.083rem #e3e3e3 solid;
+}
+.courseware_img_1{
+	width: 5.333rem;
+	height: 2rem;
+	background: url(../images/fq.png) no-repeat -2px -47px;
+	margin-top: -0.5rem;
+	margin-left: 0.917rem;
+	text-align: center;
+	line-height: 2rem;
+	color: #fff;
+	font-size: 1.333rem;
+}
+.courseware_img_2{
+	width: 5.333rem;
+	height: 2rem;
+	background:url(../images/upload_courseware1.png) no-repeat -114px -95px;
+	margin-top: -0.5rem;
+	margin-left: 0.917rem;
+	text-align: center;
+	line-height: 2rem;
+	color: #fff;
+	font-size: 1.333rem;
+}
+.courseware_ppt h3{
+  clear: both;
+  font-size: 1.333rem;
+  width: 12.833rem;
+  height: 3.333rem;
+  line-height: 3.333rem;
+  text-align: center;
+  margin: 0 auto;
+  color: #707070;
+}
+.courseware_ppt p img {
+  width: 12.6rem;
+  height: 8.5rem;
+  margin: 0 auto;
+  cursor: pointer;
+  clear: both;
+  display: block;
+}
+.you{
+	width:3.333rem;
+	height:3.333rem;
+	background:url(../images/you.png) no-repeat;
+	position: absolute;
+    top: 0;
+    right: 0;
+}

@@ -1,0 +1,81 @@
+
+span.level1{
+	
+}
+/*根节点修改*/
+.ztree li span.button.switch.level0 {visibility:hidden; width:1px;}
+.ztree li .level0 {padding:0; background:none;}
+/*根节点修改*/
+
+/*修改所有节点的关闭的背景图片*/
+.ztree li span.button.center_close, 
+.ztree li span.button.bottom_close {
+ 	background-position:0 0;
+	background-image:url(../../images/images/lessonBg.png);
+	background-position: center;
+	height: 40px;
+}
+/*修改所有节点的关闭的背景图片*/
+
+
+/*修改所有节点的打开的背景图片*/
+.ztree li span.button.center_open,
+.ztree li span.button.bottom_open{
+ 	background-position:0 0;
+	background-image:url(../../images/images/lessonBg-open.png);
+	background-position: center;
+	height: 40px;
+}
+/*修改所有节点的打开的背景图片*/
+
+
+/*修改所有二级节点的打开和关闭的背景图片PS(会把上面的覆盖)*/
+.ztree li span.level1,
+.ztree li span.level1.button.center_close,
+.ztree li span.level1.button.center_open, 
+.ztree li span.level1.button.bottom_close,
+.ztree li span.level1.button.bottom_open {
+	background:url(../../images/images/folder-bg.png) no-repeat center center!important;
+	font-weight:bold;
+}
+/*修改所有二级节点的打开和关闭的背景图片*/
+
+/*把所有折线去掉*/
+.ztree li ul.line{
+	background:none;
+}
+.ztree li span.button.center_docu,.ztree li span.button.bottom_docu {
+	background: none;
+}
+/*把所有折线去掉*/
+.ztree li span.button{
+	width:0;
+}
+.ztree li a.curSelectedNode{
+	color: #FF7E00;
+	background: #FFF3D3;
+	border:none;
+}
+/*覆盖下划线*/
+.ztree li a:hover{
+	text-decoration:none;
+}
+/*覆盖原来的样式*/
+.ztree * {
+	line-height: 35px!important;
+	font-size: 14px;
+}
+/*UI这边的行高很高，覆盖原来的默认高度*/
+.ztree li a,.ztree li a.curSelectedNode{
+	height:35px;
+}
+
+/*这个覆盖教教学资源里面的ztree样式*/
+ztree li span.button.switch.level0,.ztree li span.button.switch{
+	visibility: visible;
+	width: 18px;
+	height: 37px!important;
+}
+.ztree li a{
+	padding:0;
+}

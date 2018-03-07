@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd"
+	default-lazy-init="true">
+	<description>Shiro Configuration</description>
+	
+	<bean id="userRealm" class="com.tmser.tr.uc.shiro.UserRealm">
+        <!-- 用切面缓存代理了 此处就不缓存了 
+        <property name="authenticationCachingEnabled" value="false"/>
+        <property name="authorizationCachingEnabled" value="false"/>-->
+    </bean>
+    <bean id="logincodeUserRealm" class="com.tmser.tr.uc.controller.ws.LogincodeUserRealm">
+    </bean>
+	<!-- 定义 Shiro 主要业务对象 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realms"> 
+			<list>
+				<ref bean="userRealm"/>
+				<ref bean="logincodeUserRealm"/>
+			</list>
+		</property>
+		
+	</bean>
+	
+	<bean id="formAuthenticationFilter" class="com.tmser.tr.uc.shiro.CustomFormAutenticationFilter">
+	     <property name="usernameParam" value="username"/>
+	     <property name="passwordParam" value="password"/>
+	     <property name="loginUrl" value="/jy/uc/login"/>
+	     <property name="successUrl" value="/jy/uc/workspace"/>
+	</bean>
+	
+	<bean id="sysUserFilter" class="com.tmser.tr.uc.shiro.SysUserFilter" />
+	
+	<bean id="securityConfig" class="com.tmser.tr.uc.shiro.SecurityConfigFactoryBean" depends-on="springContextHolder">
+		<property name="preFilter">	<value>user</value>	</property>
+		<property name="necessaryFilter"><value>user</value></property>
+        <property name="location">
+                <value>classpath:/config/security/security.ini</value>
+        </property>
+    </bean>
+    <bean id="logoutFilter" class="com.tmser.tr.uc.shiro.JyLogoutFilter" />
+	<!-- 安全认证过滤器 -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/jy/uc/login" />
+		<property name="unauthorizedUrl" value="/jy/back/unauthorized"></property>
+		<property name="filters">
+			<util:map>
+			 <entry key="authc" value-ref="formAuthenticationFilter"></entry>
+			 <entry key="user" value-ref="sysUserFilter"/>
+			 <entry key="logout" value-ref="logoutFilter"></entry>
+			</util:map>
+        </property>
+       <property name="filterChainDefinitionMap" ref="securityConfig" />
+	</bean>
+     
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+	
+	<!-- 接入app 配置 -->
+    <bean class="com.tmser.tr.uc.service.impl.CompositeSsoServiceImpl">
+        <property name="ssoServiceMap">
+            <map>
+                <!-- 平台 回调方式对接 -->
+                 <entry key="platform_callback" >
+	                <bean class="com.tmser.tr.uc.controller.ws.wx.WenxuanLogincodeSsoServiceImpl">
+	                </bean>
+                </entry>
+             </map>
+        </property>
+    </bean>
+	
+</beans>

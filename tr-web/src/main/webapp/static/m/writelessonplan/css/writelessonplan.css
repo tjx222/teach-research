@@ -1,0 +1,656 @@
+.write_content{ 
+	border-top:0.083rem #fe7e37 solid;
+	width:100%;
+	background:#f7f8f9; 
+	position: absolute;
+    top: 5rem;
+    bottom: 0;
+    overflow:hidden;
+}
+.write_content_c{
+	width:96%;
+	top:1rem;
+	bottom:1rem;
+    border:1rem #dedfe0 solid;
+    border-radius:1rem;
+    position: absolute;
+    left: 50%;
+    margin-left: -48%;
+}
+.write_content_left{	
+	width:25%;
+	height:100%; 
+	float:left;
+	position: relative;
+}
+.top1{
+	background:#d5d5d5;
+	height:3.3rem;
+	width:100%;
+}
+.top1 span{
+	color:#5b5b5b;
+	height:3.3rem;
+	line-height:3.3rem;
+	padding-left:10%; 
+	float:left;
+	 display: block;
+	font-size:1.5rem;
+}
+.top1 strong {
+  width: 2.5rem;
+  height: 3rem;
+  display: block;
+  float: left;
+  background: url(../../courseware/images/upload_courseware.png) no-repeat -25px -28px;
+}
+.courseware_img_down{
+    width: 2.25rem;
+    height: 2.25rem;
+    background: url(../../schoolactivity/images/dele.png) no-repeat;
+    margin-top: 0.75rem;
+    margin-left: 0.5rem;
+    float: left;
+    cursor: pointer;
+}
+.myplanbook_catalog{
+	width:93%;  
+	position: absolute;
+	top:3.4rem;
+	bottom: 0; 
+	left:2rem;
+	overflow:hidden;
+	z-index:1;
+}
+.myplanbook_catalog1{
+	clear:both;
+}
+.myplanbook_catalog h4{
+	font-size:1.333rem;
+	height:2.5rem;
+	line-height:2.5rem;
+	position: relative;
+}
+.myplanbook_catalog h4 span{
+	width:0.7rem;
+	height:0.7rem;
+	background:#1aa97b;
+	display:block;
+	margin-right:1rem;
+	float:left;
+	margin-top:0.9rem;
+}
+.myplanbook_catalog h4 a{
+	display:inline-block;
+	line-height:2.5rem;
+}
+.strong_act{
+	width:1.6rem;
+	height:1.6rem;
+	border-radius:1.6rem;
+	background:#fff;
+	display:inline-block;
+	float:right;
+	text-align:center;
+	color:#acadad;
+	line-height:1.6rem;
+	font-size:1.5rem;
+	margin-left: 1rem;
+    margin-top: 0.5rem;
+	border:0.083rem #acadad solid;
+}
+.span_act{
+	width:1.6rem;
+	height:1.6rem;
+	border-radius:1.6rem;
+	background:#1aa97b;
+	display:inline-block;
+	float:right;
+	text-align:center;
+	color:#fff;
+	line-height:1.6rem;
+	font-size:1.5rem;
+	margin-left: 1rem;
+    margin-top: 0.5rem;
+	border:none;
+}
+.sub_strong_act{
+	width:1.6rem;
+	height:1.6rem;
+	border-radius:1.6rem;
+	background:#acadad;
+	display:inline-block;
+	float:right;
+	text-align:center;
+	color:#fff;
+	font-size:1.5rem;
+	margin-left: 1rem;
+    margin-top: 0.5rem;
+	line-height:1.6rem;
+	border:none;
+}
+.myplanbook_catalog ul{ 
+	border-left: 0.083rem #1aa97b solid;
+	margin-left: 0.3rem; 
+	display:block;
+}
+.myplanbook_catalog ol{  
+	display:block;
+}
+.myplanbook_catalog ul li{
+	font-size:1.333rem;
+	padding-left: 2rem;
+	line-height:2.5rem;
+	position: relative;
+} 
+.myplanbook_catalog ul li a{
+	display:inline-block;
+	line-height:2.5rem;
+}
+.myplanbook_catalog ul li a.book_act{
+	background:#1aa97b;
+	border-top-right-radius:1.2rem;
+	border-bottom-right-radius:1.2rem;
+	color:#fff;
+	padding-right:1rem;
+	padding-left: 0.2rem;
+}
+.myplanbook_catalog h4 a.book_act{
+	background:#1aa97b;
+	border-top-right-radius:1.2rem;
+	border-bottom-right-radius:1.2rem;
+	color:#fff;
+	padding-right:1rem;
+	padding-left: 0.2rem;
+}
+.write_content_center{	
+	width:65%;
+	height:100%; 
+	float:left;
+	background:#fff;
+}
+.default_img{
+	width:33rem;
+	margin: 0 auto;
+    height: 42.75rem;
+    position: relative;
+}
+.default_img img{
+	width:33rem;
+	height:42.75rem;
+	margin:1rem auto;
+	display:block;
+}
+.template{
+	width: 5.5rem;
+    height: 5.25rem;
+    background: url(../images/mb.jpg) no-repeat center top;
+	position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+.compose{
+	width:24rem;
+	background:#37b4f0;
+	height:3rem;
+	line-height:2.8rem;
+	text-align:center;
+	color:#fff;
+	font-size:1.667rem;
+	position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    margin-left:-12rem;
+    letter-spacing:0.01rem;
+}
+.write_content_right{	
+	width:10%;
+	height:100%; 
+	float:left;
+}
+.class_hour{
+	width:10rem;
+	height:18rem;
+	background:#f5f5f5;
+	border:0.083rem #bfc0c3 solid; 
+	position: absolute;
+    right: 0.7rem;
+    top: 1rem;
+    z-index:100;
+    /* display:block; */
+}
+.class_hour div{
+	padding-left:1rem;
+	font-size:1.167rem;
+}
+.class_h{
+	width:0.917rem;
+	height:0.917rem;
+	display:block;
+	border:0.083rem #bfc0c3 solid; 
+	background:#fff;
+	float:left;
+	margin-top:0.7rem;
+	margin-right:1rem;
+}
+.class_prohibit{
+	width:0.917rem;
+	height:0.917rem;
+	display:block;
+	border:0.083rem #bfc0c3 solid; 
+	background:#bfc0c3;
+	float:left;
+	margin-top:0.7rem;
+	margin-right:1rem;
+}
+.class_span{
+	width:0.917rem;
+	height:0.917rem;
+	display:block;
+	float:left;
+	border:0.083rem #bfc0c3 solid; 
+	margin-top:0.7rem;
+	margin-right:1rem; 
+	background:url(../images/bg.png) no-repeat;
+}
+.class_hour_wrap{
+	border-bottom:0.083rem #bfc0c3 solid; 
+}
+.class_hour input{
+	width:6rem;
+	height: 2.2rem;
+	background: #fe7e37;
+	font-size: 1.333rem;
+	color: #fff;
+	line-height: 2rem;
+	display: block;
+	margin:0.2rem auto; 
+}
+.k{
+	height:18rem;
+	clear:both;
+}
+.push_resources{
+	width:100%;
+	height:10rem; 
+	margin-top:13rem;
+}
+.push_resources_img{
+	width:4.167rem;
+	height:5.333rem;
+	background:url(../images/push.jpg) no-repeat;
+	margin:0 auto;
+}
+.push_resources_text{
+	font-size:1.5rem;
+	text-align:center;
+	height:3rem;
+	line-height:3rem;
+}
+.peer_resources_text{
+	font-size:1.5rem;
+	text-align:center;
+	height:3rem;
+	line-height:3rem;
+}
+.peer_resources_img{
+	width:5.333rem;
+	height:3.75rem;
+	background:url(../images/peer.jpg) no-repeat; 
+	margin:0 auto;
+}
+.peer_resources{
+	width:100%;
+	height:10rem;
+	margin-top:3rem; 
+}
+
+/* dlog  peer */ 
+.peer_resources_wrap{
+	width:100%;
+	height:100%;
+	position: fixed;
+    z-index: 102;
+    display:none;
+}
+.courseware_img_3{
+	width: 5.333rem;
+	height: 2rem;
+	background:url(../../rethink/images/upload_courseware.png) no-repeat -114px -95px;
+	margin-top: -0.5rem;
+	margin-left: 0.917rem;
+	text-align: center;
+	line-height: 2rem;
+	color: #fff;
+	font-size: 1.333rem;
+}
+.peer_resources_content ul{
+	width:80%;
+	margin:1.5rem auto;
+	height:3rem;
+	border-bottom:0.083rem #d8d8d8 solid;
+}
+.peer_resources_content ul li{
+	float:left;
+	width:33.3%;
+	height:2rem;
+	text-align:center;
+	font-size:1.5rem;
+	line-height:2.5rem;
+}
+.peer_resources_content ul li a{
+	width: 35%; 
+    display: block;
+    margin: 0 auto;
+    height:2.7rem;
+}
+/* dlog  peer */
+
+/* dlog  push */
+.push_resources_wrap{
+	width:100%;
+	height:100%;
+	position: fixed;
+    z-index: 102;
+    display:none;
+}
+.push_resources_cont{
+	width:60rem;
+	height:40rem;
+	position: absolute;
+	left:50%;
+	margin-left:-30rem;
+	top:15%; 
+	background:#fff;
+	z-index:101;
+}
+.push_resources_title{
+	width:60rem;
+	height:4.083rem; 
+	background:#f4f4f4; 
+	border-bottom:0.083rem #dbdbdb solid;
+}
+.push_resources_title h3{
+	width:57rem;
+	height:4.083rem; 
+	text-align:center;
+	font-size:1.5rem;
+	color:#666666;
+	line-height:4.083rem;
+	float:left;
+}
+.push_resources_title span{
+	width:1.583rem;
+	float:right;
+	height:1.667rem;
+	display:block;
+	margin-right:1.2rem;
+	margin-top:1.3rem;
+	background:url(../../courseware/images/upload_courseware.png) no-repeat -7px -37px;
+}
+.push_resources_content{
+	width:60rem;
+	height:31.25rem;
+}
+.push_resources_content ul{
+	width:80%;
+	margin:1.5rem auto;
+	height:3rem;
+	border-bottom:0.083rem #d8d8d8 solid;
+}
+.push_resources_content ul li{
+	float:left;
+	width:25%;
+	height:2rem;
+	text-align:center;
+	font-size:1.5rem;
+	line-height:2.5rem;
+}
+.push_resources_content ul li a{
+	width: 35%; 
+    display: block;
+    margin: 0 auto;
+    height:2.7rem;
+}
+.push_act{
+	border-bottom:0.333rem #e99634 solid; 
+}
+.resources_wrap{
+	position: relative;
+    height: 29.5rem;
+}
+.resources_wrap_li{
+	width:100%;
+	position: absolute;
+    top: 0;
+    bottom: 0;
+    overflow:hidden;
+}
+.resources_wraper{
+	position: relative;
+    height: 29.5rem;
+}
+.resources_wraper_li{
+	width:100%;
+	position: absolute;
+    top: 0;
+    bottom: 0;
+    overflow:hidden;
+}
+.courseware_ppt{
+  float: left;
+  width: 15rem;
+  height: 17rem;
+  border-radius: 0.4rem;
+  margin: 1.5rem 1rem 0 3rem;
+  background: #fff;
+  position: relative;
+  border: 0.083rem #e3e3e3 solid;
+}
+.courseware_img_1{
+	width: 5.333rem;
+	height: 2rem;
+	background: url(../../comres/images/fq.png) no-repeat -2px -47px;
+	margin-top: -0.5rem;
+	margin-left: 0.917rem;
+	text-align: center;
+	line-height: 2rem;
+	color: #fff;
+	font-size: 1.167rem;
+}
+.courseware_img_2{
+	width: 5.333rem;
+	height: 2rem;
+	background:url(../../courseware/images/upload_courseware.png) no-repeat -114px -95px;
+	margin-top: -0.5rem;
+	margin-left: 0.917rem;
+	text-align: center;
+	line-height: 2rem;
+	color: #fff;
+	font-size: 1.333rem;
+}
+.courseware_ppt h3{
+  clear: both;
+  font-size: 1.167rem;
+  width: 12.833rem;
+  height: 3.333rem;
+  line-height: 3.333rem;
+  text-align: center;
+  margin: 0 auto;
+  color: #707070;
+}
+.courseware_ppt p img {
+  width: 12.6rem;
+  height: 8.5rem;
+  margin: 0 auto;
+  cursor: pointer;
+  clear: both;
+  display: block;
+}
+.you{
+	width:3.333rem;
+	height:3.333rem;
+	background:url(../images/you.png) no-repeat;
+	position: absolute;
+    top: 0;
+    right: 0;
+}
+/* dlog  push */
+
+/* dlog  template */ 
+.choice_template_wrap{
+	width:100%;
+	height:100%;
+	position: fixed;
+    z-index: 102;
+    display:none;
+}
+.choice_template{
+	width:40rem;
+	height:47rem;
+	position: absolute;
+	left:50%;
+	margin-left:-20rem;
+	top:10%;  
+	z-index:101;
+}
+
+.choice_template_t{
+	text-align:center;
+	font-size:1.8rem;
+	font-weight:bold;
+	color:#000;
+	height:2.5rem;
+	line-height:2.5rem;
+}
+.choice_template_b{
+	width:100%;
+	height:44.5rem;
+}
+.choice_template_b_l{
+	width:15%;
+	float:left;
+	height:37rem;
+	background:url(../images/left.png) no-repeat center center;
+}
+.choice_template_b_c{
+	width:70%;
+	float:left;
+	height:37rem;
+	background:#fff;
+	overflow:hidden;
+}
+.choice_template_b_c div{
+	flaot:left;
+}
+.choice_template_b_r{
+	width:15%;
+	float:left;
+	height:37rem;
+	background:url(../images/right.png) no-repeat center center;
+}
+.choice_template_b ul{
+	width:70%;
+	margin:1.5rem auto 1rem auto;
+	heiht:1.4rem;
+	text-align:center;
+}
+.li_act{
+	width:1.4rem;
+	height:1.4rem;
+	background:#919191;
+	border-radius:1.4rem;
+	display:inline-block;
+	margin:0 1.5rem;
+	
+}
+.choice{
+	width:20rem;
+	height:3rem;
+	background:#ff9d34;
+	color:#fff;
+	font-size:1.5rem;
+	line-height:3rem;
+	display:block;
+	letter-spacing:0.01rem;
+	margin:0 auto;
+}
+.li_act1{
+	width:1.4rem;
+	height:1.4rem;
+	background:#fff;
+	border-radius:1.4rem;
+	display:inline-block;
+	margin:0 1.5rem;
+}
+.choice_template_b_c1{
+	width:100%;
+	height:100%;
+	background:#0ff;
+}
+.choice_template_b_c2{
+	width:100%;
+	height:100%;
+	background:#ff0;
+}
+.choice_template_b_c3{
+	width:100%;
+	height:100%;
+	background:#f0f;
+}
+.choice_template_b_c4{
+	width:100%;
+	height:100%;
+	background:#f00;
+}
+/* dlog  template */ 
+
+/* —°‘Ò…œœ¬≤· */
+.cw_menu_wrap{
+	width:100%;
+	height:100%;
+	position: fixed;
+    z-index: 102;
+    display:none;
+}
+.cw_menu_list{
+	left:50%;
+	margin-left:-51rem;
+	top:20%; 
+	position: absolute; 
+	z-index:1;
+	width:20rem;
+	height:auto; 
+	min-height:10rem;
+}
+.cw_menu_list .cw_menu_list_top{
+	width:2.333rem;
+	height:1.25rem;
+	display:block;
+	margin:0 auto;
+	background:url(../../courseware/images/menu_top1.png) no-repeat;
+}
+.cw_menu_list_wrap1 p.act{
+	background: url(../../courseware/images/act.png) no-repeat 16.5rem 0.9rem;
+	display: block;
+	display: -webkit-box;
+	background-size: 12% 50%;
+}
+.cw_menu_list_wrap1{
+	background:#fff;
+	height:auto;
+	min-height:5rem;
+	max-height:15rem; 
+	list-style:none; 
+	border-radius:0.5rem; 
+	position: relative;
+	overflow:hidden;
+}
+.cw_menu_list_wrap1 p{
+	height:3.167rem;
+	line-height:3.167rem;
+	font-size:1.167rem;
+	color:#4f4f4f;
+	padding-left:0.417rem;
+	border-bottom:0.083rem #b7b7b7 dotted; 
+}

@@ -1,0 +1,134 @@
+.annunciate_bottom_wrap{
+	width: 100%;
+	position: absolute;
+	top: 5rem;
+	bottom: 4.5rem;
+	background:#f7f8f9;
+	overflow:hidden;
+	border-top:0.083rem #fe7e37 solid;
+}
+.annunciate_bottom1_wrap{
+	width: 100%;
+	position: absolute; 
+	bottom: 0;
+	border-top:0.083rem #eee solid;
+}
+.annunciate_bottom{
+	width: 80%;
+	margin:0 auto;
+}
+.annunciate_bottom1{
+	width: 74%;
+	margin:0 auto;
+}
+.annunciate_bottom table{
+	width: 95%;
+	margin:0 auto;
+}
+.annunciate_bottom table tr{
+	border-bottom:0.083rem #d0d1d2 solid;
+	height:5rem;
+}
+.annunciate_bottom table tr th{
+	height:5rem;
+	line-height:5rem;
+	font-size:1.5rem;
+	font-weight:100;
+}
+.annunciate_bottom table tr td{
+	text-align:center;
+	font-size:1.333rem;
+	color:#3e3e3e;
+}
+.annunciate_bottom table tr td span{
+	color:#169bd5;
+	cursor:pointer;
+}
+.annunciate_bottom table tr td.del{ 
+	height:5rem;
+	display:block;
+	background:url(../images/del.png) no-repeat center center;
+	cursor:pointer;
+}
+.annunciate_bottom table tr td.jz_del{ 
+	height:5rem;
+	display:block;
+	background:url(../images/jz_del.png) no-repeat center center;
+	cursor: not-allowed;
+}
+.annunciate_bottom table tr td q{
+	width:1.667rem;
+	height:1.667rem;
+	display:block;
+	border-radius:3rem;
+	border:0.083rem #c4cad5 solid;
+	margin:0 auto;
+	cursor:pointer;
+}
+.annunciate_bottom table tr td q.radio_act{
+	width:1.667rem;
+	height:1.667rem;
+	display:block;
+	border:none;
+	background:url(../images/act.png) no-repeat;
+}
+.notice{
+	float:left;
+	width:7rem;
+	height: 4.5rem;
+}
+.notice span{
+	height: 4.5rem;
+	line-height:4.5rem;
+	display:inline-block;
+	font-size:1.333rem;
+	margin-left:1rem;
+}
+.notice q{
+	width:1.667rem;
+	height:1.667rem;
+	display:block;
+	border-radius:3rem;
+	border:0.083rem #c4cad5 solid;
+	background:#fff;
+	margin:1.3rem auto;
+	float:left;
+	cursor:pointer;
+}
+.notice q.radio_act{
+	width:1.667rem;
+	height:1.667rem;
+	display:block;
+	border:none;
+	background:url(../images/act.png) no-repeat;
+}
+.delete{
+	width:8rem;
+	height:2.7rem;
+	line-height:2.5rem;
+	color:#fe7e37;
+	text-align:center;
+	font-size:1.333rem;
+	float:left;
+	border:0;
+	background:#fff;
+	border:0.083rem #fe7e37 solid;
+	margin-top:0.9rem;
+	margin-left:1rem;
+	cursor:pointer;
+}
+.yd{
+	width:8rem;
+	height:2.7rem;
+	line-height:2.5rem;
+	color:#fe7e37;
+	text-align:center;
+	font-size:1.333rem;
+	float:left;
+	border:0;
+	background:#fff;
+	border:0.083rem #fe7e37 solid;
+	margin-top:0.9rem;
+	margin-left:2rem;
+	cursor:pointer;
+}

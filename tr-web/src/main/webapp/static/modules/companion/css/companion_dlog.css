@@ -1,0 +1,26 @@
+.info {
+	text-align: center;
+	width: 90%;
+	margin: 50px auto;
+	height: 100px;
+	font-size: 14px;
+}
+
+.info1 {
+	text-align: center;
+	width: 90%;
+	margin: 30px auto;
+	height: autp;
+	font-size: 14px;
+} 
+.ascertain {
+	width: 80px;
+	height: 28px;
+	line-height: 28px;
+	border: none;
+	display: block;
+	margin: 0 auto;
+	background: #27bb8b;
+	color: #fff;
+	font-size: 14px;
+} 

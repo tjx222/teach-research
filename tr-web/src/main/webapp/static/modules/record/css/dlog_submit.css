@@ -1,0 +1,357 @@
+.upload{
+	width:100%;
+	position:relative;
+	z-index:1000;
+}
+.upload .upload_wrap{
+	position: absolute;
+	width: 794px;
+	margin-left:-397px;
+	height: 640px;
+	left: 50%;
+	top:100px; 
+	z-index: 999;
+	overflow: hidden;
+
+}
+.upload .upload_wrap .dlog-top{
+	width: 794px;
+	height: 40px;
+	background: #f3922b;
+	border-bottom:1px #595959 dashed;
+}
+.upload .upload_wrap .dlog-top span{
+	line-height: 40px;
+	color:#44484d;
+	font-size: 16px;
+	font-weight: bold;
+	padding-left: 20px;
+}
+.upload .upload_wrap .dlog-top img{
+	float: right;
+	padding-top: 10px;
+	padding-right: 15px;
+	cursor: pointer;
+}
+.upload-bottom{
+	width: 794px;
+	height: 600px;
+	background: #fff;
+}
+.upload-bottom .upload-bottom_tab{
+	height: 40px;
+	border-bottom: 1px #595959 dashed;
+}
+.upload-bottom .upload-bottom_tab ul{
+	width: 240px;
+	margin-left: 290px;
+	padding-top: 7px;
+}
+.upload-bottom .upload-bottom_tab ul li{
+	float: left;
+	line-height: 33px;
+	height: 33px;
+	border:1px #51c7f8 solid;
+	border-radius: 5px;
+	width: 90px;
+	text-align: center;
+	margin-right: 10px;
+	font-size: 16px;
+	font-weight: bold;
+	cursor: pointer;
+}
+.upload-bottom_tab_blue{
+	background: #51c7f8;
+	color: #fff;
+}
+.upload-bottom .upload-bottom_submit_big{
+	width: 1600px;
+	float: left;
+}
+.upload-bottom_submit_big_tab{
+	width: 794px;
+	height: 510px;
+	overflow: hidden;
+	float: left;
+
+}
+.upload-bottom_submit_big_tab .upload-bottom_submit{
+	height: 40px;
+	border-bottom: 1px #51c7f8 dashed;
+	padding-left: 20px;
+}
+.upload-bottom_submit_big_tab .upload-bottom_submit p{
+	width: 80px;
+	float: left;
+	height: 40px;
+	line-height: 40px;
+}
+.upload-bottom_submit_big_tab .upload-bottom_submit p input{
+	float: left;
+	margin-top: 14px;
+}
+.submit{
+	width: 90px;
+	height: 25px;
+	background: url('../images/sub.png') no-repeat;
+	border: none;
+	margin-top: 7px;
+}
+.submit1{
+	width: 90px;
+	height: 25px;
+	background: url('../images/qxsub.png') no-repeat;
+	border: none;
+	margin-top: 7px;
+}
+.upload-bottom_submit_big_tab .upload-bottom_submit span{
+	float: right;
+	line-height: 40px;
+	color:#8d8d8d;
+	padding-right: 10px;
+	font-weight: bold;
+}
+.expmenu{
+	height: 465px;
+    margin-left: 15px;
+    overflow-y: auto;
+    
+}
+.expmenu li{
+	margin-bottom: 5px;
+}
+.expmenu li p{
+	float: left;
+	margin-top: 2px;
+}
+.header{
+	height: 25px;
+	line-height: 25px;
+	padding-right:10px;
+	padding-left:5px;
+}
+.headers{
+	height: 25px;
+	line-height: 25px;
+	background: #51c7f8;
+	border-top-right-radius: 15px;
+	border-bottom-right-radius: 15px;
+	color:#fff;
+	position: relative;
+	display:inline-block;
+	padding-right:10px;
+	padding-left:5px;
+}
+.header1{
+	height: 40px;
+	margin-left: 20px;
+	padding-left: 2px;
+}
+
+.header1 .label_3{
+	width: 59px;
+	display: inline-block;
+	height: 30px;
+	overflow: hidden;
+	float: left;
+	line-height:30px;
+}
+.header1 strong{
+	float: left;
+	display: inline-block;
+	height: 30px;
+	line-height:30px;
+}
+.header01 strong{
+	display: inline-block;
+	height: 30px;
+	line-height:30px;
+}
+.expmenu li a.header .arrow.up{
+	display: inline-block;
+	width: 9px;
+	height: 15px;
+	margin-left:10px;
+	background:url('../images/arrow_u.png') no-repeat center 4px;
+}
+.expmenu li a.header .arrow.down{
+	display: inline-block;
+	width: 13px;
+	height: 9px;
+	margin-left:10px;
+	background:url('../images/arrow_d.png') no-repeat;
+}
+.expmenu li a.header .right_1{
+	display: inline-block;
+	width: 9px;
+	height: 13px;
+	background: url('../images/arrow_r.png') no-repeat;
+	position: absolute;
+	left:100px;
+	margin-top: 7px;
+}
+.expmenu li a.header1 .arrow.up{
+	display: inline-block;
+	width: 9px;
+	height: 25px;
+	margin-left:10px;
+	background: url('../images/arrow_r.png') no-repeat center 10px;
+}
+.expmenu li a.header1 .arrow.down{
+	display: inline-block;
+	width: 13px;
+	height: 20px;
+	margin-left:10px;
+	background: url('../images/arrow_x.png') no-repeat center 10px;
+}
+.expmenu li a.header0 .arrow.up{
+	display: inline-block;
+	width: 9px;
+	height: 15px;
+	margin-left:-8px;
+	background: url('../images/arrow_r.png') no-repeat center 4px;
+	margin-top:6px;
+}
+.expmenu li a.header0 .arrow.down{
+	display: inline-block;
+	width: 13px;
+	height: 10px;
+	margin-left:-8px;
+	background: url('../images/arrow_x.png') no-repeat center 4px;
+	margin-top:9px;
+}
+.expmenu li a.header01 .arrow.up{
+	display: inline-block;
+	width: 9px;
+	height: 15px;
+	margin-left:10px;
+	background: url('../images/arrow_r.png') no-repeat center 4px;
+	margin-top:6px;
+}
+.expmenu li a.header01 .arrow.down{
+	display: inline-block;
+	width: 13px;
+	height: 10px;
+	margin-left:10px;
+	background: url('../images/arrow_x.png') no-repeat center 4px;
+	margin-top:6px;
+}
+.check{
+	width: 12px;
+	height: 12px;
+}
+.check_1{
+	width: 12px;
+	height: 12px;
+}
+.check_0{
+	width: 12px;
+	height: 12px;
+	margin-top: -1px;
+}
+.check1{
+	width: 12px;
+	height: 12px;
+}
+.header01 .check{
+	width: 12px;
+	height: 12px;
+}
+.header01 .check_0{
+	width: 12px;
+	height: 12px;
+}
+.header01{
+	display:none;
+	margin-left:18px;
+}
+.header01 .check_1{
+	width: 12px;
+	height: 12px;
+}
+.header01 .label_3{
+	width: 59px;
+	display: inline-block;
+	height: 30px;
+	overflow: hidden;
+	float: left;
+	line-height:30px;
+}
+.checkbox{
+	position: relative;
+}
+.checkbox .check{
+	width: 12px;
+	height: 12px;
+	z-index: 999;
+}
+.checkbox .check_0{
+	width: 12px;
+	height: 12px;
+	z-index: 999;
+}
+.checkbox .check_1{
+	width: 12px;
+	height: 12px;
+	z-index: 999;
+}
+.menu li{
+	position: relative;
+}
+.menu1{
+	padding:5px 10px 5px 30px;
+	margin-bottom: 5px;
+	background:#f8f8f8;
+	width: 690px;
+	height: 60px;
+}
+.menu li{
+	margin-left:10px;
+}
+.menu1 li{
+	width: 50px;
+	height: 60px;
+	text-align: center;
+	border:1px #51c7f8 solid;
+	position: relative;
+	float: left;
+	margin-right: 10px;
+}
+.menu1 li img{
+	width: 35px;
+	height: 34px;
+	margin:0 auto;
+	padding-top: 8px;
+	display:block;
+}
+.menu1 li span{
+	display: inline-block;
+	line-height: 18px;
+	height:18px;
+	font-size: 12px;
+}
+.li_box{
+	position: absolute;
+	right:-5px;
+	top:-4px;
+	width: 11px;
+	height: 11px;
+}
+.label_2{
+	display: inline-block;
+	height: 30px;
+	overflow: hidden;
+	float: left;
+	cursor: pointer;
+	line-height: 30px;
+	margin-right: 15px;
+}
+.label{
+	cursor: pointer;
+}
+.header .label_3{
+	width: 59px;
+	height: 30px;
+	overflow: hidden;
+	line-height:30px;
+}

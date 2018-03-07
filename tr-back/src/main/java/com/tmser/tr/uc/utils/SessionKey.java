@@ -1,0 +1,50 @@
+/**
+ * Tmser.com Inc.
+ * Copyright (c) 2015-2017 All Rights Reserved.
+ */
+package com.tmser.tr.uc.utils;
+
+/**
+ * <pre>
+ *	uc 模块session key 
+ * </pre>
+ *
+ * @author tmser
+ * @version $Id: SessionKey.java, v 1.0 2015年2月3日 下午2:58:46 tmser Exp $
+ */
+public abstract class SessionKey {
+	/**
+	 * 当前用户
+	 */
+	public static final String CURRENT_USER = "_CURRENT_USER_";
+	
+	/**
+	 * 当前用户空间列表@see UserSpace
+	 */
+	public static final String USER_SPACE_LIST = "_USER_SPACE_LIST_";
+	
+	/**
+	 * 当前使用的用户空间
+	 */
+	public static final String CURRENT_SPACE = "_CURRENT_SPACE_";
+	
+	/**
+	 * 当前使用的用户当前管理学校
+	 */
+	public static final String CURRENT_ORG = "_CURRENT_ORG_";
+	
+	/**
+	 * 当前使用的学年
+	 */
+	public static final String CURRENT_SCHOOLYEAR = "_CURRENT_SCHOOLYEAR_";
+	
+	/**
+	 * 当前用户菜单列表
+	 */
+	public static final String CURRENT_MENU_LIST = "_CURRENT_MENU_LIST_";
+	
+	/**
+	 * 当前学期
+	 */
+	public static final String CURRENT_TERM = "_CURRENT_TERM_";
+}

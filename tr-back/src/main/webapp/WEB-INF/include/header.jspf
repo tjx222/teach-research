@@ -1,0 +1,22 @@
+<base href="${ctx}" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="${ctxStatic }/lib/jquery/jquery-1.11.2.min.js"></script>
+<script src="${ctxStatic }/lib/jquery/jquery.cookie.min.js" type="text/javascript"></script>
+<script src="${ctxStatic }/lib/jquery/jquery.validate.min.js" type="text/javascript"></script>
+<link href="${ctxStatic }/modules/back/css/default/style.css" rel="stylesheet" type="text/css" media="screen"/>
+<link href="${ctxStatic }/modules/back/css/core.css" rel="stylesheet" type="text/css" media="screen"/>
+<link href="${ctxStatic }/modules/back/css/print.css" rel="stylesheet" type="text/css" media="print"/>
+<script src="${ctxStatic }/modules/back/js/dwz.min.js"></script>
+<script src="${ctxStatic }/modules/back/js/dwz.regional.zh.js"></script>
+<script type="text/javascript">
+var _WEB_ROOT_ = '${ctx}';
+var _WEB_CONTEXT_ = '${pageContext.request.contextPath }';
+var _STATIC_BASEPATH_ =  _WEB_CONTEXT_ +"/${ctxStatic}";
+</script>
+<!--[if IE]>
+<link href="${ctxStatic }/modules/back/css/ieHack.css" rel="stylesheet" type="text/css" media="screen"/>
+<![endif]-->
+
+<!--[if lte IE 9]>
+<script src="${ctxStatic }/modules/back/js/speedup.js" type="text/javascript"></script>
+<![endif]-->

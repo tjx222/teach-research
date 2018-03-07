@@ -1,0 +1,996 @@
+.content{
+	border-top:0.083rem #fe7e37 solid;
+	width:100%;
+	background:#f7f8f9;
+	position: absolute;
+	top: 5rem;
+	bottom: 0; 
+	overflow:hidden;
+}
+.myplanbook_cont{
+	width:80%;
+	background:#fff;
+	border:0.25rem #d9dadb solid;
+	border-radius:0.4rem; 
+	position: absolute;
+    left: 50%;
+    margin-left: -40%;
+    top:2rem;
+    bottom:2rem;
+}
+.myplanbook_cont_l{
+	width:49.7%;
+	height:100%;
+	border-right:0.25rem #d9dadb solid;
+	float:left; 
+	position: relative;
+}
+.myplanbook_cont_r{
+	width:49.8%;
+	height:100%;
+	float:left; 
+	position: relative;
+}
+.myplanbook_cont_r_hide{
+	width:49.8%;
+	height:100%;
+	float:left; 
+	position: relative;
+	display:none;
+}
+.top_book{
+	margin:5rem auto 0 auto;
+	height:3rem; 
+	text-align:center;
+	display: table;
+	padding:0 0 0 0.7rem;
+	border-bottom:0.083rem #969696 solid;
+} 
+.top_book_cont{  
+	line-height:3rem;
+	font-size:1.5rem;
+	vertical-align: middle;
+    display: table-cell;
+	color:#30333c; 
+}
+.top_book strong {
+	width: 2.5rem;
+	height: 3rem; 
+	display:inline-block;
+	margin-top:0.2rem;
+	background: url(../../courseware/images/upload_courseware.png) no-repeat -25px -28px;
+}
+.myplanbook_cont_l img{
+	display:block;
+	margin:4rem auto;
+	width:12.583rem;
+	height:4rem;
+}
+.myplanbook_len{
+	width:18rem;
+	margin:2rem auto;
+	height:5rem;
+}
+.myplanbook_len ul{ 
+}
+.myplanbook_len ul li{
+	float:left;
+	font-size:1.333rem;
+	color:#30333c;
+	height: 2.3rem;
+    line-height: 2.3rem;
+    width:6rem;
+}
+.myplanbook_len ul li:nth-child(2){
+	text-align:center;
+}
+.myplanbook_len ul li:last-child{
+	text-align:right;
+}
+.myplanbook_len ol{
+	
+}
+.myplanbook_len ol li{
+	float:left;
+	font-size:1.333rem;
+	color:#30333c; 
+	height: 2.3rem;
+    line-height: 2.3rem;
+    width:9rem;
+}
+.myplanbook_len ol li:first-child{
+	text-align:left;
+}
+.myplanbook_len ol li:last-child{
+	text-align:right;
+}
+.myplanbook_class{
+	width:56%;
+	height:10rem;
+	position: absolute;
+    left: 50%;
+    margin-left: -28%;
+    bottom:6rem;
+}
+.myplanbook_class p{
+	width:100%;
+	height:4rem; 
+}
+.myplanbook_class p label{
+	width:19%;
+	float:left;
+	font-size:1.333rem;
+	height:2.6rem;
+	text-align:center;
+	line-height:2.6rem;
+}
+.myplanbook_class p input{
+	width:80%;
+	float:right;
+	height:2.6rem;
+	line-height:3rem;
+	border-bottom:0.083rem #595c63 solid;
+	font-size:1.5rem;
+	text-align:center;
+}
+.submit_btn{
+	width:7rem;
+	height:2.6rem;
+	color:#fff;
+	float:right;
+	margin:2rem 3rem 0 0 ;
+	background:#fe7e37;
+	font-size:1.333rem;
+	line-height:2.4rem;
+}
+.qx_submit_btn{
+	width:7rem;
+	height:2.6rem;
+	color:#fff;
+	float:right;
+	margin:2rem 3rem 0 0 ;
+	background:#b4b4b4;
+	font-size:1.333rem;
+	line-height:2.4rem;
+}
+.myplanbook_cont_r h3{
+	text-align:center;
+	font-size:2rem;
+	clear:both;
+	width:72%;
+	margin:0 auto;
+	height:4rem;
+	border-bottom:0.167rem #bfbfc0 solid;
+}
+.myplanbook_cont_r h3 span{
+	display:inline-block; 
+	color:#4a4a4a;
+	font-weight:bold;
+	margin-right:1.5rem;
+	
+}
+.notes{
+	width:90%;
+	margin:6.5rem auto 0  auto;	
+	clear:both;
+}
+.notes span{
+	width:2rem;
+	height:2rem;
+	border-radius:2rem;
+	background:#1aa97b;
+	display:inline-block;
+	float:left;
+	text-align:center;
+	color:#fff;
+	line-height:2rem;
+	font-size:2rem;
+}
+.notes strong{
+	display:inline-block;
+	font-size:1.333rem;
+	color:#4a4a4a;
+	font-weight:normal;
+	float:left;
+	margin-left:0.5rem;
+}
+.myplanbook_catalog{
+	width:80%;  
+	position: absolute;
+	top:10rem;
+	bottom: 0; 
+	left:5rem;
+	overflow:hidden;
+}
+.myplanbook_catalog1{
+	clear:both;
+}
+.myplanbook_catalog h4{
+	font-size:1.333rem;
+	height:2.5rem;
+	line-height:2.5rem;
+}
+.myplanbook_catalog h4 span{
+	width:0.7rem;
+	height:0.7rem;
+	background:#1aa97b;
+	display:block;
+	margin-right:1rem;
+	float:left;
+	margin-top:0.9rem;
+}
+.myplanbook_catalog h4 a{
+	display:inline-block;
+	line-height:2.5rem;
+}
+.strong_act{
+	width:1.6rem;
+	height:1.6rem;
+	border-radius:1.6rem;
+	background:#fff;
+	display:inline-block;
+	float:right;
+	text-align:center;
+	color:#acadad;
+	line-height:1.6rem;
+	font-size:1.5rem;
+	margin-left: 1rem;
+    margin-top: 0.5rem;
+	border:0.083rem #acadad solid;
+}
+.span_act{
+	width:1.6rem;
+	height:1.6rem;
+	border-radius:1.6rem;
+	background:#1aa97b;
+	display:inline-block;
+	float:right;
+	text-align:center;
+	color:#fff;
+	line-height:1.6rem;
+	font-size:1.5rem;
+	margin-left: 1rem;
+    margin-top: 0.5rem;
+	border:none;
+}
+.sub_strong_act{
+	width:1.6rem;
+	height:1.6rem;
+	border-radius:1.6rem;
+	background:#acadad;
+	display:inline-block;
+	float:right;
+	text-align:center;
+	color:#fff;
+	font-size:1.5rem;
+	margin-left: 1rem;
+    margin-top: 0.5rem;
+	line-height:1.6rem;
+	border:none;
+}
+.myplanbook_catalog ul{ 
+	border-left: 0.083rem #1aa97b solid;
+	margin-left: 0.3rem; 
+	display:block;
+}
+.myplanbook_catalog ol{  
+	display:block;
+}
+.myplanbook_catalog ul li{
+	font-size:1.333rem;
+	padding-left: 2rem;
+	line-height:2.5rem;
+} 
+.myplanbook_catalog ul li a{
+	display:inline-block;
+	line-height:2.5rem;
+}
+.myplanbook_catalog ul li a.book_act{
+	background:#1aa97b;
+	border-top-right-radius:1.2rem;
+	border-bottom-right-radius:1.2rem;
+	color:#fff;
+	padding-right:1rem;
+	padding-left: 0.2rem;
+}
+.myplanbook_catalog h4 a.book_act{
+	background:#1aa97b;
+	border-top-right-radius:1.2rem;
+	border-bottom-right-radius:1.2rem;
+	color:#fff;
+	padding-right:1rem;
+	padding-left: 0.2rem;
+}
+/* dlog  list */
+.cw_menu_wrap{
+	width:100%;
+	height:100%;
+	position: fixed;
+    z-index: 102;
+    display:none;
+}
+.cw_menu_list{
+	left:50%;
+	margin-left:-29rem;
+	top:28%; 
+	position: absolute; 
+	z-index:1;
+	width:auto;
+}
+.cw_menu_list .cw_menu_list_top{
+	width:2.333rem;
+	height:1.25rem;
+	display:block;
+	margin:0 auto;
+	background:url(../../courseware/images/menu_top1.png) no-repeat;
+}
+.cw_menu_list_wrap1 p.act{
+	  background: url(../../courseware/images/act.png) no-repeat right center;
+	  display: block;
+	  display: -webkit-box;
+	  background-size: 12% 50%; 
+	  margin-right:0.4rem;
+}
+.cw_menu_list_wrap1{
+	background:#fff;
+	height:auto;
+	max-height:14rem; 
+	list-style:none; 
+	border-radius:0.5rem; 
+	position: relative;
+	overflow:hidden;
+}
+.cw_menu_list_wrap1 p{
+	height:3.167rem;
+	line-height:3.167rem;
+	font-size:1.167rem;
+	color:#4f4f4f;
+	padding-left:0.417rem;
+	border-bottom:0.083rem #b7b7b7 dotted; 
+	padding-right:4rem;
+	margin: 0 0.2rem;
+}
+
+
+
+
+
+.content_left{
+	width:20%;
+	height:45rem;
+	margin-top:2.5rem;
+	background:#fff;
+	border:0.25rem #d9dadb solid;
+	border-left:0;
+	position: relative;
+	float:left;
+}
+.content_left h3{
+	text-align:center;
+	font-size:2rem;
+	clear:both;
+	width:72%;
+	margin:3rem auto 0 auto;
+	height:4rem;
+	border-bottom:0.167rem #bfbfc0 solid;
+}
+.myplanbook_cont_r h3 span{
+	display:inline-block; 
+	color:#4a4a4a;
+	font-weight:bold;
+	margin-right:1.5rem;
+}
+.content_right1{
+	width:10%;
+	float:left;
+	position: absolute;
+	top: 0;
+	bottom: 0; 
+	right:0; 
+	background:#efeded;
+}
+.push_resources{
+	width:100%;
+	height:10rem; 
+	margin-top:12rem;
+}
+.push_resources_img{
+	width:5.333rem;
+	height:4.25rem;
+	background:url(../images/push.png) no-repeat;
+	margin:0.5rem auto;
+}
+.push_resources_text{
+	font-size:1.5rem;
+	text-align:center;
+	height:3rem;
+	line-height:3rem;
+}
+.peer_resources_text{
+	font-size:1.5rem;
+	text-align:center;
+	height:3rem;
+	line-height:3rem;
+}
+.peer_resources_img{
+	width:4.667rem;
+	height:5.333rem;
+	background:url(../images/peer.png) no-repeat; 
+	margin:0.5rem auto;
+}
+.peer_resources{
+	width:100%;
+	height:10rem;
+	margin-top:3rem; 
+}
+.content_right{
+	width:70%;
+	height:47rem;
+	position: relative; 
+	float:left;
+}
+.content_right_cont{
+	width:100%;
+	position: absolute;
+	top: 5rem;
+	bottom: 0; 
+	overflow:hidden;
+}
+.content_bottom_width{
+	width:88%;
+	margin:0 auto;
+}
+.add_cour{
+	border:0.083rem #e3e3e3 solid;
+}
+.add_cour_div{
+	width:9.833rem;
+	height:15rem;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:2.167rem;
+}
+.add_cour_div_top{
+	width:9.833rem;
+	height:11.5rem;
+	border:0.083rem #e0e0e0 dashed;
+	border-radius:0.333rem;
+	cursor: pointer;
+}
+.add_cour_div_top_img{
+	width:6.333rem;
+	height:6.333rem;
+	background:url(../../courseware/images/upload_courseware.png) no-repeat -29px -73px;
+	margin: 2.5rem auto;
+}
+.add_cour_div_bottom{
+	width:9.833rem;
+	height:3.5rem;
+	line-height:3.5rem;
+	color:#979797;
+	font-size:1.333rem;
+	text-align:center;
+}
+.content_bottom_width>div {
+  float: left;
+  width: 15rem;
+  height: 17rem;
+  border-radius: 0.4rem;
+  margin: 2.917rem 3rem 0 4rem;
+  background: #fff;
+  position: relative;
+}
+.content_bottom_width>div h3 {
+  clear: both;
+  font-size: 1.167rem;
+  width: 12.833rem;
+  height: 3.333rem;
+  line-height: 3.333rem;
+  text-align: center;
+  margin: 0 auto;
+  color: #707070;
+}
+.courseware_ppt p img {
+  width: 12.6rem;
+  height: 8.5rem;
+  background: url(../../courseware/images/upload_courseware.png) no-repeat -28px -164px;
+  margin: 0 auto;
+  cursor: pointer;
+  clear: both;
+  display: block;
+}
+.courseware_img_2 {
+  width: 2.25rem;
+  height: 2.25rem;
+  background: url(../../courseware/images/upload_courseware.png) no-repeat -57px -36px;
+  margin-top: 0.75rem;
+  margin-left: 0.5rem;
+  float: left;
+  cursor: pointer;
+}
+.courseware_img_3 {
+  width: 2.25rem;
+  height: 2.25rem;
+  background: url(../../courseware/images/upload_courseware.png) no-repeat -95px -36px;
+  margin-top: 0.75rem;
+  margin-right: 0.5rem;
+  float: right;
+  cursor: pointer;
+  position: relative;
+}
+.courseware_img_4 {
+  width: 2.25rem;
+  height: 2.25rem;
+  background: url(../../courseware/images/ping.png) no-repeat;
+  margin-top: 0.75rem;
+  margin-right: 0.5rem;
+  float: right;
+  cursor: pointer;
+  position: relative;
+}
+.cw_option_mask {
+  background: #000;
+  opacity: 0.1;
+  position: absolute;
+  width: 15rem;
+  left: 0;
+  bottom: 0;
+  height: 17rem;
+}
+.courseware_img_courseware {
+  width: 5.333rem;
+  height: 2rem;
+  background: url(../../courseware/images/upload_courseware.png) no-repeat -114px -95px;
+  margin-top: -0.5rem;
+  margin-left: 0.917rem;
+  text-align: center;
+  line-height: 2rem;
+  color: #fff;
+  font-size: 1.167rem;
+}
+.courseware_img_rethink {
+  width: 5.333rem;
+  height: 2rem;
+  background: url(../../rethink/images/upload_courseware.png) no-repeat -114px -95px;
+  margin-top: -0.5rem;
+  margin-left: 0.917rem;
+  text-align: center;
+  line-height: 2rem;
+  color: #fff;
+  font-size: 1.333rem;
+}
+.cw_option {
+  position: absolute;
+  width: 15rem;
+  height: 14rem;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+}
+.cw_option_edit{
+	width:3em;
+	height:3em;
+	background:url(../../courseware/images/upload_courseware.png) no-repeat -127px -30px;
+	position: absolute;
+    bottom:0;
+    left: 0;
+    animation:edit .5s;
+	-moz-animation:edit .5s; /* Firefox */
+	-webkit-animation:edit .5s; /* Safari and Chrome */
+	-o-animation:edit .5s; /* Opera */
+	animation-fill-mode:forwards;
+	-webkit-animation-fill-mode:forwards;
+	-o-animation-fill-mode:forwards;
+	-moz-animation-fill-mode:forwards;
+}
+@keyframes edit
+{
+100% {left:0; bottom:10.5rem;}
+}
+.cw_option_del{
+	width:3em;
+	height:3em;
+	background:url(../../courseware/images/upload_courseware.png) no-repeat -167px -30px;
+	position: absolute;
+    bottom:0;
+    left:0;
+    animation:del .5s;
+	-moz-animation:del .5s; /* Firefox */
+	-webkit-animation:del .5s; /* Safari and Chrome */
+	-o-animation:del .5s; /* Opera */
+	animation-fill-mode:forwards;
+	-webkit-animation-fill-mode:forwards;
+	-o-animation-fill-mode:forwards;
+	-moz-animation-fill-mode:forwards;
+}
+@keyframes del
+{
+100% {left:3.5rem; bottom:9.5rem;}
+} 
+.cw_option_submit{
+	width:3em;
+	height:3em;
+	background:url(../../courseware/images/upload_courseware.png) no-repeat -207px -30px;
+	position: absolute;
+    bottom: 0;
+    left:0;
+    animation:submit .5s;
+	-moz-animation:submit .5s; /* Firefox */
+	-webkit-animation:submit .5s; /* Safari and Chrome */
+	-o-animation:submit .5s; /* Opera */
+	animation-fill-mode:forwards;
+	-webkit-animation-fill-mode:forwards;
+	-o-animation-fill-mode:forwards;
+	-moz-animation-fill-mode:forwards;
+}
+@keyframes submit
+{
+100% {left:7rem; bottom:7rem;}
+} 
+.cw_option_share{
+	width:3em;
+	height:3em;
+	background:url(../../courseware/images/upload_courseware.png) no-repeat -247px -30px;
+	position: absolute;
+    bottom: 0;
+    left:0;
+     animation:share .5s;
+	-moz-animation:share .5s; /* Firefox */
+	-webkit-animation:share .5s; /* Safari and Chrome */
+	-o-animation:share .5s; /* Opera */
+	animation-fill-mode:forwards;
+	-webkit-animation-fill-mode:forwards;
+	-o-animation-fill-mode:forwards;
+	-moz-animation-fill-mode:forwards;
+}
+@keyframes share
+{
+100% {left:9.8rem; bottom:3.7rem;}
+} 
+.cw_option_down{
+	width:3em;
+	height:3em;
+	background:url(../../courseware/images/upload_courseware.png) no-repeat -286px -30px;
+	position: absolute;
+    bottom: 0;
+    left:0;
+     animation:down .5s;
+	-moz-animation:down .5s; /* Firefox */
+	-webkit-animation:down .5s; /* Safari and Chrome */
+	-o-animation:down .5s; /* Opera */
+	animation-fill-mode:forwards;
+	-webkit-animation-fill-mode:forwards;
+	-o-animation-fill-mode:forwards;
+	-moz-animation-fill-mode:forwards;
+}
+ @keyframes down
+{
+100% {left:11.6rem; bottom:0.2rem;}
+}
+.cw_option_close{
+	width:2.5em;
+	height:2.5em;
+	background:url(../../courseware/images/upload_courseware.png) no-repeat -246px -90px;
+	position: absolute;
+    bottom: 0.417rem;
+    left:0.333rem;
+}
+.border1{
+	border:0.083rem #fff solid;
+}
+.border{
+	border:0.083rem #5eb262 solid;
+}
+
+
+
+/*添加文件*/
+.zx_option_wrap{
+	width:100%;
+	height:100%;
+	position: fixed;
+    z-index: 102;
+    display:none;
+}
+
+.zx_option{
+	width:49rem;
+	height:16.333rem;
+	position: absolute;
+	left:50%;
+	margin-left:-14rem;
+	top:40%; 
+	z-index:101;
+}
+.zx_option_ja{
+	width:16.333rem;
+	height:16.333rem;
+	float:left;
+	background:url(../images/zxja.png) no-repeat;
+	
+}
+.zx_option_kj{
+	width:16.333rem;
+	height:16.333rem;
+	float:left;
+	background:url(../images/sckj.png) no-repeat;
+}
+.zx_option_fs{
+	width:16.333rem;
+	height:16.333rem;
+	float:left;
+	background:url(../images/zxfs.png) no-repeat;
+}
+/*添加文件*/
+
+/* dlog  add */
+.add_upload_wrap{
+	width:100%;
+	height:100%;
+	position: fixed;
+    z-index: 102;
+    display:none;
+}
+.add_up_wrap{
+	width:100%;
+	height:100%;
+	position: fixed;
+    z-index: 103;
+    display:none;
+}
+.add_upload_wrap1{
+	width:100%;
+	height:100%;
+	position: fixed;
+    z-index: 103;
+    display:none;
+}
+.add_upload{
+	width:45rem;
+	height:33rem;
+	position: absolute;
+	left:50%;
+	margin-left:-22.5rem;
+	top:20%; 
+	background:#fff;
+	z-index:104;
+}
+.add_upload_title{
+	width:45rem;
+	height:4.083rem; 
+	background:#f4f4f4; 
+	border-bottom:0.083rem #dbdbdb solid;
+}
+.add_upload_title h3{
+	width:42rem;
+	height:4.083rem; 
+	text-align:center;
+	font-size:1.667rem;
+	color:#666666;
+	line-height:4.083rem;
+	float:left;
+}
+.add_upload_title span{
+	width:1.583rem;
+	float:right;
+	height:1.667rem;
+	display:block;
+	margin-right:1.2rem;
+	margin-top:1.3rem;
+	background:url(../../courseware/images/upload_courseware.png) no-repeat -7px -37px;
+}
+.add_upload_content{
+	width:45rem;
+	height:24.25rem;
+}
+.add_upload_content form{
+	padding-top:3.75rem;
+}
+.add_upload_content form .form_input{
+	clear:both;
+	height:3.5rem;
+	margin-bottom:3.083rem;
+	margin-left: 5.7rem;
+	position: relative;
+}
+.add_upload_content form div .menu_list{
+	left:8.5rem;
+	top:4rem;
+	position: absolute; 
+	z-index:2;
+	width:18.25rem;
+	height:31rem; 
+}
+.add_upload_content form div .menu_list .menu_list_top{
+	width:2.333rem;
+	height:1.25rem;
+	display:block;
+	margin:0 auto;
+	background:url(../../courseware/images/menu_top.png) no-repeat;
+}
+.add_upload_content form div .menu_list_wrap1 p.act{
+	background: url(../../courseware/images/act.png) no-repeat 13rem 0.9rem;
+	display: block;
+	display: -webkit-box;
+	background-size: 12% 50%;
+}
+.add_upload_content form div .menu_list_wrap1{
+	background:#f3f2f2;
+	height:31rem; 
+	list-style:none; 
+	border-radius:0.5rem; 
+	border:0.083rem #DBDBDB solid;
+	position: relative;
+	overflow:hidden;
+}
+.add_upload_content form div .menu_list_wrap1 .menu_2{
+	padding-left:20px;
+}
+.add_upload_content form div .menu_list_wrap1 .menu_3{
+	padding-left:30px;
+}
+.add_upload_content form div .menu_list_wrap1 p{
+	height:3.167rem;
+	line-height:3.167rem;
+	font-size:1.333rem;
+	color:#4f4f4f;
+	padding-left:0.417rem;
+	border-bottom:0.083rem #b7b7b7 dotted;
+}
+.add_upload_content form div label{
+	width:6.333rem;
+	height:3.5rem;
+	line-height:3.5rem;
+	font-size:1.5rem;
+	float:left;
+}
+.add_upload_content form div strong q{
+	width:2.5rem;
+	height:3rem;
+	display:block;
+	top: 0.2rem;
+    right: 1rem;
+    position: absolute;
+	background:url(../../courseware/images/upload_courseware.png) no-repeat -25px -28px; 
+}
+.add_upload_content form div strong input{
+	margin-left:-11.3rem;
+}
+.add_upload_content form div strong:active{ 
+	background:#D1D0D0;
+}
+.add_upload_content form div strong{
+	width:23rem;
+	height:3.5rem;
+	background:#f1f1f1; 
+	font-weight: normal;
+	border:0.083rem #DBDBDB solid; 
+	display:block;
+	float:left;
+	font-size:1.5rem;
+	line-height:3.5rem;
+	text-align:center; 
+	border-radius:0.5rem;
+	color:#474747;
+	position: relative;
+}
+.btn_upload{
+	width:23rem;
+	height:3.7rem;
+	line-height:3.333rem;
+	color:#fff;
+	text-align:center;
+	font-size:1.667rem;
+	display:block;
+	border-radius:0.5rem;
+	background:#fe7e37;
+	margin:6rem auto;
+	/* margin-left: 11.5rem; */
+}
+.btn_edit{
+	width:13rem;
+	height:3.7rem;
+	line-height:3.7rem;
+	color:#fff;
+	text-align:center;
+	font-size:1.667rem;
+	display:block;
+	border-radius:0.5rem;
+	background:#fe7e37;
+	margin-left:8rem;
+	float:left;
+}
+/* dlog  add */
+
+/* 听课意见列表 */
+.class_comments_wrap{
+	width:100%;
+	height:100%;
+	position: fixed;
+    z-index: 103;
+    display:none;
+}
+.class_comments{
+	width:45rem;
+	height:33rem;
+	position: absolute;
+	left:50%;
+	margin-left:-22.5rem;
+	top:20%; 
+	background:#fff;
+	z-index:104;
+}
+.class_comments_title{
+	width:45rem;
+	height:4.083rem; 
+	background:#f4f4f4; 
+	border-bottom:0.083rem #dbdbdb solid;
+}
+.class_comments_title h3{
+	width:42rem;
+	height:4.083rem; 
+	text-align:center;
+	font-size:1.5rem;
+	color:#666666;
+	line-height:4.083rem;
+	float:left;
+}
+.class_comments_title span{
+	width:1.583rem;
+	float:right;
+	height:1.667rem;
+	display:block;
+	margin-right:1.2rem;
+	margin-top:1.3rem;
+	background:url(../../courseware/images/upload_courseware.png) no-repeat -7px -37px;
+}
+.class_comments_content{
+	width:45rem;
+	height:27em;
+	padding-top:1.25rem;
+	position: relative;
+}
+.class_comments_content table{
+	width:85%;
+	margin:0 auto;
+	border:0.083rem #d6d6d6 solid;	
+}
+.class_comments_content table tr{
+	height:3.417rem;	
+}
+.class_comments_content table tr th{ 
+	font-size:1.333rem;
+	height:3.417rem;
+	font-weight:normal;	
+	width:20%;
+}
+.class_comments_content table tr td{
+	height:3.25rem;	
+	font-size:1.333rem;
+	text-align:center;
+	width:20%;
+}
+.class_comments_content table tr td strong{
+	width: 2.5rem;
+  height: 3.25rem;
+  background: url(../images/ser.png) no-repeat right center;
+  display: inline-block;
+  float: left;
+  margin-right: 0.4rem;
+}
+.class_comments_content table tr td span{ 
+	display:inline-block;
+	color:#fe7e37;
+	height:3.25rem;	
+	line-height:3.25rem;
+	float:left;
+}
+.class_table{ 
+	width:100%; 
+	position: absolute;
+	top: 4.9rem;
+	bottom: 0; 
+	overflow:hidden;
+}
+/* 听课意见列表 */
+

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="
+          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+	<bean id="defaultSchoolYearTask" class="com.tmser.tr.back.task.service.SchoolYearTaskHolder">
+		<property name="tasks">
+			<list>
+			<bean class="com.tmser.tr.back.task.service.HistoryTask"></bean><!-- child task -->
+			<bean class="com.tmser.tr.back.task.service.RecordSchoolYearTask"></bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="syncSchoolTask" class="com.tmser.tr.back.task.service.SyncSchoolTask"></bean>
+	
+    <!-- 如下实现是通过线程池执行的 -->
+    <task:executor id="executor" pool-size="2"/>
+    <task:scheduler id="scheduler" pool-size="2"/>
+    <task:scheduled-tasks scheduler="scheduler">
+        <!--  自动清理删除无效资源 每天2点执行执行 -->
+        <task:scheduled ref="defaultResourceCleanTask" method="execute" cron="0 0 2 * * ?"/>
+        <task:scheduled ref="defaultSchoolYearTask" method="execute" cron="${history_split_cron}"/>
+        <!-- 同步学校 每天3点执行 -->
+        <task:scheduled ref="syncSchoolTask" method="execute" cron="0 0 3 1 * ?"/>
+    </task:scheduled-tasks>
+</beans>

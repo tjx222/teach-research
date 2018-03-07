@@ -1,0 +1,25 @@
+@charset "utf-8";
+div.content_wrap {width:1000x;}
+div.content_wrap div.left{float:left;width: 230px;}
+div.content_wrap div.right{float:left;width: 820px;}
+div.zTreeDemoBackground {width:250px;text-align:left;margin-left:5px;}
+ul.info li p{height: 35px;line-height: 35px;}
+ul.info li p input{width: 155px;}
+ul.ztree {border:1px solid #b8d0d6;background:#F3F3FA;width:210px;height:275px;overflow-y:scroll;overflow-x:auto;}
+a.btnDelete{background: url(img/delete.png) no-repeat;width:16px;height:16px;display: block;float:left;margin: 2px auto;}
+a.btn_Edit{background: url(img/edit.png) no-repeat;width:16px;height:16px;display: block;float:left;margin: 2px auto;}
+a.btnSee{background: url(img/see.png) no-repeat;width:16px;height:16px;display: block;float:left;margin: 2px auto;}
+a.btnClose{background: url(img/close.png) no-repeat;width:16px;height:16px;display: block;float:left;margin: 2px auto;}
+a.btnOpen{background: url(img/open.png) no-repeat;width:16px;height:16px;display: block;float:left;margin: 2px auto;}
+a.btnSet{background: url(img/set.png) no-repeat;width:16px;height:16px;display: block;float:left;margin: 2px auto;}
+a.btnReset{background: url(img/reset.png) no-repeat;width:16px;height:16px;display: block;float:left;margin: 2px auto;}
+a.btnPunish{background: url(img/punish.png) no-repeat;width:16px;height:16px;display: block;float:left;margin: 2px auto;}
+a.btnPunish2{background: url(img/punish2.png) no-repeat;width:16px;height:16px;display: block;float:left;margin: 2px auto;}
+a.btnTop{background: url(img/top.png) no-repeat;width:16px;height:16px;display: block;float:left;margin: 2px auto;}
+a.btnTop2{background: url(img/top2.png) no-repeat;width:16px;height:16px;display: block;float:left;margin: 2px auto;}
+a.btnDisplay{background: url(img/display.png) no-repeat;width:16px;height:16px;display: block;float:left;margin: 2px auto;}
+a.btnDisplay2{background: url(img/display2.png) no-repeat;width:16px;height:16px;display: block;float:left;margin: 2px auto;}
+a.btnTop{background: url(img/zd.png) no-repeat;width:12px;height:13px;display: block;float:left;margin: 4px auto;}
+a.btnTop2{background: url(img/qxzd.png) no-repeat;width:12px;height:13px;display: block;float:left;margin: 4px auto;}
+a.btnDefault{background: url(img/mr.png) no-repeat;width:16px;height:16px;display: block;float:left;margin: 4px 6px;}
+a.btnDefault2{background: url(img/qxmr.png) no-repeat;width:16px;height:16px;display: block;float:left;margin: 4px 6px;}

@@ -1,0 +1,424 @@
+body,html{
+	background: #f2f2f2;
+	font-family: "Microsoft Yahei";
+}
+
+.Growth_Portfolio_content{
+	width:1200px;
+	height:auto;
+	min-height: 500px;
+	margin:0 auto;
+	background: #fff;
+	padding-bottom:30px;
+}
+.Growth_Portfolio_cont{
+	width:1200px;
+	height:auto;
+	min-height: 500px;
+	margin:0 auto; 
+}
+.Growth_Portfolio_content1{
+	width:1120px;
+	height:auto;
+	margin:0 auto;
+	min-height: 500px;
+}
+.Growth_Portfolio_content1_h3{
+	height: 37px;
+	line-height: 37px;
+	padding-top: 16px;
+	font-size: 18px;
+    padding-left: 25px;  
+    font-weight: bold;
+    float: left; 
+}
+.record_cont1_h3 span{ 
+	margin-left: 18px;
+	margin-right: 18px;
+	font-size: 14px;
+	color: #4a4a4a;
+}
+
+.Growth_Portfolio_jx_cont{
+	width: 1120px;
+	height: auto;
+	padding:10px 0 0 0;
+}
+.jx_btn{
+	background: url(../../../common/images/common_btn.png);
+	background-position: -105px -164px; 
+    width: 102px;
+    height: 28px;
+    border: 0; 
+    font-size: 14px;
+    margin-right:12px;
+    margin-top:15px;
+    float:right;
+}
+.Growth_jx_1{
+	width: 136px;
+    height: 165px;
+    float: left;
+    border: 1px #fff solid;
+    cursor: pointer;
+    position: relative;
+    margin-right: 20px;
+    margin-left: 25px;
+    margin-bottom: 20px; 
+}
+.Growth_Portfolio_jx{
+	border-bottom: 1px #c4c4c4 solid;
+	width:1120px;
+	margin:0 auto;
+	height:50px;
+}
+.Growth_Portfolio_jx1{
+	width:1120px;
+	height:50px;
+}
+.Growth_jx_1 dl{
+	width: 136px;
+    height: 165px;
+}
+.Growth_jx_1 dl dd{
+	padding-top:15px;
+	width: 136px;
+    height: 65px;
+    position: relative;
+}
+.Growth_jx_1 dl dd img{
+	display:block;
+	margin:0 auto;
+	width: 64px;
+    height: 63px;
+}
+.Growth_jx_1 dl dt{
+	width: 136px;
+    height: 60px;
+    text-align: center;
+}
+.Growth_jx_1 dl dt span{
+	display: inline-block;
+    line-height: 20px;
+}
+.Growth_jx_1:hover dl{ 
+	display: block;
+	-moz-box-shadow: 0px 3px 11px #a9a9a9;/* for firefox */
+	-webkit-box-shadow: 0px 3px 11px #a9a9a9;/* for safari or chrome */
+	box-shadow:0px 3px 11px #a9a9a9;/* for opera or ie9 */
+} 
+.Growth_jx_1:hover .show_p{
+	display: block;
+}
+.Growth_jx_1 .show_p{
+	width:136px;
+	height: 30px;  
+	display: none;
+	position: absolute;
+    bottom: 0;
+}
+.li_del{
+	width: 13px;
+	height: 16px;
+	background: url('../images/record/bg.png');
+	background-position: -123px -3px; 
+}
+.li_del1{
+	background: url(../../../common/images/common_bg.png);
+    background-position: -68px -18px;
+    width: 15px;
+    height: 15px;
+    display: block;
+    margin: 0 auto;
+    cursor: pointer;
+}
+.img2{  
+    display:block;
+	margin:0 auto;
+	cursor:pointer;
+}
+.li_edit{
+	width: 16px;
+	height: 16px;
+	background: url('../images/record/bg.png');
+	background-position: -102px -4px; 
+} 
+.jz_li_edit{
+	width: 16px;
+	height: 16px;
+	background: url('../images/record/bg.png');
+	background-position: -102px -25px; 
+}
+.jz_li_del{
+	width: 13px;
+	height: 16px;
+	background: url('../images/record/bg.png');
+	background-position: -123px -24px; 
+}
+.li_down{
+	width: 16px;
+	height: 14px;
+	background: url('../images/record/bg.png');
+	background-position: -181px -23px; 
+}
+.Growth_jx_1 .show_p ol li{
+	float: left; 
+	margin-left: 7px;
+	margin-top: 7px;
+	cursor: pointer;
+	position: relative;
+}  
+.jx_list_content{
+	width: 1200px;
+    background: #fff;
+    min-height: 650px;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom:15px;
+}
+.cen_btn{
+	background: #fe7e37;
+    width: 70px;
+    height: 28px;
+    border: 0;
+    color: #fff;
+    margin-top:13px;
+    font-size: 14px;
+    float: left;
+}
+.txt_btn{
+	width: 16px;
+    height: 16px;
+    background: url(../../../common/images/common_bg.png);
+    background-position: -166px -56px;
+    border: none;
+    margin: 5px 2px 0 0;
+    float: right;
+}
+#searchForm p {
+    position: relative;
+    width: 170px;
+    float: left;
+    height: 26px;
+    background: #fff;
+    border: 1px #d2d2d2 solid;
+    margin-top: 13px;
+    margin-right: 8px;
+}
+.txt_seh {
+    width: 145px;
+    height: 24px;
+    border: none;
+    float:left;
+    padding-left:5px;
+    line-height: 20px;
+}
+#searchForm{
+	float:right; 
+}
+.Growth_Portfolio_jx h4 {
+    width: 46px; 
+    line-height: 27px;
+    color: #2890fb;
+    height: 27px;
+    float:right;
+    font-size:14px;
+    margin-top: 13px;
+}
+.Growth_Portfolio_tab{
+	width:1120px;
+	margin:0 auto;
+}
+.Growth_Portfolio_table{
+	width: 1100px;
+    margin: 10px auto 23px auto;
+}
+.Growth_Portfolio_table table {
+    width: 100%;
+}
+.Growth_Portfolio_table table tr th {
+    height: 30px;
+    line-height: 30px;
+    background-color: #e6f0f8;
+    border-right: 1px #fff solid;
+    font-size: 14px;
+    font-weight: bold;
+}
+.Growth_Portfolio_table table tr td {
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px #d3d3d3 dashed;
+    text-align: center;
+    font-size: 14px;
+    position: relative;
+}
+.tspan{
+	background: url('../images/record/bg.png');
+	background-position: -159px -23px;
+    position: absolute;
+    right: 27px;
+    top: 8px;
+    width: 18px;
+    height: 17px;
+}
+.threeSpot{
+	white-space: nowrap;
+    width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.tspan1{
+	background: url('../images/record/bg.png');
+	background-position: -159px -23px;
+    position: absolute;
+    right: 2px;
+    top: 11px;
+    width: 18px;
+    height: 17px;
+}
+.Reflect_cont_left{
+	width: 294px;
+    height: 555px;
+    float: left;
+    background: #fff;
+}
+.Reflect_cont_right {
+    width: 886px;
+    height: 555px;
+    float: right;
+    background: #fff;
+}
+.Reflect_cont_right h3{
+	height: 39px;
+    line-height: 39px;
+    border-bottom: 1px #e5e5e5 solid; 
+    font-size: 14px; 
+    padding-left: 10px;
+    color: #525252; 
+    font-weight: bold;
+    width: 865px;
+    margin:0 auto; 
+}
+.Reflect_cont_left h3 {
+    height: 40px;
+    width: 284px;
+    line-height:40px;
+    padding-left:10px;
+    font-size: 16px;
+    border-bottom: 1px #d3d3d3 dashed;
+}
+.Reflect_cont_left_1 form p {
+    height: 25px;
+    line-height: 25px;
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 23px;
+}
+.Reflect_cont_left_1 form p textarea {
+    position: absolute;
+    width: 173px;
+    border: 1px #999 solid;
+    font-size:14px;
+    height: 220px;
+}
+
+.input_txt{
+	border:1px #999 solid;
+	height: 25px;
+	line-height: 25px;
+	width: 180px;
+	padding-left:5px;
+}
+.txt_txt{ 
+    height: 25px;
+    width: 180px;
+	padding-left:5px;
+    border: 1px solid #999;
+}
+.btn_bottom{
+	text-align:center;
+	width:100%;
+}
+.btn_bottom_1,.btn_bottom_3{
+	width: 80px;
+    height: 28px;
+    line-height:28px;
+    color: #fff;
+    margin-right: 10px;
+    background: #ff9d34;
+    border: none;
+    font-size: 14px;
+    display: inline-block;
+}
+.btn_bottom_2,.btn_bottom_4 {
+	width: 80px;
+    height: 28px;
+    line-height:28px;
+    color: #fff;
+    margin-right: 10px; 
+    border: none;
+    font-size: 14px;
+    display: inline-block;
+    background: #3ab4f0;
+}
+.title{
+	white-space: nowrap;
+    width: 136px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.Growth_Portfolio_bottom {
+    width: 435px;
+    height: 260px;
+    background: #fff;
+    padding-top: 30px;
+    overflow: auto;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+.Growth_Portfolio_bottom p {
+    width: 435px;
+    position: relative;
+}
+.Growth_Portfolio_bottom p label {
+    width: 50px;
+    float: left;
+    font-size: 14px;
+    line-height: 21px;
+}
+.Growth_Portfolio_bottom p span {
+    float: left;
+    width: 360px;
+    height: 55px;
+    text-align: left;
+    line-height: 20px;
+}
+.Growth_Portfolio_bottom strong {
+    color: #aeaeae;
+    font-weight: bold; 
+    display: block;
+    margin-left: 45px;
+    width: 140px;
+    line-height: 25px;
+}
+.Growth_Portfolio_bottom p textarea {
+    margin-left: 0\0;
+    width: 300px;
+    height: 100px;
+    border: 1px #9f9f9f solid;
+}.Growth_Portfolio_bottom .strong_sty {
+    display: block;
+    line-height: 25px;
+    width: 140px;
+    margin-left: 48px;
+}
+.courseware_title_p_span {
+    color: red;
+    float: left;
+    line-height: 25px;
+    font-size: 14px;
+    width: 7px;
+    display: inline-block;
+    height: 30px;
+}
