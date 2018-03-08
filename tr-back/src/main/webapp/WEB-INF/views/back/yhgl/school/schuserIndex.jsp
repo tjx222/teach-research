@@ -92,11 +92,6 @@
 						<li><a href="${ctx}jy/back/yhgl/exportsDetails?templateType=xxyh&phaseId=${model.phaseId}&orgId=${model.orgId}" class="icon"><span>导出用户</span></a></li>
 						</c:if>
 						<li><a target="dialog" href="${ctx}jy/back/yhgl/upSchoolYear?orgId=${model.orgId}" class="edit" rel="update_sch_year"  mask="true"><span>更新学年</span></a></li>
-						<shiro:hasPermission name="yhgl_xx_tb">
-						<li>
-							<a class="add" href="${ctx}/jy/ws/user/choiceUserInfo?orgId=${model.orgId}" target="dialog" mask="true" width="300"><span>账号同步到优课</span></a>
-						</li>
-						</shiro:hasPermission>
 						<li class="line">line</li>
 					</ul>
 				</div>

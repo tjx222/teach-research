@@ -114,9 +114,9 @@ $(function(){
 							</li>
 						</shiro:hasPermission>
 						<shiro:hasPermission name="yygl">
-							<li><a>应用管理</a>
+							<li><a>模块管理</a>
 								<ul>
-									<li><a href="${ctx}jy/back/yygl/index" target="navTab" rel="applicationManage">应用管理</a></li>
+									<li><a href="${ctx}jy/back/yygl/index" target="navTab" rel="applicationManage">模块管理</a></li>
 								</ul>
 							</li>
 						</shiro:hasPermission>

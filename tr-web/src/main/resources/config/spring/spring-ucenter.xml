@@ -19,16 +19,4 @@
 		</property>
 		<property name="encodeServiceIndex" value="0" />
 	</bean>
-	
-	<!-- 开启账号信息更新AOP监听 只对当前配置文件有效 -->
-    <aop:aspectj-autoproxy expose-proxy="true" proxy-target-class="true"/>
-    
-	<bean id="userInfoAdvisor" class="com.tmser.tr.webservice.user.aop.UserInfoSyncAdvisor"></bean>  
-    <aop:config expose-proxy="true" > 
-	 <aop:pointcut  id="userInfoPointcut"  expression="within( com.tmser.tr.common.service.BaseService+) and execution(* update(..)) and target(com.tmser.tr.uc.service.impl.LoginServiceImpl) "/>  
-	 <aop:aspect ref="userInfoAdvisor"> 
-	 	<aop:before  pointcut-ref="userInfoPointcut"  method="beforeSyncUserInfo" />
-	  	<aop:after-returning  pointcut-ref="userInfoPointcut"  method="syncUserInfo" />
-	 </aop:aspect>
-	</aop:config> 
 </beans>

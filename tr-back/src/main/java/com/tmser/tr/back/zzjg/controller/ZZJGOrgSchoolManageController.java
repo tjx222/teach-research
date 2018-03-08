@@ -16,7 +16,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,10 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
 import com.tmser.tr.back.logger.LoggerModule;
-import com.tmser.tr.back.logger.bo.OperateLog;
 import com.tmser.tr.back.logger.service.OperateLogService;
-import com.tmser.tr.back.zzjg.SyncSchConstant;
-import com.tmser.tr.back.zzjg.service.SynchronizeOrgService;
 import com.tmser.tr.back.zzjg.service.ZZJGOrgSchoolManageService;
 import com.tmser.tr.common.orm.SqlMapping;
 import com.tmser.tr.common.page.PageList;
@@ -77,8 +73,6 @@ public class ZZJGOrgSchoolManageController extends AbstractController {
   private OrganizationRelationshipService organizationRelationshipService;
   @Autowired
   private OperateLogService operateLogService;
-  @Autowired
-  private SynchronizeOrgService synchronizeOrgService;
 
   @RequestMapping("/addDept")
   public String addDept(Model model, Integer parentId) {
@@ -747,37 +741,6 @@ public class ZZJGOrgSchoolManageController extends AbstractController {
     }
     organizationRelationshipService.batchInsert(orList);
     return re;
-  }
-
-  @RequestMapping("/syncSch")
-  public String syncSch(Model m) {
-    OperateLog operateLog = new OperateLog();
-    operateLog.setType(SyncSchConstant.SYNCSCH_FAILED_TYPE);
-    operateLog.setMessage(SyncSchConstant.SYNCSCH_FAILED);
-    operateLog.setModule(LoggerModule.SYNCSCHOOL.getCname());
-    operateLog.addOrder(" createtime desc");
-    List<OperateLog> list = operateLogService.findAll(operateLog);
-    m.addAttribute("tasks", list);
-    return viewName("shoManger/syncSch");
-  }
-
-  @RequestMapping("/syncSch/execute/{id}")
-  @ResponseBody
-  public JuiResult doSyncSch(@PathVariable("id") Long id) {
-    JuiResult jrs = new JuiResult();
-    jrs.setCallbackType("");
-    jrs.setMessage("同步成功");
-    try {
-      OperateLog model = operateLogService.findOne(id);
-      synchronizeOrgService.synchronousSchool(model.getThreadName(), null, id);
-      model.setMessage(SyncSchConstant.SYNCSCH_SUCCESS);
-      model.setType(SyncSchConstant.SYNCSCH_SUCCESS_TYPE);
-      operateLogService.update(model);
-    } catch (Exception e) {
-      jrs.setStatusCode(JuiResult.FAILED);
-      jrs.setMessage("同步失败");
-    }
-    return jrs;
   }
 
 }

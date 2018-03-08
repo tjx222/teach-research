@@ -12,7 +12,7 @@ CREATE TABLE `annunciate_punish_view` (
   UNIQUE KEY `annunciateId_userId_index` (`annunciate_id`,`user_id`) USING BTREE,
   KEY `user_id_index` (`user_id`) USING BTREE,
   KEY `annunciate_id_index` (`annunciate_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=843 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 DROP TABLE IF EXISTS `bk_operate_log`;
 CREATE TABLE `bk_operate_log` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -25,7 +25,7 @@ CREATE TABLE `bk_operate_log` (
   `caller_class` varchar(128) DEFAULT NULL,
   `thread_name` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11612 DEFAULT CHARSET=utf8 COMMENT='后台操作日志';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='后台操作日志';
 DROP TABLE IF EXISTS `check_info`;
 CREATE TABLE `check_info` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -47,7 +47,7 @@ CREATE TABLE `check_info` (
   `has_optinion` tinyint(1) DEFAULT NULL,
   `level` int(11) DEFAULT '2',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1564 DEFAULT CHARSET=utf8 COMMENT='查阅信息表。';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='查阅信息表。';
 
 
 DROP TABLE IF EXISTS `check_opinion`;
@@ -68,7 +68,7 @@ CREATE TABLE `check_opinion` (
   `opinion_id` int(11) DEFAULT NULL COMMENT '原始意见id',
   `space_id` int(11) DEFAULT NULL COMMENT '用户空间id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2975 DEFAULT CHARSET=utf8 COMMENT='查阅意见表';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='查阅意见表';
 
 DROP TABLE IF EXISTS `comment_info`;
 CREATE TABLE `comment_info` (
@@ -87,7 +87,7 @@ CREATE TABLE `comment_info` (
   `opinion_id` int(11) DEFAULT NULL COMMENT '顶级评论id',
   `title` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3639 DEFAULT CHARSET=utf8 COMMENT='评论信息表';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='评论信息表';
 
 
 DROP TABLE IF EXISTS `sys_book_sync`;
@@ -115,7 +115,7 @@ CREATE TABLE `sys_book_sync` (
   `area_id` int(11) DEFAULT NULL,
   `enable` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2402 DEFAULT CHARSET=utf8 COMMENT='书籍关联表';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='书籍关联表';
 
 
 DROP TABLE IF EXISTS `feedback_recieve`;
@@ -134,7 +134,7 @@ CREATE TABLE `feedback_recieve` (
   `sender_time` timestamp NULL DEFAULT NULL COMMENT '反馈时间',
   `ishavareply` tinyint(1) DEFAULT '0' COMMENT '是否已回复',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `feedback_reply`;
@@ -153,7 +153,7 @@ CREATE TABLE `feedback_reply` (
   `sender_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '回复时间',
   `pid` int(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `jy_activity`;
@@ -197,7 +197,7 @@ CREATE TABLE `jy_activity` (
   `organize_subject_id` int(5) DEFAULT '0' COMMENT '发起者的学科id',
   `organize_grade_id` int(5) DEFAULT '0' COMMENT '发起者的年级id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1193 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `jy_activity_attach`;
@@ -211,7 +211,7 @@ CREATE TABLE `jy_activity_attach` (
   `crt_id` int(10) DEFAULT NULL COMMENT '上传人id',
   `crt_dttm` datetime DEFAULT NULL COMMENT '上传时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=902 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `jy_activity_comment`;
@@ -308,7 +308,7 @@ CREATE TABLE `jy_activity_tracks` (
   `grade_id` int(10) DEFAULT NULL COMMENT '�꼶ID',
   `space_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=797 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `jy_activity_type`;
@@ -349,7 +349,7 @@ CREATE TABLE `jy_annunciate` (
   PRIMARY KEY (`id`),
   KEY `org_id_index` (`org_id`) USING BTREE,
   KEY `user_id_index` (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=641 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `jy_browsing_count`;
@@ -362,7 +362,7 @@ CREATE TABLE `jy_browsing_count` (
   `res_share` tinyint(1) DEFAULT NULL COMMENT '资源是否分享',
   `count` int(5) DEFAULT NULL COMMENT '浏览的次数',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=424 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='分享资源浏览记录';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='分享资源浏览记录';
 
 
 DROP TABLE IF EXISTS `jy_browsing_record`;
@@ -377,7 +377,7 @@ CREATE TABLE `jy_browsing_record` (
   `count` int(5) DEFAULT NULL COMMENT '浏览的次数',
   `last_time` datetime DEFAULT NULL COMMENT '最后浏览时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=826 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='分享资源浏览记录';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='分享资源浏览记录';
 
 
 DROP TABLE IF EXISTS `jy_class`;
@@ -394,7 +394,7 @@ CREATE TABLE `jy_class` (
   `lastup_id` int(11) DEFAULT NULL,
   `lastup_dttm` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8 COMMENT='学校班级';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='学校班级';
 
 
 DROP TABLE IF EXISTS `jy_class_user`;
@@ -412,7 +412,7 @@ CREATE TABLE `jy_class_user` (
   `lastup_dttm` datetime DEFAULT NULL,
   `enable` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=191 DEFAULT CHARSET=utf8 COMMENT='班级教师用户';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='班级教师用户';
 
 
 DROP TABLE IF EXISTS `jy_companion`;
@@ -428,7 +428,7 @@ CREATE TABLE `jy_companion` (
   `is_friend` int(2) DEFAULT NULL COMMENT '是否是朋友，1、是；0、否',
   `last_communicate_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2180 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `jy_companion_message`;
@@ -447,7 +447,7 @@ CREATE TABLE `jy_companion_message` (
   `attachment_3_name` varchar(256) DEFAULT NULL,
   `sender_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '留言发送时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1272 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `jy_discuss`;
@@ -464,7 +464,7 @@ CREATE TABLE `jy_discuss` (
   `is_voice` tinyint(1) DEFAULT '0' COMMENT '是否为语音信息：0-不是   1-是',
   `voice_length` double(6,2) DEFAULT '0.00' COMMENT '语音时长，长度单位 秒（s）',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1858 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `jy_flatform_announcement`;
@@ -479,7 +479,7 @@ CREATE TABLE `jy_flatform_announcement` (
   `cdate` datetime DEFAULT NULL COMMENT '发布时间',
   `isview` tinyint(1) DEFAULT '0' COMMENT '是否显示 0:不显示 1:显示',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `jy_flatform_picturenews`;
@@ -501,7 +501,7 @@ CREATE TABLE `jy_flatform_picturenews` (
   `parentid` int(10) DEFAULT NULL COMMENT '��id',
   `sort` int(3) DEFAULT NULL COMMENT '��ʾ˳��',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=144 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `jy_friend`;
@@ -592,7 +592,7 @@ CREATE TABLE `jy_notice` (
   PRIMARY KEY (`id`),
   KEY `serder_id_index` (`sender_id`) USING BTREE,
   KEY `receiver_id_index` (`receiver_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=12973 DEFAULT CHARSET=utf8 COMMENT='消息表';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='消息表';
 
 
 DROP TABLE IF EXISTS `jy_notice_total`;
@@ -620,7 +620,7 @@ CREATE TABLE `jy_plain_punish_view` (
   UNIQUE KEY `psId_userId_index` (`plain_summary_id`,`user_id`) USING BTREE,
   KEY `user_id_index` (`user_id`) USING BTREE,
   KEY `plain_summary_id_index` (`plain_summary_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1040 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `jy_plain_summary`;
@@ -657,7 +657,7 @@ CREATE TABLE `jy_plain_summary` (
   `user_role_id` int(11) NOT NULL,
   `label` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1403 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `jy_plain_summary_check`;
@@ -700,7 +700,7 @@ CREATE TABLE `jy_recommend_res` (
   `qualify` tinyint(4) DEFAULT NULL,
   `sort` int(5) DEFAULT NULL COMMENT '��ʾ˳��',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=114422 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `jy_red_title`;
@@ -716,7 +716,7 @@ CREATE TABLE `jy_red_title` (
   `lastup_dttm` datetime DEFAULT NULL COMMENT '最后更新时间',
   PRIMARY KEY (`id`),
   KEY `org_id_index` (`org_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=194 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `jy_school_banner`;
@@ -731,7 +731,7 @@ CREATE TABLE `jy_school_banner` (
   `crt_id` int(32) DEFAULT NULL COMMENT '创建人id',
   `vieworder` int(32) DEFAULT NULL COMMENT '显示顺序',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `jy_statistic_area`;
@@ -790,7 +790,7 @@ CREATE TABLE `jy_statistic_org` (
   `record_res` int(10) DEFAULT '0' COMMENT '成长档案袋精选资源数',
   `create_date` date DEFAULT NULL COMMENT '生成日期',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `lecture_records`;
@@ -836,7 +836,7 @@ CREATE TABLE `lecture_records` (
   `grade_subject` varchar(30) DEFAULT NULL,
   `client_id` varchar(64) DEFAULT NULL COMMENT '客户端ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7410 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `lecture_reply`;
@@ -854,7 +854,7 @@ CREATE TABLE `lecture_reply` (
   `is_hidden` tinyint(1) DEFAULT NULL COMMENT '是否隐藏 0未 1已',
   `crt_dttm` datetime DEFAULT NULL COMMENT '创建时间(继承)',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=402 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `lesson_info`;
@@ -896,7 +896,7 @@ CREATE TABLE `lesson_info` (
   KEY `userid` (`user_id`) USING BTREE,
   KEY `book` (`book_id`) USING BTREE,
   KEY `grade_subject` (`grade_id`,`subject_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=84608 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `lesson_plan`;
@@ -940,7 +940,7 @@ CREATE TABLE `lesson_plan` (
   KEY `课题` (`info_id`) USING BTREE,
   KEY `用户` (`user_id`) USING BTREE,
   KEY `grade_subject` (`subject_id`,`grade_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=160135 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `lesson_plan_template`;
@@ -962,7 +962,7 @@ CREATE TABLE `lesson_plan_template` (
   `lastup_dttm` datetime DEFAULT NULL COMMENT '最后更新时间',
   `enable` int(2) DEFAULT NULL COMMENT '有效性',
   PRIMARY KEY (`tp_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8 COMMENT='教案模板表';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='教案模板表';
 
 
 DROP TABLE IF EXISTS `red_head_manage`;
@@ -1011,7 +1011,7 @@ CREATE TABLE `region_activity` (
   `is_comment` tinyint(1) DEFAULT '0' COMMENT '是否评论  0：未评论  1：已评论 ',
   `is_send` tinyint(1) DEFAULT '0' COMMENT '是否发送 0：未  1：已',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=440 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `region_activity_plan`;
@@ -1024,7 +1024,7 @@ CREATE TABLE `region_activity_plan` (
   `crt_id` int(10) DEFAULT NULL COMMENT '上传人id',
   `crt_dttm` datetime DEFAULT NULL COMMENT '上传时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=584 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `region_activity_tracks`;
@@ -1047,7 +1047,7 @@ CREATE TABLE `region_activity_tracks` (
   `grade_id` int(10) DEFAULT NULL COMMENT '�꼶ID',
   `space_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=188 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `regsch_activity_discuss`;
@@ -1062,7 +1062,7 @@ CREATE TABLE `regsch_activity_discuss` (
   `discuss_level` tinyint(1) DEFAULT NULL COMMENT '讨论层级 1：一层（直接对应活动的讨论） 2：二层（对一层的讨论进行的评论）',
   `parent_id` int(10) DEFAULT '0' COMMENT '讨论的父层ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1258 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `school_activity`;
@@ -1113,7 +1113,7 @@ CREATE TABLE `school_activity` (
   `class_id` varchar(64) DEFAULT NULL COMMENT '直播课堂的id',
   `part_users` varchar(512) DEFAULT '' COMMENT '校级教研主要研讨人ids记录',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=919 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `school_activity_tracks`;
@@ -1138,7 +1138,7 @@ CREATE TABLE `school_activity_tracks` (
   `grade_id` int(10) DEFAULT NULL COMMENT '�꼶ID',
   `space_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=536 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `school_show`;
@@ -1173,7 +1173,7 @@ CREATE TABLE `school_teach_circle` (
   `is_delete` tinyint(1) DEFAULT NULL COMMENT '0:可删除  1:不可删除',
   `area_ids` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=184 DEFAULT CHARSET=utf8 COMMENT='校际教研圈表 ，可以由多个学校组成的一个教研圈';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='校际教研圈表 ，可以由多个学校组成的一个教研圈';
 
 
 DROP TABLE IF EXISTS `school_teach_circle_org`;
@@ -1188,7 +1188,7 @@ CREATE TABLE `school_teach_circle_org` (
   `lastup_id` int(10) DEFAULT NULL COMMENT '状态更新人',
   `lastup_dttm` datetime DEFAULT NULL COMMENT '圈中的机构状态更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=470 DEFAULT CHARSET=utf8 COMMENT='教研圈附属机构表 存放某个教研圈下面的机构以及机构状态';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='教研圈附属机构表 存放某个教研圈下面的机构以及机构状态';
 
 
 DROP TABLE IF EXISTS `school_teach_schedule`;
@@ -1210,7 +1210,7 @@ CREATE TABLE `school_teach_schedule` (
   `file_suffix` varchar(10) DEFAULT NULL COMMENT '文件后缀',
   `area_ids` varchar(20) DEFAULT NULL COMMENT '所属地区id节点集合   示例 ： ,1,22,344,1000,',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=238 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `sys_app`;
@@ -1232,7 +1232,7 @@ CREATE TABLE `sys_app` (
   `enable` tinyint(4) DEFAULT NULL COMMENT '是否有效',
   PRIMARY KEY (`id`),
   UNIQUE KEY `app_id` (`appid`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `sys_app_param`;
@@ -1243,7 +1243,7 @@ CREATE TABLE `sys_app_param` (
   `val` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `appid` (`appid`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `sys_area`;
@@ -1261,7 +1261,7 @@ CREATE TABLE `sys_area` (
   `lastup_id` int(11) DEFAULT NULL,
   `lastup_dttm` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3228 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `sys_attach`;
@@ -1275,7 +1275,7 @@ CREATE TABLE `sys_attach` (
   `crt_id` int(10) DEFAULT NULL COMMENT '上传人id',
   `crt_dttm` datetime DEFAULT NULL COMMENT '上传时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1227 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `sys_config`;
@@ -1297,7 +1297,7 @@ CREATE TABLE `sys_config` (
   `lastup_dttm` datetime DEFAULT NULL,
   `enable` tinyint(2) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `sys_dic`;
@@ -1316,7 +1316,7 @@ CREATE TABLE `sys_dic` (
   `area_id` int(11) DEFAULT '0',
   `scope` varchar(8) DEFAULT 'sys',
   PRIMARY KEY (`dic_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2064 DEFAULT CHARSET=utf8 COMMENT='元数据描述表';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='元数据描述表';
 
 
 DROP TABLE IF EXISTS `sys_icon`;
@@ -1334,7 +1334,7 @@ CREATE TABLE `sys_icon` (
   `description` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_sys_icon_identity` (`identity`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `sys_login`;
@@ -1351,7 +1351,7 @@ CREATE TABLE `sys_login` (
   `logincode` varchar(64) DEFAULT '' COMMENT '第三方登陆代码',
   PRIMARY KEY (`id`),
   UNIQUE KEY `loginname` (`loginname`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=18887 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `sys_login_log`;
@@ -1366,7 +1366,7 @@ CREATE TABLE `sys_login_log` (
   `login_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '登录时间或切换角色时间',
   `type` tinyint(2) DEFAULT NULL COMMENT '登录类型。 0 ：正常登录 ， 1  切换身份',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=77074 DEFAULT CHARSET=utf8 COMMENT='用户登录日志';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='用户登录日志';
 
 
 DROP TABLE IF EXISTS `sys_mail_verify_code`;
@@ -1376,7 +1376,7 @@ CREATE TABLE `sys_mail_verify_code` (
   `verification_code` varchar(32) DEFAULT NULL,
   `creat_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `sys_menu`;
@@ -1397,7 +1397,7 @@ CREATE TABLE `sys_menu` (
   `is_mobile` tinyint(1) DEFAULT '0' COMMENT '是否支持移动端',
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=228 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `sys_meta_relationship`;
@@ -1413,7 +1413,7 @@ CREATE TABLE `sys_meta_relationship` (
   `area_id` int(11) DEFAULT NULL,
   `enable` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2570 DEFAULT CHARSET=utf8 COMMENT='基础元数据关系表';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='基础元数据关系表';
 
 
 DROP TABLE IF EXISTS `sys_organization`;
@@ -1456,7 +1456,7 @@ CREATE TABLE `sys_organization` (
   `dirlevel_id` varchar(32) DEFAULT NULL COMMENT 'ֱ',
   `trdparty_org_id` varchar(64) DEFAULT NULL COMMENT '对接机构ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=492 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `sys_org_relationship`;
@@ -1466,7 +1466,7 @@ CREATE TABLE `sys_org_relationship` (
   `phase_id` int(11) NOT NULL,
   `schooling` int(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=161 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `sys_org_solution`;
@@ -1476,7 +1476,7 @@ CREATE TABLE `sys_org_solution` (
   `solution_id` int(11) DEFAULT NULL,
   `is_delete` tinyint(1) DEFAULT '0' COMMENT '是否删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8 COMMENT='学校方案表';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='学校方案表';
 
 
 DROP TABLE IF EXISTS `sys_permission`;
@@ -1487,7 +1487,7 @@ CREATE TABLE `sys_permission` (
   `remark` varchar(128) DEFAULT NULL,
   `sys_role_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `sys_publish_relationship`;
@@ -1505,7 +1505,7 @@ CREATE TABLE `sys_publish_relationship` (
   `area_id` int(11) DEFAULT NULL,
   `enable` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=384 DEFAULT CHARSET=utf8 COMMENT='用于维护学段学科与出版社的关系！';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='用于维护学段学科与出版社的关系！';
 
 
 DROP TABLE IF EXISTS `sys_resources`;
@@ -1550,7 +1550,7 @@ CREATE TABLE `sys_role` (
   `use_position` tinyint(2) DEFAULT NULL COMMENT '应用方向-角色类型--冗余',
   PRIMARY KEY (`id`),
   KEY `sid` (`solution_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=593 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `sys_role_menu`;
@@ -1561,7 +1561,7 @@ CREATE TABLE `sys_role_menu` (
   `perm_bname` varchar(65) DEFAULT NULL COMMENT '功能权限别名',
   `is_del` tinyint(1) DEFAULT '0' COMMENT '状态  0正常 ，1删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5959 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `sys_role_permission`;
@@ -1570,7 +1570,7 @@ CREATE TABLE `sys_role_permission` (
   `role_id` int(11) DEFAULT NULL,
   `permission_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `sys_role_type`;
@@ -1588,7 +1588,7 @@ CREATE TABLE `sys_role_type` (
   `code` int(11) DEFAULT NULL COMMENT 'dic_id',
   `home_url` varchar(255) NOT NULL DEFAULT '' COMMENT '入口地址',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `sys_solution`;
@@ -1603,7 +1603,7 @@ CREATE TABLE `sys_solution` (
   `lastup_dttm` date DEFAULT NULL COMMENT '最后修改时间',
   `enable` tinyint(4) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='方案表';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='方案表';
 
 
 DROP TABLE IF EXISTS `sys_user`;
@@ -1654,7 +1654,7 @@ CREATE TABLE `sys_usermenu_history` (
   `school_year` int(11) NOT NULL COMMENT '学年',
   PRIMARY KEY (`id`),
   UNIQUE KEY `user-year` (`user_id`,`school_year`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=20926 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `sys_user_managescope`;
@@ -1666,7 +1666,7 @@ CREATE TABLE `sys_user_managescope` (
   `area_id` int(10) DEFAULT NULL COMMENT '区域id',
   `org_name` varchar(30) DEFAULT NULL COMMENT '机构名称',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=233 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `sys_user_menu`;
@@ -1681,7 +1681,7 @@ CREATE TABLE `sys_user_menu` (
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id_role` (`sys_role_id`,`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=438209 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `sys_user_role`;
@@ -1690,7 +1690,7 @@ CREATE TABLE `sys_user_role` (
   `role_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17614 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `sys_user_space`;
@@ -1722,7 +1722,7 @@ CREATE TABLE `sys_user_space` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`) USING BTREE,
   KEY `org_id` (`org_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=33077 DEFAULT CHARSET=utf8 COMMENT='切换工作空间';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='切换工作空间';
 
 
 DROP TABLE IF EXISTS `teacher_curriculum`;
@@ -1733,7 +1733,7 @@ CREATE TABLE `teacher_curriculum` (
   `lesson` int(6) DEFAULT NULL,
   `content` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=548 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `teacher_record`;
@@ -1754,7 +1754,7 @@ CREATE TABLE `teacher_record` (
   `school_year` int(11) DEFAULT NULL COMMENT '学年',
   `share` int(11) DEFAULT '0',
   PRIMARY KEY (`record_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1469 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `teacher_record_bag`;
@@ -1785,7 +1785,7 @@ CREATE TABLE `teacher_record_bag` (
   `share_time` datetime DEFAULT NULL COMMENT '����ʱ��',
   `org_id` int(11) DEFAULT NULL COMMENT '机构ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2158 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `teacher_schedule`;
@@ -1802,7 +1802,7 @@ CREATE TABLE `teacher_schedule` (
   `crt_dttm` datetime DEFAULT NULL,
   `lastup_dttm` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=227 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `teaching_thesis`;
@@ -1834,7 +1834,7 @@ CREATE TABLE `teaching_thesis` (
   `is_submit` tinyint(1) DEFAULT '0' COMMENT '是否已提交（0：未提交，1：已提交）',
   `submit_time` datetime DEFAULT NULL COMMENT '提交时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1034 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP PROCEDURE IF EXISTS `proc_solution_org_repair`;

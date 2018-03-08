@@ -15,8 +15,6 @@
 		</property>
 	</bean>
 	
-	<bean id="syncSchoolTask" class="com.tmser.tr.back.task.service.SyncSchoolTask"></bean>
-	
     <!-- 如下实现是通过线程池执行的 -->
     <task:executor id="executor" pool-size="2"/>
     <task:scheduler id="scheduler" pool-size="2"/>
@@ -24,7 +22,5 @@
         <!--  自动清理删除无效资源 每天2点执行执行 -->
         <task:scheduled ref="defaultResourceCleanTask" method="execute" cron="0 0 2 * * ?"/>
         <task:scheduled ref="defaultSchoolYearTask" method="execute" cron="${history_split_cron}"/>
-        <!-- 同步学校 每天3点执行 -->
-        <task:scheduled ref="syncSchoolTask" method="execute" cron="0 0 3 1 * ?"/>
     </task:scheduled-tasks>
 </beans>

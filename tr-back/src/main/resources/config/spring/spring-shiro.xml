@@ -63,15 +63,6 @@
 	
 	<!-- 接入app 配置 -->
     <bean class="com.tmser.tr.uc.service.impl.CompositeSsoServiceImpl">
-        <property name="ssoServiceMap">
-            <map>
-                <!-- 平台 回调方式对接 -->
-                 <entry key="platform_callback" >
-	                <bean class="com.tmser.tr.uc.controller.ws.wx.WenxuanLogincodeSsoServiceImpl">
-	                </bean>
-                </entry>
-             </map>
-        </property>
     </bean>
 	
 </beans>

@@ -16,7 +16,7 @@ if(self != top)
 </script>
 <link rel="stylesheet"
 	href="${ctxStatic }/modules/uc/login/css/login.css" media="screen">
-<title>教研平台后台管理系统</title>
+<title>教研平台后台管理系统-登录</title>
 </head>
 <body>
 	<shiro:user >
@@ -27,7 +27,7 @@ if(self != top)
 		<div class="wraper_w">
 			<div class="login">
 				<form id="login" action="jy/uc/login" method="post">
-					<div style="text-align:center;width:493px;line-height:60px;height:56px;font-size:20px;font-weight:bold;">教研后台管理系统</div>
+					<div style="text-align:center;width:493px;line-height:60px;height:56px;font-size:20px;font-weight:bold;">教研平台后台管理系统</div>
 					<div style="margin-left: 362px;color:#fffe88;position: relative;width: 136px;">
 						&nbsp;<span id="errmsg" style="position: absolute;top:34px;left:0px;color:#f00;height:20px;line-height: 16px;">${error }</span>
 					</div>
@@ -41,8 +41,6 @@ if(self != top)
 					</div>
 					<div class="clear"></div>
 					<div class="check1">
-					<input type="checkbox" class="check" id="rememberPassword" title="请勿在公用电脑上启用。">记住密码  
-					<input type="checkbox" style="margin-top: -0.5px;margin-left:84px;" title="请勿在公用电脑上启用。" name="rememberMe" value="true">自动登录
 					</div>
 					<input type="submit" class="btn" value="">
 					<!-- <a href="jy/uc/findps/retrievepassword" class="a_retrieve">找回密码</a> -->
@@ -53,13 +51,4 @@ if(self != top)
 	</div>
 	</shiro:guest>
 </body>
-<script>
-	$(function() {
-		if($.cookie("_checked_")){
-			$('input[name="username"]').val($.cookie("_username_"));
-			$('input[name="password"]').val($.cookie("_password_"));
-			$("#rememberPassword").prop("checked",true);
-		}
-	});
-	</script>
 </html>
