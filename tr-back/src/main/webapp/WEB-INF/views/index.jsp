@@ -23,12 +23,11 @@ if(self != top)
 		<c:redirect url="/jy/uc/workspace"></c:redirect>
 	</shiro:user>
 	<shiro:guest>
-	<div class="wraper">
+	<div class="wraper" >
 		<div class="wraper_w">
-			<div class="logo"></div>
 			<div class="login">
 				<form id="login" action="jy/uc/login" method="post">
-					<div style="text-align:center;width:493px;line-height:60px;height:56px;font-size:20px;font-weight:bold;">后台管理系统</div>
+					<div style="text-align:center;width:493px;line-height:60px;height:56px;font-size:20px;font-weight:bold;">教研后台管理系统</div>
 					<div style="margin-left: 362px;color:#fffe88;position: relative;width: 136px;">
 						&nbsp;<span id="errmsg" style="position: absolute;top:34px;left:0px;color:#f00;height:20px;line-height: 16px;">${error }</span>
 					</div>

@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<ui:htmlHeader title="教研平台-后台管理"></ui:htmlHeader>
+<ui:htmlHeader title="教研后台管理系统"></ui:htmlHeader>
 <link href="${ctxStatic }/lib/uploadify/css/uploadify.css" rel="stylesheet" type="text/css" media="screen"/>
 <link rel="stylesheet" href="${ctxStatic }/lib/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css" media="all">
 <link rel="stylesheet" href="${ctxStatic }/lib/ztree/css/zTreeStyle/jydemo.css" type="text/css" media="all">
@@ -133,9 +133,9 @@ $(function(){
 							</li>
 						</shiro:hasPermission>
 						<shiro:hasPermission name="solution">
-							<li><a>销售方案</a>
+							<li><a>定制服务方案</a>
 								<ul>
-									<li><a href="${ctx}jy/back/solution/index" target="navTab" rel="solution1">销售方案</a></li>
+									<li><a href="${ctx}jy/back/solution/index" target="navTab" rel="solution1">定制服务方案</a></li>
 								</ul>
 							</li>
 						</shiro:hasPermission>
@@ -151,9 +151,6 @@ $(function(){
 									<shiro:hasPermission name="yhgl_xx">
 										<li><a href="${ctx}jy/back/yhgl/schUserIndex" target="navTab" rel="school_user">学校用户管理</a></li>
 									</shiro:hasPermission>
-									<shiro:hasPermission name="yhgl_zj">
-										<li><a href="${ctx}jy/back/yhgl/expertUserIndex?userType=3" target="navTab" rel="expert_user">专家用户管理</a></li>
-									</shiro:hasPermission>
 								</ul>
 							</li>
 						</shiro:hasPermission>
@@ -164,21 +161,9 @@ $(function(){
 									<shiro:hasPermission name="zygl_yzzy">
 										<li><a href="${ctx}jy/back/zygl/yz/yzresourceIndex" target="navTab" rel="yzresource">预制资源管理</a></li>
 									</shiro:hasPermission>
-									<shiro:hasPermission name="zygl_batch">
-										<li><a href="${ctx}jy/back/zygl/batch/showUpload" target="navTab" rel="yhresource">批量上传管理</a></li>
-									</shiro:hasPermission>
 								</ul>
 							</li>
 						</shiro:hasPermission>
-						<shiro:hasPermission name="fkgl">
-							<li><a>反馈管理</a>
-								<ul>
-									<shiro:hasPermission name="fkgl_fklb">
-										<li><a href="${ctx}/jy/back/fkgl/feedbackList" target="navTab" rel="fklb">反馈列表</a></li>
-									</shiro:hasPermission>
-								</ul>
-							</li>
-							</shiro:hasPermission>
 						<shiro:hasPermission name="rzgl">
 							<li><a>日志管理</a>
 								<ul>
@@ -214,15 +199,6 @@ $(function(){
 									</shiro:hasPermission>
 								</ul>
 							</li>
-						</shiro:hasPermission>
-						<shiro:hasPermission name="video">
-						<li><a>直播课堂</a>
-							<ul>
-								<li><a href="${ctx}/jy/back/zbkt/kttj" target="navTab" rel="zb_kttj">课堂统计</a></li>
-								<li><a href="${ctx}/jy/back/zbkt/ktbftj" target="navTab" rel="zb_ktbftj">课堂并发统计</a></li>
-								<li><a href="${ctx}/jy/back/zbkt/yhjrsj" target="navTab" rel="zb_yhjrsj">用户进入时间统计</a></li>
-							</ul>
-						</li>
 						</shiro:hasPermission>
 						</ul>
 					</div>

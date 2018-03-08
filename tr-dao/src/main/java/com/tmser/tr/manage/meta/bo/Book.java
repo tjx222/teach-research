@@ -30,7 +30,7 @@ import com.tmser.tr.common.bo.QueryObject;
 @Entity
 @Table(name = Book.TABLE_NAME)
 public class Book extends QueryObject {
-  public static final String TABLE_NAME = "commidity";
+  public static final String TABLE_NAME = "sys_book";
 
   @Id
   @Column(name = "com_id")
@@ -65,27 +65,6 @@ public class Book extends QueryObject {
    **/
   @Column(name = "content_type_name")
   private String contentTypeName;
-
-  /**
-   * 适用人群
-   **/
-  @Column(name = "usergroup_type")
-  private Integer usergroupType;
-
-  /**
-   * 0：老师；1：学生：2：通用
-   **/
-  @Column(name = "usergroup_name")
-  private String usergroupName;
-
-  /**
-   * 内容组类型
-   **/
-  @Column(name = "contentgroup_type")
-  private Integer contentgroupType;
-
-  @Column(name = "contentgroup_type_name")
-  private String contentgroupTypeName;
 
   /**
    * 学段
@@ -148,18 +127,6 @@ public class Book extends QueryObject {
   private String keywords;
 
   /**
-   * 0：下架；1：上架
-   **/
-  @Column(name = "shelf_type", nullable = false)
-  private Integer shelfType;
-
-  /**
-   * 价格
-   **/
-  @Column(name = "price", nullable = false)
-  private Float price;
-
-  /**
    * 入库时间
    **/
   @Column(name = "book_in_time", nullable = false)
@@ -176,48 +143,6 @@ public class Book extends QueryObject {
    **/
   @Column(name = "sys_delete", nullable = false)
   private Integer sysDelete;
-
-  /**
-   * 数据修改时间
-   **/
-  @Column(name = "data_modified_time", nullable = false)
-  private Date dataModifiedTime;
-
-  /**
-   * 上架时间
-   **/
-  @Column(name = "shelf_time")
-  private Date shelfTime;
-
-  /**
-   * 上架人
-   **/
-  @Column(name = "shelfer")
-  private String shelfer;
-
-  /**
-   * 下载次数
-   **/
-  @Column(name = "download_times", nullable = false)
-  private Long downloadTimes;
-
-  /**
-   * 0:普通1：推荐
-   **/
-  @Column(name = "recommend", nullable = false)
-  private Integer recommend;
-
-  /**
-   * 好评度1-5
-   **/
-  @Column(name = "praise_degree")
-  private Integer praiseDegree;
-
-  /**
-   * 描述
-   **/
-  @Column(name = "remark")
-  private String remark;
 
   /**
    * 书籍的上下册关系，即相互关联com_id
@@ -244,49 +169,10 @@ public class Book extends QueryObject {
   private Integer format;
 
   /**
-   * 商品状态：-5未加工 -4已加工 0未审核1已通过2正在同步3已同步4同步失败
-   **/
-  @Column(name = "s_state")
-  private Integer SState;
-
-  @Column(name = "s_state_operator")
-  private Integer SStateOperator;
-
-  @Column(name = "s_state_operator_name")
-  private String SStateOperatorName;
-
-  @Column(name = "s_state_time")
-  private Date SStateTime;
-
-  /**
-   * 好评度（样例值：0.95）
-   **/
-  @Column(name = "praise_rate")
-  private Float praiseRate;
-
-  /**
-   * 评论数
-   **/
-  @Column(name = "comment_count")
-  private Integer commentCount;
-
-  @Column(name = "entity_package_count")
-  private Integer entityPackageCount;
-
-  @Column(name = "platform_key")
-  private String platformKey;
-
-  /**
    * 0：不显示；1：显示
    **/
   @Column(name = "is_display", nullable = false)
   private Integer isDisplay;
-
-  /**
-   * 书籍的编码(便于检索书籍)
-   **/
-  @Column(name = "edu_code")
-  private String eduCode;
 
   public void setComId(String comId) {
     this.comId = comId;
@@ -342,38 +228,6 @@ public class Book extends QueryObject {
 
   public String getContentTypeName() {
     return this.contentTypeName;
-  }
-
-  public void setUsergroupType(Integer usergroupType) {
-    this.usergroupType = usergroupType;
-  }
-
-  public Integer getUsergroupType() {
-    return this.usergroupType;
-  }
-
-  public void setUsergroupName(String usergroupName) {
-    this.usergroupName = usergroupName;
-  }
-
-  public String getUsergroupName() {
-    return this.usergroupName;
-  }
-
-  public void setContentgroupType(Integer contentgroupType) {
-    this.contentgroupType = contentgroupType;
-  }
-
-  public Integer getContentgroupType() {
-    return this.contentgroupType;
-  }
-
-  public void setContentgroupTypeName(String contentgroupTypeName) {
-    this.contentgroupTypeName = contentgroupTypeName;
-  }
-
-  public String getContentgroupTypeName() {
-    return this.contentgroupTypeName;
   }
 
   public void setPhase(String phase) {
@@ -480,22 +334,6 @@ public class Book extends QueryObject {
     return this.keywords;
   }
 
-  public void setShelfType(Integer shelfType) {
-    this.shelfType = shelfType;
-  }
-
-  public Integer getShelfType() {
-    return this.shelfType;
-  }
-
-  public void setPrice(Float price) {
-    this.price = price;
-  }
-
-  public Float getPrice() {
-    return this.price;
-  }
-
   public void setBookInTime(Date bookInTime) {
     this.bookInTime = bookInTime;
   }
@@ -518,62 +356,6 @@ public class Book extends QueryObject {
 
   public Integer getSysDelete() {
     return this.sysDelete;
-  }
-
-  public void setDataModifiedTime(Date dataModifiedTime) {
-    this.dataModifiedTime = dataModifiedTime;
-  }
-
-  public Date getDataModifiedTime() {
-    return this.dataModifiedTime;
-  }
-
-  public void setShelfTime(Date shelfTime) {
-    this.shelfTime = shelfTime;
-  }
-
-  public Date getShelfTime() {
-    return this.shelfTime;
-  }
-
-  public void setShelfer(String shelfer) {
-    this.shelfer = shelfer;
-  }
-
-  public String getShelfer() {
-    return this.shelfer;
-  }
-
-  public void setDownloadTimes(Long downloadTimes) {
-    this.downloadTimes = downloadTimes;
-  }
-
-  public Long getDownloadTimes() {
-    return this.downloadTimes;
-  }
-
-  public void setRecommend(Integer recommend) {
-    this.recommend = recommend;
-  }
-
-  public Integer getRecommend() {
-    return this.recommend;
-  }
-
-  public void setPraiseDegree(Integer praiseDegree) {
-    this.praiseDegree = praiseDegree;
-  }
-
-  public Integer getPraiseDegree() {
-    return this.praiseDegree;
-  }
-
-  public void setRemark(String remark) {
-    this.remark = remark;
-  }
-
-  public String getRemark() {
-    return this.remark;
   }
 
   public void setRelationComId(String relationComId) {
@@ -606,89 +388,6 @@ public class Book extends QueryObject {
 
   public Integer getFormat() {
     return this.format;
-  }
-
-  public void setSState(Integer SState) {
-    this.SState = SState;
-  }
-
-  public Integer getSState() {
-    return this.SState;
-  }
-
-  public void setSStateOperator(Integer SStateOperator) {
-    this.SStateOperator = SStateOperator;
-  }
-
-  public Integer getSStateOperator() {
-    return this.SStateOperator;
-  }
-
-  public void setSStateOperatorName(String SStateOperatorName) {
-    this.SStateOperatorName = SStateOperatorName;
-  }
-
-  public String getSStateOperatorName() {
-    return this.SStateOperatorName;
-  }
-
-  public void setSStateTime(Date SStateTime) {
-    this.SStateTime = SStateTime;
-  }
-
-  public Date getSStateTime() {
-    return this.SStateTime;
-  }
-
-  public void setPraiseRate(Float praiseRate) {
-    this.praiseRate = praiseRate;
-  }
-
-  public Float getPraiseRate() {
-    return this.praiseRate;
-  }
-
-  public void setCommentCount(Integer commentCount) {
-    this.commentCount = commentCount;
-  }
-
-  public Integer getCommentCount() {
-    return this.commentCount;
-  }
-
-  public void setEntityPackageCount(Integer entityPackageCount) {
-    this.entityPackageCount = entityPackageCount;
-  }
-
-  public Integer getEntityPackageCount() {
-    return this.entityPackageCount;
-  }
-
-  public void setPlatformKey(String platformKey) {
-    this.platformKey = platformKey;
-  }
-
-  public String getPlatformKey() {
-    return this.platformKey;
-  }
-
-  /**
-   * Getter method for property <tt>eduCode</tt>.
-   * 
-   * @return property value of eduCode
-   */
-  public String getEduCode() {
-    return eduCode;
-  }
-
-  /**
-   * Setter method for property <tt>eduCode</tt>.
-   * 
-   * @param eduCode
-   *          value to be assigned to property eduCode
-   */
-  public void setEduCode(String eduCode) {
-    this.eduCode = eduCode;
   }
 
   @Override

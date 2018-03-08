@@ -90,8 +90,8 @@ CREATE TABLE `comment_info` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3639 DEFAULT CHARSET=utf8 COMMENT='评论信息表';
 
 
-DROP TABLE IF EXISTS `commidity_sync`;
-CREATE TABLE `commidity_sync` (
+DROP TABLE IF EXISTS `sys_book_sync`;
+CREATE TABLE `sys_book_sync` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `com_id` varchar(32) NOT NULL,
   `com_name` varchar(128) NOT NULL COMMENT '商品名称',
@@ -791,18 +791,6 @@ CREATE TABLE `jy_statistic_org` (
   `create_date` date DEFAULT NULL COMMENT '生成日期',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `jy_video_relation`;
-CREATE TABLE `jy_video_relation` (
-  `id` int(11) NOT NULL COMMENT '记录主键',
-  `type` tinyint(1) DEFAULT NULL COMMENT '视频地址资源类型',
-  `user_id` int(11) DEFAULT NULL COMMENT '关联用户ID',
-  `video_key` varchar(32) DEFAULT '' COMMENT '视屏课堂id标识',
-  `video_url` varchar(2048) DEFAULT '' COMMENT '视频课堂进入地址',
-  `resids` varchar(1024) DEFAULT NULL COMMENT '附件IDs',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='记录直播课堂视频地址和资源关系信息';
 
 
 DROP TABLE IF EXISTS `lecture_records`;

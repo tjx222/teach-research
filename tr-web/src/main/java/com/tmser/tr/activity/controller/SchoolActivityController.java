@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -26,19 +25,10 @@ import com.tmser.tr.activity.bo.SchoolActivityTracks;
 import com.tmser.tr.activity.bo.SchoolTeachCircle;
 import com.tmser.tr.activity.bo.SchoolTeachCircleOrg;
 import com.tmser.tr.activity.service.ActivityCoordinateControlService;
-import com.tmser.tr.activity.service.ClassinfoService;
 import com.tmser.tr.activity.service.SchoolActivityService;
 import com.tmser.tr.activity.service.SchoolActivityTracksService;
 import com.tmser.tr.activity.service.SchoolTeachCircleOrgService;
 import com.tmser.tr.activity.service.SchoolTeachCircleService;
-import com.tmser.tr.bjysdk.model.BJYClassStatusResult;
-import com.tmser.tr.classapi.ChatInfo;
-import com.tmser.tr.classapi.ClassUserType;
-import com.tmser.tr.classapi.bo.ClassInfo;
-import com.tmser.tr.classapi.bo.ClassUser;
-import com.tmser.tr.classapi.service.ClassOperateService;
-import com.tmser.tr.comment.bo.Discuss;
-import com.tmser.tr.comment.service.DiscussService;
 import com.tmser.tr.common.ResTypeConstants;
 import com.tmser.tr.common.annotation.UseToken;
 import com.tmser.tr.common.page.Page;
@@ -60,7 +50,6 @@ import com.tmser.tr.uc.SysRole;
 import com.tmser.tr.uc.bo.UserSpace;
 import com.tmser.tr.uc.service.UserService;
 import com.tmser.tr.uc.service.UserSpaceService;
-import com.tmser.tr.uc.utils.CurrentUserContext;
 import com.tmser.tr.uc.utils.SessionKey;
 import com.tmser.tr.utils.StringUtils;
 import com.tmser.tr.writelessonplan.service.LessonPlanService;
@@ -101,18 +90,12 @@ public class SchoolActivityController extends AbstractController {
   private SchoolActivityTracksService schoolActivityTracksService;
   @Autowired
   private ActivityCoordinateControlService activityCoordinateControlService;
-  @Resource(name = "classApi")
-  private ClassOperateService classOperateService;
   @Autowired
   private LessonInfoService lessonInfoService;
-  @Autowired
-  private DiscussService discussService;
   @Autowired
   private UserSpaceService userSpaceService;
   @Autowired
   private LessonPlanService lessonPlanervice;
-  @Autowired
-  private ClassinfoService classinfoService;
 
   /**
    * 各个管理空间-进入校际教研界面
@@ -130,19 +113,6 @@ public class SchoolActivityController extends AbstractController {
     model.addAttribute("listType", returnMap.get("listType"));
     model.addAttribute("activityDraftNum", returnMap.get("activityDraftNum"));
     return pageUrl;
-  }
-
-  @RequestMapping("/queryClassInfo")
-  public @ResponseBody ClassInfo queryClassInfo(SchoolActivity schoolActivity) {
-    if (schoolActivity == null || schoolActivity.getId() == 0) {
-      return null;
-    }
-    SchoolActivity old_sa = schoolActivityService.findOne(schoolActivity.getId());
-    if (old_sa == null || StringUtils.isEmpty(old_sa.getClassId())) {
-      return null;
-    }
-    ClassInfo classInfo = classinfoService.findOne(old_sa.getClassId());
-    return classInfo;
   }
 
   /**
@@ -276,7 +246,8 @@ public class SchoolActivityController extends AbstractController {
       Meta sd = MetaUtils.getMeta(userSpace.getGradeId());
       gradeList.add(sd);
     } else {
-      if (SysRole.JYZR.getId().equals(userSpace.getSysRoleId()) || SysRole.JYY.getId().equals(userSpace.getSysRoleId())) {
+      if (SysRole.JYZR.getId().equals(userSpace.getSysRoleId())
+          || SysRole.JYY.getId().equals(userSpace.getSysRoleId())) {
         gradeList = MetaUtils.getPhaseGradeMetaProvider().listAllGradeByPhaseId(userSpace.getPhaseId());
       } else {
         Organization org = organizationService.findOne(userSpace.getOrgId());
@@ -695,8 +666,8 @@ public class SchoolActivityController extends AbstractController {
       m.addAttribute("activity", schoolActivity);
       m.addAttribute("attachList", attachList);
       // 获取所有参与的学校的名称
-      String joinOrgNames = schoolTeachCircleOrgService.getJoinOrgNamesByCircleId(schoolActivity
-          .getSchoolTeachCircleId());
+      String joinOrgNames = schoolTeachCircleOrgService
+          .getJoinOrgNamesByCircleId(schoolActivity.getSchoolTeachCircleId());
       m.addAttribute("joinOrgNames", joinOrgNames);
       return "/schoolactivity/onlyChaKanZhuYan";
     }
@@ -876,8 +847,8 @@ public class SchoolActivityController extends AbstractController {
     if (roleId.intValue() != SysRole.JYZR.getId().intValue() && roleId.intValue() != SysRole.JYY.getId().intValue()) {
       if ("join".equals(flag)) {
         isMatchTheCircle = schoolTeachCircleOrgService.ifMatchTheCircleByStates(userSpace.getOrgId(),
-            schoolActivity.getSchoolTeachCircleId(), new Integer[] { SchoolTeachCircleOrg.YI_TONG_YI,
-                SchoolTeachCircleOrg.YI_HUI_FU });
+            schoolActivity.getSchoolTeachCircleId(),
+            new Integer[] { SchoolTeachCircleOrg.YI_TONG_YI, SchoolTeachCircleOrg.YI_HUI_FU });
       } else if ("view".equals(flag)) {
         isMatchTheCircle = schoolTeachCircleOrgService.ifMatchTheCircleByStates(userSpace.getOrgId(),
             schoolActivity.getSchoolTeachCircleId(), new Integer[] { SchoolTeachCircleOrg.YI_TONG_YI,
@@ -889,8 +860,8 @@ public class SchoolActivityController extends AbstractController {
       if (areaIds.equals(schoolActivity.getAreaIds())) {
         return true;
       }
-    } else if (roleId.intValue() == SysRole.XZ.getId().intValue()
-        || roleId.intValue() == SysRole.FXZ.getId().intValue() || roleId.intValue() == SysRole.ZR.getId().intValue()) {// 校长或主任
+    } else if (roleId.intValue() == SysRole.XZ.getId().intValue() || roleId.intValue() == SysRole.FXZ.getId().intValue()
+        || roleId.intValue() == SysRole.ZR.getId().intValue()) {// 校长或主任
       if (isMatchTheCircle) {
         return true;
       }
@@ -990,85 +961,6 @@ public class SchoolActivityController extends AbstractController {
   }
 
   /**
-   * 参与专家指导——直播课堂
-   * 
-   * @param id
-   * @param m
-   * @return
-   */
-  @RequestMapping("joinZbkt")
-  public String joinActivityZbkt(Integer id, Integer listType, Model m) {
-    UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
-    SchoolActivity sa = schoolActivityService.findOne(id);
-    Assert.isTrue(ifHaveJoinPower(sa, "join"), "没有权限");
-    ClassUserType userType = null;
-    if (userSpace.getUserId().intValue() == sa.getOrganizeUserId().intValue()) {// 若参与者为发起人，则该用户进入课堂后即为主持人
-      userType = ClassUserType.MASTER;
-    } else {
-      userType = ClassUserType.NORMAL;
-    }
-    String classUrl = "";
-    if (sa != null && sa.getIsOver()) {
-      classUrl = "/jy/schoolactivity/viewZbkt?id=" + id;
-    } else {
-      ClassUser cu = classOperateService.joinClass(sa.getClassId(), userSpace.getUserId(), userSpace.getUsername(),
-          userType);
-      classUrl = cu.getClassUrl();
-    }
-    return "redirect:" + classUrl;
-  }
-
-  /**
-   * 查看-直播课堂
-   * 
-   * @param id
-   * @param m
-   * @return
-   */
-  @RequestMapping("viewZbkt")
-  public String viewActivityZbkt(Integer id, Model m) {
-    SchoolActivity sa = schoolActivityService.findOne(id);
-    if (sa.getCommentsNum() == null || sa.getCommentsNum() == 0) {
-      this.syncDiscuss(sa);
-      schoolActivityService.update(sa);
-    }
-
-    Assert.isTrue(ifHaveJoinPower(sa, "view"), "没有权限");
-    // 有权限的参与人列表查询
-    List<UserSpace> usList = schoolActivityService.findUserBySubjectAndGrade(sa);
-    m.addAttribute("usList", usList);
-    m.addAttribute("activity", sa);
-    m.addAttribute("activityType", ResTypeConstants.SCHOOLTEACH);
-    m.addAttribute("listType", sa.getTypeId());
-    m.addAttribute("operateType", 0);
-
-    // 获取直播课堂录制的视频
-    ClassInfo classInfo = classOperateService.generateClassRecordUrl(sa.getClassId());
-    m.addAttribute("recordUrl", classInfo == null ? null : classInfo.getRecordUrl());
-    m.addAttribute("user2", userService.findOne(sa.getOrganizeUserId()));
-    m.addAttribute("us", userSpaceService.findOne(sa.getSpaceId()));
-    // 获取所有参与的学校的名称
-    String joinOrgNames = schoolTeachCircleOrgService.getJoinOrgNamesByCircleId(sa.getSchoolTeachCircleId());
-    if (StringUtils.isNotEmpty(joinOrgNames)) {
-      String[] joinOrgs = joinOrgNames.split("、");
-      m.addAttribute("joinOrgNames", joinOrgs);
-      m.addAttribute("joinOrgLength", joinOrgs.length);
-    } else {
-      m.addAttribute("joinOrgLength", 0);
-    }
-    if (StringUtils.isEmpty(sa.getClassId())) {
-      return "/schoolactivity/activityJoinView";
-    }
-    // 获取参考附件集合
-    Attach attach = new Attach();
-    attach.setActivityId(id);
-    attach.setActivityType(Attach.XJJY);
-    List<Attach> attachList = activityAttachService.findAll(attach);
-    m.addAttribute("attachList", attachList);
-    return "/schoolactivity/activityJoinView";
-  }
-
-  /**
    * 获取参与的机构集合
    * 
    * @param activityId
@@ -1078,104 +970,6 @@ public class SchoolActivityController extends AbstractController {
   public List<Organization> getJoinOrgsOfActivity(Integer activityId, Model m) {
     SchoolActivity sa = schoolActivityService.findOne(activityId);
     return organizationService.getOrgListByIdsStr(sa.getOrgids());
-  }
-
-  /**
-   * 结束直播课堂
-   * 
-   * @param activity
-   * @param m
-   */
-  @RequestMapping("/overZbktActivity")
-  public void overZbktActivity(SchoolActivity activity, Model m) {
-    if (activity.getId() != null) {
-      activity = schoolActivityService.findOne(activity.getId());
-      if (activity != null && activity.getIsOver()) {
-        return;
-      }
-      // 获取直播课堂录制的视频
-      try {
-        classOperateService.generateClassRecordUrl(activity.getClassId());
-        classOperateService.saveChartRecord(activity.getClassId());
-      } catch (Exception e) {
-        logger.warn("get class record failed! actid:{}", activity.getClassId());
-        logger.error("", e);
-      }
-      if (classStatusIsOver(activity.getClassId())) {
-        this.syncDiscuss(activity);
-        activity.setIsOver(true);
-        schoolActivityService.update(activity);
-        m.addAttribute("result", "success");
-      } else {
-        m.addAttribute("result", "fail");
-      }
-    } else {
-      m.addAttribute("result", "fail");
-    }
-  }
-
-  /**
-   * 判断房间是否结束
-   * 
-   * @return true:结束 false 未结束
-   */
-  private boolean classStatusIsOver(String roomId) {
-    Integer status = classOperateService.getRoomStatus(roomId);
-    if (status == BJYClassStatusResult.STATUS_LIVE) {
-      return false;
-    }
-    return true;
-  }
-
-  /**
-   * 同步直播课堂讨论数据
-   * 
-   * @param activity
-   */
-  private void syncDiscuss(SchoolActivity activity) {
-    if (activity == null || (activity.getCommentsNum() != null && activity.getCommentsNum() > 0)) {
-      logger.info("aready sync discuss!");
-      return;
-    }
-    // 用户交流记录
-    List<ChatInfo> chatList = new ArrayList<ChatInfo>();
-    try {
-      chatList = classOperateService.listAllChatInfoByClassId(activity.getClassId());
-    } catch (Exception e) {
-      logger.error("", e);
-      return;
-    }
-    // 讨论同步
-    List<Discuss> discussList = new ArrayList<Discuss>();
-    if (!CollectionUtils.isEmpty(chatList)) {
-      for (ChatInfo chatInfo : chatList) {
-        Discuss discuss = new Discuss();
-        discuss.setActivityId(activity.getId());
-        discuss.setDiscussLevel(1);
-        discuss.setParentId(0);
-        discuss.setTypeId(ResTypeConstants.SCHOOLTEACH);
-        if (chatInfo.getFrom() != null) {
-          discuss.setCrtId(chatInfo.getFrom());
-          UserSpace us = new UserSpace();
-          us.setUserId(discuss.getCrtId());
-          us.setOrder(" sort asc ");
-          us.setSchoolYear(CurrentUserContext.getCurrentSchoolYear());
-          us = userSpaceService.findOne(us);
-          if (us == null) {
-            logger.info("sync one term failed!userSpace is null,userId is,{}", discuss.getCrtId());
-            continue;
-          }
-          discuss.setSpaceId(us.getId());
-        }
-        discuss.setCrtDttm(chatInfo.getTime());
-        discuss.setContent(chatInfo.getContent());
-        discussList.add(discuss);
-      }
-    }
-    if (!CollectionUtils.isEmpty(discussList)) {
-      discussService.batchSave(discussList);
-      activity.setCommentsNum(discussList.size());
-    }
   }
 
   /**

@@ -70,9 +70,8 @@ public class BookServiceImpl extends AbstractService<Book, String> implements Bo
     book.addCustomCulomn("b.comId,b.comName,b.formatName,b.publisher,b.gradeLevel,b.gradeLevelId,"
         + "b.relationComId,b.bookEdtion,b.fasciculeId,b.fascicule,b.comOrder,b.bookInTime");
     book.addOrder("b.gradeLevelId asc");
-    book.buildCondition(
-        " and b.comId not in (select c.comId from BookSync c where c.gradeLevelId = :gradeId"
-            + " and c.subjectId = :subjectId and c.publisherId = :publisherId  and c.orgId=:orgId and c.areaId=:areaId)")
+    book.buildCondition(" and b.comId not in (select c.comId from BookSync c where c.gradeLevelId = :gradeId"
+        + " and c.subjectId = :subjectId and c.publisherId = :publisherId  and c.orgId=:orgId and c.areaId=:areaId)")
         .put("gradeId", currGrade).put("subjectId", book.getSubjectId()).put("publisherId", book.getPublisherId())
         .put("orgId", 0).put("areaId", 0);
     List<Book> rs = commidityDao.listAll(book);
@@ -227,13 +226,15 @@ public class BookServiceImpl extends AbstractService<Book, String> implements Bo
 
   @Override
   public List<BookSync> findBookSync(BookSync book) {
-    /*if (book.getAreaId() == null) {
-      book.setAreaId(Area.DEFALUT_AREA);
-
-    }
-    if (book.getOrgId() == null) {
-      book.setOrgId(Organization.DEFAULT_ORG);
-    }*/
+    /*
+     * if (book.getAreaId() == null) {
+     * book.setAreaId(Area.DEFALUT_AREA);
+     * 
+     * }
+     * if (book.getOrgId() == null) {
+     * book.setOrgId(Organization.DEFAULT_ORG);
+     * }
+     */
     book.addOrder("formatName asc,fasciculeId asc");
     book.setEnable(1);
     List<BookSync> list = bookSyncDao.listAll(book);
@@ -289,13 +290,8 @@ public class BookServiceImpl extends AbstractService<Book, String> implements Bo
     book.setFascicule(MetaUtils.getMeta(book.getFasciculeId()).getName());
     book.setComType(1);
     book.setComTypeName("电子课本");
-    book.setShelfType(0);
     book.setBookInTime(new Date());
-    book.setPrice(0.0F);
-    book.setDataModifiedTime(new Date());
-    book.setRecommend(0);
     book.setSaleType(2);
-    book.setDownloadTimes(0L);
     book.setIsDisplay(1);
     book.setSysDelete(0);
     book.setComId(Identities.uuid2());

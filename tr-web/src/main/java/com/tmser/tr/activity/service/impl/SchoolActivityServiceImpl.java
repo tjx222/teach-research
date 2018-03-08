@@ -4,7 +4,6 @@
  */
 package com.tmser.tr.activity.service.impl;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,7 +19,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import com.tmser.tr.activity.bo.SchoolActivity;
 import com.tmser.tr.activity.bo.SchoolActivityTracks;
@@ -31,8 +29,6 @@ import com.tmser.tr.activity.dao.SchoolTeachCircleOrgDao;
 import com.tmser.tr.activity.service.SchoolActivityService;
 import com.tmser.tr.activity.service.SchoolActivityTracksService;
 import com.tmser.tr.activity.service.SchoolTeachCircleOrgService;
-import com.tmser.tr.classapi.bo.ClassInfo;
-import com.tmser.tr.classapi.service.ClassOperateService;
 import com.tmser.tr.comment.bo.Discuss;
 import com.tmser.tr.comment.service.DiscussService;
 import com.tmser.tr.common.ResTypeConstants;
@@ -48,7 +44,6 @@ import com.tmser.tr.manage.meta.MetaUtils;
 import com.tmser.tr.manage.org.bo.Organization;
 import com.tmser.tr.manage.org.dao.OrganizationDao;
 import com.tmser.tr.manage.resources.bo.Attach;
-import com.tmser.tr.manage.resources.bo.Resources;
 import com.tmser.tr.manage.resources.service.AttachService;
 import com.tmser.tr.manage.resources.service.ResourcesService;
 import com.tmser.tr.notice.constants.NoticeType;
@@ -100,9 +95,6 @@ public class SchoolActivityServiceImpl extends AbstractService<SchoolActivity, I
   private LessonPlanService lessonPlanService;
   @Autowired
   private SchoolActivityTracksService schoolActivityTracksService;
-
-  @Resource(name = "classApi")
-  private ClassOperateService classOperateService;
 
   /**
    * @return
@@ -166,7 +158,8 @@ public class SchoolActivityServiceImpl extends AbstractService<SchoolActivity, I
         circleMap.put("lkgradeId", "%," + userSpace.getGradeId() + ",%");
       }
 
-      hql.append(") or expertIds like :lkuserId or (mainUserId=:userId and mainUserSubjectId=:subjectId and mainUserGradeId=:gradeId)) ");
+      hql.append(
+          ") or expertIds like :lkuserId or (mainUserId=:userId and mainUserSubjectId=:subjectId and mainUserGradeId=:gradeId)) ");
       circleMap.put("lkuserId", "%," + userSpace.getUserId() + ",%");
       circleMap.put("lkorgId", "%," + userSpace.getOrgId() + ",%");
       if (!SysRole.TEACHER.getId().equals(sysRoleId)) {
@@ -183,8 +176,7 @@ public class SchoolActivityServiceImpl extends AbstractService<SchoolActivity, I
       listType = 1;
       drafCount = false;
     } else if (sysRoleId.intValue() == SysRole.XZ.getId().intValue()
-        || sysRoleId.intValue() == SysRole.FXZ.getId().intValue()
-        || sysRoleId == SysRole.ZR.getId().intValue()) {// 校长、副校长或者是主任
+        || sysRoleId.intValue() == SysRole.FXZ.getId().intValue() || sysRoleId == SysRole.ZR.getId().intValue()) {// 校长、副校长或者是主任
       if (listType == 1) {
         sa.addCustomCondition(hql.toString(), circleMap);
         drafCount = false;
@@ -195,9 +187,8 @@ public class SchoolActivityServiceImpl extends AbstractService<SchoolActivity, I
       }
       returnMap.put("tuiCircleIds", circleMap.get("tuiCircleIds"));
       returnMap.put("role", "xzzr");
-    } else if (SysRole.BKZZ.getId().equals(sysRoleId) ||
-        SysRole.XKZZ.getId().equals(sysRoleId) ||
-        SysRole.NJZZ.getId().equals(sysRoleId)) {// 备课组长
+    } else if (SysRole.BKZZ.getId().equals(sysRoleId) || SysRole.XKZZ.getId().equals(sysRoleId)
+        || SysRole.NJZZ.getId().equals(sysRoleId)) {// 备课组长
       sa.addCustomCondition(hql.toString(), circleMap);
       returnMap.put("tuiCircleIds", circleMap.get("tuiCircleIds"));
       returnMap.put("role", "zuzhang");
@@ -240,8 +231,7 @@ public class SchoolActivityServiceImpl extends AbstractService<SchoolActivity, I
           if (!isTuiChu) {// 没有退出，才进行封装数据
             SchoolTeachCircleOrg stco = new SchoolTeachCircleOrg();
             stco.setStcId(saTemp.getSchoolTeachCircleId());
-            stco.addCustomCondition(" and state != " + SchoolTeachCircleOrg.YI_JU_JUE,
-                new HashMap<String, Object>());
+            stco.addCustomCondition(" and state != " + SchoolTeachCircleOrg.YI_JU_JUE, new HashMap<String, Object>());
             stco.addOrder("sort asc");
             saTemp.setStcoList(schoolTeachCircleOrgDao.listAll(stco));
           }
@@ -251,8 +241,7 @@ public class SchoolActivityServiceImpl extends AbstractService<SchoolActivity, I
           saTemp.setIsTuiChu(isTuiChu);
           SchoolTeachCircleOrg stco = new SchoolTeachCircleOrg();
           stco.setStcId(saTemp.getSchoolTeachCircleId());
-          stco.addCustomCondition(" and state != " + SchoolTeachCircleOrg.YI_JU_JUE,
-              new HashMap<String, Object>());
+          stco.addCustomCondition(" and state != " + SchoolTeachCircleOrg.YI_JU_JUE, new HashMap<String, Object>());
           stco.addOrder("sort asc");
           saTemp.setStcoList(schoolTeachCircleOrgDao.listAll(stco));
         }
@@ -413,8 +402,7 @@ public class SchoolActivityServiceImpl extends AbstractService<SchoolActivity, I
         if (sa.getTypeId().intValue() == SchoolActivity.TBJA.intValue()) {
           if (schoolActivity.getStatus().intValue() == 1) { // 原来就是正式发文
             if (schoolActivityTracksService.getTrackCountByActivityId(sa.getId()) <= 0) {
-              List<SchoolActivityTracks> trackList = schoolActivityTracksService
-                  .getActivityTracks_zhubei(sa.getId());
+              List<SchoolActivityTracks> trackList = schoolActivityTracksService.getActivityTracks_zhubei(sa.getId());
               for (SchoolActivityTracks track : trackList) {
                 schoolActivityTracksDao.delete(track.getId());
                 resourcesService.deleteResources(track.getResId());
@@ -449,12 +437,10 @@ public class SchoolActivityServiceImpl extends AbstractService<SchoolActivity, I
                 if (schoolActivity.getStartTime() != null && sa.getStartTime() != null) {
                   String startTime1 = sdf.format(schoolActivity.getStartTime());
                   String startTime2 = sdf.format(sa.getStartTime());
-                  if (!schoolActivity.getGradeIds().equals(sa.getGradeIds())
-                      || !startTime1.equals(startTime2)
-                      || !schoolActivity.getSchoolTeachCircleId()
-                          .equals(sa.getSchoolTeachCircleId())
-                      || !(schoolActivity.getExpertIds() != null ? schoolActivity.getExpertIds()
-                          : "").equals(sa.getExpertIds() != null ? sa.getExpertIds() : "")) {
+                  if (!schoolActivity.getGradeIds().equals(sa.getGradeIds()) || !startTime1.equals(startTime2)
+                      || !schoolActivity.getSchoolTeachCircleId().equals(sa.getSchoolTeachCircleId())
+                      || !(schoolActivity.getExpertIds() != null ? schoolActivity.getExpertIds() : "")
+                          .equals(sa.getExpertIds() != null ? sa.getExpertIds() : "")) {
                     return 2;
                   }
                 }
@@ -468,8 +454,7 @@ public class SchoolActivityServiceImpl extends AbstractService<SchoolActivity, I
               if (haveDiscuss) {
                 if (!schoolActivity.getGradeIds().equals(sa.getGradeIds())
                     || schoolActivity.getMainUserId().intValue() != sa.getMainUserId().intValue()
-                    || !schoolActivity.getInfoId().equals(sa.getInfoId())
-                    || !startTime1.equals(startTime2)
+                    || !schoolActivity.getInfoId().equals(sa.getInfoId()) || !startTime1.equals(startTime2)
                     || !schoolActivity.getSchoolTeachCircleId().equals(sa.getSchoolTeachCircleId())
                     || !(schoolActivity.getExpertIds() != null ? schoolActivity.getExpertIds() : "")
                         .equals(sa.getExpertIds() != null ? sa.getExpertIds() : "")) {
@@ -481,8 +466,7 @@ public class SchoolActivityServiceImpl extends AbstractService<SchoolActivity, I
               if (trackCount > 0) {
                 if (!schoolActivity.getGradeIds().equals(sa.getGradeIds())
                     || schoolActivity.getMainUserId().intValue() != sa.getMainUserId().intValue()
-                    || !schoolActivity.getInfoId().equals(sa.getInfoId())
-                    || !startTime1.equals(startTime2)
+                    || !schoolActivity.getInfoId().equals(sa.getInfoId()) || !startTime1.equals(startTime2)
                     || !schoolActivity.getSchoolTeachCircleId().equals(sa.getSchoolTeachCircleId())
                     || !(schoolActivity.getExpertIds() != null ? schoolActivity.getExpertIds() : "")
                         .equals(sa.getExpertIds() != null ? sa.getExpertIds() : "")) {
@@ -494,8 +478,7 @@ public class SchoolActivityServiceImpl extends AbstractService<SchoolActivity, I
           if (sa.getTypeId().intValue() == SchoolActivity.TBJA.intValue()) {
             if (schoolActivity.getStatus().intValue() == 1) { // 原来就是正式发文
               if (schoolActivityTracksService.getTrackCountByActivityId(sa.getId()) <= 0) {
-                List<SchoolActivityTracks> trackList = schoolActivityTracksService
-                    .getActivityTracks_zhubei(sa.getId());
+                List<SchoolActivityTracks> trackList = schoolActivityTracksService.getActivityTracks_zhubei(sa.getId());
                 for (SchoolActivityTracks track : trackList) {
                   schoolActivityTracksDao.delete(track.getId());
                   resourcesService.deleteResources(track.getResId());
@@ -508,9 +491,6 @@ public class SchoolActivityServiceImpl extends AbstractService<SchoolActivity, I
               copyZhubei(sa);
             }
           }
-          if (sa.getTypeId().intValue() == SchoolActivity.ZBKT.intValue()) {
-            this.updateZbktClassId(schoolActivity, resIds, userSpace);
-          }
         }
         schoolActivityDao.update(sa);
         sa = schoolActivityDao.get(sa.getId());
@@ -518,8 +498,8 @@ public class SchoolActivityServiceImpl extends AbstractService<SchoolActivity, I
     } else {// 新增
       Organization organization = organizationDao.get(userSpace.getOrgId());
       sa.setAreaIds(organization.getAreaIds());
-      sa.setTypeName(sa.getTypeId() == 1 ? "同备教案"
-          : (sa.getTypeId() == 2 ? "主题研讨" : (sa.getTypeId() == 3 ? "视频研讨" : "直播课堂")));
+      sa.setTypeName(
+          sa.getTypeId() == 1 ? "同备教案" : (sa.getTypeId() == 2 ? "主题研讨" : (sa.getTypeId() == 3 ? "视频研讨" : "直播课堂")));
       sa.setOrganizeUserId(userSpace.getUserId());
       sa.setOrganizeUserName(userSpace.getUsername());
       sa.setSpaceId(userSpace.getId()); // 用户空间id
@@ -548,11 +528,6 @@ public class SchoolActivityServiceImpl extends AbstractService<SchoolActivity, I
           // 向整理意见表中拷贝一份主备人的教案数据作为原始教案，防止与主备人操作教案起冲突
           copyZhubei(sa);
         }
-        // 直播课堂修改
-        if (sa.getTypeId().intValue() == SchoolActivity.ZBKT.intValue()) {
-          this.insertZbktAttach(sa, resIds, userSpace);
-          schoolActivityDao.update(sa);
-        }
         try {
           // 给参与人发送消息
           sendNoticeOfIssues(sa);
@@ -567,45 +542,6 @@ public class SchoolActivityServiceImpl extends AbstractService<SchoolActivity, I
       setZtytFj(sa.getId(), resIds);
     }
     return 1;
-  }
-
-  /**
-   * 添加直播课堂附件
-   * 
-   * @param sa
-   * @param resIds
-   * @param userSpace
-   */
-  private void insertZbktAttach(SchoolActivity sa, String resIds, UserSpace userSpace) {
-    ClassInfo classInfo = new ClassInfo(sa.getActivityName(), userSpace.getUserId(), userSpace.getUsername(),
-        sa.getStartTime(), sa.getEndTime());
-    List<File> fileList = new ArrayList<File>();
-    // 保存参考附件
-    if (StringUtils.isNotEmpty(resIds)) {
-      String[] attachResIdsArray = resIds.split(",");
-      attachService.addAttach(Attach.XJJY, sa.getId(), userSpace.getUserId(), attachResIdsArray);
-      for (String attachResId : attachResIdsArray) {
-        fileList.add(new File(resourcesService.download(attachResId)));
-      }
-    }
-    if (fileList.size() > 0) {
-      // 将文件批量同步到学点云直播平台
-      List<String> docIds = classOperateService.uploadDoc(fileList, userSpace.getUserId(), userSpace.getUsername());
-      if (!CollectionUtils.isEmpty(docIds)) {
-        classInfo.setDocIds(docIds);// 将同步到学点云的文件id加入到课堂
-      }
-    }
-    // 创建课堂
-    classInfo = classOperateService.createClass(classInfo);
-    sa.setClassId(classInfo.getId());
-
-    try {
-      // TODO 接口ERROR 同步聊天数据
-      // classOperateService.addChatCallback(classInfo.getId());
-    } catch (Exception e) {
-      logger.warn("regist sync interface failed!");
-      logger.debug("", e);
-    }
   }
 
   /**
@@ -631,43 +567,6 @@ public class SchoolActivityServiceImpl extends AbstractService<SchoolActivity, I
       orgids += stcot.getOrgId() + ",";
     }
     return orgids;
-  }
-
-  /**
-   * 修改直播课堂附件
-   * 
-   * @param sa
-   * @param resIds
-   * @param userSpace
-   */
-  private void updateZbktClassId(SchoolActivity sa, String resIds, UserSpace userSpace) {
-    ClassInfo classInfo = classOperateService.getClassInfo(sa.getClassId());
-    List<File> fileList = new ArrayList<File>();
-    // 保存参考附件
-    String[] attachResIdsArray = resIds.split(",");
-    Map<String, List<Resources>> attchInfos = attachService.updateAttach(Attach.XJJY, sa.getId(),
-        userSpace.getUserId(), attachResIdsArray);
-    for (Resources attachResId : attchInfos.get("add")) {
-      fileList.add(new File(resourcesService.download(attachResId.getId())));
-    }
-
-    List<Resources> delResources = attchInfos.get("del");
-    List<String> delDocIds = new ArrayList<String>();
-    for (Resources resources : delResources) {
-      delDocIds.add(String.valueOf(resources.getDeviceId()));
-    }
-    classInfo.setUnBindDocIds(delDocIds);
-
-    if (fileList.size() > 0) {
-      // 将文件批量同步到学点云直播平台
-      List<String> docIds = classOperateService.uploadDoc(fileList, userSpace.getUserId(), userSpace.getUsername());
-      if (!CollectionUtils.isEmpty(docIds)) {
-        classInfo.setDocIds(docIds);// 将同步到学点云的文件id加入到课堂
-      }
-    }
-    // 创建课堂
-    classInfo = classOperateService.updateClass(classInfo);
-    sa.setClassId(classInfo.getId());
   }
 
   /**
@@ -754,8 +653,8 @@ public class SchoolActivityServiceImpl extends AbstractService<SchoolActivity, I
       title.setTitlePrefix("校际教研");
       for (UserSpace us : userSpacesList) {
         if (us.getUserId().intValue() != userId.intValue()) { // 不包含发起人自己
-          NoticeUtils.sendNotice(title, "发布 " + activity.getActivityName() + " 校际教研",
-              activity.getOrganizeUserId(), us.getUserId(), info);
+          NoticeUtils.sendNotice(title, "发布 " + activity.getActivityName() + " 校际教研", activity.getOrganizeUserId(),
+              us.getUserId(), info);
         }
       }
     } catch (Exception e) {
@@ -895,8 +794,7 @@ public class SchoolActivityServiceImpl extends AbstractService<SchoolActivity, I
     List<Integer> subjectIdList = idsStrToIdsList(subjectIdsStr);
     String gradeIdsStr = "0," + activity.getGradeIds().substring(1, activity.getGradeIds().length() - 1);
     List<Integer> gradeIdList = idsStrToIdsList(gradeIdsStr);
-    List<Integer> orgIdList = schoolTeachCircleOrgService
-        .getJoinOrgIdsByCircleId(activity.getSchoolTeachCircleId());
+    List<Integer> orgIdList = schoolTeachCircleOrgService.getJoinOrgIdsByCircleId(activity.getSchoolTeachCircleId());
     List<UserSpace> userSpacesList = userSpaceDao.getUserSpaceByOrg_Subject_Grade(orgIdList, subjectIdList,
         gradeIdList); // 有参与权限的用户
     Map<String, Object> info = new HashMap<String, Object>();
@@ -909,8 +807,8 @@ public class SchoolActivityServiceImpl extends AbstractService<SchoolActivity, I
     title.setTitlePrefix("校际教研");
     for (UserSpace us : userSpacesList) {
       if (us.getUserId().intValue() != userId.intValue()) { // 不包含发起人自己
-        NoticeUtils.sendNotice(title, "整理 " + activity.getActivityName() + " 主备教案",
-            activity.getOrganizeUserId(), us.getUserId(), info);
+        NoticeUtils.sendNotice(title, "整理 " + activity.getActivityName() + " 主备教案", activity.getOrganizeUserId(),
+            us.getUserId(), info);
       }
     }
     // 将活动更新为已发送给参与人状态（之后发起人将不可再整理）
