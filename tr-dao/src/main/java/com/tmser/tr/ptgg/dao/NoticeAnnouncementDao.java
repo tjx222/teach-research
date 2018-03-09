@@ -10,7 +10,7 @@ import com.tmser.tr.common.dao.BaseDAO;
  /**
  * 平台公告---->通知公告 DAO接口
  * <pre>
- *	@author lijianghu
+ *	@author tmser
  *	@DATE:2015-9-28
  * </pre>
  *

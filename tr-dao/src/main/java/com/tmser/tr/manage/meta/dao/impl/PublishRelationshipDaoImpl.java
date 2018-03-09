@@ -17,8 +17,8 @@ import com.tmser.tr.manage.meta.dao.PublishRelationshipDao;
  *
  * </pre>
  *
- * @author zpp
- * @version $Id: PublishRelationship.java, v 1.0 2015-08-24 zpp Exp $
+ * @author tmser
+ * @version $Id: PublishRelationship.java, v 1.0 2015-08-24 tmser Exp $
  */
 @Repository
 public class PublishRelationshipDaoImpl extends AbstractDAO<PublishRelationship,Integer> implements PublishRelationshipDao {

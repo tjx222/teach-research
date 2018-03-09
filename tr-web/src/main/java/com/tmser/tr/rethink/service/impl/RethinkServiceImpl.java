@@ -41,8 +41,8 @@ import com.tmser.tr.utils.StringUtils;
  * 反思相关功能操作Service实现类
  * </pre>
  *
- * @author zpp
- * @version $Id: RethinkServiceImpl.java, v 1.0 2015年2月10日 下午2:57:03 zpp Exp $
+ * @author tmser
+ * @version $Id: RethinkServiceImpl.java, v 1.0 2015年2月10日 下午2:57:03 tmser Exp $
  */
 @Service
 @Transactional

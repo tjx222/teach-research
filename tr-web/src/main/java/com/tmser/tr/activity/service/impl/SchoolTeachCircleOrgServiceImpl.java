@@ -28,8 +28,8 @@ import com.tmser.tr.uc.service.SchoolYearService;
  *
  * </pre>
  *
- * @author zpp
- * @version $Id: SchoolTeachCircleOrg.java, v 1.0 2015-05-12 zpp Exp $
+ * @author tmser
+ * @version $Id: SchoolTeachCircleOrg.java, v 1.0 2015-05-12 tmser Exp $
  */
 @Service
 @Transactional

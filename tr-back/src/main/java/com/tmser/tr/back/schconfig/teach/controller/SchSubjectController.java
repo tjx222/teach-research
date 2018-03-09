@@ -35,9 +35,9 @@ import com.tmser.tr.utils.StringUtils;
  *
  * </pre>
  *
- * @author guohuawei
+ * @author tmser
  * @version $Id: SchPublisherController.java, v 1.0 2017年12月12日 上午11:36:09
- *          guohuawei Exp $
+ *          tmser Exp $
  */
 @Controller
 @RequestMapping("/jy/back/schconfig")

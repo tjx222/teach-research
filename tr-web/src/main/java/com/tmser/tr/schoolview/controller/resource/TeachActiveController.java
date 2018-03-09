@@ -33,7 +33,7 @@ import com.tmser.tr.uc.utils.SessionKey;
  *		返回教研活动的展示数据
  * </pre>
  *
- * @author zpp
+ * @author tmser
  * @version $Id: TeachActiveController.java, v 1.0 2015-11-3 Generate Tools Exp $
  */
 @Controller

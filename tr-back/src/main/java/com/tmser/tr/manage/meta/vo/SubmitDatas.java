@@ -12,8 +12,8 @@ import java.util.Map;
  * 提交教案、课件、反思的封装对象
  * </pre>
  * 
- * @author zpp
- * @version $Id: SubmitDatas.java, v 1.0 2015年3月17日 下午2:18:32 zpp Exp $
+ * @author tmser
+ * @version $Id: SubmitDatas.java, v 1.0 2015年3月17日 下午2:18:32 tmser Exp $
  */
 public class SubmitDatas {
 	/**

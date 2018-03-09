@@ -4,7 +4,6 @@
  */
 package com.tmser.tr.back.yhgl.controller;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.tmser.tr.back.jxtx.service.PublishRelationshipService;
 import com.tmser.tr.back.logger.LoggerModule;
 import com.tmser.tr.back.schconfig.teach.service.PublisherManageService;
 import com.tmser.tr.back.yhgl.service.BackUserManageService;
@@ -54,8 +52,8 @@ import com.tmser.tr.utils.StringUtils;
  * 学校用户管理Controller
  * </pre>
  * 
- * @author zpp
- * @version $Id: SchoolUserController.java, v 1.0 2015年9月24日 上午11:37:35 zpp Exp
+ * @author tmser
+ * @version $Id: SchoolUserController.java, v 1.0 2015年9月24日 上午11:37:35 tmser Exp
  *          $
  */
 @Controller
@@ -83,8 +81,6 @@ public class SchoolUserController extends AbstractController {
   @Autowired
   private BookService bookService;
 
-  @Autowired
-  private PublishRelationshipService publishRelationshipService;
   @Autowired
   private PublisherManageService publishManageService;
 
@@ -206,10 +202,8 @@ public class SchoolUserController extends AbstractController {
     Map<String, List<Meta>> datas = new HashMap<String, List<Meta>>(2);
     Organization org = organizationService.findOne(orgId);
     datas.put("grades", MetaUtils.getOrgTypeMetaProvider().listAllGrade(org.getSchoolings(), phaseId));
-    datas.put(
-        "subjects",
-        MetaUtils.getPhaseSubjectMetaProvider().listAllSubject(orgId, phaseId,
-            StringUtils.toIntegerArray(org.getAreaIds().substring(1, org.getAreaIds().lastIndexOf(",")), ",")));
+    datas.put("subjects", MetaUtils.getPhaseSubjectMetaProvider().listAllSubject(orgId, phaseId,
+        StringUtils.toIntegerArray(org.getAreaIds().substring(1, org.getAreaIds().lastIndexOf(",")), ",")));
     return datas;
   }
 
@@ -400,29 +394,6 @@ public class SchoolUserController extends AbstractController {
   }
 
   /**
-   * 保存学年更新
-   * 
-   * @return
-   */
-  @RequestMapping("/saveUpSchYear")
-  @ResponseBody
-  public JuiResult saveUpSchYear(Integer[] userIds, Integer orgId,
-      @RequestParam(value = "ugflag", defaultValue = "true") Boolean ugflag, Model m) {
-    JuiResult rs = new JuiResult();
-    try {
-      String msg = userManageService.saveUpSchYear(Arrays.asList(userIds), orgId, ugflag);
-      LoggerUtils.insertLogger(LoggerModule.YHGL, "用户管理——更新学校用户的学年成功。用户的ID为：" + Arrays.toString(userIds));
-      rs.setStatusCode(JuiResult.SUCCESS);
-      rs.setMessage(msg);
-    } catch (Exception e) {
-      rs.setStatusCode(JuiResult.FAILED);
-      rs.setMessage("更新学年出错,请联系管理员。");
-      logger.error("--更新学年出错--", e);
-    }
-    return rs;
-  }
-
-  /**
    * 通过学校机构ID搜索所有用户信息
    * 
    * @param m
@@ -451,8 +422,8 @@ public class SchoolUserController extends AbstractController {
         String phases[] = org.getPhaseTypes().split(",");
         for (int i = 0; i < phases.length; i++) {
           if (StringUtils.isNotEmpty(phases[i])) {
-            phaseMap.put(phases[i], MetaUtils.getPhaseMetaProvider().getMetaRelationship(Integer.parseInt(phases[i]))
-                .getName());
+            phaseMap.put(phases[i],
+                MetaUtils.getPhaseMetaProvider().getMetaRelationship(Integer.parseInt(phases[i])).getName());
           }
         }
       }
@@ -481,7 +452,6 @@ public class SchoolUserController extends AbstractController {
        * metaRelationshipService.findGradeByOrgId(usm.getOrgId());
        */
       Map<Integer, String> appIdMap = new HashMap<>();
-      appIdMap.put(1, "优课系统");
       appIdMap.put(0, "教研平台");
 
       m.addAttribute("phases", phaseMap);
@@ -526,26 +496,6 @@ public class SchoolUserController extends AbstractController {
   public Object searAllSch(String name, Integer type) {
     Map<String, Object> orglist = organizationService.getAllOrgByName(name, type);
     return orglist;
-  }
-
-  /**
-   * 更新学年验证初始化
-   * 
-   * @return
-   */
-  @RequestMapping("/upSchoolYear")
-  public String upSchoolYear(Model m, Integer orgId,
-      @RequestParam(value = "force", defaultValue = "false") Boolean force) {
-    try {
-      Map<String, Object> result = userManageService.findUpUsers(orgId, force);
-      m.addAttribute("code", "1");
-      m.addAttribute("result", result);
-      m.addAttribute("orgId", orgId);
-    } catch (Exception e) {
-      m.addAttribute("code", "0");
-      logger.error("--更新学年初始化出错--", e);
-    }
-    return viewName("school/upschoolyear");
   }
 
   /**

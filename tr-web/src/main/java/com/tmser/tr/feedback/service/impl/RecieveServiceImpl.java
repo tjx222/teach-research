@@ -29,7 +29,7 @@ import com.tmser.tr.utils.StringUtils;
 /**
  * 用户反馈信息 服务实现类
  * <pre>
- *@author lijianghu 
+ *@author tmser 
  * </pre>
  *
  * @author Generate Tools

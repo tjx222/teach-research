@@ -11,8 +11,8 @@ import com.tmser.tr.utils.StringUtils;
  *	处理api接口中的一些数据工具类
  * </pre>
  *
- * @author zpp
- * @version $Id: ApiUtils.java, v 1.0 2016年7月2日 上午11:44:22 zpp Exp $
+ * @author tmser
+ * @version $Id: ApiUtils.java, v 1.0 2016年7月2日 上午11:44:22 tmser Exp $
  */
 public class ApiUtils {
 	

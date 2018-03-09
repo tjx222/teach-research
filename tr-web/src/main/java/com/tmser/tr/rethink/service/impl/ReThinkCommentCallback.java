@@ -19,8 +19,8 @@ import com.tmser.tr.lessonplan.dao.LessonPlanDao;
  *
  * </pre>
  *
- * @author zpp
- * @version $Id: ReThinkCommentCallback.java, v 1.0 2015年4月1日 下午4:49:31 zpp Exp $
+ * @author tmser
+ * @version $Id: ReThinkCommentCallback.java, v 1.0 2015年4月1日 下午4:49:31 tmser Exp $
  */
 @Service
 @Lazy(false)

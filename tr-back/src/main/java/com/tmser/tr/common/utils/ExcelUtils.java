@@ -46,8 +46,8 @@ import com.tmser.tr.utils.StringUtils;
  * Excle操作的工具
  * </pre>
  *
- * @author zpp
- * @version $Id: ExcleUtils.java, v 1.0 2015年10月16日 下午5:15:40 zpp Exp $
+ * @author tmser
+ * @version $Id: ExcleUtils.java, v 1.0 2015年10月16日 下午5:15:40 tmser Exp $
  */
 public abstract class ExcelUtils {
 	

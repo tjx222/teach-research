@@ -9,8 +9,8 @@ package com.tmser.tr.managerecord.service;
  *	听课记录查阅service
  * </pre>
  *
- * @author zpp
- * @version $Id: LectureCheckService.java, v 1.0 2015年6月9日 下午5:20:36 zpp Exp $
+ * @author tmser
+ * @version $Id: LectureCheckService.java, v 1.0 2015年6月9日 下午5:20:36 tmser Exp $
  */
 public interface LectureCheckService extends CheckRecordInfoService{
 

@@ -20,50 +20,51 @@ import com.tmser.tr.utils.StringUtils;
 
 /**
  * <pre>
- *	任务监控管理器
+ * 任务监控管理器
  * </pre>
  *
  * @author tmser
- * @version $Id: TaskManagerController.java, v 1.0 2016年9月7日 下午4:07:52 tmser Exp $
+ * @version $Id: TaskManagerController.java, v 1.0 2016年9月7日 下午4:07:52 tmser Exp
+ *          $
  */
 @Controller
 @RequestMapping("/jy/back/task")
-public class TaskManagerController extends AbstractController{
+public class TaskManagerController extends AbstractController {
 
-	/**
-	 * 定时器管理
-	 * @param m
-	 * @return
-	 */
-	@RequestMapping("/index")
-	public String index(Model m){
-		List<Task> tasks = SpringContextHolder.getBeanNamesForType(Task.class);
-		m.addAttribute("tasks",tasks);
-		return viewName("index");
-	}
-	
-	
-	@RequestMapping("/excute/{code}/")
-	@ResponseBody
-	public JuiResult excute(@PathVariable("code")String code){
-		JuiResult jrs = new JuiResult();
-		jrs.setCallbackType("");
-		jrs.setMessage("执行成功");
-		List<Task> tasks = SpringContextHolder.getBeanNamesForType(Task.class);
-		try {
-			if (StringUtils.isNotBlank(code)) {
-				for (Task task : tasks) {
-					if (code.equals(task.code())) {
-						logger.debug("execute task code:{}",code);
-						task.execute();
-					}
-				}
-			} 
-		} catch (Exception e) {
-			logger.error("execute task failed",e);
-			jrs.setStatusCode(JuiResult.FAILED);
-			jrs.setMessage("执行失败");
-		}
-		return jrs;
-	}
+  /**
+   * 定时器管理
+   * 
+   * @param m
+   * @return
+   */
+  @RequestMapping("/index")
+  public String index(Model m) {
+    List<Task> tasks = SpringContextHolder.getBeansForType(Task.class);
+    m.addAttribute("tasks", tasks);
+    return viewName("index");
+  }
+
+  @RequestMapping("/excute/{code}/")
+  @ResponseBody
+  public JuiResult excute(@PathVariable("code") String code) {
+    JuiResult jrs = new JuiResult();
+    jrs.setCallbackType("");
+    jrs.setMessage("执行成功");
+    List<Task> tasks = SpringContextHolder.getBeansForType(Task.class);
+    try {
+      if (StringUtils.isNotBlank(code)) {
+        for (Task task : tasks) {
+          if (code.equals(task.code())) {
+            logger.debug("execute task code:{}", code);
+            task.execute();
+          }
+        }
+      }
+    } catch (Exception e) {
+      logger.error("execute task failed", e);
+      jrs.setStatusCode(JuiResult.FAILED);
+      jrs.setMessage("执行失败");
+    }
+    return jrs;
+  }
 }

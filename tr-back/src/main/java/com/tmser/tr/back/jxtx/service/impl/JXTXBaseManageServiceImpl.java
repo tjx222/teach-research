@@ -42,8 +42,8 @@ import com.tmser.tr.utils.ZipUtils;
  * 教学体系基础数据关系维护service实现类
  * </pre>
  * 
- * @author zpp
- * @version $Id: JXTXBaseManageServiceImpl.java, v 1.0 2015年8月24日 下午4:21:53 zpp
+ * @author tmser
+ * @version $Id: JXTXBaseManageServiceImpl.java, v 1.0 2015年8月24日 下午4:21:53 tmser
  *          Exp $
  */
 @Service

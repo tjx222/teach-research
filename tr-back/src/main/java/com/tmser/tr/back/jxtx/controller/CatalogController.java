@@ -38,8 +38,8 @@ import com.tmser.tr.utils.FileUtils;
  * 	目录管理Controller
  * </pre>
  * 
- * @author zpp
- * @version $Id: CatalogController.java, v 1.0 2015年9月7日 上午11:37:35 zpp Exp $
+ * @author tmser
+ * @version $Id: CatalogController.java, v 1.0 2015年9月7日 上午11:37:35 tmser Exp $
  */
 @Controller
 @RequestMapping("/jy/back/jxtx")

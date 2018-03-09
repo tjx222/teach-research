@@ -17,7 +17,7 @@ import com.tmser.tr.common.bo.BaseObject;
  /**
  * 平台公告---->首页广告 Entity
  * <pre>
- *	@author lijianghu
+ *	@author tmser
  *	@date:2015-9-28
  * </pre>
  *

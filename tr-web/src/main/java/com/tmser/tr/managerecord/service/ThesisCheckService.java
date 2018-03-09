@@ -9,8 +9,8 @@ package com.tmser.tr.managerecord.service;
  *	教学文章查阅service
  * </pre>
  *
- * @author zpp
- * @version $Id: ThesisCheckService.java, v 1.0 2016年8月18日 下午5:20:36 zpp Exp $
+ * @author tmser
+ * @version $Id: ThesisCheckService.java, v 1.0 2016年8月18日 下午5:20:36 tmser Exp $
  */
 public interface ThesisCheckService extends CheckRecordInfoService{
 

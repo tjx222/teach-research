@@ -38,8 +38,8 @@ import com.tmser.tr.utils.StringUtils;
  *
  * </pre>
  *
- * @author zpp
- * @version $Id: CoursewareServiceImpl.java, v 1.0 2015年2月10日 下午2:53:52 zpp Exp
+ * @author tmser
+ * @version $Id: CoursewareServiceImpl.java, v 1.0 2015年2月10日 下午2:53:52 tmser Exp
  *          $
  */
 @Service

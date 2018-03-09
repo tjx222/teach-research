@@ -30,7 +30,6 @@ import com.tmser.tr.manage.meta.service.BookService;
 import com.tmser.tr.manage.org.bo.Organization;
 import com.tmser.tr.uc.SysRole;
 import com.tmser.tr.uc.bo.UserSpace;
-import com.tmser.tr.uc.service.RoleService;
 import com.tmser.tr.uc.utils.CurrentUserContext;
 import com.tmser.tr.uc.utils.SessionKey;
 import com.tmser.tr.utils.StringUtils;
@@ -40,9 +39,9 @@ import com.tmser.tr.utils.StringUtils;
  *
  * </pre>
  *
- * @author guohuawei
+ * @author tmser
  * @version $Id: SchPublisherController.java, v 1.0 2017年12月12日 上午11:36:09
- *          guohuawei Exp $
+ *          tmser Exp $
  */
 @Controller
 @RequestMapping("/jy/back/schconfig/commdity")
@@ -51,8 +50,6 @@ public class SchCommdityController extends AbstractController {
   private OrgJcManageService orgJcManageService;
   @Autowired
   private BookService bookService;
-  @Autowired
-  private RoleService roleService;
   @Autowired
   private SysDicService sysDicService;
 

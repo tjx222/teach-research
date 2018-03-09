@@ -17,7 +17,7 @@ import com.tmser.tr.common.bo.BaseObject;
 /**
 * 用户反馈信息 Entity
 * <pre>
- *@author lijianghu
+ *@author tmser
 * </pre>
 *
 * @author Generate Tools

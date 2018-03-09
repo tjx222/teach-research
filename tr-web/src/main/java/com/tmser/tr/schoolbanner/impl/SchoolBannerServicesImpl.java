@@ -19,8 +19,8 @@ import com.tmser.tr.xxsy.bannermanner.dao.SchoolBannerDao;
  *
  * </pre>
  *
- * @author lijianghu
- * @version $Id: SchoolBanner.java, v 1.0 2015-10-28 lijianghu Exp $
+ * @author tmser
+ * @version $Id: SchoolBanner.java, v 1.0 2015-10-28 tmser Exp $
  */
 @Service
 @Transactional

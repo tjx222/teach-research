@@ -19,7 +19,7 @@ import com.tmser.tr.ptgg.bo.FlatformAnnouncement;
 import com.tmser.tr.uc.utils.CurrentUserContext;
 /**
  * 平台公告---->首页广告
- * @author lijianghu
+ * @author tmser
  * @date:2015-9-28
  *
  */

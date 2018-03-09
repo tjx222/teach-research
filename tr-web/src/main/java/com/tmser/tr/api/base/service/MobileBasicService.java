@@ -12,8 +12,8 @@ import java.util.Map;
  *	移动离线端基础接口服务。
  * </pre>
  *
- * @author zpp
- * @version $Id: MobileBasicService.java, v 1.0 2016年4月11日 下午1:52:23 zpp Exp $
+ * @author tmser
+ * @version $Id: MobileBasicService.java, v 1.0 2016年4月11日 下午1:52:23 tmser Exp $
  */
 public interface MobileBasicService {
 	/**

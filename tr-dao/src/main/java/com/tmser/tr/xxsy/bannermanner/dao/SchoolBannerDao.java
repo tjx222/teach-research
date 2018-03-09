@@ -13,8 +13,8 @@ import com.tmser.tr.xxsy.bannermanner.bo.SchoolBanner;
  *
  * </pre>
  *
- * @author lijianghu
- * @version $Id: SchoolBanner.java, v 1.0 2015-10-28 lijianghu Exp $
+ * @author tmser
+ * @version $Id: SchoolBanner.java, v 1.0 2015-10-28 tmser Exp $
  */
 public interface SchoolBannerDao extends BaseDAO<SchoolBanner, Integer>{
 

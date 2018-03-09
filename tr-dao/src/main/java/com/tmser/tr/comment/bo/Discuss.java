@@ -24,8 +24,8 @@ import com.tmser.tr.common.bo.BaseObject;
  *
  * </pre>
  *
- * @author zpp
- * @version $Id: AreaActivityDiscuss.java, v 1.0 2016-09-29 zpp Exp $
+ * @author tmser
+ * @version $Id: AreaActivityDiscuss.java, v 1.0 2016-09-29 tmser Exp $
  */
 @SuppressWarnings("serial")
 @Entity

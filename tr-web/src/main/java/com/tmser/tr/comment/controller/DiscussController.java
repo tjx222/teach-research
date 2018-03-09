@@ -30,8 +30,8 @@ import com.tmser.tr.notice.service.bo.MessageNumCacheEntity;
  *		区域教研中各活动的讨论相关功能controller
  * </pre>
  *
- * @author zpp
- * @version $Id: AreaActivityDiscussController.java, v 1.0 2016年9月29日 下午4:01:31 zpp Exp $
+ * @author tmser
+ * @version $Id: AreaActivityDiscussController.java, v 1.0 2016年9月29日 下午4:01:31 tmser Exp $
  */
 @Controller
 @RequestMapping("/jy/comment")

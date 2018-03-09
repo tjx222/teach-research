@@ -62,8 +62,8 @@ import com.tmser.tr.writelessonplan.service.LessonPlanService;
  * 
  * </pre>
  * 
- * @author zpp
- * @version $Id: SchoolActivity.java, v 1.0 2015-05-20 zpp Exp $
+ * @author tmser
+ * @version $Id: SchoolActivity.java, v 1.0 2015-05-20 tmser Exp $
  */
 @Service
 @Transactional

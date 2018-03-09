@@ -24,9 +24,9 @@ import com.tmser.tr.writelessonplan.service.LessonPlanService;
  * 对接简案、课件
  * </pre>
  *
- * @author guohuawei
+ * @author tmser
  * @version $Id: LessonPlanRemoteController.java, v 1.0 2016年5月20日 下午1:41:52
- *          guohuawei Exp $
+ *          tmser Exp $
  */
 @Controller
 @RequestMapping("/jy/ws")

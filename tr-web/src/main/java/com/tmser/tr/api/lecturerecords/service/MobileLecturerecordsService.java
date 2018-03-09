@@ -14,9 +14,9 @@ import com.tmser.tr.common.vo.Result;
  *
  * </pre>
  *
- * @author zpp
+ * @author tmser
  * @version $Id: MobileLecturerecordsService.java, v 1.0 2016年4月15日 下午5:37:50
- *          zpp Exp $
+ *          tmser Exp $
  */
 public interface MobileLecturerecordsService {
 	/**

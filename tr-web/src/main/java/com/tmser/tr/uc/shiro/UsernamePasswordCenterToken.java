@@ -11,8 +11,8 @@ import org.apache.shiro.authc.UsernamePasswordToken;
  *
  * </pre>
  *
- * @author zpp
- * @version $Id: UsernamePasswordCenterToken.java, v 1.0 2015年12月18日 下午5:22:34 zpp Exp $
+ * @author tmser
+ * @version $Id: UsernamePasswordCenterToken.java, v 1.0 2015年12月18日 下午5:22:34 tmser Exp $
  */
 @SuppressWarnings("serial")
 public class UsernamePasswordCenterToken extends UsernamePasswordToken {

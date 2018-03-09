@@ -18,8 +18,8 @@ import com.tmser.tr.lessonplan.bo.LessonPlan;
  *
  * </pre>
  *
- * @author zpp
- * @version $Id: CoursewareService.java, v 1.0 2015年2月10日 下午2:52:00 zpp Exp $
+ * @author tmser
+ * @version $Id: CoursewareService.java, v 1.0 2015年2月10日 下午2:52:00 tmser Exp $
  */
 public interface CoursewareService {
 

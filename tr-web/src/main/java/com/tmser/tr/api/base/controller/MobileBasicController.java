@@ -29,8 +29,8 @@ import com.tmser.tr.rethink.controller.RethinkController;
  * 离线端基础数据接口控制类
  * </pre>
  *
- * @author zpp
- * @version $Id: BasicController.java, v 1.0 2016年4月11日 下午14:05:37 zpp Exp $
+ * @author tmser
+ * @version $Id: BasicController.java, v 1.0 2016年4月11日 下午14:05:37 tmser Exp $
  */
 @Controller
 @RequestMapping(value = "/jy/api/base", produces = "application/vnd.jypt.v1+json")

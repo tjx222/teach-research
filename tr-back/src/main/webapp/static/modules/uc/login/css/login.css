@@ -26,8 +26,8 @@ html,body{
 }
 .wraper .login{
 	left: 50%;
-	width: 493px;
-	height: 292px;
+	width: 564px;
+	height: 299px;
 	margin-left: -247px;
 	background: url('../images/loginbg2.png') no-repeat;
 	top: 140px;
@@ -35,7 +35,7 @@ html,body{
 }
 .txt_wrap{
 	width:220px;
-	margin-top:20px;
+	margin-top:48px;
 	color:#fff;
 	position: relative;
 	margin-left:auto;

@@ -37,7 +37,7 @@ import com.tmser.tr.uc.utils.SessionKey;
 /**
  * 学校首页---->图片新闻
  * 
- * @author lijianghu
+ * @author tmser
  * @date:2015-11-02
  *
  */

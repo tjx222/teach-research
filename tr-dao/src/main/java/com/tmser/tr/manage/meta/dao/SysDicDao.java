@@ -7,7 +7,7 @@ import com.tmser.tr.manage.meta.bo.SysDic;
 
 /**
  * 元数据表DAO接口
- * @author zpp
+ * @author tmser
  * @version 1.0
  * 2015-01-21
  */

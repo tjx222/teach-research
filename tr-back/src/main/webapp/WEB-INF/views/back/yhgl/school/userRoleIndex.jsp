@@ -15,7 +15,6 @@
 					<th width="">学段</th>
 					<th width="160">身份名称</th>
 					<th width="120">角色</th>
-					<th width="80">学年</th>
 					<th width="100">操作</th>
 				</tr>
 			</thead>
@@ -35,7 +34,6 @@
 		            		<jy:di key="${data.roleId }" className="com.tmser.tr.uc.service.RoleService" var="role"/>
 		            		${role.roleName}
 		            	</td>
-		            	<td>${data.schoolYear}</td>
 			            <td>
 				            <a title="查看"  target="dialog" href="${ctx}jy/back/yhgl/detailUserRole?id=${data.id}" class="btnSee" mask="true"></a>
 				            <c:if test="${sessionScope._CURRENT_SCHOOLYEAR_ == data.schoolYear}">

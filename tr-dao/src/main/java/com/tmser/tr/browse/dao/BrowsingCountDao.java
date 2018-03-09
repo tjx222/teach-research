@@ -13,8 +13,8 @@ import com.tmser.tr.browse.bo.BrowsingCount;
  *
  * </pre>
  *
- * @author zpp
- * @version $Id: BrowsingCount.java, v 1.0 2015-11-11 zpp Exp $
+ * @author tmser
+ * @version $Id: BrowsingCount.java, v 1.0 2015-11-11 tmser Exp $
  */
 public interface BrowsingCountDao extends BaseDAO<BrowsingCount, Integer>{
 

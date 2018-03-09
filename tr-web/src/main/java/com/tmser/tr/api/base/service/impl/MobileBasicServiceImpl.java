@@ -50,8 +50,8 @@ import com.tmser.tr.utils.StringUtils;
  * 移动离线端基础服务实现。
  * </pre>
  *
- * @author zpp
- * @version $Id: MobileBasicServiceImpl.java, v 1.0 2016年4月11日 下午2:12:32 zpp Exp
+ * @author tmser
+ * @version $Id: MobileBasicServiceImpl.java, v 1.0 2016年4月11日 下午2:12:32 tmser Exp
  *          $
  */
 @Service

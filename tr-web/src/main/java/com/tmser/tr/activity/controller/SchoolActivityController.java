@@ -62,8 +62,8 @@ import com.zhuozhengsoft.pageoffice.PageOfficeCtrl;
  * 校际教研活动controller
  * </pre>
  * 
- * @author zpp
- * @version $Id: SchoolActivityController.java, v 1.0 2015年5月20日 上午10:17:31 zpp
+ * @author tmser
+ * @version $Id: SchoolActivityController.java, v 1.0 2015年5月20日 上午10:17:31 tmser
  *          Exp $
  */
 @Controller

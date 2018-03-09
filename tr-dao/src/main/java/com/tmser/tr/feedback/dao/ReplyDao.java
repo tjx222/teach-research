@@ -10,7 +10,7 @@ import com.tmser.tr.feedback.bo.Reply;
  /**
  * 用户反馈回复信息 DAO接口
  * <pre>
- *@author lijianghu
+ *@author tmser
  * </pre>
  *
  * @author Generate Tools

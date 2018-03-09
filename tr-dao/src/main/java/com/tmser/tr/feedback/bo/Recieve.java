@@ -25,7 +25,7 @@ import com.tmser.tr.manage.resources.bo.Resources;
  /**
  * 用户反馈信息 Entity
  * <pre>
- *@author lijianghu
+ *@author tmser
  * </pre>
  *
  * @author Generate Tools

@@ -12,8 +12,8 @@ import com.tmser.tr.manage.meta.bo.PublishRelationship;
  *
  * </pre>
  *
- * @author zpp
- * @version $Id: PublishRelationship.java, v 1.0 2015-08-24 zpp Exp $
+ * @author tmser
+ * @version $Id: PublishRelationship.java, v 1.0 2015-08-24 tmser Exp $
  */
 public interface PublishRelationshipDao extends BaseDAO<PublishRelationship, Integer>{
 

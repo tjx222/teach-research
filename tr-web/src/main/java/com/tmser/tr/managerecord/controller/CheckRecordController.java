@@ -56,8 +56,8 @@ import com.tmser.tr.writelessonplan.service.LessonPlanService;
  *  管理记录-查阅记录-查阅课件
  * </pre>
  *
- * @author zpp
- * @version $Id: CheckRecordController.java, v 1.0 2015年6月4日 上午11:08:01 zpp Exp $
+ * @author tmser
+ * @version $Id: CheckRecordController.java, v 1.0 2015年6月4日 上午11:08:01 tmser Exp $
  */
 @Controller
 @RequestMapping("/jy/managerecord/check")

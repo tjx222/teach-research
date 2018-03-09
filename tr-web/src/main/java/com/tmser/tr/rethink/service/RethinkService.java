@@ -17,8 +17,8 @@ import com.tmser.tr.lessonplan.bo.LessonPlan;
  * 教学反思相关功能操作Service接口类
  * </pre>
  *
- * @author zpp
- * @version $Id: RethinkService.java, v 1.0 2015年2月10日 下午2:55:05 zpp Exp $
+ * @author tmser
+ * @version $Id: RethinkService.java, v 1.0 2015年2月10日 下午2:55:05 tmser Exp $
  */
 public interface RethinkService extends BaseService<LessonPlan, Integer> {
 

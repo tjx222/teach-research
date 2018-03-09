@@ -49,9 +49,9 @@ import com.tmser.tr.utils.StringUtils;
  *
  * </pre>
  *
- * @author zpp
+ * @author tmser
  * @version $Id: MobileLecturerecordsServiceImpl.java, v 1.0 2016年4月15日
- *          下午5:39:43 zpp Exp $
+ *          下午5:39:43 tmser Exp $
  */
 @Service
 @Transactional

@@ -19,8 +19,8 @@ import com.tmser.tr.common.ResTypeConstants;
  *	集体备课、区域教研、校际教研
  * </pre>
  *
- * @author zpp
- * @version $Id: SchoolActivityCommentCallback.java, v 1.0 2016年1月27日 下午4:49:31 zpp Exp $
+ * @author tmser
+ * @version $Id: SchoolActivityCommentCallback.java, v 1.0 2016年1月27日 下午4:49:31 tmser Exp $
  */
 @Service
 @Transactional

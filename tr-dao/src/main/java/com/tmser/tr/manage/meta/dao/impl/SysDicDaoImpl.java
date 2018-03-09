@@ -15,7 +15,7 @@ import com.tmser.tr.manage.meta.dao.SysDicDao;
 
 /**
  * 元数据表 Dao 实现类
- * @author zpp
+ * @author tmser
  * @version 1.0
  * 2015-01-21
  */

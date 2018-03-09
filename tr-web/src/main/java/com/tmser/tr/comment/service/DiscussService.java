@@ -17,8 +17,8 @@ import com.tmser.tr.common.service.BaseService;
  *
  * </pre>
  *
- * @author zpp
- * @version $Id: AreaActivityDiscussService.java, v 1.0 2015-05-29 zpp Exp $
+ * @author tmser
+ * @version $Id: AreaActivityDiscussService.java, v 1.0 2015-05-29 tmser Exp $
  */
 
 public interface DiscussService extends BaseService<Discuss, Integer>{

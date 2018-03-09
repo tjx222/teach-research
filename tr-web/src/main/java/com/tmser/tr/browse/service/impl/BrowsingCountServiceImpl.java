@@ -19,8 +19,8 @@ import com.tmser.tr.common.service.AbstractService;
  *
  * </pre>
  *
- * @author zpp
- * @version $Id: BrowsingCount.java, v 1.0 2015-11-11 zpp Exp $
+ * @author tmser
+ * @version $Id: BrowsingCount.java, v 1.0 2015-11-11 tmser Exp $
  */
 @Service
 @Transactional

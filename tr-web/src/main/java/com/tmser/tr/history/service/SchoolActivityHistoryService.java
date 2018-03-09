@@ -17,8 +17,8 @@ import com.tmser.tr.history.vo.SearchVo;
  *
  * </pre>
  *
- * @author zpp
- * @version $Id: SchoolActivityHistoryService.java, v 1.0 2016年5月24日 上午11:34:33 zpp Exp $
+ * @author tmser
+ * @version $Id: SchoolActivityHistoryService.java, v 1.0 2016年5月24日 上午11:34:33 tmser Exp $
  */
 public interface SchoolActivityHistoryService {
 

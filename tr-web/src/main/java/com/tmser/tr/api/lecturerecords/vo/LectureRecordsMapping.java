@@ -17,8 +17,8 @@ import com.tmser.tr.lecturerecords.bo.LectureRecords;
  *
  * </pre>
  *
- * @author zpp
- * @version $Id: LectureRecordsMapping.java, v 1.0 2016年4月18日 下午4:30:13 zpp Exp
+ * @author tmser
+ * @version $Id: LectureRecordsMapping.java, v 1.0 2016年4月18日 下午4:30:13 tmser Exp
  *          $
  */
 public class LectureRecordsMapping extends LectureRecords {

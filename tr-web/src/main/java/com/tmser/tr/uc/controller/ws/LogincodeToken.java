@@ -16,7 +16,7 @@ import com.tmser.tr.uc.bo.App;
  * </pre>
  *
  * @author tjx
- * @version $Id: UsernamePasswordCenterToken.java, v 1.0 2016年1月06日 下午5:22:34 zpp Exp $
+ * @version $Id: UsernamePasswordCenterToken.java, v 1.0 2016年1月06日 下午5:22:34 tmser Exp $
  */
 @SuppressWarnings("serial")
 public class LogincodeToken extends UsernamePasswordToken {

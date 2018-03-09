@@ -24,8 +24,8 @@ import com.tmser.tr.common.bo.BaseObject;
  *
  * </pre>
  *
- * @author zpp
- * @version $Id: PublishRelationship.java, v 1.0 2015-08-24 zpp Exp $
+ * @author tmser
+ * @version $Id: PublishRelationship.java, v 1.0 2015-08-24 tmser Exp $
  */
 @SuppressWarnings("serial")
 @Entity

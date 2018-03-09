@@ -28,8 +28,8 @@ import com.tmser.tr.manage.meta.vo.BookLessonVo;
  *
  * </pre>
  *
- * @author zpp
- * @version $Id: MetaDataHerperServiceImpl.java, v 1.0 2015年2月3日 上午9:32:15 zpp
+ * @author tmser
+ * @version $Id: MetaDataHerperServiceImpl.java, v 1.0 2015年2月3日 上午9:32:15 tmser
  *          Exp $
  */
 @Service

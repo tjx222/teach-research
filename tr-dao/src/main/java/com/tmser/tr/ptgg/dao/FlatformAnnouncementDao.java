@@ -10,7 +10,7 @@ import com.tmser.tr.ptgg.bo.FlatformAnnouncement;
  /**
  * 平台公告---->首页广告 DAO接口
  * <pre>
- *	@author lijianghu
+ *	@author tmser
  *	@DATE:2015-9-28
  * </pre>
  *

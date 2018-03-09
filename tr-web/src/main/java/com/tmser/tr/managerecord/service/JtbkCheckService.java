@@ -10,8 +10,8 @@ package com.tmser.tr.managerecord.service;
  *	课件反思查阅service
  * </pre>
  *
- * @author zpp
- * @version $Id: JtbkCheckService.java, v 1.0 2015年6月9日 下午5:20:36 zpp Exp $
+ * @author tmser
+ * @version $Id: JtbkCheckService.java, v 1.0 2015年6月9日 下午5:20:36 tmser Exp $
  */
 public interface JtbkCheckService extends CheckRecordInfoService{
 	

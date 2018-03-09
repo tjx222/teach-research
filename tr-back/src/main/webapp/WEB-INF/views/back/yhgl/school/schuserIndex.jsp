@@ -50,24 +50,6 @@
 							</select>
 						</td>
 						<td>
-								<select class="combox" name="schoolYear">
-									<option value="">全部学年</option>
-									<c:forEach var="sy" end="${sessionScope._CURRENT_SCHOOLYEAR_ }" begin="2015" step="1">
-										<option value="${sy }" ${sy == model.schoolYear ?  'selected':'' }>${sy}学年</option>
-									</c:forEach>
-								</select>
-						</td>
-						<shiro:hasPermission name="yhgl_xx_tb">
-						<td>
-							<select class="combox" name="appId" id="sel_appId">
-								<option value="">账号来源</option>
-								<c:forEach items="${appIds }" var="appId">
-									<option value="${appId.key }" ${appId.key == model.appId ?  'selected':'' }>${appId.value }</option>
-								</c:forEach>
-							</select>
-						</td>
-						</shiro:hasPermission>
-						<td>
 							<div class="buttonContent"><button type="submit" style="cursor: pointer;">搜索</button></div>
 						</td>
 					</tr>
@@ -91,7 +73,6 @@
 						<c:if test="${not empty model.phaseId }" >
 						<li><a href="${ctx}jy/back/yhgl/exportsDetails?templateType=xxyh&phaseId=${model.phaseId}&orgId=${model.orgId}" class="icon"><span>导出用户</span></a></li>
 						</c:if>
-						<li><a target="dialog" href="${ctx}jy/back/yhgl/upSchoolYear?orgId=${model.orgId}" class="edit" rel="update_sch_year"  mask="true"><span>更新学年</span></a></li>
 						<li class="line">line</li>
 					</ul>
 				</div>
@@ -114,7 +95,6 @@
 							<th width="150" orderField="u.name" class="${model.flago == 'u.name' ?  model.flags == 'desc' ? 'desc' : 'asc' :'cansort'}">姓名</th>
 							<th width="150">学校</th>
 							<th width="150" orderField="u.crtDttm" class="${model.flago == 'u.crtDttm' ?  model.flags == 'desc' ? 'desc' : 'asc' :'cansort'}">创建时间</th>
-							<th width="50"  orderField="u.appId" class="${model.flago == 'u.appId' ?  model.flags == 'desc' ? 'desc' : 'asc' :'cansort'}">是否升级</th>
 							<th width="150">操作</th>
 						</tr>
 					</thead>
@@ -128,7 +108,6 @@
 					             	${data.orgName }
 					             </td>
 					             <td ><fmt:formatDate value="${data.crtDttm}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-					    		 <td >${data.appId>0?"是":"否"}</td>
 					             <td >
 									 <a title="查看" mask="true" target="dialog"  href="${ctx}jy/back/yhgl/lookSchoolUser?orgId=${model.orgId}&id=${data.id}"  class="btnSee"  rel="look_sch_user"></a>
 									 <a title="编辑" mask="true" target="dialog" href="${ctx}jy/back/yhgl/addOrEditSchoolUser?orgId=${model.orgId}&id=${data.id}" class="btn_Edit"  rel="edit_sch_user"></a>

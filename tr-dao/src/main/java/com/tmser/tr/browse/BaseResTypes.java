@@ -9,8 +9,8 @@ import java.util.Map;
  *  系统基本资源类型
  * </pre>
  *
- * @author zpp
- * @version $Id: BaseResTypes.java, v 1.0 2015年11月10日 下午4:48:26 zpp Exp $
+ * @author tmser
+ * @version $Id: BaseResTypes.java, v 1.0 2015年11月10日 下午4:48:26 tmser Exp $
  */
 public final class BaseResTypes{
 

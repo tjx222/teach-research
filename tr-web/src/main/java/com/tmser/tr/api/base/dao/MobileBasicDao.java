@@ -16,7 +16,7 @@ import com.tmser.tr.uc.bo.UserSpace;
  * api基础信息dao层接口
  * </pre>
  *
- * @author zpp
+ * @author tmser
  * @version $Id: MobileBasicDao.java, v 1.0 2016年4月19日 下午3:05:40 3020mt Exp $
  */
 public interface MobileBasicDao extends BaseDAO<UserSpace, Serializable> {

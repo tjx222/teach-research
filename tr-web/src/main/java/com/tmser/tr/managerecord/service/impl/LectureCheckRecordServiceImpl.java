@@ -24,8 +24,8 @@ import com.tmser.tr.uc.utils.SessionKey;
  *	 听课记录管理记录服务类
  * </pre>
  *
- * @author zpp
- * @version $Id: LectureCheckRecordServiceImpl.java, v 1.0 2016年8月17日 下午2:06:11 zpp Exp $
+ * @author tmser
+ * @version $Id: LectureCheckRecordServiceImpl.java, v 1.0 2016年8月17日 下午2:06:11 tmser Exp $
  */
 @Service
 @Transactional

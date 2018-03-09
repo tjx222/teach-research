@@ -31,7 +31,7 @@ import com.tmser.tr.uc.utils.SessionKey;
 /**
  * <pre>
  * 用户反馈
- *@author lijianghu
+ *@author tmser
  * </pre>
  *
  * @author tmser

@@ -16,8 +16,8 @@ import com.tmser.tr.common.dao.AbstractDAO;
  *
  * </pre>
  *
- * @author zpp
- * @version $Id: AreaActivityDiscussDaoImpl.java, v 1.0 2016-09-29 zpp Exp $
+ * @author tmser
+ * @version $Id: AreaActivityDiscussDaoImpl.java, v 1.0 2016-09-29 tmser Exp $
  */
 @Repository
 public class DiscussDaoImpl extends AbstractDAO<Discuss,Integer> implements DiscussDao {

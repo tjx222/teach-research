@@ -28,8 +28,8 @@ import com.tmser.tr.manage.meta.dao.PublishRelationshipDao;
  * 出版社关联关系管理的service层实现类
  * </pre>
  *
- * @author zpp
- * @version $Id: PublishRelationshipServiceImpl.java, v 1.0 2015-08-27 zpp Exp $
+ * @author tmser
+ * @version $Id: PublishRelationshipServiceImpl.java, v 1.0 2015-08-27 tmser Exp $
  */
 @Service
 @Transactional

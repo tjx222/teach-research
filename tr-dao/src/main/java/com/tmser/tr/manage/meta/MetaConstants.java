@@ -8,7 +8,7 @@ package com.tmser.tr.manage.meta;
  * 元数据操作的常量
  * 
  * @author tmser
- * @version $Id: MetaDataConstants.java, v 1.0 2015年2月4日 上午11:25:58 zpp Exp $
+ * @version $Id: MetaDataConstants.java, v 1.0 2015年2月4日 上午11:25:58 tmser Exp $
  */
 public abstract class MetaConstants {
 

@@ -30,8 +30,8 @@ import com.tmser.tr.manage.meta.bo.PublishRelationship;
  * 
  * </pre>
  * 
- * @author zpp
- * @version $Id: JXTXBaseManageController.java, v 1.0 2015年8月24日 上午11:37:35 zpp
+ * @author tmser
+ * @version $Id: JXTXBaseManageController.java, v 1.0 2015年8月24日 上午11:37:35 tmser
  *          Exp $
  */
 @Controller

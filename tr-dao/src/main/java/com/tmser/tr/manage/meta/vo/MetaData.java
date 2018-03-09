@@ -11,8 +11,8 @@ import java.io.Serializable;
  *
  * </pre>
  *
- * @author zpp
- * @version $Id: MetaData.java, v 1.0 2015年2月3日 下午2:24:54 zpp Exp $
+ * @author tmser
+ * @version $Id: MetaData.java, v 1.0 2015年2月3日 下午2:24:54 tmser Exp $
  */
 public class MetaData implements Serializable{
 	/**

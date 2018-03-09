@@ -20,7 +20,7 @@ import com.tmser.tr.uc.bo.UserSpace;
  * api基础信息dao层实现操作
  * </pre>
  *
- * @author zpp
+ * @author tmser
  * @version $Id: MobileBasicDaoImpl.java, v 1.0 2016年4月19日 下午3:07:12 3020mt Exp
  *          $
  */

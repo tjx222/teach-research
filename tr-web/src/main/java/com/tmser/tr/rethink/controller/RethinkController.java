@@ -42,8 +42,8 @@ import com.tmser.tr.writelessonplan.service.LessonPlanService;
  * 教学反思相关功能操作Controller
  * </pre>
  *
- * @author zpp
- * @version $Id: RethinkController.java, v 1.0 2015年2月10日 下午2:46:12 zpp Exp $
+ * @author tmser
+ * @version $Id: RethinkController.java, v 1.0 2015年2月10日 下午2:46:12 tmser Exp $
  */
 @Controller
 @RequestMapping("/jy/rethink")

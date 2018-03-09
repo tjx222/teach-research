@@ -16,8 +16,8 @@ import com.tmser.tr.manage.meta.bo.PublishRelationship;
  *	出版社关联关系管理的service层接口
  * </pre>
  *
- * @author zpp
- * @version $Id: PublishRelationshipService.java, v 1.0 2015-08-27 zpp Exp $
+ * @author tmser
+ * @version $Id: PublishRelationshipService.java, v 1.0 2015-08-27 tmser Exp $
  */
 
 public interface PublishRelationshipService extends BaseService<PublishRelationship, Integer>{

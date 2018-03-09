@@ -43,8 +43,8 @@ import com.tmser.tr.writelessonplan.service.LessonPlanService;
  *
  * </pre>
  *
- * @author zpp
- * @version $Id: BrowsingRecord.java, v 1.0 2015-11-09 zpp Exp $
+ * @author tmser
+ * @version $Id: BrowsingRecord.java, v 1.0 2015-11-09 tmser Exp $
  */
 @Service
 @Transactional

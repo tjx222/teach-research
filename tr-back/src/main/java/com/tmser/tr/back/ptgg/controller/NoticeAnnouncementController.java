@@ -28,7 +28,7 @@ import com.tmser.tr.uc.service.UserService;
 import com.tmser.tr.uc.utils.CurrentUserContext;
 /**
  * 平台公告---->通知公告
- * @author lijianghu
+ * @author tmser
  * @date:2015-9-30
  *
  */

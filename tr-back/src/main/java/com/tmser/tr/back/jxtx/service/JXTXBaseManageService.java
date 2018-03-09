@@ -15,8 +15,8 @@ import com.tmser.tr.manage.meta.bo.BookChapter;
  * 
  * </pre>
  * 
- * @author zpp
- * @version $Id: JXTXBaseManageService.java, v 1.0 2015年8月24日 下午4:21:09 zpp Exp
+ * @author tmser
+ * @version $Id: JXTXBaseManageService.java, v 1.0 2015年8月24日 下午4:21:09 tmser Exp
  *          $
  */
 public interface JXTXBaseManageService {

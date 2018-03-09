@@ -23,8 +23,8 @@ import com.tmser.tr.common.bo.QueryObject;
  *
  * </pre>
  *
- * @author zpp
- * @version $Id: Commidity.java, v 1.0 2015-02-06 zpp Exp $
+ * @author tmser
+ * @version $Id: Commidity.java, v 1.0 2015-02-06 tmser Exp $
  */
 @SuppressWarnings("serial")
 @Entity

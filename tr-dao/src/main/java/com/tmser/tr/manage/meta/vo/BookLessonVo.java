@@ -15,8 +15,8 @@ import java.util.List;
  *
  * </pre>
  *
- * @author zpp
- * @version $Id: BookChapterVo.java, v 1.0 2015-02-04 zpp Exp $
+ * @author tmser
+ * @version $Id: BookChapterVo.java, v 1.0 2015-02-04 tmser Exp $
  */
 public class BookLessonVo implements Serializable{
 	/**

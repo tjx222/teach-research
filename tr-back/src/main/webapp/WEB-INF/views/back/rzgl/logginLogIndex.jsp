@@ -61,7 +61,7 @@
 		</div>
 		<c:choose>
 			<c:when test="${!empty pageList.datalist}">
-				<table class="table" width="100%" rel="LoggerManageBox">
+				<table class="table" width="100%" rel="LoggerManageBox" layoutH="122">
 					<thead>
 						<tr>
 							<th width="80">账号</th>

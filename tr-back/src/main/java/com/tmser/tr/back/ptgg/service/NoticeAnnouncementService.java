@@ -10,7 +10,7 @@ import com.tmser.tr.common.service.BaseService;
 /**
  * 平台公告---->通知公告 服务类
  * <pre>
- * @author lijianghu
+ * @author tmser
  * @date:2015-9-30
  * </pre>
  *

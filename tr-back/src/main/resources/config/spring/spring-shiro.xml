@@ -14,14 +14,11 @@
         <property name="authenticationCachingEnabled" value="false"/>
         <property name="authorizationCachingEnabled" value="false"/>-->
     </bean>
-    <bean id="logincodeUserRealm" class="com.tmser.tr.uc.controller.ws.LogincodeUserRealm">
-    </bean>
 	<!-- 定义 Shiro 主要业务对象 -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realms"> 
 			<list>
 				<ref bean="userRealm"/>
-				<ref bean="logincodeUserRealm"/>
 			</list>
 		</property>
 		
@@ -60,9 +57,5 @@
 	</bean>
      
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
-	
-	<!-- 接入app 配置 -->
-    <bean class="com.tmser.tr.uc.service.impl.CompositeSsoServiceImpl">
-    </bean>
 	
 </beans>

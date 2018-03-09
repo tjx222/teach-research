@@ -24,8 +24,8 @@ import com.tmser.tr.common.bo.BaseObject;
  *
  * </pre>
  *
- * @author zpp
- * @version $Id: SchoolTeachCircleOrg.java, v 1.0 2015-05-12 zpp Exp $
+ * @author tmser
+ * @version $Id: SchoolTeachCircleOrg.java, v 1.0 2015-05-12 tmser Exp $
  */
 @SuppressWarnings("serial")
 @Entity

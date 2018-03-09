@@ -13,8 +13,8 @@ import com.tmser.tr.common.dao.BaseDAO;
  *
  * </pre>
  *
- * @author zpp
- * @version $Id: AreaActivityDiscussDao.java, v 1.0 2016-09-29 zpp Exp $
+ * @author tmser
+ * @version $Id: AreaActivityDiscussDao.java, v 1.0 2016-09-29 tmser Exp $
  */
 public interface DiscussDao extends BaseDAO<Discuss, Integer>{
 

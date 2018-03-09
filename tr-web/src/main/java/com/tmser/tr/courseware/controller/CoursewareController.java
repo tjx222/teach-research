@@ -43,8 +43,8 @@ import com.tmser.tr.writelessonplan.service.LessonPlanService;
  * 课件相关功能操作Controller
  * </pre>
  *
- * @author zpp
- * @version $Id: CoursewareController.java, v 1.0 2015年2月10日 下午2:43:31 zpp Exp $
+ * @author tmser
+ * @version $Id: CoursewareController.java, v 1.0 2015年2月10日 下午2:43:31 tmser Exp $
  */
 @Controller
 @RequestMapping("jy/courseware")

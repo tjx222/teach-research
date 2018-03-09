@@ -31,7 +31,7 @@ import com.tmser.tr.uc.utils.CurrentUserContext;
 import com.tmser.tr.uc.utils.SessionKey;
 /**
  * 平台公告---->图片新闻
- * @author lijianghu
+ * @author tmser
  * @date:2015-10-12
  *
  */

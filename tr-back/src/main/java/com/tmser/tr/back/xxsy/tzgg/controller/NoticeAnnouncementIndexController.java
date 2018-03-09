@@ -32,7 +32,7 @@ import com.tmser.tr.uc.utils.CurrentUserContext;
 import com.tmser.tr.uc.utils.SessionKey;
 /**
  * 学校首页---->通知公告
- * @author lijianghu
+ * @author tmser
  * @date:2015-9-30
  *
  */

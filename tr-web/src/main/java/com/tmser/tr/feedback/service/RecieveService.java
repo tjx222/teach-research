@@ -15,7 +15,7 @@ import com.tmser.tr.uc.bo.UserSpace;
 /**
  * 用户反馈信息 服务类
  * <pre>
- *@author lijianghu
+ *@author tmser
  * </pre>
  *
  * @author Generate Tools

@@ -19,8 +19,8 @@ import com.tmser.tr.common.bo.BaseObject;
  *
  * </pre>
  *
- * @author lijianghu
- * @version $Id: SchoolBanner.java, v 1.0 2015-10-28 lijianghu Exp $
+ * @author tmser
+ * @version $Id: SchoolBanner.java, v 1.0 2015-10-28 tmser Exp $
  */
 @SuppressWarnings("serial")
 @Entity

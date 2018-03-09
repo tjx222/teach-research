@@ -39,9 +39,9 @@ import com.tmser.tr.utils.StringUtils;
  *
  * </pre>
  *
- * @author zpp
+ * @author tmser
  * @version $Id: SchoolActivityHistoryService.java, v 1.0 2016年5月24日 上午11:34:33
- *          zpp Exp $
+ *          tmser Exp $
  */
 @Service
 @Transactional

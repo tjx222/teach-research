@@ -8,10 +8,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -47,7 +45,6 @@ import com.tmser.tr.uc.bo.User;
 import com.tmser.tr.uc.bo.UserManagescope;
 import com.tmser.tr.uc.bo.UserRole;
 import com.tmser.tr.uc.bo.UserSpace;
-import com.tmser.tr.uc.bo.UsermenuHistory;
 import com.tmser.tr.uc.dao.UserDao;
 import com.tmser.tr.uc.dao.UserManagescopeDao;
 import com.tmser.tr.uc.dao.UserRoleDao;
@@ -59,7 +56,6 @@ import com.tmser.tr.uc.service.RoleTypeService;
 import com.tmser.tr.uc.service.SchoolYearService;
 import com.tmser.tr.uc.service.UserMenuService;
 import com.tmser.tr.uc.service.UserSpaceService;
-import com.tmser.tr.uc.service.UsermenuHistoryService;
 import com.tmser.tr.uc.utils.SessionKey;
 import com.tmser.tr.utils.Encodes;
 import com.tmser.tr.utils.SecurityCode;
@@ -70,13 +66,15 @@ import com.tmser.tr.utils.SecurityCode.SecurityCodeLevel;
  * 后台用户管理service实现类
  * </pre>
  * 
- * @author zpp
- * @version $Id: BackUserManageServiceImpl.java, v 1.0 2015年9月24日 下午11:29:53 zpp
+ * @author tmser
+ * @version $Id: BackUserManageServiceImpl.java, v 1.0 2015年9月24日 下午11:29:53
+ *          tmser
  *          Exp $
  */
 @Service
 @Transactional
 public class BackUserManageServiceImpl implements BackUserManageService {
+
   private static final Logger logger = LoggerFactory.getLogger(BackUserManageServiceImpl.class);
 
   @Autowired
@@ -107,8 +105,6 @@ public class BackUserManageServiceImpl implements BackUserManageService {
   private BookService bookService;
   @Autowired
   private UserSpaceService userSpaceService;
-  @Autowired
-  private UsermenuHistoryService menuHistroyService;
   @Autowired
   private OrganizationService orgService;
   @Autowired
@@ -196,144 +192,6 @@ public class BackUserManageServiceImpl implements BackUserManageService {
   }
 
   /**
-   * 保存学年更新
-   * 
-   * @param userIds
-   * @see com.tmser.tr.back.yhgl.service.BackUserManageService#saveUpSchYear(java.lang.Integer)
-   */
-  @Override
-  public String saveUpSchYear(List<Integer> userIds, Integer orgId, boolean needGradeupdate) {
-    StringBuilder msg = new StringBuilder();
-    Integer year = schoolYearService.getCurrentSchoolYear();// 需要升级到的学年
-    UserSpace umodel = new UserSpace();
-    umodel.setOrgId(orgId);
-    umodel.setSchoolYear(year - 1);
-    umodel.setEnable(UserSpace.ENABLE);
-    // umodel.buildCondition("and userId in (:userIds)").put("userIds",
-    // userIds);
-    List<UserSpace> uclist = userSpaceDao.listAll(umodel);
-
-    Set<Integer> idSet = new HashSet<>(userIds);
-    Organization org = organizationService.findOne(orgId);
-    List<UserSpace> newUserSpaceList = new ArrayList<>();
-    Map<String, String> bookMap = new HashMap<>();
-    if (needGradeupdate) {
-      for (UserSpace ustemp : uclist) {
-        if (SysRole.TEACHER.getId().equals(ustemp.getSysRoleId())) {
-          String key = "s_" + ustemp.getSubjectId() + "_g_" + ustemp.getGradeId();
-          if (bookMap.get(key) != null) {
-            continue;
-          }
-
-          String book = ustemp.getBookId();
-          Book bk = bookService.findOne(book);
-          if (bk != null && 177 == bk.getFasciculeId() && bk.getRelationComId() != null) {
-            book = bk.getRelationComId();
-          }
-          bookMap.put(key, book);
-        }
-      }
-    }
-
-    List<UsermenuHistory> umList = new ArrayList<UsermenuHistory>();
-
-    for (Integer id : idSet) {
-      UsermenuHistory um = menuHistroyService.createUserHistory(id, year - 1);
-      if (um != null) {
-        umList.add(um);
-        logger.debug("save user histroy success, userid:{}", um.getUserId());
-      } else {
-        logger.debug("user histroy already existed, userid:{}", id);
-      }
-    }
-
-    if (umList.size() > 0) {
-      menuHistroyService.batchInsert(umList);
-    }
-
-    for (UserSpace ustemp : uclist) {
-      ustemp.setId(null);
-      ustemp.setSchoolYear(year);
-      Integer gradeId = ustemp.getGradeId();
-      Integer phaseId = ustemp.getPhaseId();
-      if (idSet.contains(ustemp.getUserId())) {
-        if (needGradeupdate && phaseId != null && phaseId != 0 && gradeId != null && gradeId != 0) {// 年级+1
-          // 获得学年更新后的年级
-          updateGrade(org.getSchoolings(), ustemp);
-
-          if (SysRole.TEACHER.getId().equals(ustemp.getSysRoleId())) {
-            String key = "s_" + ustemp.getSubjectId() + "_g_" + ustemp.getGradeId();
-            String book = bookMap.get(key);
-            if (book == null) {
-              Book old = bookService.findOne(ustemp.getBookId());
-              BookSync booktemp = new BookSync();
-              booktemp.setPhaseId(ustemp.getPhaseType());
-              booktemp.setSubjectId(ustemp.getSubjectId());
-              booktemp.setGradeLevelId(ustemp.getGradeId());
-              if (old != null) {
-                booktemp.setPublisherId(old.getPublisherId());
-              }
-              booktemp = bookService.findOneBookSync(booktemp);
-              if (booktemp != null) {
-                book = booktemp.getComId();
-              }
-            }
-            if (book != null)
-              ustemp.setBookId(book);
-          }
-        }
-
-        newUserSpaceList.add(ustemp);
-      }
-
-    }
-
-    if (newUserSpaceList.size() > 0) {
-      userSpaceDao.batchInsert(newUserSpaceList);
-    }
-    return msg.toString();
-  }
-
-  /**
-   * 得到学年的年级ID
-   * 
-   * @param gradeId
-   * @param systemId
-   */
-  private void updateGrade(Integer xuezhi, UserSpace us) {
-    Integer gradeId = us.getGradeId();
-    String spaceName = us.getSpaceName();
-    List<Meta> metas = MetaUtils.getOrgTypeMetaProvider().listAllGrade(xuezhi, us.getPhaseId());
-    if (metas != null) {
-      try {
-        Integer grade;
-        String newname;
-        int index = -1;
-        for (int i = 0; i < metas.size(); i++) {
-          if (metas.get(i).getId().equals(gradeId)) {
-            index = i;
-            break;
-          }
-        }
-        if (index != -1) {
-          if (index == metas.size() - 1) {
-            grade = metas.get(0).getId();
-            newname = metas.get(0).getName();
-          } else {
-            grade = metas.get(index + 1).getId();
-            newname = metas.get(index + 1).getName();
-          }
-          us.setGradeId(grade);
-          us.setSpaceName(spaceName.replace(metas.get(index).getName(), newname));
-        }
-      } catch (NumberFormatException e) {
-        logger.error("parse grade[{}] failed, use the old grade", metas);
-        logger.error("", e);
-      }
-    }
-  }
-
-  /**
    * 保存用户账号
    * 
    * @param login
@@ -390,6 +248,7 @@ public class BackUserManageServiceImpl implements BackUserManageService {
       map.put("password", password);
     }
     user = userDao.insert(user);
+    logger.info("add user success,id:{},name:{}", user.getId(), user.getName());
     return user;
   }
 
@@ -571,7 +430,8 @@ public class BackUserManageServiceImpl implements BackUserManageService {
     }
     UserSpace usTemp = new UserSpace();
     usTemp.setUserId(us.getUserId());
-    usTemp.setSchoolYear((Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SCHOOLYEAR));
+    // usTemp.setSchoolYear((Integer)
+    // WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SCHOOLYEAR));
     usTemp.setOrgId(us.getOrgId());
     usTemp.setRoleId(us.getRoleId());
     if (us.getSubjectId() != null) {
@@ -591,8 +451,8 @@ public class BackUserManageServiceImpl implements BackUserManageService {
         UserSpace findOne = userSpaceService.findOne(us.getId());
         String newSpaceKey = "r" + usTemp.getRoleId() + "s" + usTemp.getSubjectId() + "g" + usTemp.getGradeId() + "p"
             + usTemp.getPhaseId();
-        String oldSpaceKey = "r" + findOne.getRoleId() + "s" + findOne.getSubjectId() + "g" + findOne.getGradeId()
-            + "p" + findOne.getPhaseId();
+        String oldSpaceKey = "r" + findOne.getRoleId() + "s" + findOne.getSubjectId() + "g" + findOne.getGradeId() + "p"
+            + findOne.getPhaseId();
         if (!newSpaceKey.equals(oldSpaceKey)) {
           return 0;
         }
@@ -1005,8 +865,8 @@ public class BackUserManageServiceImpl implements BackUserManageService {
       String areaIds = org.getAreaIds();
       Integer[] areaIdArr = com.tmser.tr.utils.StringUtils.toIntegerArray(areaIds.substring(1, areaIds.length() - 1),
           com.tmser.tr.utils.StringUtils.COMMA);
-      List<Meta> listAllSubject = MetaUtils.getPhaseSubjectMetaProvider().listAllSubject(us.getOrgId(),
-          us.getPhaseId(), areaIdArr);
+      List<Meta> listAllSubject = MetaUtils.getPhaseSubjectMetaProvider().listAllSubject(us.getOrgId(), us.getPhaseId(),
+          areaIdArr);
       if (us.getSysRoleId().intValue() == SysRole.XKZZ.getId().intValue()) {
         map.put("subjects", listAllSubject);
       } else if (us.getSysRoleId().intValue() == SysRole.NJZZ.getId().intValue()) {

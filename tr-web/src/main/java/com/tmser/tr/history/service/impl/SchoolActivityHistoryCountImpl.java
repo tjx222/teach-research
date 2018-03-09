@@ -25,8 +25,8 @@ import com.tmser.tr.uc.service.UserService;
  *  校级教研历史统计服务
  * </pre>
  *
- * @author zpp
- * @version $Id: LessonPlanHistoryServiceImpl.java, v 1.0 2016年5月24日 下午4:24:00 zpp Exp $
+ * @author tmser
+ * @version $Id: LessonPlanHistoryServiceImpl.java, v 1.0 2016年5月24日 下午4:24:00 tmser Exp $
  */
 @Service("schoolactivity")
 public class SchoolActivityHistoryCountImpl implements HistoryCount {

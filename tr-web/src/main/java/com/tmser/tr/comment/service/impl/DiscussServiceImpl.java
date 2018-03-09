@@ -41,8 +41,8 @@ import com.tmser.tr.utils.StringUtils;
  *
  * </pre>
  *
- * @author zpp
- * @version $Id: AreaActivityDiscussServiceImpl.java, v 1.0 2015-05-29 zpp Exp $
+ * @author tmser
+ * @version $Id: AreaActivityDiscussServiceImpl.java, v 1.0 2015-05-29 tmser Exp $
  */
 @Service
 @Transactional

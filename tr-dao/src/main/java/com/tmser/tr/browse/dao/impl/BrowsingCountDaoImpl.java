@@ -16,8 +16,8 @@ import com.tmser.tr.browse.dao.BrowsingCountDao;
  *
  * </pre>
  *
- * @author zpp
- * @version $Id: BrowsingCount.java, v 1.0 2015-11-11 zpp Exp $
+ * @author tmser
+ * @version $Id: BrowsingCount.java, v 1.0 2015-11-11 tmser Exp $
  */
 @Repository
 public class BrowsingCountDaoImpl extends AbstractDAO<BrowsingCount,Integer> implements BrowsingCountDao {

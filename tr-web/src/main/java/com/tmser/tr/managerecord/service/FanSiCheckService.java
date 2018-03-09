@@ -12,8 +12,8 @@ import org.springframework.ui.Model;
  *	课件反思查阅service
  * </pre>
  *
- * @author zpp
- * @version $Id: FanSiCheckService.java, v 1.0 2015年6月9日 下午5:20:36 zpp Exp $
+ * @author tmser
+ * @version $Id: FanSiCheckService.java, v 1.0 2015年6月9日 下午5:20:36 tmser Exp $
  */
 public interface FanSiCheckService extends CheckRecordInfoService{
 

@@ -13,8 +13,8 @@ import com.tmser.tr.common.service.BaseService;
  *
  * </pre>
  *
- * @author lijianghu
- * @version $Id: SchoolBanner.java, v 1.0 2015-10-29 lijianghu Exp $
+ * @author tmser
+ * @version $Id: SchoolBanner.java, v 1.0 2015-10-29 tmser Exp $
  */
 
 public interface SchoolBannerServices extends BaseService<SchoolBanner, Integer>{

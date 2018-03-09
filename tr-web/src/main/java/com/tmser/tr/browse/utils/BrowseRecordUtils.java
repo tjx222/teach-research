@@ -16,8 +16,8 @@ import com.tmser.tr.utils.SpringContextHolder;
  *  浏览记录工具类
  * </pre>
  *
- * @author zpp
- * @version $Id: BrowseRecordUtils.java, v 1.0 2015年11月11日 下午11:28:21 zpp Exp $
+ * @author tmser
+ * @version $Id: BrowseRecordUtils.java, v 1.0 2015年11月11日 下午11:28:21 tmser Exp $
  */
 public class BrowseRecordUtils {
 

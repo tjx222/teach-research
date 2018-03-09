@@ -31,8 +31,8 @@ import com.tmser.tr.uc.utils.CurrentUserContext;
  *
  * </pre>
  *
- * @author zpp
- * @version $Id: SchoolActivityHistoryController.java, v 1.0 2016年5月20日 下午1:37:20 zpp Exp $
+ * @author tmser
+ * @version $Id: SchoolActivityHistoryController.java, v 1.0 2016年5月20日 下午1:37:20 tmser Exp $
  */
 @Controller
 @RequestMapping("/jy/history")

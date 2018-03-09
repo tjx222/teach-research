@@ -64,21 +64,26 @@ $(function(){
 					
 				<div class="accordion" fillSpace="sidebar">
 					<div class="accordionHeader">
-						<h2><span>Folder</span>系统功能</h2>
+						<h2><span>Folder</span>系统基础配置</h2>
 					</div>
 					<div class="accordionContent">
 						<ul class="tree treeFolder">
+						<shiro:hasPermission name="xzqy">
+								<li><a>行政区域</a> <shiro:hasPermission name="xzqy_xzqy">
+										<ul>
+											<li><a href="${ctx}jy/back/zzjg/goOrgTree"
+												target="navTab" rel="orgTree">行政区域</a></li>
+										</ul>
+									</shiro:hasPermission></li>
+						</shiro:hasPermission>
 						<shiro:hasPermission name="zzjg">
 							<li><a>组织机构管理</a>
 								<ul>
-									<shiro:hasPermission name="zzjg_xzqy">
-										<li><a href="${ctx}jy/back/zzjg/goOrgTree" target="navTab" rel="orgTree">行政区域</a></li>
-									</shiro:hasPermission>
 									<shiro:hasPermission name="zzjg_xxgl">
 										<li><a href="${ctx}jy/back/zzjg/goSchTree" target="navTab" rel="orgNa">学校管理</a></li>
 									</shiro:hasPermission>
 									<shiro:hasPermission name="zzjg_xzzzjg">
-										<li><a href="${ctx}jy/back/zzjg/goxzjgTree" target="navTab" rel="org_unit">行政组织机构</a></li>
+										<li><a href="${ctx}jy/back/zzjg/goxzjgTree" target="navTab" rel="org_unit">教育机构管理</a></li>
 									</shiro:hasPermission>
 								</ul>
 							</li>
@@ -203,7 +208,7 @@ $(function(){
 						</ul>
 					</div>
 					<div class="accordionHeader">
-						<h2><span>Folder</span>机构配置管理</h2>
+						<h2><span>Folder</span>学校配置管理</h2>
 					</div>
 					<div class="accordionContent">
 						<ul class="tree treeFolder">
@@ -281,9 +286,6 @@ $(function(){
 									<shiro:hasPermission name="monitor_sql">
 										<li><a href="${ctx}/jy/back/monitor/sql" target="navTab" rel="moniter-sql">sql执行</a></li>
 									</shiro:hasPermission>
-									<%--<shiro:hasPermission name="monitor_app"> --%>
-									<li><a href="${ctx}/jy/back/monitor/app/index" target="navTab" rel="moniter_app">应用对接</a></li>
-<%-- 									</shiro:hasPermission> --%>
 								</ul>
 							</li>
 						</shiro:hasPermission>

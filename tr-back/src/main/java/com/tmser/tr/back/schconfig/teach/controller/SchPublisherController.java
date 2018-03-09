@@ -19,8 +19,6 @@ import com.tmser.tr.common.vo.Result;
 import com.tmser.tr.common.web.controller.AbstractController;
 import com.tmser.tr.manage.meta.bo.PublishRelationship;
 import com.tmser.tr.manage.org.bo.Organization;
-import com.tmser.tr.manage.org.service.AreaService;
-import com.tmser.tr.manage.org.service.OrganizationService;
 import com.tmser.tr.uc.SysRole;
 import com.tmser.tr.uc.bo.UserSpace;
 import com.tmser.tr.uc.utils.CurrentUserContext;
@@ -31,19 +29,15 @@ import com.tmser.tr.uc.utils.SessionKey;
  *
  * </pre>
  *
- * @author guohuawei
+ * @author tmser
  * @version $Id: SchPublisherController.java, v 1.0 2017年12月12日 上午11:36:09
- *          guohuawei Exp $
+ *          tmser Exp $
  */
 @Controller
 @RequestMapping("/jy/back/schconfig/publisher")
 public class SchPublisherController extends AbstractController {
   @Autowired
   private PublisherManageService publisherManageService;
-  @Autowired
-  private OrganizationService orgService;
-  @Autowired
-  private AreaService areaService;
 
   @RequestMapping("index")
   public String index(Model m) {

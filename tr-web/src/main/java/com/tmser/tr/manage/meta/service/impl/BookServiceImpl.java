@@ -19,8 +19,8 @@ import com.tmser.tr.manage.meta.service.BookService;
  *
  * </pre>
  *
- * @author zpp
- * @version $Id: Commidity.java, v 1.0 2015-02-06 zpp Exp $
+ * @author tmser
+ * @version $Id: Commidity.java, v 1.0 2015-02-06 tmser Exp $
  */
 @Service
 @Transactional

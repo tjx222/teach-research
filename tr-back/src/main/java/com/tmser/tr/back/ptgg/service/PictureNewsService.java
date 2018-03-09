@@ -10,7 +10,7 @@ import com.tmser.tr.ptgg.bo.PictureNews;
 /**
  * 平台公告---->图片新闻 服务类
  * <pre>
- * @author lijianghu
+ * @author tmser
  * @date:2015-10-12
  * </pre>
  *

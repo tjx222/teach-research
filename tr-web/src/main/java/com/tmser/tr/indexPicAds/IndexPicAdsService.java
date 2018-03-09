@@ -9,7 +9,7 @@ import com.tmser.tr.ptgg.bo.FlatformAnnouncement;
 /**
  * 首页广告 服务类
  * <pre>
- *@author lijianghu
+ *@author tmser
  * </pre>
  *
  * @author Generate Tools
