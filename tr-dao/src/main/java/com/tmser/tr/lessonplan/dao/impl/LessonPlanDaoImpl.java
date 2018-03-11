@@ -13,7 +13,6 @@ import com.tmser.tr.common.dao.AbstractDAO;
 import com.tmser.tr.common.page.PageList;
 import com.tmser.tr.lessonplan.bo.LessonPlan;
 import com.tmser.tr.lessonplan.dao.LessonPlanDao;
-import com.tmser.tr.manage.meta.bo.Book;
 
 /**
  * 备课资源表 Dao 实现类
@@ -48,15 +47,15 @@ public class LessonPlanDaoImpl extends AbstractDAO<LessonPlan,Integer> implement
 	 * @see com.tmser.tr.lessonplan.dao.LessonPlanDao#getLatestLessonPlan(java.lang.Integer, java.lang.Integer)
 	 */
 	@Override
-	public LessonPlan getLatestLessonPlan(Book book,Integer userId, Integer subjectId, Integer schoolYear,Integer planType) {
+	public LessonPlan getLatestLessonPlan(Integer userId, Integer schoolYear,Integer planType) {
 		String sql ="";
 		Object[] args = null;
 		if(planType!=null){
-			sql = "select * from LessonPlan where bookId = ? and userId = ? and subjectId = ? and schoolYear = ? and planType = ? and enable = 1 order by crtDttm desc limit 0,1";
-			args = new Object[]{book.getComId(),userId,subjectId,schoolYear,planType};
+			sql = "select * from LessonPlan where userId = ? and schoolYear = ? and planType = ? and enable = 1 order by crtDttm desc limit 0,1";
+			args = new Object[]{userId,schoolYear,planType};
 		}else{
-			sql = "select * from LessonPlan where bookId = ? and userId = ? and subjectId = ? and schoolYear = ? and planType != ? and enable = 1 order by crtDttm desc limit 0,1";
-			args = new Object[]{book.getComId(),userId,subjectId,schoolYear,ResTypeConstants.FANSI_OTHER};
+			sql = "select * from LessonPlan where  userId = ? and schoolYear = ? and planType != ? and enable = 1 order by crtDttm desc limit 0,1";
+			args = new Object[]{userId,schoolYear,ResTypeConstants.FANSI_OTHER};
 		}
 		RowMapper<LessonPlan> rowMapper = getMapper();
 		LessonPlan lessonPlan = queryForSingle(sql, args, rowMapper);

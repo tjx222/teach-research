@@ -79,7 +79,7 @@ public class MyPlanBookController extends AbstractController {
       bookList.add(book2);
     }
     // 获取最近保存的备课资源
-    LessonPlan lessonPlan = lessonPlanServie.getLatestLessonPlan(book1, null);
+    LessonPlan lessonPlan = lessonPlanServie.getLatestLessonPlan(null);
     m.addAttribute("bookList", bookList);
     m.addAttribute("lessonPlan", lessonPlan);
     m.addAttribute("currentBook", book1);

@@ -10,7 +10,6 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,6 @@ import com.tmser.tr.common.utils.WebThreadLocalUtils;
 import com.tmser.tr.manage.meta.bo.Menu;
 import com.tmser.tr.uc.SysRole;
 import com.tmser.tr.uc.bo.Login;
-import com.tmser.tr.uc.bo.LoginLog;
 import com.tmser.tr.uc.bo.Role;
 import com.tmser.tr.uc.bo.UserSpace;
 import com.tmser.tr.uc.dao.LoginDao;
@@ -233,40 +231,9 @@ public class LoginServiceImpl extends AbstractService<Login, Integer> implements
 	 * @return
 	 * @see com.tmser.tr.uc.service.LoginService#toWorkSpace(java.lang.Integer)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public String toWorkSpace(Integer spaceid) {
-		UserSpace us = (UserSpace)WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE);
-
-		String url = null;
-
-		if(us != null){
-			Login l = loginDao.get(us.getUserId());
-			if(l.getIsAdmin()){
-				url = us.getSpaceHomeUrl();
-			}else{
-				SecurityUtils.getSubject().logout();
-			}
-			
-		}
-
-		if(url == null) {
-			List<UserSpace> usl = (List<UserSpace>)WebThreadLocalUtils.getSessionAttrbitue(SessionKey.USER_SPACE_LIST);
-			if(usl != null){
-				for(UserSpace u : usl){
-					if(u.getId().equals(spaceid)){
-						url = u.getSpaceHomeUrl();//切换session
-						WebThreadLocalUtils.setSessionAttrbitue(SessionKey.CURRENT_SPACE,u);
-						if(loginLogService != null)
-							loginLogService.addHistroy(u,LoginLog.T_CHANGE);
-
-						break;
-					}
-				}
-			}
-		}
-		
-		return url == null ? "/" : url ;
+		return "/jy/back/index"  ;
 	}
 
 

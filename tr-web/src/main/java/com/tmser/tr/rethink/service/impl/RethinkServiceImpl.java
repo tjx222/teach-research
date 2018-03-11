@@ -174,7 +174,8 @@ public class RethinkServiceImpl extends AbstractService<LessonPlan, Integer> imp
 					lp.setPlanName(planName);// 重新命名后的名称
 				}
 				// 添加备课资源
-				LessonInfo saveLessonInfo = myPlanBookService.saveLessonInfo(lp.getLessonId(), muPlanName,
+				LessonInfo saveLessonInfo = myPlanBookService.saveLessonInfo(lp.getLessonId(),
+						lp.getGradeId(),lp.getSubjectId(),muPlanName,
 						LessonPlan.KE_HOU_FAN_SI);
 				lp.setInfoId(saveLessonInfo.getId());
 			}
@@ -218,7 +219,8 @@ public class RethinkServiceImpl extends AbstractService<LessonPlan, Integer> imp
 
 			if (lp.getPlanType() == LessonPlan.KE_HOU_FAN_SI) {
 				// 添加备课资源
-				LessonInfo saveLessonInfo = myPlanBookService.saveLessonInfo(lp.getLessonId(), muPlanName,
+				LessonInfo saveLessonInfo = myPlanBookService.saveLessonInfo(lp.getLessonId(),
+						lp.getGradeId(),lp.getSubjectId(),muPlanName,
 						LessonPlan.KE_HOU_FAN_SI);
 				lp.setInfoId(saveLessonInfo.getId());
 				lp.setBookShortname(saveLessonInfo.getBookShortname());// 书的简称

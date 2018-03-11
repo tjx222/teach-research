@@ -2,7 +2,6 @@ package com.tmser.tr.uc.controller;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -18,9 +17,7 @@ import com.tmser.tr.common.vo.Result;
 import com.tmser.tr.common.web.controller.AbstractController;
 import com.tmser.tr.manage.meta.bo.Menu;
 import com.tmser.tr.manage.meta.service.MenuService;
-import com.tmser.tr.uc.bo.UserMenu;
 import com.tmser.tr.uc.bo.UserSpace;
-import com.tmser.tr.uc.service.UserMenuService;
 import com.tmser.tr.uc.utils.SessionKey;
 
 @Controller
@@ -28,72 +25,8 @@ import com.tmser.tr.uc.utils.SessionKey;
 public class MenuController extends AbstractController {
 	
 	@Resource
-	private UserMenuService userMenuService;
-	
-
-	@Resource
 	private MenuService menuService;
 	
-	@RequestMapping("/listMenu")
-	@ResponseBody
-	public List<UserMenu> menuList(){
-		UserSpace us = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE);
-		return  userMenuService.findUserMenuByUser(us.getUserId(), us.getRoleId(),false);
-		
-	}
-	
-	@RequestMapping("/delMenu")
-	@ResponseBody
-	public Result delMenu(@RequestParam(value="mid",required=false) Integer mid){
-		Result rs = new Result();
-		rs.setCode(-1);
-		UserMenu um = userMenuService.findOne(mid);
-		UserSpace us = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE);
-		if(um != null && um.getUserId().equals(us.getUserId())){
-			UserMenu model = new UserMenu();
-			model.setId(mid);
-			model.setDisplay(false);
-			userMenuService.update(model);
-			rs.setCode(0);
-			WebThreadLocalUtils.setSessionAttrbitue(SessionKey.CURRENT_MENU_LIST,
-					userMenuService.findUserMenuByUser(us.getUserId(), us.getRoleId(),true));
-		}
-		return  rs;
-	}
-	
-	@RequestMapping("/addMenu")
-	@ResponseBody
-	public Result addMenu(@RequestParam(value="mid",required=false) Integer mid){
-		Result rs = new Result();
-		rs.setCode(-1);
-		UserMenu um = userMenuService.findOne(mid);
-		UserSpace us = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE);
-		if(um != null && um.getUserId().equals(us.getUserId())){
-			UserMenu model = new UserMenu();
-			model.setId(mid);
-			model.setDisplay(true);
-			userMenuService.update(model);
-			rs.setCode(0);
-			WebThreadLocalUtils.setSessionAttrbitue(SessionKey.CURRENT_MENU_LIST,
-					userMenuService.findUserMenuByUser(us.getUserId(), us.getRoleId(),true));
-		}
-		return  rs;
-	}
-	
-	@RequestMapping("/sortMenu")
-	@ResponseBody
-	public Result sortMenu(@RequestParam(value="mids",required=false) String mids){
-		Result rs = new Result();
-		rs.setCode(-1);
-		UserSpace us = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE);
-		int um = userMenuService.sortUser(mids, us.getUserId());
-		if(um > 0){
-			WebThreadLocalUtils.setSessionAttrbitue(SessionKey.CURRENT_MENU_LIST,
-					userMenuService.findUserMenuByUser(us.getUserId(), us.getRoleId(),true));
-			rs.setCode(0);
-		}
-		return  rs;
-	}
 	
 	/**
 	 * 获取子菜单

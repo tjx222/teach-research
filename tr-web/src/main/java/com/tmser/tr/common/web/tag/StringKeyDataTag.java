@@ -5,13 +5,17 @@
 
 package com.tmser.tr.common.web.tag;
 
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.servlet.tags.RequestContextAwareTag;
 
 import com.tmser.tr.common.service.BaseService;
+import com.tmser.tr.utils.Reflections;
 import com.tmser.tr.utils.SpringContextHolder;
+import com.tmser.tr.utils.StringUtils;
 
 
 /**
@@ -42,6 +46,16 @@ public class StringKeyDataTag extends RequestContextAwareTag{
 	 * 数据存储的名称
 	 */
 	protected String var;
+	
+	private String prop;
+
+    public String getProp() {
+		return prop;
+	}
+
+	public void setProp(String prop) {
+		this.prop = prop;
+	}
 	
 	/**
 	 *  服务类
@@ -86,7 +100,15 @@ public class StringKeyDataTag extends RequestContextAwareTag{
 	
 	@SuppressWarnings("unchecked")
 	protected void out(Object baseService){
-		 pageContext.setAttribute(var, ((BaseService<?, String>)baseService).findOne(getKey()));
+		if(prop != null){
+			try {
+				pageContext.getOut().write(StringUtils.nullToEmpty(Reflections.invokeGetter(((BaseService<?, String>)baseService).findOne(getKey()), prop)));
+			} catch (IOException e) {
+				logger.error("can't out the prop[{}] in {} class", prop,className);
+			}
+		}else{
+			pageContext.setAttribute(var, ((BaseService<?, String>)baseService).findOne(getKey()));
+		}
 	}
 	
     /**
@@ -98,5 +120,6 @@ public class StringKeyDataTag extends RequestContextAwareTag{
 		className = null;
 		var = null;
 		key = null;
+		prop = null;
     }
 }

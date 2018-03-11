@@ -8,9 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.tmser.tr.common.page.PageList;
+import com.tmser.tr.common.vo.Result;
 import com.tmser.tr.uc.bo.Login;
 import com.tmser.tr.uc.bo.User;
 import com.tmser.tr.uc.bo.UserManagescope;
+import com.tmser.tr.uc.bo.UserRole;
 import com.tmser.tr.uc.bo.UserSpace;
 
 /**
@@ -76,7 +78,7 @@ public interface BackUserManageService {
    * @param orgId
    * @return
    */
-  Map<String, Object> findSpaceDataByOrgId(Integer orgId);
+  Map<String, Object> findSpaceDataByOrgId(User user);
 
   /**
    * 保存用户角色类型
@@ -85,8 +87,16 @@ public interface BackUserManageService {
    * @param deptIds
    * @return
    */
-  int saveSchUserRole(UserSpace us, String[] deptIds);
-
+  int saveSchUserSpace(UserSpace us, String[] deptIds);
+  
+  /**
+   * 
+   * @param userRole
+   * @param deptIds
+   * @return
+   */
+  Result saveSchUserRole(UserRole ur);
+  
   /**
    * 授权用户的管理范围
    * 
@@ -150,7 +160,7 @@ public interface BackUserManageService {
    * @param us
    * @return
    */
-  Map<String, Object> detailUserRole(UserSpace us);
+  Map<String, Object> detailUserSpace(UserSpace us);
 
   /**
    * 删除系统用户
@@ -164,7 +174,7 @@ public interface BackUserManageService {
    * 
    * @param us
    */
-  void delUserRole(UserSpace us);
+  void delUserSpace(UserSpace us);
 
   /**
    * 增加专家用户空间

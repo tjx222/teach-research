@@ -56,13 +56,7 @@ define(["require","zepto","iscroll"], function (require) {
 		
 		//初始化子菜单
 		var _CHILDMAP = [];
-		var i=0;
 		$(".slide_div").click(function(e){ 
-			i++;
-			if(i%2==0){
-				$('.slide_div').find('.slide_hide').remove();
-				_CHILDMAP=[];
-			}else{
 				var jqthis = $(this), mid = jqthis.attr("data-id"), m = _CHILDMAP[mid];
 				if(!m){
 					$.getJSON(_WEB_CONTEXT_+"/jy/uc/listChild?mid="+mid+"&"+Math.random(),function(data){
@@ -71,9 +65,9 @@ define(["require","zepto","iscroll"], function (require) {
 							  showChild(data.data,jqthis);
 							}
 						});
+				}else{
+					showChild(m,jqthis);
 				}
-			}
-			
 		});
 	}
 	
@@ -86,7 +80,9 @@ define(["require","zepto","iscroll"], function (require) {
 				}
 			$(container).append(dl);
 		}else{
-			location.href = container.find("dl").find("dd").attr("url");
+			var dddom = container.find("dl").find("dd");
+			var newWin = window.open('页面加载中。。。');  
+            newWin.location.href = dddom.attr("url");
 		}
 	}
 });

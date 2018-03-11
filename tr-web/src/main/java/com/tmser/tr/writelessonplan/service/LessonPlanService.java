@@ -8,7 +8,6 @@ import com.tmser.tr.common.page.PageList;
 import com.tmser.tr.common.service.BaseService;
 import com.tmser.tr.common.vo.Result;
 import com.tmser.tr.lessonplan.bo.LessonPlan;
-import com.tmser.tr.manage.meta.bo.Book;
 import com.zhuozhengsoft.pageoffice.FileSaver;
 
 /**
@@ -64,7 +63,7 @@ public interface LessonPlanService extends BaseService<LessonPlan, Integer> {
    *          当前所教的书
    * @return
    */
-  LessonPlan getLatestLessonPlan(Book book1, Integer planType);
+  LessonPlan getLatestLessonPlan(Integer planType);
 
   /**
    * 通过id获取备课资源

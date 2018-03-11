@@ -76,12 +76,51 @@ public class WriteLessonPlanController extends AbstractController {
    * @return
    */
   @RequestMapping("toWriteLessonPlan")
-  public String toWriteLessonPlan(Model m) {
+  public String toWriteLessonPlan(Integer spaceId,Model m) {
 
-    UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
+    @SuppressWarnings("unchecked")
+	List<UserSpace> userSpaceList = (List<UserSpace>) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.USER_SPACE_LIST); // 用户空间
+    
+    LessonPlan lessonPlan = lpService.getLatestLessonPlan(0);
+    if(lessonPlan == null){
+    	lessonPlan = new LessonPlan();
+    }
+    
+    String bookId = null;
+    Integer gradeId = null;
+    Integer subjectId = null;
+    if(spaceId == null){
+    	 // 获取上次最后操作的教案
+        if(lessonPlan.getBookId() != null){
+        	bookId= lessonPlan.getBookId();
+        	gradeId = lessonPlan.getGradeId();
+        	subjectId = lessonPlan.getSubjectId();
+        }else{
+        	for (UserSpace userSpace : userSpaceList) {
+    			if(userSpace.getBookId() != null){
+    				bookId = userSpace.getBookId();
+    				gradeId = userSpace.getGradeId();
+    				subjectId = userSpace.getSubjectId();
+    				break;
+    			}
+    		}
+        }
+    }else{
+    	for (UserSpace userSpace : userSpaceList) {
+			if(userSpace.getId().equals(spaceId) && userSpace.getBookId() != null){
+				bookId = userSpace.getBookId();
+				gradeId = userSpace.getGradeId();
+				subjectId = userSpace.getSubjectId();
+				break;
+			}
+		}
+    }
+    
+    lessonPlan.setSubjectId(subjectId);
+    lessonPlan.setGradeId(gradeId);
     List<Book> bookList = new ArrayList<Book>();
     // 从缓存中获取上下册书
-    Book book1 = bookService.findOne(userSpace.getBookId());
+    Book book1 = bookService.findOne(bookId);
     Book book2 = bookService.findOne(book1.getRelationComId());
     bookList.add(book1);
     if (book2 != null) {
@@ -89,8 +128,6 @@ public class WriteLessonPlanController extends AbstractController {
     }
     // 获取推荐的电子教材
 
-    // 获取上次最后操作的教案
-    LessonPlan lessonPlan = lpService.getLatestLessonPlan(book1, 0);
     m.addAttribute("bookList", bookList);
     m.addAttribute("lessonPlan", lessonPlan);
     m.addAttribute("currentBook", book1);
@@ -174,9 +211,8 @@ public class WriteLessonPlanController extends AbstractController {
    */
   @RequestMapping("toEditWordPage")
   public String toEditWordPage(Integer tpId, HttpServletRequest request, Model m) {
-    UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
     User user = (User) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_USER); // 用户
-    Integer orgId = userSpace.getOrgId();
+    Integer orgId = user.getOrgId();
     PageOfficeCtrl poc = new PageOfficeCtrl(request);
     poc.setServerPage(request.getContextPath() + "/poserver.zz");
     // 设置word文件的保存页面
@@ -213,11 +249,10 @@ public class WriteLessonPlanController extends AbstractController {
       // storageservice.download(lessonPlanTemplate.getResPath());
       // String resPath = resources.getPath();
       // 打开指定的Word文档
-      poc.webOpen(localResPath, OpenModeType.docNormalEdit, userSpace.getUsername());
+      poc.webOpen(localResPath, OpenModeType.docNormalEdit, user.getName());
       m.addAttribute("template", lessonPlanTemplate);
     }
     poc.setTagId("PageOfficeCtrl1");// 此行必需
-    m.addAttribute("bookId", userSpace.getBookId());
     return "/writelessonplan/wordtemplate_edit";
   }
 

@@ -387,12 +387,12 @@ public class AreaUserController extends AbstractController {
 	 * @param user
 	 * @return
 	 */
-	@RequestMapping("/delUserRole")
+	@RequestMapping("/delUserSpace")
 	@ResponseBody
-	public Object delUserRole(Model model, UserSpace us) {
+	public Object delUserSpace(Model model, UserSpace us) {
 		JuiResult rs = new JuiResult();
 		try {
-			backUserManageService.delUserRole(us);
+			backUserManageService.delUserSpace(us);
 			LoggerUtils.deleteLogger(LoggerModule.YHGL, "区域用户管理——删除角色，用户id：" + us.getUserId());
 			rs.setMessage("操作成功");
 			rs.setStatusCode(JuiResult.SUCCESS);

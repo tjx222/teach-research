@@ -33,7 +33,7 @@ public interface MyPlanBookService extends BaseService<LessonInfo,Integer>{
 	 * @param book
 	 * @return
 	 */
-	LessonInfo saveLessonInfo(String lessonId,String lessonName,Integer planType);
+	LessonInfo saveLessonInfo(String lessonId,Integer gradeId,Integer subjectId,String lessonName,Integer planType);
 
 	/**
 	 * 获取有备课资源的课题集合

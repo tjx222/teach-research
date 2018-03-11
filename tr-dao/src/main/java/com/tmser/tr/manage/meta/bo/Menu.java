@@ -37,6 +37,12 @@ import com.tmser.tr.common.bo.QueryObject;
 public class Menu extends QueryObject {
 	public static final String TABLE_NAME="sys_menu";
 	
+	public static final int TP_SCHOOL = 2;
+	
+	public static final int TP_UNIT = 1;
+	
+	public static final int TP_SYS = 3;
+	
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

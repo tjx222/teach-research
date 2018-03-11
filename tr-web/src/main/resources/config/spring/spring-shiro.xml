@@ -19,44 +19,10 @@
         <property name="authorizationCachingEnabled" value="false"/>-->
     </bean>
     
-    <!-- 接入app 配置 -->
-    <bean class="com.tmser.tr.uc.service.impl.CompositeSsoServiceImpl">
-        <property name="ssoServiceMap">
-            <map>
-                <!-- 平台 回调方式对接 -->
-                 <entry key="platform_callback" >
-	                <bean class="com.tmser.tr.uc.controller.ws.wx.WenxuanLogincodeSsoServiceImpl">
-	                </bean>
-                </entry>
-                <!-- 身份证登录方式对接  -->
-                <entry key="user_idcard" >
-	                <bean class="com.tmser.tr.uc.controller.ws.wx.FeitianLogincodeSsoServiceImpl"></bean>
-                </entry>
-                <entry key="7d9b9cd7-20fb-426a-9fc7-0b8331e148dd" >
-	                <bean class="com.tmser.tr.uc.controller.ws.wx.FeitianLogincodeSsoServiceImpl"></bean>
-                </entry>
-                <!-- 二小平台  已关闭
-                <entry key="a342bed3579-1e73-1323-96ff-6827e54fa" >
-	                <bean class="com.tmser.tr.uc.controller.ws.ex.ErxiaoSsoService"></bean>
-                </entry>
-                -->
-             </map>
-        </property>
-    </bean>
-    
-    <bean id="logincodeUserRealm" class="com.tmser.tr.uc.controller.ws.LogincodeUserRealm">
-    </bean>
-    
-    <!-- mobile config -->
-    <bean id="mobileFilter" class="com.tmser.tr.uc.mobile.MobileAuthorFilter" />
-    <bean id="mobileUserRealm" class="com.tmser.tr.uc.mobile.MobileUserRealm"></bean>
-    
 	<!-- 定义 Shiro 主要业务对象 -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realms"> 
 			<list>
-				<ref bean="logincodeUserRealm"/>
-				<ref bean="mobileUserRealm" />
 				<ref bean="userRealm"/>
 			</list>
 		</property>
@@ -89,8 +55,6 @@
 	<bean id="securityConfig" class="com.tmser.tr.uc.shiro.SecurityConfigFactoryBean">
         <property name="locations">
         	<list>
-        		<value>classpath:/config/security/kpi.ini</value>
-        	 	<value>classpath:/config/security/evl.ini</value>
         	 	<value>classpath:/config/security/security.ini</value>
         	</list>
         </property>
@@ -108,7 +72,6 @@
 			 <entry key="authc" value-ref="formAuthenticationFilter"></entry>
 			 <entry key="jyuser" value-ref="sysUserFilter"></entry>
 			 <entry key="logout" value-ref="logoutFilter"></entry>
-			 <entry key="mobile" value-ref="mobileFilter"></entry>
 			</util:map>
         </property>
 		<property name="filterChainDefinitionMap" ref="securityConfig">

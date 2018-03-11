@@ -36,7 +36,8 @@
 	<div class="pageContent" id="xx_info" style="border-left:1px #B8D0D6 solid;border-right:1px #B8D0D6 solid;">
 				<div class="panelBar">
 					<ul class="toolBar">
-						<li><a class="edit" href="${ctx}jy/back/yhgl/manageSchUserRole?userId={sch_user_id}" class="edit" id="ad_sch_user_role" target="dialog" rel="ad_sch_ro_us" mask="true"><span>身份管理</span></a></li>
+						<li><a class="edit" href="${ctx}jy/back/yhgl/manageSchUserRole?userId={sch_user_id}" class="edit" id="ad_sch_user_role" target="dialog" rel="ad_sch_ro_us" mask="true"><span>用户角色管理</span></a></li>
+						<li><a class="edit" href="${ctx}jy/back/yhgl/manageSchUserSpace?userId={sch_user_id}" class="edit" id="ad_sch_user_role" target="dialog" rel="ad_sch_ro_info" mask="true"><span>任职信息管理</span></a></li>					
 					</ul>
 				</div>
 				<c:choose>

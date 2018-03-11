@@ -30,6 +30,7 @@ import com.tmser.tr.manage.meta.MetaUtils;
 import com.tmser.tr.manage.meta.bo.Book;
 import com.tmser.tr.manage.meta.bo.Menu;
 import com.tmser.tr.manage.meta.service.BookService;
+import com.tmser.tr.manage.meta.service.MenuService;
 import com.tmser.tr.manage.resources.bo.Resources;
 import com.tmser.tr.manage.resources.service.ResourcesService;
 import com.tmser.tr.plainsummary.bo.PlainSummary;
@@ -43,9 +44,7 @@ import com.tmser.tr.thesis.bo.Thesis;
 import com.tmser.tr.thesis.service.ThesisService;
 import com.tmser.tr.uc.SysRole;
 import com.tmser.tr.uc.bo.User;
-import com.tmser.tr.uc.bo.UserMenu;
 import com.tmser.tr.uc.bo.UserSpace;
-import com.tmser.tr.uc.service.UserMenuService;
 import com.tmser.tr.uc.utils.CurrentUserContext;
 import com.tmser.tr.uc.utils.SessionKey;
 import com.tmser.tr.utils.DateUtils;
@@ -103,7 +102,7 @@ public class RecordbagServiceImpl extends AbstractService<Recordbag, Integer> im
 	private ResourcesService resService;// 获取文件的后缀
 
 	@Autowired
-	private UserMenuService userMenuService;
+	private MenuService menuService;
 
 	/**
 	 * @return
@@ -183,11 +182,10 @@ public class RecordbagServiceImpl extends AbstractService<Recordbag, Integer> im
 	// 根据用户的菜单名称选择相应的成长档案袋
 	private Map<String, Integer> getUserMenuMap() {
 		UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE);
-		User user = (User) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_USER);
-		List<UserMenu> menuList = userMenuService.findUserMenuByUser(user.getId(), userSpace.getRoleId(), null);
+		List<Menu> menuList = menuService.getMenuListByRole(userSpace.getRoleId());
 		Map<String, Integer> map = new HashMap<String, Integer>();
-		for (UserMenu um : menuList) {
-			Menu m = um.getMenu();
+		for (Menu um : menuList) {
+			Menu m = um;
 			if (m.getName().equals("撰写教案")) {
 				map.put(Recordbag.JXSJ, m.getId());
 			} else if (m.getName().equals("上传课件")) {

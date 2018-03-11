@@ -17,6 +17,9 @@ public class Result implements Serializable {
 	 * </pre>
 	 */
 	private static final long serialVersionUID = -6002530010670165167L;
+	
+	public static final int SUCESS = 1;
+	public static final int FAILED = 0;
 
 	private int code;
 
@@ -34,7 +37,7 @@ public class Result implements Serializable {
 	 * 默认成功
 	 */
 	public Result() {
-		this.code = 1;
+		this.code = SUCESS;
 	}
 
 	/**

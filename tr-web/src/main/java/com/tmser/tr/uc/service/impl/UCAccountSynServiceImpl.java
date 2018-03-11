@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tmser.tr.common.utils.WebThreadLocalUtils;
 import com.tmser.tr.manage.meta.MetaUtils;
 import com.tmser.tr.manage.meta.bo.BookSync;
-import com.tmser.tr.manage.meta.bo.Menu;
 import com.tmser.tr.manage.meta.bo.MetaRelationship;
 import com.tmser.tr.manage.meta.service.BookSyncService;
 import com.tmser.tr.manage.meta.service.MenuService;
@@ -26,14 +25,12 @@ import com.tmser.tr.uc.SysRole;
 import com.tmser.tr.uc.bo.Login;
 import com.tmser.tr.uc.bo.Role;
 import com.tmser.tr.uc.bo.User;
-import com.tmser.tr.uc.bo.UserMenu;
 import com.tmser.tr.uc.bo.UserSpace;
 import com.tmser.tr.uc.service.LoginService;
 import com.tmser.tr.uc.service.PasswordService;
 import com.tmser.tr.uc.service.RoleService;
 import com.tmser.tr.uc.service.SchoolYearService;
 import com.tmser.tr.uc.service.UCAccountSynService;
-import com.tmser.tr.uc.service.UserMenuService;
 import com.tmser.tr.uc.service.UserService;
 import com.tmser.tr.uc.service.UserSpaceService;
 import com.tmser.tr.uc.utils.SessionKey;
@@ -64,8 +61,6 @@ public class UCAccountSynServiceImpl implements UCAccountSynService {
   private UserSpaceService userSpaceService;
   @Autowired
   private MenuService menuService;
-  @Autowired
-  private UserMenuService userMenuService;
   @Autowired
   private SchoolYearService schoolYearService;
   @Autowired
@@ -236,22 +231,6 @@ public class UCAccountSynServiceImpl implements UCAccountSynService {
         }
         userSpaceService.save(userSpace);
         // 创建用户功能菜单权限
-        if (spaceMap.get(userSpace.getSysRoleId()) == null) {
-          List<Menu> menuList = menuService
-              .getMenuListByRole(userSpace.getRoleId());
-          for (Menu m : menuList) {
-            UserMenu userMenu = new UserMenu();
-            userMenu.setSysRoleId(userSpace.getRoleId());
-            userMenu.setMenuId(m.getId());
-            userMenu.setUserId(user.getId());
-            if (userMenuService.findOne(userMenu) == null) {
-              userMenu.setDisplay(true);
-              userMenu.setSort(m.getSort());
-              userMenu.setName(m.getName());
-              userMenuService.save(userMenu);
-            }
-          }
-        }
         spaceMap.put(userSpace.getSysRoleId(), userSpace.getSysRoleId() + "_"
             + userSpace.getGradeId() + "_" + userSpace.getSubjectId());
       }

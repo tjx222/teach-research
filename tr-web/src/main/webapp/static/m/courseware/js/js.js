@@ -14,6 +14,12 @@ define(["require","zepto","iscroll"], function (require) {
           		click:true,
           	});
     	}
+    	
+    	jq("#spacelist").change(function () {
+    		var so = jq(this);
+            location.href="jy/courseware/index?spaceId="+so.val();
+    	});
+    	
     	jq(".courseware_img_2").click(function () {
     		var plan = jq(this).parent();
     		var planId = plan.attr("planId");
@@ -98,7 +104,7 @@ define(["require","zepto","iscroll"], function (require) {
           	jq('.submit_upload_wrap').show();
           	jq('.mask').show();
           }); 
-          jq('.content_top_right').click(function (){
+          jq('#chapter.content_top_right').click(function (){
           	jq('.mask').show();
           	jq('.cw_menu_wrap').show();
           	var  myScroll2 = new IScroll('.cw_menu_list_wrap1',{
@@ -245,7 +251,7 @@ define(["require","zepto","iscroll"], function (require) {
     			success:function(data){
     				successAlert("上传成功！",false,function(){
     					//刷新页面
-        				location.href =  _WEB_CONTEXT_+"/jy/courseware/index?site_preference=mobile&pageSize=1000";
+        				location.href =  _WEB_CONTEXT_+"/jy/courseware/index?spaceId="+$("#spacelist").val()+"&site_preference=mobile&pageSize=1000";
     				});
     				
     			}
@@ -322,7 +328,7 @@ define(["require","zepto","iscroll"], function (require) {
     			data:{"planId":planId},
     			success:function(data){
     				if(data.isOk){
-    					location.href = _WEB_CONTEXT_+"/jy/courseware/index?lessonId="+selectedlessonId+"&site_preference=mobile&pageSize=1000";
+    					location.href = _WEB_CONTEXT_+"/jy/courseware/index?spaceId="+$("#spacelist").val()+"&lessonId="+selectedlessonId+"&site_preference=mobile&pageSize=1000";
     				}else{
     					successAlert("删除失败！");
     				}
@@ -446,7 +452,7 @@ define(["require","zepto","iscroll"], function (require) {
     //刷新
     window.refreshIt = function(){
     	var selectedlessonId = jq("#selectedlessonId").val();
-    	location.href = _WEB_CONTEXT_+"/jy/courseware/index?lessonId="+selectedlessonId+"&site_preference=mobile&pageSize=1000";
+    	location.href = _WEB_CONTEXT_+"/jy/courseware/index?spaceId="+$("#spacelist").val()+"&lessonId="+selectedlessonId+"&site_preference=mobile&pageSize=1000";
     }
     //关闭提交窗口
     window.closeSubmitWindow = function(){

@@ -17,7 +17,6 @@ import com.tmser.tr.uc.exception.RequestNotExistsException;
 import com.tmser.tr.uc.exception.UserSpaceNotExistsException;
 import com.tmser.tr.uc.service.LoginLogService;
 import com.tmser.tr.uc.service.SchoolYearService;
-import com.tmser.tr.uc.service.UserMenuService;
 import com.tmser.tr.uc.service.UserService;
 import com.tmser.tr.uc.service.UserSpaceService;
 import com.tmser.tr.uc.utils.SessionKey;
@@ -81,8 +80,6 @@ public abstract class LoginSessionHelper {
 					.getBean(UserSpaceService.class);
 			LoginLogService loginLogService = SpringContextHolder
 					.getBean(LoginLogService.class);
-			UserMenuService userMenuService = SpringContextHolder
-					.getBean(UserMenuService.class);
 			SchoolYearService schoolYearService = SpringContextHolder
 					.getBean(SchoolYearService.class);
 
@@ -92,10 +89,6 @@ public abstract class LoginSessionHelper {
 			UserSpace model = new UserSpace();
 			model.setUserId(userid);
 			model.setEnable(1);
-			if(0 == u.getUserType()){
-				model.setSchoolYear(schoolYearService.getCurrentSchoolYear());
-			}
-			
 			model.addOrder("sort");
 			List<UserSpace> lus = userSpaceService.findAll(model);
 			if(lus == null || lus.size() == 0){
@@ -118,10 +111,6 @@ public abstract class LoginSessionHelper {
 			um.setLastLogin(new Date());
 			userService.update(um);
 			
-			session.setAttribute(
-					SessionKey.CURRENT_MENU_LIST,
-					userMenuService.findUserMenuByUser(cus.getUserId(),
-							cus.getRoleId(), true));
 			session.setAttribute(SessionKey.CURRENT_SCHOOLYEAR,
 					schoolYearService.getCurrentSchoolYear());
 			session.setAttribute(SessionKey.CURRENT_TERM,

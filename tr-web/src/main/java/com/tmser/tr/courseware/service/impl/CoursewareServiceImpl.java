@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tmser.tr.common.page.Page;
 import com.tmser.tr.common.page.PageList;
 import com.tmser.tr.common.utils.WebThreadLocalUtils;
 import com.tmser.tr.courseware.service.CoursewareService;
@@ -27,7 +26,9 @@ import com.tmser.tr.manage.meta.service.BookChapterService;
 import com.tmser.tr.manage.meta.service.BookService;
 import com.tmser.tr.manage.resources.service.ResourcesService;
 import com.tmser.tr.myplanbook.service.MyPlanBookService;
+import com.tmser.tr.uc.bo.User;
 import com.tmser.tr.uc.bo.UserSpace;
+import com.tmser.tr.uc.utils.CurrentUserContext;
 import com.tmser.tr.uc.utils.SessionKey;
 import com.tmser.tr.utils.StringUtils;
 
@@ -68,17 +69,16 @@ public class CoursewareServiceImpl implements CoursewareService {
 	@Override
 	public void saveCourseware(LessonPlan lp) {
 		if (lp != null) {
-			UserSpace userSpace = (UserSpace) WebThreadLocalUtils
-					.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
+			User user = CurrentUserContext.getCurrentUser(); // 用户空间
 			Integer schoolYear = (Integer) WebThreadLocalUtils
 					.getSessionAttrbitue(SessionKey.CURRENT_SCHOOLYEAR);// 学年
 			Integer termId = (Integer) WebThreadLocalUtils
 					.getSessionAttrbitue(SessionKey.CURRENT_TERM);// 学期
 			// 保存课件信息入库（注:课件名称做做判重处理）
 			LessonPlan lptemp = new LessonPlan();
-			lptemp.setCrtId(userSpace.getUserId());// 用户Id
+			lptemp.setCrtId(user.getId());// 用户Id
 			lptemp.setEnable(1);// 有效
-			lptemp.setOrgId(userSpace.getOrgId());// 机构Id
+			lptemp.setOrgId(user.getOrgId());// 机构Id
 			lptemp.setLessonId(lp.getLessonId());
 			lptemp.setSchoolYear(schoolYear);// 学年
 			lptemp.setPlanType(lp.getPlanType());
@@ -119,12 +119,12 @@ public class CoursewareServiceImpl implements CoursewareService {
 				} else {
 					lp.setPlanName(lessonPlan.getPlanName());// 重新命名后的名称
 				}
-				lp.setLastupId(userSpace.getUserId());
+				lp.setLastupId(user.getId());
 				lp.setLastupDttm(new Date());
 
 				// 添加备课资源
 				LessonInfo saveLessonInfo = myPlanBookService.saveLessonInfo(
-						lp.getLessonId(), muPlanName, LessonPlan.KE_JIAN);
+						lp.getLessonId(),lp.getGradeId(),lp.getSubjectId(), muPlanName, LessonPlan.KE_JIAN);
 				lp.setInfoId(saveLessonInfo.getId());
 				// 检查是否修改了文件资源
 				if (StringUtils.isNotEmpty(lp.getResId())) {
@@ -142,10 +142,8 @@ public class CoursewareServiceImpl implements CoursewareService {
 				String planName = setOnlyPlanName(lptemp, 1, 0);
 
 				lp.setPlanName(planName);// 重新命名后的名称
-				lp.setUserId(userSpace.getUserId());
-				lp.setSubjectId(userSpace.getSubjectId());
-				lp.setGradeId(userSpace.getGradeId());
-				lp.setOrgId(userSpace.getOrgId());
+				lp.setUserId(user.getId());
+				lp.setOrgId(user.getOrgId());
 				lp.setSchoolYear(schoolYear);
 				lp.setIsSubmit(false);// 未提交
 				lp.setIsShare(false);// 未分享
@@ -154,18 +152,19 @@ public class CoursewareServiceImpl implements CoursewareService {
 				lp.setCommentUp(false);// 评论已更新
 				lp.setScanUp(false);// 查阅已更新
 				lp.setDownNum(0);// 下载量为0
-				lp.setCrtId(userSpace.getUserId());// 创建人
+				lp.setCrtId(user.getId());// 创建人
 				lp.setCrtDttm(new Date());// 创建时间
-				lp.setLastupId(userSpace.getUserId());// 最后更新人
+				lp.setLastupId(user.getId());// 最后更新人
 				lp.setLastupDttm(new Date());// 最后更新时间
 				lp.setEnable(1);// 有效
 				lp.setTermId(termId);// 学期
-				lp.setPhaseId(userSpace.getPhaseId());// 学段
+				
 
 				// 添加备课资源
 				LessonInfo saveLessonInfo = myPlanBookService.saveLessonInfo(
-						lp.getLessonId(), muPlanName, LessonPlan.KE_JIAN);
+						lp.getLessonId(),lp.getGradeId(),lp.getSubjectId(), muPlanName, LessonPlan.KE_JIAN);
 				lp.setInfoId(saveLessonInfo.getId());
+				lp.setPhaseId(saveLessonInfo.getPhaseId());// 学段
 				lp.setFasciculeId(saveLessonInfo.getFasciculeId());
 				lp.setBookShortname(saveLessonInfo.getBookShortname());// 书的简称
 				lp.setBookId(saveLessonInfo.getBookId());
@@ -209,24 +208,19 @@ public class CoursewareServiceImpl implements CoursewareService {
 	 * @see com.tmser.tr.courseware.service.CoursewareService#findCourseList(com.tmser.tr.lessonplan.bo.LessonPlan)
 	 */
 	@Override
-	public PageList<LessonPlan> findCourseList(LessonPlan lp, Page page) {
+	public PageList<LessonPlan> findCourseList(LessonPlan lp) {
 		// 通过不同情况封装不同查询条件,当前学年 ,用户,listPage
-		UserSpace userSpace = (UserSpace) WebThreadLocalUtils
-				.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
+		User user = CurrentUserContext.getCurrentUser(); // 用户空间
 		Integer schoolYear = (Integer) WebThreadLocalUtils
 				.getSessionAttrbitue(SessionKey.CURRENT_SCHOOLYEAR);// 学年
 
-		lp.setUserId(userSpace.getUserId());// 用户Id
+		lp.setUserId(user.getId());// 用户Id
 		lp.setPlanType(LessonPlan.KE_JIAN);// 课件
 		lp.setEnable(1);// 有效
-		lp.setOrgId(userSpace.getOrgId());// 机构Id
-		lp.setGradeId(userSpace.getGradeId());// 年级Id
-		lp.setSubjectId(userSpace.getSubjectId());// 学科Id
+		lp.setOrgId(user.getOrgId());// 机构Id
 		lp.setSchoolYear(schoolYear);// 学年
 
 		lp.addOrder("lastupDttm desc");
-		// page.setPageSize(8);
-		lp.addPage(page);
 
 		PageList<LessonPlan> listPage = lessonPlanDao.listPage(lp);
 

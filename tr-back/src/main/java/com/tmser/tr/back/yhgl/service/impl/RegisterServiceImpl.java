@@ -1242,7 +1242,7 @@ public class RegisterServiceImpl extends ExcelBatchService implements RegisterSe
   protected void endSheetParse(Sheet sheet, Map<String, Object> params, StringBuilder returnMsg) {
     if (params != null) {
       List<UserSpace> batchSpaceList = (List<UserSpace>) params.get("batchSpaceList"); // 待插入用户空间集合
-      List<UserMenu> batchMenuList = (List<UserMenu>) params.get("batchMenuList"); // 待插入用户菜单集合
+      //List<UserMenu> batchMenuList = (List<UserMenu>) params.get("batchMenuList"); // 待插入用户菜单集合
       List<User> batchUserList = (List<User>) params.get("batchUserList");// 待插入用户集合
       Map<String, UserSpace> areadySpaceIdMap = (Map<String, UserSpace>) params.get("areadySpaceIdMap");// 需要删除的用户空间id
       Map<String, String> spaceTempMap = (Map<String, String>) params.get("spaceTempMap");// 需要删除的用户空间id
@@ -1256,16 +1256,28 @@ public class RegisterServiceImpl extends ExcelBatchService implements RegisterSe
           deleteSpace.add(space);
         }
       }
+      
       if (!CollectionUtils.isEmpty(deleteSpace)) {
         for (UserSpace space : deleteSpace) {
-          userManageService.delUserRole(space);
+          userManageService.delUserSpace(space);
         }
       }
-
+      
       // 开始批量插入
       userService.batchSave(batchUserList);
       userSpaceService.batchSave(batchSpaceList);
-      userMenuService.batchSave(batchMenuList);
+      Map<String,UserRole> userRoleMap = new HashMap<>();
+      for (UserSpace userSpace : batchSpaceList) {
+    	  String roleKey = "u"+userSpace.getUserId()+"-"+userSpace.getRoleId();
+    	  UserRole ur = new UserRole();
+    	  ur.setUserId(userSpace.getUserId());
+    	  ur.setRoleId(userSpace.getRoleId());
+    	  userRoleMap.put(roleKey, ur);
+	  }
+      if(!userRoleMap.isEmpty()){
+    	  userRoleService.batchSave(new ArrayList<UserRole>(userRoleMap.values()));
+      }
+     // userMenuService.batchSave(batchMenuList);
 
     }
   }

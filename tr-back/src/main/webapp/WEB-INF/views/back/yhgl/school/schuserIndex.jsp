@@ -69,7 +69,8 @@
 					<ul class="toolBar">
 						<li><a target="dialog" href="${ctx}jy/back/yhgl/addOrEditSchoolUser?orgId=${model.orgId}" class="add" id="ad_sch_href"  rel="add_sch"  mask="true"><span>新建账号</span></a></li>
 						<li><a target="dialog" href="${ctx}jy/back/yhgl/toSchUserBatch?orgId=${model.orgId}" class="add" mask="true"><span>批量新建</span></a></li>
-						<li><a class="edit" href="${ctx}jy/back/yhgl/manageSchUserRole?userId={sch_user_id}&orgId=${model.orgId}" class="edit" id="ad_sch_user_role" target="dialog" rel="ad_sch_ro_us" mask="true"><span>身份管理</span></a></li>
+						<li><a class="edit" href="${ctx}jy/back/yhgl/manageSchUserRole?userId={sch_user_id}&orgId=${model.orgId}" class="edit" id="ad_sch_user_role" target="dialog" rel="ad_sch_ro_us" mask="true"><span>用户角色管理</span></a></li>
+						<li><a class="edit" href="${ctx}jy/back/yhgl/manageSchUserSpace?userId={sch_user_id}&orgId=${model.orgId}" class="edit" id="ad_sch_user_role" target="dialog" rel="ad_sch_ro_info" mask="true"><span>任职信息管理</span></a></li>
 						<c:if test="${not empty model.phaseId }" >
 						<li><a href="${ctx}jy/back/yhgl/exportsDetails?templateType=xxyh&phaseId=${model.phaseId}&orgId=${model.orgId}" class="icon"><span>导出用户</span></a></li>
 						</c:if>

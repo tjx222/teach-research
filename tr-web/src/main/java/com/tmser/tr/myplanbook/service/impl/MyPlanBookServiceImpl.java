@@ -46,7 +46,9 @@ import com.tmser.tr.manage.meta.service.BookService;
 import com.tmser.tr.manage.meta.vo.BookLessonVo;
 import com.tmser.tr.manage.resources.service.ResourcesService;
 import com.tmser.tr.myplanbook.service.MyPlanBookService;
+import com.tmser.tr.uc.bo.User;
 import com.tmser.tr.uc.bo.UserSpace;
+import com.tmser.tr.uc.utils.CurrentUserContext;
 import com.tmser.tr.uc.utils.SessionKey;
 import com.tmser.tr.utils.StringUtils;
 
@@ -162,16 +164,15 @@ public class MyPlanBookServiceImpl extends AbstractService<LessonInfo, Integer> 
 	 * @see com.tmser.tr.myplanbook.service.MyPlanBookService#saveLessonInfo(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public LessonInfo saveLessonInfo(String lessonId,String lessonName,Integer planType) {
+	public LessonInfo saveLessonInfo(String lessonId,Integer gradeId,Integer subjectId,String lessonName,Integer planType) {
 		//获取当前用户空间
-		UserSpace userSpace = (UserSpace)WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE);
-		//学年
+		User user = CurrentUserContext.getCurrentUser();		//学年
 		Integer schoolYear = (Integer)WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SCHOOLYEAR);
 		//学期
 		Integer termId = (Integer)WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_TERM);
 		LessonInfo lessonInfo = new LessonInfo();
 		lessonInfo.setLessonId(lessonId);
-		lessonInfo.setUserId(userSpace.getUserId());
+		lessonInfo.setUserId(user.getId());
 		lessonInfo.setSchoolYear(schoolYear);
 		LessonInfo temp = lessonInfoDao.getOne(lessonInfo);
 		if(temp==null){//不存在则新增
@@ -180,12 +181,12 @@ public class MyPlanBookServiceImpl extends AbstractService<LessonInfo, Integer> 
 				lessonInfo.setLessonName(lessonName);
 				lessonInfo.setBookId(book.getComId());
 				lessonInfo.setBookShortname(book.getFormatName());
-				lessonInfo.setGradeId(userSpace.getGradeId());
-				lessonInfo.setSubjectId(userSpace.getSubjectId());
+				lessonInfo.setGradeId(gradeId);
+				lessonInfo.setSubjectId(subjectId);
 				lessonInfo.setFasciculeId(book.getFasciculeId());
 				lessonInfo.setTermId(termId);
-				lessonInfo.setPhaseId(userSpace.getPhaseId());
-				lessonInfo.setOrgId(userSpace.getOrgId());
+				lessonInfo.setPhaseId(book.getPhaseId());
+				lessonInfo.setOrgId(user.getOrgId());
 				lessonInfo.setScanUp(false);
 				lessonInfo.setVisitUp(false);
 				lessonInfo.setCommentUp(false);
@@ -211,7 +212,7 @@ public class MyPlanBookServiceImpl extends AbstractService<LessonInfo, Integer> 
 					lessonInfo.setJiaoanCount(0);
 					lessonInfo.setKejianCount(0);
 				}
-				lessonInfo.setCrtId(userSpace.getUserId());
+				lessonInfo.setCrtId(user.getId());
 				lessonInfo.setCrtDttm(new Date());
 				lessonInfo.setCurrentFrom(LessonInfo.FROM_ME);
 				return lessonInfoDao.insert(lessonInfo);

@@ -7,7 +7,6 @@ package com.tmser.tr.courseware.service;
 import java.util.List;
 import java.util.Map;
 
-import com.tmser.tr.common.page.Page;
 import com.tmser.tr.common.page.PageList;
 import com.tmser.tr.lessonplan.bo.LessonPlan;
 
@@ -30,7 +29,7 @@ public interface CoursewareService {
 	 * @param page
 	 * @return
 	 */
-	PageList<LessonPlan> findCourseList(LessonPlan lp, Page page);
+	PageList<LessonPlan> findCourseList(LessonPlan lp);
 
 	/**
 	 * 课件的保存操作

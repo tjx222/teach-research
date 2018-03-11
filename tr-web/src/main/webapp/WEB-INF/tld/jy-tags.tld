@@ -63,9 +63,17 @@
 		<attribute>
 			<description>The name of the value to save.</description>
 			<name>var</name>
-			<required>true</required>
+			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
+		
+		<attribute>
+			<description>The property to out.</description>
+			<name>prop</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		
 	    <attribute>
 			<description>The type of the value.</description>
 			<name>className</name>
@@ -85,10 +93,18 @@
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
+		
+	    <attribute>
+			<description>The property to out.</description>
+			<name>prop</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		
 		<attribute>
 			<description>The name of the value to save.</description>
 			<name>var</name>
-			<required>true</required>
+			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		

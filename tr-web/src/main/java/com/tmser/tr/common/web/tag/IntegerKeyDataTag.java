@@ -5,13 +5,17 @@
 
 package com.tmser.tr.common.web.tag;
 
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.servlet.tags.RequestContextAwareTag;
 
 import com.tmser.tr.common.service.BaseService;
+import com.tmser.tr.utils.Reflections;
 import com.tmser.tr.utils.SpringContextHolder;
+import com.tmser.tr.utils.StringUtils;
 
 
 /**
@@ -30,8 +34,17 @@ public class IntegerKeyDataTag extends RequestContextAwareTag{
 	
 	private Integer key;
 	
+	private String prop;
 
-    public Integer getKey() {
+    public String getProp() {
+		return prop;
+	}
+
+	public void setProp(String prop) {
+		this.prop = prop;
+	}
+
+	public Integer getKey() {
 		return key;
 	}
 
@@ -87,7 +100,15 @@ public class IntegerKeyDataTag extends RequestContextAwareTag{
 	
 	@SuppressWarnings("unchecked")
 	protected void out(Object baseService){
-		 pageContext.setAttribute(var, ((BaseService<?, Integer>)baseService).findOne(getKey()));
+		if(prop != null){
+			try {
+				pageContext.getOut().write(StringUtils.nullToEmpty(Reflections.invokeGetter(((BaseService<?, Integer>)baseService).findOne(getKey()), prop)));
+			} catch (IOException e) {
+				logger.error("can't out the prop[{}] in {} class", prop,className);
+			}
+		}else{
+			pageContext.setAttribute(var, ((BaseService<?, Integer>)baseService).findOne(getKey()));
+		}
 	}
 	
     /**
@@ -99,5 +120,6 @@ public class IntegerKeyDataTag extends RequestContextAwareTag{
 		className = null;
 		var = null;
 		key = null;
+		prop = null;
     }
 }

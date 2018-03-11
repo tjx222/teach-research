@@ -21,13 +21,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tmser.tr.common.bo.BaseObject;
 import com.tmser.tr.common.dao.BaseDAO;
 import com.tmser.tr.common.service.AbstractService;
-import com.tmser.tr.common.utils.WebThreadLocalUtils;
+import com.tmser.tr.manage.meta.bo.Menu;
+import com.tmser.tr.manage.meta.service.MenuService;
 import com.tmser.tr.uc.bo.Login;
-import com.tmser.tr.uc.bo.LoginLog;
 import com.tmser.tr.uc.bo.Permission;
 import com.tmser.tr.uc.bo.Role;
 import com.tmser.tr.uc.bo.User;
-import com.tmser.tr.uc.bo.UserSpace;
 import com.tmser.tr.uc.dao.LoginDao;
 import com.tmser.tr.uc.exception.UcException;
 import com.tmser.tr.uc.exception.UserBlockedException;
@@ -40,9 +39,7 @@ import com.tmser.tr.uc.service.LoginService;
 import com.tmser.tr.uc.service.PasswordService;
 import com.tmser.tr.uc.service.PermissionService;
 import com.tmser.tr.uc.service.RoleService;
-import com.tmser.tr.uc.service.UserMenuService;
 import com.tmser.tr.uc.service.UserService;
-import com.tmser.tr.uc.utils.SessionKey;
 import com.tmser.tr.utils.StringUtils;
 
 /**
@@ -79,7 +76,7 @@ public class LoginServiceImpl extends AbstractService<Login, Integer> implements
 	private UserService userService;
 
 	@Resource
-	private UserMenuService userMenuService;
+	private MenuService menuService;
 
 	/**
 	 * 按用户名查找
@@ -244,37 +241,9 @@ public class LoginServiceImpl extends AbstractService<Login, Integer> implements
 	 * @return
 	 * @see com.tmser.tr.uc.service.LoginService#toWorkSpace(java.lang.Integer)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public String toWorkSpace(Integer spaceid) {
-		UserSpace us = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE);
-
-		String url = null;
-
-		if (us != null && (spaceid == null || us.getId().equals(spaceid))) {
-			url = us.getSpaceHomeUrl();
-		}
-
-		if (url == null) {
-			List<UserSpace> usl = (List<UserSpace>) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.USER_SPACE_LIST);
-			if (usl != null) {
-				for (UserSpace u : usl) {
-					if (u.getId().equals(spaceid)) {
-						url = u.getSpaceHomeUrl();// 切换session
-						WebThreadLocalUtils.setSessionAttrbitue(SessionKey.CURRENT_SPACE, u);
-						if (!us.getSysRoleId().equals(u.getSysRoleId())) {
-							WebThreadLocalUtils.setSessionAttrbitue(SessionKey.CURRENT_MENU_LIST,
-									userMenuService.findUserMenuByUser(u.getUserId(), u.getRoleId(), true));
-						}
-						if (loginLogService != null)
-							loginLogService.addHistroy(u, LoginLog.T_CHANGE);
-
-						break;
-					}
-				}
-			}
-		}
-		return url == null ? "/" : url;
+		return  "/jy/school/mng/index";
 	}
 
 	public void setLoginSuccessListenner(LoginSuccessListenner lsl) {
@@ -316,14 +285,19 @@ public class LoginServiceImpl extends AbstractService<Login, Integer> implements
 	public Set<String> findStringPermissions(Integer uid) {
 		Set<String> permissionSet = new HashSet<>();
 		if (uid != null) {
-			UserSpace us = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE);
-			List<Role> rs = roleService.findRoleByUserid(uid, us.getSysRoleId());
+			List<Role> rs = roleService.findRoleByUserid(uid, null);
 
 			for (Role r : rs) {
 				List<Permission> ps = permissionService.findPermissionByRoleid(r.getId());
 				for (Permission p : ps) {
 					if (p != null)
 						permissionSet.add(p.getCode());
+				}
+				
+				List<Menu> menus = menuService.getMenuListByRole(r.getId());
+				for (Menu userMenu : menus) {
+					if (userMenu != null)
+						permissionSet.add(userMenu.getCode());
 				}
 			}
 

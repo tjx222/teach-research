@@ -20,7 +20,6 @@ import org.apache.shiro.web.util.WebUtils;
 
 import com.tmser.tr.uc.LoginSessionHelper;
 import com.tmser.tr.uc.service.SchoolYearService;
-import com.tmser.tr.uc.service.UserMenuService;
 import com.tmser.tr.uc.service.UserService;
 import com.tmser.tr.uc.service.UserSpaceService;
 import com.tmser.tr.uc.utils.SessionKey;
@@ -42,9 +41,6 @@ public class CustomFormAutenticationFilter extends FormAuthenticationFilter {
 
 	@Resource
 	private SchoolYearService schoolYearService;
-
-	@Resource
-	private UserMenuService userMenuService;
 
 	@Override
 	protected void setFailureAttribute(ServletRequest request, AuthenticationException ae) {

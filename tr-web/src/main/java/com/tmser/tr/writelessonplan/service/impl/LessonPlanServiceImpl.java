@@ -43,10 +43,12 @@ import com.tmser.tr.manage.resources.service.ResourcesService;
 import com.tmser.tr.myplanbook.service.MyPlanBookService;
 import com.tmser.tr.uc.SysRole;
 import com.tmser.tr.uc.bo.Login;
+import com.tmser.tr.uc.bo.User;
 import com.tmser.tr.uc.bo.UserSpace;
 import com.tmser.tr.uc.dao.LoginDao;
 import com.tmser.tr.uc.dao.UserSpaceDao;
 import com.tmser.tr.uc.service.SchoolYearService;
+import com.tmser.tr.uc.utils.CurrentUserContext;
 import com.tmser.tr.uc.utils.SessionKey;
 import com.tmser.tr.utils.StringUtils;
 import com.tmser.tr.writelessonplan.service.LessonPlanService;
@@ -94,7 +96,7 @@ public class LessonPlanServiceImpl extends AbstractService<LessonPlan, Integer> 
   @Override
   public Integer saveLessonPlan(FileSaver fs) {
     // 获取当前用户空间
-    UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE);
+    User user = CurrentUserContext.getCurrentUser();
     // 学年
     Integer schoolYear = (Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SCHOOLYEAR);
     // 学期
@@ -103,17 +105,15 @@ public class LessonPlanServiceImpl extends AbstractService<LessonPlan, Integer> 
     String lessonId = fs.getFormField("lessonId");// 课题id
     String lessonName = fs.getFormField("lessonName");
     String lessonHours = fs.getFormField("hoursIdStr");// 课时id连成的字符串
-
-    if (userSpace.getSysRoleId().intValue() != SysRole.TEACHER.getId().intValue()) { // 如果不是老师
-      return 0;
-    }
-    // 判断将要保存的教案是否和以保存教案的课时重复
+    String gradeId = fs.getFormField("gradeId");
+    String subjectId = fs.getFormField("subjectId");
+     // 判断将要保存的教案是否和以保存教案的课时重复
     if (hoursIdOreadyExist(lessonId, lessonHours)) {
       return null;
     }
 
-    String relativeUrl = File.separator + "jiaoan" + File.separator + "o_" + userSpace.getOrgId() + File.separator
-        + String.valueOf(schoolYear) + File.separator + String.valueOf(userSpace.getSubjectId()) + File.separator
+    String relativeUrl = File.separator + "jiaoan" + File.separator + "o_" + user.getOrgId() + File.separator
+        + String.valueOf(schoolYear) + File.separator + subjectId + File.separator
         + lessonId; // 相对路径
                     // 如：/2015/3/3
     if (StringUtils.isBlank(planId)) {// 教案不存在则新增教案
@@ -125,7 +125,8 @@ public class LessonPlanServiceImpl extends AbstractService<LessonPlan, Integer> 
         String bookId = fs.getFormField("bookId");
         Book book = bookService.findOne(bookId);
         // 增加其课题信息记录(不存在增加，已存在则教案数量+1)
-        LessonInfo lessonInfo = myPlanBookService.saveLessonInfo(lessonId, lessonName, LessonPlan.JIAO_AN);
+        LessonInfo lessonInfo = myPlanBookService.saveLessonInfo(lessonId,Integer.valueOf(gradeId),
+        		Integer.valueOf(subjectId),lessonName, LessonPlan.JIAO_AN);
         if (lessonInfo != null) {
           Integer tpId = null;
           if (!"".equals(fs.getFormField("tpId"))) {
@@ -146,12 +147,12 @@ public class LessonPlanServiceImpl extends AbstractService<LessonPlan, Integer> 
           }
           // 构造待新增的教案
           LessonPlan lessonPlan = new LessonPlan(lessonInfo.getId(), planName, resources.getId(), 0,
-              userSpace.getUserId(), userSpace.getSubjectId(), userSpace.getGradeId(), bookId, book.getFormatName(),
-              lessonId, lessonHours, tpId, userSpace.getOrgId(), book.getFasciculeId(), schoolYear, termId,
-              userSpace.getPhaseId(), order, new Date(), 1);
+              user.getId(), lessonInfo.getSubjectId(), lessonInfo.getGradeId(), bookId, book.getFormatName(),
+              lessonId, lessonHours, tpId, user.getOrgId(), book.getFasciculeId(), schoolYear, termId,
+              lessonInfo.getPhaseId(), order, new Date(), 1);
           lessonPlan.setState(0);
           lessonPlan = lessonPlanDao.insert(lessonPlan);
-          logger.info("撰写教案：新增教案成功！ 操作人id：" + userSpace.getUserId());
+          logger.info("撰写教案：新增教案成功！ 操作人id：" + user.getId());
           planId = String.valueOf(lessonPlan.getPlanId());
         }
       }
@@ -412,11 +413,10 @@ public class LessonPlanServiceImpl extends AbstractService<LessonPlan, Integer> 
    * @see com.tmser.tr.writelessonplan.service.LessonPlanService#getLatestLessonPlan()
    */
   @Override
-  public LessonPlan getLatestLessonPlan(Book book, Integer planType) {
-    UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE);
+  public LessonPlan getLatestLessonPlan(Integer planType) {
+    User user = (User) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_USER);
     Integer schoolYear = (Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SCHOOLYEAR);// 学年
-    LessonPlan lessonPlan = lessonPlanDao.getLatestLessonPlan(book, userSpace.getUserId(), userSpace.getSubjectId(),
-        schoolYear, planType);
+    LessonPlan lessonPlan = lessonPlanDao.getLatestLessonPlan(user.getId(), schoolYear, planType);
     return lessonPlan;
   }
 
@@ -584,7 +584,6 @@ public class LessonPlanServiceImpl extends AbstractService<LessonPlan, Integer> 
         return false;
       }
       LessonPlan lessonPlan = lessonPlanDao.get(Integer.valueOf(planId));
-      String oldResId = lessonPlan.getResId();
       String lessonHours = fs.getFormField("hoursIdStr");// 课时id连成的字符串
       String planName = lessonPlan.getPlanName();
       String relativeUrl = File.separator + "jiaoan" + File.separator + String.valueOf(schoolYear) + File.separator
@@ -962,7 +961,6 @@ public class LessonPlanServiceImpl extends AbstractService<LessonPlan, Integer> 
   @Override
   public Integer saveLessonPlanWithFile(LessonPlan params, String resId) {
     // 获取当前用户空间
-    UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE);
     // 学年
     Integer schoolYear = (Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SCHOOLYEAR);
     // 学期
@@ -972,9 +970,6 @@ public class LessonPlanServiceImpl extends AbstractService<LessonPlan, Integer> 
     String lessonName = params.getLessonName();// 课题名称
     String lessonHours = params.getLessonHours();// 课时id连成的字符串
 
-    if (userSpace.getSysRoleId().intValue() != SysRole.TEACHER.getId().intValue()) { // 如果不是老师
-      return 0;
-    }
     // 判断将要保存的教案是否和以保存教案的课时重复
     if (hoursIdOreadyExist(lessonId, lessonHours)) {
       return null;
@@ -984,7 +979,7 @@ public class LessonPlanServiceImpl extends AbstractService<LessonPlan, Integer> 
       String bookId = params.getBookId();
       Book book = bookService.findOne(bookId);
       // 增加其课题信息记录(不存在增加，已存在则教案数量+1)
-      LessonInfo lessonInfo = myPlanBookService.saveLessonInfo(lessonId, lessonName, LessonPlan.JIAO_AN);
+      LessonInfo lessonInfo = myPlanBookService.saveLessonInfo(lessonId, params.getGradeId(),params.getSubjectId(),lessonName, LessonPlan.JIAO_AN);
       if (lessonInfo != null) {
         Integer tpId = null;
         if (params.getTpId() != null) {
@@ -1004,14 +999,14 @@ public class LessonPlanServiceImpl extends AbstractService<LessonPlan, Integer> 
           //
         }
         // 构造待新增的教案
-        LessonPlan lessonPlan = new LessonPlan(lessonInfo.getId(), planName, resId, 0, userSpace.getUserId(),
-            userSpace.getSubjectId(), userSpace.getGradeId(), bookId, book.getFormatName(), lessonId, lessonHours,
-            tpId, userSpace.getOrgId(), book.getFasciculeId(), schoolYear, termId, userSpace.getPhaseId(), order,
+        LessonPlan lessonPlan = new LessonPlan(lessonInfo.getId(), planName, resId, 0, lessonInfo.getUserId(),
+        		lessonInfo.getSubjectId(), lessonInfo.getGradeId(), bookId, book.getFormatName(), lessonId, lessonHours,
+            tpId, lessonInfo.getOrgId(), book.getFasciculeId(), schoolYear, termId, lessonInfo.getPhaseId(), order,
             new Date(), 1);
         lessonPlan.setState(0);
         lessonPlan = lessonPlanDao.insert(lessonPlan);
         planId = lessonPlan.getPlanId();
-        logger.info("撰写教案：新增教案成功！ 操作人id：" + userSpace.getUserId());
+        logger.info("撰写教案：新增教案成功！ 操作人id：" + lessonInfo.getUserId());
       }
     }
     return planId;

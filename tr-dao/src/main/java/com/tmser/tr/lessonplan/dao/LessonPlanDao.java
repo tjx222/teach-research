@@ -6,7 +6,6 @@ import java.util.Map;
 import com.tmser.tr.common.dao.BaseDAO;
 import com.tmser.tr.common.page.PageList;
 import com.tmser.tr.lessonplan.bo.LessonPlan;
-import com.tmser.tr.manage.meta.bo.Book;
 
 /**
  * 备课资源表DAO接口
@@ -32,7 +31,7 @@ public interface LessonPlanDao extends BaseDAO<LessonPlan, Integer>{
 	 * @param planType 资源类型
 	 * @return
 	 */
-	LessonPlan getLatestLessonPlan(Book book, Integer userId, Integer subjectId, Integer schoolYear,Integer planType);
+	LessonPlan getLatestLessonPlan(Integer userId, Integer schoolYear,Integer planType);
 
 	/**
 	 * 逻辑删除某课题下的教案
