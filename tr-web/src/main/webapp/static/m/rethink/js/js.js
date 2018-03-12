@@ -13,6 +13,12 @@ define(["require","zepto","iscroll"], function (require) {
       		fadeScrollbars:true,
       		click:true,
       	});
+    	
+    	$("#spacelist").change(function () {
+    		var so = $(this);
+            location.href="jy/rethink/index?spaceId="+so.val();
+    	});
+    	
     	$(".courseware_img_2").click(function () {
     		var plan = $(this).parent();
     		var planId = plan.attr("planId");
@@ -111,7 +117,7 @@ define(["require","zepto","iscroll"], function (require) {
           	$('.submit_upload_wrap').show();
           	$('.mask').show();
           });
-          $('.content_top_right').click(function (){
+          $('#rethinktype.content_top_right').click(function (){
           	$('.mask').show();
           	$('.cw_menu_wrap').show(); 
           	 var  myScroll2 = new IScroll('#wrap2',{
@@ -189,7 +195,7 @@ define(["require","zepto","iscroll"], function (require) {
         	$("#resId").val("");
     	});
     	$(".btn_submit").click(function(){
-    		$("#submitDiv").find("iframe").attr("src",_WEB_CONTEXT_+"/jy/rethink/submitIndex_mobile");
+    		$("#submitDiv").find("iframe").attr("src",_WEB_CONTEXT_+"/jy/rethink/submitIndex_mobile?spaceId="+$("#spacelist").val()+"&planType="+ $("#planTypeIdHid").val());
     		$("#submitDiv").show();
     	});
     	$(".add_cour").click(function(){ //撰写反思按钮绑定
@@ -313,7 +319,7 @@ define(["require","zepto","iscroll"], function (require) {
 				successAlert("保存成功",false,function(){
 					//刷新页面
 					var planType = $("#planType").val();
-					location.href =  _WEB_CONTEXT_+"/jy/rethink/index?planType="+planType;
+					location.href =  _WEB_CONTEXT_+"/jy/rethink/index?spaceId="+$("#spacelist").val()+"&planType="+planType;
 				});
 			}
 		});
@@ -419,7 +425,7 @@ define(["require","zepto","iscroll"], function (require) {
     			data:{"planId":planId,"planType":planType},
     			success:function(data){
     				if(data.isOk){
-    					location.href = _WEB_CONTEXT_+"/jy/rethink/index?planType="+planType;
+    					location.href = _WEB_CONTEXT_+"/jy/rethink/index?spaceId="+$("#spacelist").val()+"&planType="+planType;
     				}else{
     					successAlert("删除失败！");
     				}
@@ -439,7 +445,7 @@ define(["require","zepto","iscroll"], function (require) {
     			data:{"planId":planId,"isShare":isShare,"planType":planType},
     			success:function(data){
     				if(data.isOk==0){
-    					location.href = _WEB_CONTEXT_+"/jy/rethink/index?planType="+planType;
+    					location.href = _WEB_CONTEXT_+"/jy/rethink/index?spaceId="+$("#spacelist").val()+"&planType="+planType;
     				}else{
     					successAlert("分享失败！");
     				}
@@ -461,10 +467,10 @@ define(["require","zepto","iscroll"], function (require) {
     			data:{"planId":planId,"isShare":isShare,"planType":planType},
     			success:function(data){
     				if(data.isOk==0){
-    					location.href = _WEB_CONTEXT_+"/jy/rethink/index?planType="+planType;
+    					location.href = _WEB_CONTEXT_+"/jy/rethink/index?spaceId="+$("#spacelist").val()+"&planType="+planType;
     				}else if(data.isOk==1){
     					successAlert("该反思已被评论，禁止取消分享",false,function(){
-							location.href = _WEB_CONTEXT_+"/jy/rethink/index?planType="+planType;
+							location.href = _WEB_CONTEXT_+"/jy/rethink/index?spaceId="+$("#spacelist").val()+"&planType="+planType;
 						});
     				}else{
     					successAlert("取消分享失败！");
@@ -488,7 +494,7 @@ define(["require","zepto","iscroll"], function (require) {
     				data:{"planIds":planId,"isSubmit":isSubmit,"qtFanSiIds":""},
     				success:function(data){
     					if(data.isOk){
-    						location.href = _WEB_CONTEXT_+"/jy/rethink/index?planType="+planType;
+    						location.href = _WEB_CONTEXT_+"/jy/rethink/index?spaceId="+$("#spacelist").val()+"&planType="+planType;
     					}else{
     						successAlert("提交失败！");
     					}
@@ -502,7 +508,7 @@ define(["require","zepto","iscroll"], function (require) {
     				data:{"qtFanSiIds":planId,"isSubmit":isSubmit,"planIds":""},
     				success:function(data){
     					if(data.isOk){
-    						location.href = _WEB_CONTEXT_+"/jy/rethink/index?planType=3";
+    						location.href = _WEB_CONTEXT_+"/jy/rethink/index?spaceId="+$("#spacelist").val()+"&planType=3";
     					}else{
     						successAlert("提交失败！");
     					}
@@ -526,7 +532,7 @@ define(["require","zepto","iscroll"], function (require) {
     				data:{"planIds":planId,"isSubmit":isSubmit,"qtFanSiIds":""},
     				success:function(data){
     					if(data.isOk){
-    						location.href = _WEB_CONTEXT_+"/jy/rethink/index?planType="+planType;
+    						location.href = _WEB_CONTEXT_+"/jy/rethink/index?spaceId="+$("#spacelist").val()+"&planType="+planType;
     					}else{
     						successAlert("取消提交失败！");
     					}
@@ -540,7 +546,7 @@ define(["require","zepto","iscroll"], function (require) {
     				data:{"qtFanSiIds":planId,"isSubmit":isSubmit,"planIds":""},
     				success:function(data){
     					if(data.isOk){
-    						location.href = _WEB_CONTEXT_+"/jy/rethink/index?planType=3";
+    						location.href = _WEB_CONTEXT_+"/jy/rethink/index?spaceId="+$("#spacelist").val()+"&planType=3";
     					}else{
     						successAlert("取消提交失败！");
     					}
@@ -559,7 +565,7 @@ define(["require","zepto","iscroll"], function (require) {
     };
     //刷新
     window.refreshIt = function(){
-    	location.href = _WEB_CONTEXT_+"/jy/rethink/index";
+    	location.href = _WEB_CONTEXT_+"/jy/rethink/index?spaceId="+$("#spacelist").val();
     };
     //关闭提交窗口
     window.closeSubmitWindow = function(){

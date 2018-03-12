@@ -10,7 +10,7 @@
 	<ui:require module="../m/rethink/js"></ui:require>
 </head>
 <body>
-<input type="hidden" id="planTypeIdHid" value="${planType }" />
+<input type="hidden" id="planTypeIdHid" value="${model.planType }" />
 
 <!-- 查阅意见 -->
 <div class="opinions_comment_wrap" id="checkComment">
@@ -118,6 +118,9 @@
 			<input type="hidden" name="planName" id="planName" value="">
 			<input type="hidden" name="planId" id="planId" value="">
 			<input type="hidden" name="resId" id="resId" value="">
+			<input type="hidden" name="gradeId" value="${model.gradeId}"/> 
+			<input type="hidden" name="subjectId" value="${model.subjectId}"/> 
+			<input type="hidden" name="phaseId" value="${model.phaseId}"/> 
 				<div id="kh_kt" class="form_input">
 					<label>课题目录</label>
 					<strong class="select" id="uploadLesson">请选择<q></q></strong>
@@ -220,19 +223,29 @@
 	<section>
 	 <form id="hiddenForm" action="${ctx }jy/rethink/index?_HS_=${empty param._HS_ ? 2 :param._HS_+1 }" method="post">
 			<input id="form_planType" type="hidden" name="planType" value="">
-	   </form>
 		<div class="content">
 			<div class="content_top">
 				<div class="content_top_left">
 					<input type="button" class="btn_submit" value="提交上级">
 				</div>
-				<div class="content_top_right">
+				<div id="rethinktype" class="content_top_right">
 					<label>反思类型：</label>
 					<span id="currentLesson"></span>
 					<strong></strong>
 				</div>
+				<div class="content_top_right">
+				    <label>年级学科:</label>
+				    <select id="spacelist" name="spaceId" style="width: 10rem; border: none;  line-height: 3rem;  height: 3rem; font-size: 1.267rem; color: #999; background: #f7f8f9;" >
+					<c:forEach items="${sessionScope._USER_SPACE_LIST_}" var="space">
+						<c:if test="${not empty space.gradeId && not empty space.subjectId && not empty space.bookId }">
+							<option value="${space.id }" ${currentBookId == space.bookId ?'selected':''}><jy:dic key="${space.gradeId}"></jy:dic><jy:dic key="${space.subjectId}"></jy:dic></option>
+						</c:if>
+					</c:forEach>
+					</select>
+				</div>
 			</div>
 		</div>
+	</form>
 		<div class="content_bottom" id="wrap">
 			<div id="scroller">
 				<div class="content_bottom_width">

@@ -4,7 +4,6 @@
  */
 package com.tmser.tr.rethink.service.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tmser.tr.browse.BaseResTypes;
 import com.tmser.tr.browse.utils.BrowseRecordUtils;
 import com.tmser.tr.common.dao.BaseDAO;
-import com.tmser.tr.common.page.Page;
 import com.tmser.tr.common.page.PageList;
 import com.tmser.tr.common.service.AbstractService;
 import com.tmser.tr.common.utils.WebThreadLocalUtils;
@@ -32,7 +30,9 @@ import com.tmser.tr.manage.meta.service.BookService;
 import com.tmser.tr.manage.resources.service.ResourcesService;
 import com.tmser.tr.myplanbook.service.MyPlanBookService;
 import com.tmser.tr.rethink.service.RethinkService;
+import com.tmser.tr.uc.bo.User;
 import com.tmser.tr.uc.bo.UserSpace;
+import com.tmser.tr.uc.utils.CurrentUserContext;
 import com.tmser.tr.uc.utils.SessionKey;
 import com.tmser.tr.utils.StringUtils;
 
@@ -70,40 +70,20 @@ public class RethinkServiceImpl extends AbstractService<LessonPlan, Integer> imp
 	 * @return
 	 * @see com.tmser.tr.rethink.service.RethinkService#findCourseList(com.tmser.tr.lessonplan.bo.LessonPlan)
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public PageList<LessonPlan> findCourseList(LessonPlan lp, Page page) {
+	public PageList<LessonPlan> findCourseList(LessonPlan lp) {
+		User user = CurrentUserContext.getCurrentUser();
 		// 通过不同情况封装不同查询条件,当前学年 ,用户,listPage
-		UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
-		Integer schoolYear = (Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SCHOOLYEAR);// 学年
 		Integer planType = lp.getPlanType();
-		PageList<LessonPlan> listPage = new PageList(new ArrayList<LessonPlan>(), page);
-		lp.setUserId(userSpace.getUserId());// 用户Id
+		PageList<LessonPlan> listPage = null;
+		lp.setUserId(user.getId());// 用户Id
 		lp.setEnable(1);// 有效
-		lp.setOrgId(userSpace.getOrgId());// 机构Id
-		lp.setGradeId(userSpace.getGradeId());// 年级Id
-		lp.setSubjectId(userSpace.getSubjectId());// 学科Id
-		lp.setSchoolYear(schoolYear);// 学年
 		lp.addOrder("lastupDttm desc");
-		lp.addPage(page);
 		if (planType == null) {// 初次进入
 			lp.setPlanType(LessonPlan.KE_HOU_FAN_SI);
-			int count = lessonPlanDao.count(lp);
-			if (count == 0) {
-				lp.setPlanType(LessonPlan.QI_TA_FAN_SI);
-				int countqt = lessonPlanDao.count(lp);
-				if (countqt > 0) {// 查询其他反思
-					listPage = lessonPlanDao.listPage(lp);
-				} else {
-					lp.setPlanType(LessonPlan.KE_HOU_FAN_SI);
-					listPage = lessonPlanDao.listPage(lp);
-				}
-			} else {
-				listPage = lessonPlanDao.listPage(lp);
-			}
-		} else {
-			listPage = lessonPlanDao.listPage(lp);
 		}
+		listPage = lessonPlanDao.listPage(lp);
+		
 		return listPage;
 	}
 
@@ -120,16 +100,14 @@ public class RethinkServiceImpl extends AbstractService<LessonPlan, Integer> imp
 				|| (lp.getPlanType() == LessonPlan.KE_HOU_FAN_SI && StringUtils.isEmpty(lp.getLessonId()))) {
 			return false;
 		}
-		UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
+		User user = CurrentUserContext.getCurrentUser(); // 用户空间
 		Integer schoolYear = (Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SCHOOLYEAR);// 学年
 		Integer termId = (Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_TERM);// 学期
 		// 保存反思信息入库（注:反思名称做做判重处理）
 		LessonPlan lptemp = new LessonPlan();
-		lptemp.setUserId(userSpace.getUserId());// 用户Id
+		lptemp.setUserId(user.getId());// 用户Id
 		lptemp.setEnable(1);// 有效
-		lptemp.setOrgId(userSpace.getOrgId());// 机构Id
-		lptemp.setGradeId(userSpace.getGradeId());// 年级Id
-		lptemp.setSubjectId(userSpace.getSubjectId());// 学科Id
+		lptemp.setOrgId(user.getOrgId());// 机构Id
 		lptemp.setSchoolYear(schoolYear);// 学年
 		lptemp.setPlanType(lp.getPlanType());
 		lptemp.setPlanName(lp.getPlanName());
@@ -162,7 +140,7 @@ public class RethinkServiceImpl extends AbstractService<LessonPlan, Integer> imp
 				}
 			}
 
-			lp.setLastupId(userSpace.getUserId());
+			lp.setLastupId(user.getId());
 			lp.setLastupDttm(new Date());
 
 			if (lp.getPlanType() == LessonPlan.KE_HOU_FAN_SI) {
@@ -197,10 +175,8 @@ public class RethinkServiceImpl extends AbstractService<LessonPlan, Integer> imp
 				lp.setPlanName(planName);// 重新命名后的名称
 			}
 
-			lp.setUserId(userSpace.getUserId());
-			lp.setSubjectId(userSpace.getSubjectId());
-			lp.setGradeId(userSpace.getGradeId());
-			lp.setOrgId(userSpace.getOrgId());
+			lp.setUserId(user.getId());
+			lp.setOrgId(user.getOrgId());
 			lp.setSchoolYear(schoolYear);
 			lp.setIsSubmit(false);// 未提交
 			lp.setIsShare(false);// 未分享
@@ -209,12 +185,11 @@ public class RethinkServiceImpl extends AbstractService<LessonPlan, Integer> imp
 			lp.setCommentUp(false);// 评论已更新
 			lp.setScanUp(false);// 查阅已更新
 			lp.setDownNum(0);// 下载量为0
-			lp.setCrtId(userSpace.getUserId());// 创建人
+			lp.setCrtId(user.getId());// 创建人
 			lp.setCrtDttm(new Date());// 创建时间
-			lp.setLastupId(userSpace.getUserId());// 最后更新人
+			lp.setLastupId(user.getId());// 最后更新人
 			lp.setLastupDttm(new Date());// 最后更新时间
 			lp.setTermId(termId);// 学期
-			lp.setPhaseId(userSpace.getPhaseId());// 学段
 			lp.setEnable(1);// 有效
 
 			if (lp.getPlanType() == LessonPlan.KE_HOU_FAN_SI) {
@@ -226,6 +201,7 @@ public class RethinkServiceImpl extends AbstractService<LessonPlan, Integer> imp
 				lp.setBookShortname(saveLessonInfo.getBookShortname());// 书的简称
 				lp.setFasciculeId(saveLessonInfo.getFasciculeId());
 				lp.setBookId(saveLessonInfo.getBookId());
+				lp.setPhaseId(saveLessonInfo.getPhaseId());
 			}
 
 			lessonPlanDao.insert(lp);

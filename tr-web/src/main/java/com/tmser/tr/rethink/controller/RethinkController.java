@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tmser.tr.common.annotation.UseToken;
-import com.tmser.tr.common.page.Page;
 import com.tmser.tr.common.page.PageList;
 import com.tmser.tr.common.utils.MobileUtils;
 import com.tmser.tr.common.utils.WebThreadLocalUtils;
@@ -33,7 +32,6 @@ import com.tmser.tr.manage.meta.vo.BookLessonVo;
 import com.tmser.tr.manage.resources.bo.Resources;
 import com.tmser.tr.manage.resources.service.ResourcesService;
 import com.tmser.tr.rethink.service.RethinkService;
-import com.tmser.tr.uc.bo.UserSpace;
 import com.tmser.tr.uc.utils.SessionKey;
 import com.tmser.tr.writelessonplan.service.LessonPlanService;
 
@@ -49,7 +47,8 @@ import com.tmser.tr.writelessonplan.service.LessonPlanService;
 @RequestMapping("/jy/rethink")
 public class RethinkController extends AbstractController {
 
-	private static final Logger logger = LoggerFactory.getLogger(RethinkController.class);
+	private static final Logger logger = LoggerFactory
+			.getLogger(RethinkController.class);
 
 	@Resource
 	private RethinkService rethinkService;
@@ -69,62 +68,64 @@ public class RethinkController extends AbstractController {
 	 */
 	@RequestMapping("/index")
 	@UseToken
-	public String index(LessonPlan lp, Model m, Page page) {
-		UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
-		if (userSpace != null) {
-			m.addAttribute("lessonId", lp.getLessonId());
-			if (MobileUtils.isNormal()) {
-				page.setPageSize(8);// 每页显示多少条
-			} else {
-				page.setPageSize(1000);// 每页显示多少条
-			}
-			m.addAttribute("editModel", lessonPlanService.findOne(lp.getPlanId()));
-			lp.setPlanId(null);
-			PageList<LessonPlan> lpList = rethinkService.findCourseList(lp, page);
-			m.addAttribute("rethinkList", lpList);
-			m.addAttribute("planType", lp.getPlanType());
-			String bookId = userSpace.getBookId();
-			if (StringUtils.isNotEmpty(bookId)) {
-				List<Book> books = new ArrayList<Book>();
-				Integer term = (Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_TERM);
-				Book book = bookService.findOne(bookId);
-				if (book.getFasciculeId() != 178) {
-					String bookId2 = "";
-					if (term == 0) {// 上学期
-						if (book.getFasciculeId() == 176) {
-							bookId2 = book.getRelationComId();
-						} else {
-							bookId2 = bookId;
-							bookId = book.getRelationComId();
-						}
-						m.addAttribute("fasiciculeName", "上册书籍目录");
-						m.addAttribute("fasiciculeName2", "下册书籍目录");
-					} else {// 下学期
-						if (book.getFasciculeId() == 177) {
-							bookId2 = book.getRelationComId();
-						} else {
-							bookId2 = bookId;
-							bookId = book.getRelationComId();
-						}
-						m.addAttribute("fasiciculeName2", "上册书籍目录");
-						m.addAttribute("fasiciculeName", "下册书籍目录");
+	public String index(LessonPlan lp, Integer spaceId, Model m) {
+		String bookId = lessonPlanService.filterCurrentBook(lp, spaceId);
+		m.addAttribute("currentBookId", bookId);
+		m.addAttribute("lessonId", lp.getLessonId());
+		if (MobileUtils.isNormal()) {
+			lp.pageSize(8);// 每页显示多少条
+		} else {
+			lp.pageSize(1000);// 每页显示多少条
+		}
+		m.addAttribute("editModel", lessonPlanService.findOne(lp.getPlanId()));
+		lp.setPlanId(null);
+		PageList<LessonPlan> lpList = rethinkService.findCourseList(lp);
+		m.addAttribute("rethinkList", lpList);
+		m.addAttribute("model", lp);
+		if (StringUtils.isNotEmpty(bookId)) {
+			List<Book> books = new ArrayList<Book>();
+			Integer term = (Integer) WebThreadLocalUtils
+					.getSessionAttrbitue(SessionKey.CURRENT_TERM);
+			Book book = bookService.findOne(bookId);
+			if (book.getFasciculeId() != 178) {
+				String bookId2 = "";
+				if (term == 0) {// 上学期
+					if (book.getFasciculeId() == 176) {
+						bookId2 = book.getRelationComId();
+					} else {
+						bookId2 = bookId;
+						bookId = book.getRelationComId();
 					}
-					List<BookLessonVo> bookChapters = bookChapterHerperService.getBookChapterTreeByComId(bookId);
-					m.addAttribute("bookChapters", bookChapters);
-					books.add(bookService.findOne(bookId));
-					if (StringUtils.isNotEmpty(bookId2)) {
-						List<BookLessonVo> bookChapters2 = bookChapterHerperService.getBookChapterTreeByComId(bookId2);
-						m.addAttribute("bookChapters2", bookChapters2);
-						books.add(bookService.findOne(bookId2));
+					m.addAttribute("fasiciculeName", "上册书籍目录");
+					m.addAttribute("fasiciculeName2", "下册书籍目录");
+				} else {// 下学期
+					if (book.getFasciculeId() == 177) {
+						bookId2 = book.getRelationComId();
+					} else {
+						bookId2 = bookId;
+						bookId = book.getRelationComId();
 					}
-				} else {
-					List<BookLessonVo> bookChapters = bookChapterHerperService.getBookChapterTreeByComId(bookId);
-					m.addAttribute("bookChapters", bookChapters);
-					m.addAttribute("fasiciculeName", "全一册书籍目录");
-					books.add(book);
+					m.addAttribute("fasiciculeName2", "上册书籍目录");
+					m.addAttribute("fasiciculeName", "下册书籍目录");
 				}
-				m.addAttribute("books", books);
+				List<BookLessonVo> bookChapters = bookChapterHerperService
+						.getBookChapterTreeByComId(bookId);
+				m.addAttribute("bookChapters", bookChapters);
+				books.add(bookService.findOne(bookId));
+				if (StringUtils.isNotEmpty(bookId2)) {
+					List<BookLessonVo> bookChapters2 = bookChapterHerperService
+							.getBookChapterTreeByComId(bookId2);
+					m.addAttribute("bookChapters2", bookChapters2);
+					books.add(bookService.findOne(bookId2));
+				}
+			} else {
+				List<BookLessonVo> bookChapters = bookChapterHerperService
+						.getBookChapterTreeByComId(bookId);
+				m.addAttribute("bookChapters", bookChapters);
+				m.addAttribute("fasiciculeName", "全一册书籍目录");
+				books.add(book);
 			}
+			m.addAttribute("books", books);
 		}
 		return "/rethink/rethinkIndex";
 	}
@@ -139,7 +140,8 @@ public class RethinkController extends AbstractController {
 	 */
 	@ResponseBody
 	@RequestMapping("/charpterTree")
-	public List<BookLessonVo> charpterTree(@RequestParam(value = "lessonId") String bookId) {
+	public List<BookLessonVo> charpterTree(
+			@RequestParam(value = "lessonId") String bookId) {
 		List<BookLessonVo> lessonList = null;
 		if (bookId != null) {
 			lessonList = bookChapterHerperService.getBookChapterByComId(bookId);
@@ -210,8 +212,10 @@ public class RethinkController extends AbstractController {
 	 * 提交教学反思之前的数据查询展示
 	 */
 	@RequestMapping("/preSubmit")
-	public String preSubmit(@RequestParam(value = "isSubmit") Integer isSubmit, Model m) {
-		Map<String,Object> submitDatas = rethinkService.getSubmitData(isSubmit);
+	public String preSubmit(@RequestParam(value = "isSubmit") Integer isSubmit,
+			Model m) {
+		Map<String, Object> submitDatas = rethinkService
+				.getSubmitData(isSubmit);
 		m.addAttribute("bookName", submitDatas.get("name"));
 		m.addAttribute("bookName2", submitDatas.get("name2"));
 		m.addAttribute("treeList", submitDatas.get("treeList"));
@@ -228,9 +232,10 @@ public class RethinkController extends AbstractController {
 	 * 提交或者取消提交反思
 	 */
 	@RequestMapping("/submitRethink")
-	public void submitRethink(@RequestParam(value = "isSubmit") String isSubmit,
-			@RequestParam(value = "planIds") String planIds, @RequestParam(value = "qtFanSiIds") String qtFanSiIds,
-			Model m) {
+	public void submitRethink(
+			@RequestParam(value = "isSubmit") String isSubmit,
+			@RequestParam(value = "planIds") String planIds,
+			@RequestParam(value = "qtFanSiIds") String qtFanSiIds, Model m) {
 		Boolean isOk = true;
 		try {
 			isOk = rethinkService.submitRethink(isSubmit, planIds, qtFanSiIds);
@@ -250,15 +255,13 @@ public class RethinkController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/submitIndex_mobile")
-	public String submitIndex_mobile(LessonPlan lp, Model m) {
-		Page page = new Page(1000, 1);
-		UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
-		if (userSpace != null) {
-			PageList<LessonPlan> lpList = rethinkService.findCourseList(lp, page);
-			m.addAttribute("rethinkList", lpList);
-			m.addAttribute("planType", lp.getPlanType());
-			m.addAttribute("lessonId", lp.getLessonId());
-		}
+	public String submitIndex_mobile(LessonPlan lp,Integer spaceId, Model m) {
+		lessonPlanService.filterCurrentBook(lp, spaceId);
+		lp.pageSize(1000);
+		PageList<LessonPlan> lpList = rethinkService.findCourseList(lp);
+		m.addAttribute("rethinkList", lpList);
+		m.addAttribute("planType", lp.getPlanType());
+		m.addAttribute("lessonId", lp.getLessonId());
 		return "/rethink/rethinkSubmit";
 	}
 }

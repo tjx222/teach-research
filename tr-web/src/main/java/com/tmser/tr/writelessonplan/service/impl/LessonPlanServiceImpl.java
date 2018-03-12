@@ -403,6 +403,43 @@ public class LessonPlanServiceImpl extends AbstractService<LessonPlan, Integer> 
     PageList<LessonPlan> lessonPlanList = lessonPlanDao.getPeerResource(lessonPlan);
     return lessonPlanList;
   }
+  
+  @Override
+  public String filterCurrentBook(LessonPlan lp, Integer spaceId){
+	  @SuppressWarnings("unchecked")
+	List<UserSpace> userSpaceList = (List<UserSpace>) WebThreadLocalUtils
+				.getSessionAttrbitue(SessionKey.USER_SPACE_LIST); // 用户空间
+
+		String bookId = null;
+		Integer gradeId = null;
+		Integer subjectId = null;
+		if (spaceId == null) {
+			// 获取上次最后操作的教案
+			for (UserSpace userSpace : userSpaceList) {
+				if (userSpace.getBookId() != null) {
+					bookId = userSpace.getBookId();
+					gradeId = userSpace.getGradeId();
+					subjectId = userSpace.getSubjectId();
+					lp.setPhaseId(userSpace.getPhaseType());
+					break;
+				}
+			}
+		} else {
+			for (UserSpace userSpace : userSpaceList) {
+				if (userSpace.getId().equals(spaceId)
+						&& userSpace.getBookId() != null) {
+					bookId = userSpace.getBookId();
+					gradeId = userSpace.getGradeId();
+					subjectId = userSpace.getSubjectId();
+					lp.setPhaseId(userSpace.getPhaseType());
+					break;
+				}
+			}
+		}
+		lp.setGradeId(gradeId);
+		lp.setSubjectId(subjectId);
+		return bookId;
+  }
 
   /**
    * 获取最新的备课资源

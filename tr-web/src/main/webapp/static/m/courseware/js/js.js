@@ -177,7 +177,7 @@ define(["require","zepto","iscroll"], function (require) {
 		});
     	jq(".btn_submit").click(function(){
     		var selectedlessonId = jq("#selectedlessonId").val();
-    		jq("#submitDiv").find("iframe").attr("src",_WEB_CONTEXT_+"/jy/courseware/submitIndex_mobile?lessonId="+selectedlessonId+"&site_preference=mobile");
+    		jq("#submitDiv").find("iframe").attr("src",_WEB_CONTEXT_+"/jy/courseware/submitIndex_mobile?spaceId="+$("#spacelist").val()+"&lessonId="+selectedlessonId+"&site_preference=mobile");
     		jq("#submitDiv").show();
     		
     	});

@@ -7,7 +7,6 @@ package com.tmser.tr.rethink.service;
 import java.util.List;
 import java.util.Map;
 
-import com.tmser.tr.common.page.Page;
 import com.tmser.tr.common.page.PageList;
 import com.tmser.tr.common.service.BaseService;
 import com.tmser.tr.lessonplan.bo.LessonPlan;
@@ -28,7 +27,7 @@ public interface RethinkService extends BaseService<LessonPlan, Integer> {
 	 * @param lp
 	 * @return
 	 */
-	PageList<LessonPlan> findCourseList(LessonPlan lp, Page page);
+	PageList<LessonPlan> findCourseList(LessonPlan lp);
 
 	/**
 	 * 保存教学反思

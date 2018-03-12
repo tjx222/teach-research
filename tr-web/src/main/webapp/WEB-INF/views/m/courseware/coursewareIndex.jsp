@@ -160,6 +160,7 @@
 			<input type="hidden" name="planName" id="planName"> 
 			<input type="hidden" name="gradeId" value="${lessonPlan.gradeId }">
 			<input type="hidden" name="subjectId" value="${lessonPlan.subjectId }">
+			<input type="hidden" name="phaseId" value="${lessonPlan.phaseId}"/> 
 			<input type="hidden" name="planId" id="planId">
 			<input type="hidden" name="resId" id="resId">
 				<div class="form_input">
@@ -259,7 +260,7 @@
 			<input id="form_lessonId" type="hidden" name="lessonId" value="">
 			<input type="hidden" name="site_preference=" value="mobile">
 			<input type="hidden" name="pageSize" value="1000">
-	   </form>
+	  
 		<div class="content">
 			<div class="content_top">
 				<div class="content_top_left">
@@ -272,7 +273,7 @@
 				</div>
 				<div class="content_top_right">
 				    <label>年级学科:</label>
-				    <select id="spacelist" style="width: 10rem; border: none;  line-height: 3rem;  height: 3rem; font-size: 1.267rem; color: #999; background: #f7f8f9;" >
+				    <select id="spacelist" name="spaceId" style="width: 10rem; border: none;  line-height: 3rem;  height: 3rem; font-size: 1.267rem; color: #999; background: #f7f8f9;" >
 					<c:forEach items="${sessionScope._USER_SPACE_LIST_}" var="space">
 						<c:if test="${not empty space.gradeId && not empty space.subjectId && not empty space.bookId }">
 							<option value="${space.id }" ${currentBookId == space.bookId ?'selected':''}><jy:dic key="${space.gradeId}"></jy:dic><jy:dic key="${space.subjectId}"></jy:dic></option>
@@ -282,6 +283,7 @@
 				</div>
 			</div>
 		</div>
+		 </form>
 		<div class="content_bottom" id="wrap">
 			<div id="scroller">
 				<div class="content_bottom_width">

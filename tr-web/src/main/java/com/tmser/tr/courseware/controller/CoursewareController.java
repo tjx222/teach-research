@@ -33,7 +33,6 @@ import com.tmser.tr.manage.meta.vo.BookLessonVo;
 import com.tmser.tr.manage.resources.bo.Resources;
 import com.tmser.tr.manage.resources.service.ResourcesService;
 import com.tmser.tr.myplanbook.service.MyPlanBookService;
-import com.tmser.tr.uc.bo.UserSpace;
 import com.tmser.tr.uc.utils.SessionKey;
 import com.tmser.tr.writelessonplan.service.LessonPlanService;
 
@@ -74,35 +73,7 @@ public class CoursewareController extends AbstractController {
 	@RequestMapping("/index")
 	@UseToken
 	public String index(LessonPlan lp, Integer spaceId, Model m) {
-		@SuppressWarnings("unchecked")
-		List<UserSpace> userSpaceList = (List<UserSpace>) WebThreadLocalUtils
-				.getSessionAttrbitue(SessionKey.USER_SPACE_LIST); // 用户空间
-
-		String bookId = null;
-		Integer gradeId = null;
-		Integer subjectId = null;
-		if (spaceId == null) {
-			// 获取上次最后操作的教案
-			for (UserSpace userSpace : userSpaceList) {
-				if (userSpace.getBookId() != null) {
-					bookId = userSpace.getBookId();
-					gradeId = userSpace.getGradeId();
-					subjectId = userSpace.getSubjectId();
-					break;
-				}
-			}
-		} else {
-			for (UserSpace userSpace : userSpaceList) {
-				if (userSpace.getId().equals(spaceId)
-						&& userSpace.getBookId() != null) {
-					bookId = userSpace.getBookId();
-					gradeId = userSpace.getGradeId();
-					subjectId = userSpace.getSubjectId();
-					break;
-				}
-			}
-		}
-
+		String bookId = lessonPlanService.filterCurrentBook(lp, spaceId);
 		m.addAttribute("currentBookId", bookId);
 		if (MobileUtils.isNormal()) {
 			lp.pageSize(8);
@@ -111,8 +82,6 @@ public class CoursewareController extends AbstractController {
 		}
 		m.addAttribute("editPlanId", lessonPlanService.findOne(lp.getPlanId()));
 		lp.setPlanId(null);
-		lp.setGradeId(gradeId);
-		lp.setSubjectId(subjectId);
 		PageList<LessonPlan> lpList = coursewareService.findCourseList(lp);
 		m.addAttribute("coursewareList", lpList);
 		if (StringUtils.isNotEmpty(bookId)) {
@@ -166,14 +135,11 @@ public class CoursewareController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/submitIndex_mobile")
-	public String submitIndex_mobile(LessonPlan lp, Model m) {
-		lp.pageSize(1000);
-		UserSpace userSpace = (UserSpace) WebThreadLocalUtils
-				.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
-		if (userSpace != null) {
+	public String submitIndex_mobile(LessonPlan lp,Integer spaceId, Model m) {
+		    lp.pageSize(1000);
 			PageList<LessonPlan> lpList = coursewareService.findCourseList(lp);
 			m.addAttribute("coursewareList", lpList);
-			String bookId = userSpace.getBookId();
+			String bookId = lessonPlanService.filterCurrentBook(lp, spaceId);
 			if (StringUtils.isNotEmpty(bookId)) {
 				Integer term = (Integer) WebThreadLocalUtils
 						.getSessionAttrbitue(SessionKey.CURRENT_TERM);
@@ -214,7 +180,6 @@ public class CoursewareController extends AbstractController {
 			}
 			m.addAttribute("bookId", bookId);
 			m.addAttribute("lessonId", lp.getLessonId());
-		}
 		return "/courseware/coursewareSubmit";
 	}
 
