@@ -5,9 +5,9 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 	<meta charset="UTF-8">
-	<ui:mHtmlHeader title="上传课件"></ui:mHtmlHeader>
-	<link rel="stylesheet" href="${ctxStatic }/m/courseware/css/courseware.css" media="screen">
-	<ui:require module="../m/courseware/js"></ui:require>
+	<ui:mHtmlHeader title="提交教案"></ui:mHtmlHeader>
+	<link rel="stylesheet" href="${ctxStatic }/m/lessonplan/css/lessonplan.css" media="screen">
+	<ui:require module="../m/lessonplan/js"></ui:require>
 </head>
 <body>
 <div class="return_1"></div>
@@ -15,7 +15,7 @@
 <div class="submit_upload_wrap">
 	<div class="submit_upload">
 		<div class="submit_upload_title">
-			<h3>提交课件</h3>
+			<h3>提交教案</h3>
 			<span class="close"></span>
 		</div>
 		<div class="submit_upload_content">
@@ -87,7 +87,7 @@
 <div class="more_wrap_hide" onclick='moreHide()'></div>
 <div id="wrapper">
 	<header>
-		<span onclick="javascript:window.history.go(-1);"></span>提交课件
+		<span onclick="javascript:window.history.go(-1);"></span>提交教案
 		<div class="more" onclick="more()"></div>
 	</header>
 	<section>
@@ -108,14 +108,14 @@
 		<div class="content_bottom" id="wrap">
 			<div id="scroller">
 				<div class="content_bottom_width">
-					<c:forEach var="kejian" items="${coursewareList.datalist }">
+					<c:forEach var="kejian" items="${lessonplanList.datalist }">
 					<jy:ds key="${kejian.resId }" className="com.tmser.tr.manage.resources.service.ResourcesService" var="res"/>
-						<div class="courseware_img">
-						<div class="courseware_img_1">课件</div>
+						<div class="lessonplan_img">
+						<div class="lessonplan_img_1">教案</div>
 						<h3>${kejian.planName }</h3>
 						<p><ui:icon ext="${res.ext }" title="${kejian.planName }"></ui:icon></p>
-						<div class="courseware_img_2"></div>
-						<div class="courseware_img_3"></div>
+						<div class="lessonplan_img_2"></div>
+						<div class="lessonplan_img_3"></div>
 						<c:if test="${kejian.isSubmit }">
 						<div id="${kejian.planId }" class="cw_option_mask_act3"></div>
 						</c:if>

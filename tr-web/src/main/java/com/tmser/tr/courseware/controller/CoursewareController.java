@@ -27,13 +27,13 @@ import com.tmser.tr.common.web.controller.AbstractController;
 import com.tmser.tr.courseware.service.CoursewareService;
 import com.tmser.tr.lessonplan.bo.LessonPlan;
 import com.tmser.tr.lessonplan.service.LessonPlanService;
+import com.tmser.tr.lessonplan.service.MyPlanBookService;
 import com.tmser.tr.manage.meta.bo.Book;
 import com.tmser.tr.manage.meta.service.BookChapterHerperService;
 import com.tmser.tr.manage.meta.service.BookService;
 import com.tmser.tr.manage.meta.vo.BookLessonVo;
 import com.tmser.tr.manage.resources.bo.Resources;
 import com.tmser.tr.manage.resources.service.ResourcesService;
-import com.tmser.tr.myplanbook.service.MyPlanBookService;
 import com.tmser.tr.uc.utils.SessionKey;
 
 /**

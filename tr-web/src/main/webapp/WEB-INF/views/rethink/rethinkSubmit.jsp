@@ -89,7 +89,7 @@
 </div>
 </body>
 <script type="text/javascript"> 
-require(['zepto','submitr'],function($){	
+require(['zepto','submit'],function($){	
 }); 
 </script>
 </html>

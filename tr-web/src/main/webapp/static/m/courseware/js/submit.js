@@ -115,7 +115,7 @@ define(["require","zepto","iscroll"], function (require) {
 			$.ajax({
 				type:"post",
 				dataType:"json",
-				url:_WEB_CONTEXT_+"/jy/courseware/submitCourseware.json&site_preference=mobile",
+				url:_WEB_CONTEXT_+"/jy/courseware/submitCourseware.json?site_preference=mobile",
 				data:{"planIds":idsStr,"isSubmit":0},
 				success:function(data){
 					if(data.isOk){

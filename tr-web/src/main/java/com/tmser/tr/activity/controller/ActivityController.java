@@ -2,6 +2,7 @@ package com.tmser.tr.activity.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +35,9 @@ import com.tmser.tr.lessonplan.service.LessonPlanService;
 import com.tmser.tr.manage.resources.bo.Attach;
 import com.tmser.tr.manage.resources.service.AttachService;
 import com.tmser.tr.uc.SysRole;
+import com.tmser.tr.uc.bo.User;
 import com.tmser.tr.uc.bo.UserSpace;
+import com.tmser.tr.uc.utils.CurrentUserContext;
 import com.tmser.tr.uc.utils.SessionKey;
 import com.zhuozhengsoft.pageoffice.FileSaver;
 import com.zhuozhengsoft.pageoffice.OpenModeType;
@@ -71,8 +75,8 @@ public class ActivityController extends AbstractController {
    */
   @RequestMapping("/index")
   public String index(String listType, Model model, Page page, HttpServletRequest request) {
-    UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
-    if (!activityService.isLeader(userSpace.getSysRoleId())) {
+    User user = CurrentUserContext.getCurrentUser(); // 用户
+    if (!(SecurityUtils.getSubject().isPermitted("fqjb") || SecurityUtils.getSubject().isPermitted("cyjb"))) {
       return "redirect:/jy/activity/tchIndex";
     }
     listType = listType == null ? "0" : listType;
@@ -94,7 +98,7 @@ public class ActivityController extends AbstractController {
     }
     // 草稿(总数)
     Activity temp = new Activity();
-    temp.setOrganizeUserId(userSpace.getUserId());
+    temp.setOrganizeUserId(user.getId());
     temp.setStatus(0);
     int activityDraftNum = activityService.count(temp);
     model.addAttribute("activityDraftNum", activityDraftNum);
@@ -108,9 +112,9 @@ public class ActivityController extends AbstractController {
    */
   @RequestMapping("/indexDraft")
   public String indexDraft(Activity activity, Model model) {
-    UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
+	  User user = CurrentUserContext.getCurrentUser(); // 用户
     // 草稿(总数)
-    activity.setOrganizeUserId(userSpace.getUserId());
+    activity.setOrganizeUserId(user.getId());
     activity.setStatus(0);
     activity.addOrder("createTime desc");
     activity.getPage().setPageSize(10);
@@ -453,7 +457,7 @@ public class ActivityController extends AbstractController {
   @RequestMapping("/joinTbjaActivity")
   public String joinTbjaActivity(Integer id, Model m) {
     Activity activity = activityService.findOne(id);
-    UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
+    User cuser = CurrentUserContext.getCurrentUser();
     // 判断是否有权限
     Assert.isTrue(ifHavePower(activity), "没有权限");
     // List<LessonPlan> lessonPlanList =
@@ -465,8 +469,8 @@ public class ActivityController extends AbstractController {
     List<ActivityTracks> zhengliList = activityTracksService.getActivityTracks_zhengli(id);
     m.addAttribute("zhengliList", zhengliList);
     // 是否可以接收教案
-    if (userSpace.getSysRoleId().intValue() == SysRole.TEACHER.getId().intValue()
-        && userSpace.getGradeId().intValue() == activity.getMainUserGradeId().intValue() && activity.getIsSend()) {
+    boolean isTeacher = SecurityUtils.getSubject().hasRole(SysRole.TEACHER.name().toLowerCase());
+    if ( isTeacher && activity.getIsSend()) {
       // LessonInfo lessonInfo =
       // myPlanBookService.getLessonInfoByLessonId(myPlanBookService.findOne(activity.getInfoId()).getLessonId());
       // if(lessonInfo==null ||
@@ -501,10 +505,8 @@ public class ActivityController extends AbstractController {
     // return "/activity/view/canYuJiBei";
     // }
     // }else
-    if (userSpace.getUserId().intValue() == activity.getMainUserId().intValue()) { // 如果是主备人,必须是老师才可进入整理页
-      if (userSpace.getSysRoleId().intValue() == SysRole.TEACHER.getId().intValue()
-          && activity.getMainUserGradeId().intValue() == userSpace.getGradeId().intValue()
-          && activity.getMainUserSubjectId().intValue() == userSpace.getSubjectId().intValue()) {
+    if (cuser.getId().equals(activity.getMainUserId())) { // 如果是主备人,必须是老师才可进入整理页
+      if (isTeacher) {
         return "/activity/view/zhengLiTongBei";
       } else {
         return "/activity/view/canYuJiBei";
@@ -526,19 +528,16 @@ public class ActivityController extends AbstractController {
    */
   @RequestMapping("/viewTbjaActivity")
   public String viewTbjaActivity(Integer id, Model m) {
-
-    UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
+	User user = CurrentUserContext.getCurrentUser(); // 用户
     Activity activity = activityService.findOne(id);
-    // 如果是主备人,即使活动结束，也能进入整理页，但必须是老师才可进入整理页（身份区别）
-    if (userSpace.getUserId().intValue() == activity.getMainUserId().intValue()) {
-      if (userSpace.getSysRoleId().intValue() == SysRole.TEACHER.getId().intValue()
-          && activity.getMainUserGradeId().intValue() == userSpace.getGradeId().intValue()
-          && activity.getMainUserSubjectId().intValue() == userSpace.getSubjectId().intValue()) {
-        return "redirect:/jy/activity/joinTbjaActivity?_no_office_&id=" + id;
-      }
-    }
     // 判断是否有权限
     Assert.isTrue(ifHavePower(activity), "没有权限");
+    boolean isTeacher = SecurityUtils.getSubject().hasRole(SysRole.TEACHER.name().toLowerCase());
+    // 如果是主备人,即使活动结束，也能进入整理页，但必须是老师才可进入整理页（身份区别）
+    if (user.getId().equals(activity.getMainUserId()) && isTeacher) {
+        return "redirect:/jy/activity/joinTbjaActivity?_no_office_&id=" + id;
+    }
+   
     // 获取主备人的教案
     // List<LessonPlan> lessonPlanList =
     // lessonPlanService.getJiaoanByInfoId(activity.getInfoId());
@@ -548,9 +547,9 @@ public class ActivityController extends AbstractController {
     // 整理教案集合
     List<ActivityTracks> zhengliList = activityTracksService.getActivityTracks_zhengli(id);
     m.addAttribute("zhengliList", zhengliList);
+   
     // 是否可以接收教案
-    if (userSpace.getSysRoleId().intValue() == SysRole.TEACHER.getId().intValue()
-        && userSpace.getGradeId().intValue() == activity.getMainUserGradeId().intValue() && activity.getIsSend()) {
+    if (isTeacher && activity.getIsSend()) {
       // LessonInfo lessonInfo =
       // myPlanBookService.getLessonInfoByLessonId(myPlanBookService.findOne(activity.getInfoId()).getLessonId());
       // if(lessonInfo==null ||
@@ -853,37 +852,34 @@ public class ActivityController extends AbstractController {
    */
   private boolean ifHavePower(Activity activity) {
     boolean flag = false;
-    UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
-    Integer roleId = userSpace.getSysRoleId();// 角色id
-    if (roleId.intValue() == SysRole.XZ.getId().intValue() || roleId.intValue() == SysRole.FXZ.getId().intValue()) {// 校长或副校长
-      flag = true;
-    } else if (roleId.intValue() == SysRole.ZR.getId().intValue()) {// 主任
-      flag = true;
-    } else if (roleId.intValue() == SysRole.XKZZ.getId().intValue()) {// 学科组长
-      if (activity.getOrgId().intValue() == userSpace.getOrgId().intValue()
-          && activity.getSubjectIds().contains("," + String.valueOf(userSpace.getSubjectId()) + ",")) {
-        flag = true;
-      }
-    } else if (roleId.intValue() == SysRole.NJZZ.getId().intValue()) {// 年级组长
-      if (activity.getOrgId().intValue() == userSpace.getOrgId().intValue()
-          && activity.getGradeIds().contains("," + String.valueOf(userSpace.getGradeId()) + ",")) {
-        flag = true;
-      }
-    } else if (roleId.intValue() == SysRole.BKZZ.getId().intValue()) {// 备课组长
-      if (activity.getOrgId().intValue() == userSpace.getOrgId().intValue()
-          && activity.getSubjectIds().contains("," + String.valueOf(userSpace.getSubjectId()) + ",")
-          && activity.getGradeIds().contains("," + String.valueOf(userSpace.getGradeId()) + ",")) {
-        flag = true;
-      }
-    } else if (roleId.intValue() == SysRole.TEACHER.getId().intValue()) {// 老师
-      if (activity.getOrgId().intValue() == userSpace.getOrgId().intValue()
-          && activity.getSubjectIds().contains("," + String.valueOf(userSpace.getSubjectId()) + ",")) {
-        if (activity.getGradeIds().contains("," + String.valueOf(userSpace.getGradeId()) + ",")
-            || activity.getMainUserId().intValue() == userSpace.getUserId().intValue()) {
-          flag = true;
-        }
-      }
+    User cuser = CurrentUserContext.getCurrentUser();
+    if(!activity.getOrgId().equals(cuser.getOrgId())){
+    	return false;
     }
+    
+    boolean[] hasroles = SecurityUtils.getSubject().hasRoles(Arrays.asList(SysRole.XZ.name().toLowerCase(),
+    		SysRole.FXZ.name().toLowerCase(),SysRole.ZR.name().toLowerCase()));
+    for (boolean b : hasroles) {
+		if(b){
+			return b;
+		}
+	}
+    @SuppressWarnings("unchecked")
+	List<UserSpace> userSpaces = (List<UserSpace>) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.USER_SPACE_LIST); // 用户空间
+    for (UserSpace userSpace : userSpaces) {
+    	   if (SysRole.XKZZ.getId().equals(userSpace.getRoleId()) &&
+    		      activity.getSubjectIds().contains("," + String.valueOf(userSpace.getSubjectId()) + ",")) {
+    		        flag = true;
+    		} else if (SysRole.NJZZ.getId().equals(userSpace.getRoleId()) &&
+    		       activity.getGradeIds().contains("," + String.valueOf(userSpace.getGradeId()) + ",")) {
+    		        flag = true;
+    		} else if ((SysRole.BKZZ.getId().equals(userSpace.getRoleId()) || SysRole.TEACHER.getId().equals(userSpace.getRoleId())) &&
+    		           activity.getSubjectIds().contains("," + String.valueOf(userSpace.getSubjectId()) + ",")
+    		          && activity.getGradeIds().contains("," + String.valueOf(userSpace.getGradeId()) + ",")) {
+    		        flag = true;
+    		}
+	}
+ 
     return flag;
   }
 

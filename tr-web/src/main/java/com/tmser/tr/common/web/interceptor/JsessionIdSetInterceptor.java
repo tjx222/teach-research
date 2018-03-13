@@ -79,8 +79,8 @@ public class JsessionIdSetInterceptor extends HandlerInterceptorAdapter implemen
     defaultPattern.add("/jy/managerecord/check/10/thesisView");
     defaultPattern.add("/jy/managerecord/check/planSummaryView");
 
-    defaultPattern.add("/jy/myplanbook/toEditLessonPlan");
-    defaultPattern.add("/jy/myplanbook/scanLessonPlan");
+    defaultPattern.add("/jy/lessonplan/toEditLessonPlan");
+    defaultPattern.add("/jy/lessonplan/scanLessonPlan");
 
     defaultPattern.add("/jy/planSummaryCheck/userSpace/*/planSummary/*");
     defaultPattern.add("/jy/planSummaryCheck/role/*/planSummary/*");

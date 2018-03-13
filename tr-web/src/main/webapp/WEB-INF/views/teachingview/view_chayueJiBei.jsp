@@ -47,7 +47,7 @@ function receiveLessonPlan(activityId){
 	        type: 'POST',  
 	        dataType : "json",  
 	        data:{'activityId':activityId},
-	        url:   _WEB_CONTEXT_+"/jy/myplanbook/receiveLessonPlanOfActivity.json",
+	        url:   _WEB_CONTEXT_+"/jy/lessonplan/receiveLessonPlanOfActivity.json",
 	        error: function () {
 	            alert('操作失败，请稍后重试');  
 	        },  

@@ -342,7 +342,7 @@ define(["require","zepto","iscroll"], function (require) {
 		        type: 'POST',  
 		        dataType : "json",  
 		        data:{'activityId':activityId},
-		        url:   _WEB_CONTEXT_+"/jy/myplanbook/receiveLessonPlanOfActivity.json?site_preference=mobile",
+		        url:   _WEB_CONTEXT_+"/jy/lessonplan/receiveLessonPlanOfActivity.json?site_preference=mobile",
 		        error: function () {
 		        	successAlert('操作失败，请稍后重试');  
 		        },  

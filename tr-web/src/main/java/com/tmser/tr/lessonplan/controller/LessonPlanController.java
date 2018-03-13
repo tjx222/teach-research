@@ -31,13 +31,13 @@ import com.tmser.tr.lessonplan.bo.LessonInfo;
 import com.tmser.tr.lessonplan.bo.LessonPlan;
 import com.tmser.tr.lessonplan.service.LessonInfoService;
 import com.tmser.tr.lessonplan.service.LessonPlanService;
+import com.tmser.tr.lessonplan.service.MyPlanBookService;
 import com.tmser.tr.manage.meta.bo.Book;
 import com.tmser.tr.manage.meta.service.BookChapterHerperService;
 import com.tmser.tr.manage.meta.service.BookService;
 import com.tmser.tr.manage.meta.vo.BookLessonVo;
 import com.tmser.tr.manage.resources.bo.Resources;
 import com.tmser.tr.manage.resources.service.ResourcesService;
-import com.tmser.tr.myplanbook.service.MyPlanBookService;
 import com.tmser.tr.uc.bo.UserSpace;
 import com.tmser.tr.uc.utils.SessionKey;
 import com.zhuozhengsoft.pageoffice.FileSaver;
@@ -216,7 +216,7 @@ public class LessonPlanController extends AbstractController {
    */
   @RequestMapping("/submitIndex_mobile")
   public String submitIndex_mobile(LessonPlan lp, Integer spaceId, Model m) {
-    lp.pageSize(1000);
+    lp.pageSize(15);
     PageList<LessonPlan> lpList = lessonPlanService.findValidPlanList(lp);
     m.addAttribute("lessonplanList", lpList);
     String bookId = lessonPlanService.filterCurrentBook(lp, spaceId);
@@ -421,62 +421,6 @@ public class LessonPlanController extends AbstractController {
       m.addAttribute("result", "error");
       m.addAttribute("info", "系统出错！请重试");
     }
-  }
-
-  /**
-   * 获取提交本课题资源除了当前人的其他人列表
-   * 
-   * @param lessonInfo
-   * @param m
-   */
-  @RequestMapping(value = "lessonSubmitOthers")
-  public String lessonSubmitOthers(HttpServletRequest request, LessonInfo lessonInfo, Model m) {
-    List<LessonPlan> datalist = myPlanBookService.lessonSubmitOthers(lessonInfo);
-    m.addAttribute("datalist", datalist);
-    m.addAttribute("type", lessonInfo.getPhaseId());// 复用学段字段存放资源类型
-    m.addAttribute("sessionId", request.getSession().getId());
-    return "/lessonplan/lesson_submit_others";
-  }
-
-  /**
-   * 查看提交本课题资源除了当前人的其他人列表
-   * 
-   * @param lessonInfo
-   * @param m
-   */
-  @RequestMapping(value = "viewOtherLesson")
-  public String viewOtherLesson(Integer planId, Model m) {
-    if (planId != null) {
-      LessonPlan lp = lessonPlanService.findOne(planId);
-      if (lp != null // &&lp.getPlanType()==LessonPlan.JIAO_AN
-      ) {
-        LessonPlan model = new LessonPlan();
-        model.setUserId(lp.getUserId());
-        model.setInfoId(lp.getInfoId());
-        // model.setPlanType(LessonPlan.JIAO_AN);
-        model.setPlanType(lp.getPlanType());
-        List<LessonPlan> lpList = lessonPlanService.findAll(model);
-        m.addAttribute("lpList", lpList);
-        m.addAttribute("lessonName", lessonInfoService.findOne(lp.getInfoId()).getLessonName());
-      }
-      m.addAttribute("lp", lp);
-    }
-    return "/lessonplan/view_other_lesson";
-  }
-
-  /**
-   * 浏览教案课件反思（含评论）
-   * 
-   * @param planId
-   * @param m
-   * @return
-   */
-  @RequestMapping(value = "scanLessonPlan")
-  public String scanLessonPlan(Integer planId, Model m) {
-
-    LessonPlan plan = lessonPlanService.findOne(planId);
-    m.addAttribute("plan", plan);
-    return "/lessonplan/scanLessonPlan";
   }
 
 }

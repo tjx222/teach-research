@@ -25,7 +25,7 @@ function fadeInOrOut_iframe(){
 function uploadLocalLesson(){
 	$(".pageOfficediv",document.getElementById("iframe3").contentWindow.document).css("margin-top","1000px");
 	if($(".dialog_content").html()==""){
-		$("#book_option").dialog({'width':'400',"height":"260","url":"${ctx}jy/myplanbook/tolessonplanEditFile"});
+		$("#book_option").dialog({'width':'400',"height":"260","url":"${ctx}jy/lessonplan/tolessonplanEditFile"});
 	}else{
 		$("#book_option").dialog("show");
 	}
@@ -57,7 +57,7 @@ function dialog_close_callback(){
 		  </div>
 	</div>
 </div>
-	<iframe id="iframe3" style="border: none;z-index:-1;width:100%;height:100%;" scrolling="no" frameborder="0"  allowtransparency="true" src="${pageContext.request.contextPath }/jy/myplanbook/toEditLessonPlanView?planId=${planId}">
+	<iframe id="iframe3" style="border: none;z-index:-1;width:100%;height:100%;" scrolling="no" frameborder="0"  allowtransparency="true" src="${pageContext.request.contextPath }/jy/lessonplan/toEditLessonPlanView?planId=${planId}">
 	
 	</iframe>
 

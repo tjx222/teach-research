@@ -383,7 +383,7 @@ define(["require","zepto","iscroll"], function (require) {
     	        type: 'POST',  
     	        dataType : "json",  
     	        data:{planType:planType,infoId:infoId},
-    	        url:  _WEB_CONTEXT_+"/jy/myplanbook/setScanKJFASI.json?site_preference=mobile",
+    	        url:  _WEB_CONTEXT_+"/jy/lessonplan/setScanKJFASI.json?site_preference=mobile",
     	    });
     	}
     };
@@ -398,7 +398,7 @@ define(["require","zepto","iscroll"], function (require) {
      	        type: 'POST',  
      	        dataType : "json",  
      	        data:{planId:planId},
-     	        url:  _WEB_CONTEXT_+"/jy/myplanbook/setCommentListAlreadyShowByType.json?site_preference=mobile",
+     	        url:  _WEB_CONTEXT_+"/jy/lessonplan/setCommentListAlreadyShowByType.json?site_preference=mobile",
      	    });
      	}
      };

@@ -87,7 +87,7 @@ $(document).ready(function(){
 	
 	$("#spacelist").change(function () {  
 		var so = $(this).children('option:selected');
-        location.href="jy/toWriteLessonPlan?nocookie=true&spaceId="+so.val();
+        location.href="${ctx}jy/toWriteLessonPlan?nocookie=true&spaceId="+so.val();
 	});
 });
 //将已选课题置灰
@@ -334,9 +334,6 @@ function showSuccessBox(){
 		$("#box2").hide();
 		document.getElementById('iframe2').contentWindow.location.reload(true);
 	 });
-	 $("#gotoPlanBook").bind("click",function(){
-		 window.location.href = _WEB_CONTEXT_+"/jy/myplanbook/tomyplanbook";
-	 });
 	 $("#box2").show();
 	 $("#box1").show();
 }
@@ -477,7 +474,6 @@ function saveLessonRecord(resId){
 					<p>
 						<input type="button"  value="撰写其他课题" style="height:25px;" id="continueOther">
 						<input type="button"  value="关闭" style="height:25px;" id="closeButton">
-						<!-- <input type="button" value="查看备课本" style="height:25px;" id="gotoPlanBook"> -->
 					</p>	
 			</div>
 		</div>

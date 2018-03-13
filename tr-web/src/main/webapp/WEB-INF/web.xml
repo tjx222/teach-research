@@ -117,7 +117,7 @@
 		<servlet-name>poserver</servlet-name>
 		<url-pattern>/posetup.exe</url-pattern>
 	</servlet-mapping>
-	<error-page>
+ 	<error-page>
      	<error-code>404</error-code>
     	<location>/WEB-INF/505.jsp</location>
 	</error-page>
