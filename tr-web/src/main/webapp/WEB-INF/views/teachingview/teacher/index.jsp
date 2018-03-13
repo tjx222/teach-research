@@ -44,7 +44,7 @@
 							<span>教案</span>
 						</dt>
 						<dd>
-							<span>撰写数：${dataMap['jiaoanTotal']}篇/${dataMap['jiaoanWrite']}课</span>
+							<span>撰写数：${dataMap['jiaoanWrite']}</span>
 							<span>分享数：${dataMap['jiaoanShare']}</span>
 						</dd>
 					</dl>
@@ -58,7 +58,7 @@
 							<span>课件</span>
 						</dt>
 						<dd>
-							<span>撰写数：${dataMap['kejianTotal']}篇/${dataMap['kejianWrite']}课</span>
+							<span>撰写数：${dataMap['kejianWrite']}</span>
 							<span>分享数：${dataMap['kejianShare']}</span>
 						</dd>
 					</dl>
@@ -72,7 +72,7 @@
 								<span>反思</span>
 						</dt>
 						<dd>
-							<span>撰写数：${dataMap['fansiTotal']}篇/${dataMap['fansiWrite']}课</span>
+							<span>撰写数：${dataMap['fansiWrite']}</span>
 							<span>分享数：${dataMap['fansiShare']}</span>
 						</dd>
 					</dl>
@@ -86,7 +86,7 @@
 								<span>听课记录</span>
 						</dt>
 						<dd>
-							<span>听课次数：${dataMap['listen']}</span>
+							<span>听课节数：${dataMap['listen']}</span>
 							<span>分享数：${dataMap['listenShare']}</span>
 						</dd>
 					</dl>

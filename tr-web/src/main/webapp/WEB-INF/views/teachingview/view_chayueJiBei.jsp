@@ -1,13 +1,11 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/include/taglib.jspf"%>
 <head>
-<c:set value="<%=request.getSession().getId() %>" var="sessionId" scope="session"></c:set>
 <ui:htmlHeader title="查看同备教案"></ui:htmlHeader>
 <link rel="stylesheet" href="${ctxStatic }/modules/activity/css/activity.css" media="all">
 <script type="text/javascript" src="${ctxStatic }/modules/activity/js/activity.js"></script>
 <script type="text/javascript" src="${ctxStatic }/modules/activity/js/discuss.js"></script>
 <script type="text/javascript">
-var sessionId = "${sessionId}";
 $(document).ready(function(){
 	$(window).scroll(function (){
 		$("#kongdiv").toggle();
@@ -27,7 +25,7 @@ $(document).ready(function(){
 });
 //显示主备教案的修改教案
 function scanLessonPlanTrack(resId){
-	window.open(_WEB_CONTEXT_+"/jy/activity/scanLessonPlanTrack?resId="+resId,"hidenframe");
+	window.open(_WEB_CONTEXT_+"/jy/activity/scanLessonPlanTrack?resId="+resId,"_blank");
 }
 //显示主备教案的意见教案集合
 function showTrackList(obj,planId,activityId){
@@ -67,6 +65,9 @@ function receiveLessonPlan(activityId){
 </script>
 </head>
 <body>
+	<div class="jyyl_top">
+		<ui:tchTop style="1" modelName="查看同备教案"></ui:tchTop>
+	</div>
 	<div class='partake_activity_cont'>
 <div class='partake_info_cont'>
 	<h3 class='partake_info_title'>
@@ -151,7 +152,7 @@ function receiveLessonPlan(activityId){
 			<h3 class='participant_edit_right_h3'>参与人修改留痕：</h3>
 			<ul>
 				<c:forEach var="zhubei" items="${zhubeiList }" varStatus="status">
-				<li style="cursor:pointer" class='ul_li <c:if test="${status.index==0 }">ul_li_act</c:if>' onclick="showTrackList(this,'${zhubei.id}','${activity.id }');">${zhubei.hoursId=='1,2,3,4,5'?'':'第'}${zhubei.hoursId=='1,2,3,4,5'?'全':zhubei.hoursId }${zhubei.hoursId=='1,2,3,4,5'?'案':'课时'}</li>
+				<li class='ul_li <c:if test="${status.index==0 }">ul_li_act</c:if>' onclick="showTrackList(this,'${zhubei.id}','${activity.id }');">${zhubei.hoursId=='1,2,3,4,5'?'':'第'}${zhubei.hoursId=='1,2,3,4,5'?'全':zhubei.hoursId }${zhubei.hoursId=='1,2,3,4,5'?'案':'课时'}</li>
 				</c:forEach>
 			</ul> 
 			<div class='participant_edit_right_cont clearfix'>
@@ -162,11 +163,11 @@ function receiveLessonPlan(activityId){
 		</div>
 	</div>
 	<div class='info_border'></div>
-	<div class="partake_discuss_Wrap" style="width:1120px;margin: 10px auto;">
+	<div class="partake_discuss_Wrap" style="width:920px;margin: 10px auto;">
 		<div class='partake_discuss_title'>
 			<h5 class='partake_discuss_title_h51'><span></span>参与人：（点击头像可以阅读他的全部留言）</h5>
 		</div>
-		<div class="partake_discuss_r_b" style="width:1120px;">
+		<div class="partake_discuss_r_b" style="width:920px;">
 			<c:forEach items="${usList }" var="user">
 			<jy:di key="${user.userId }" className="com.tmser.tr.uc.service.UserService" var="u"/>
 			<div class="partake_wrap" onclick="discussUser(this,'${activity.id }','${u.id }',false)">
@@ -181,11 +182,12 @@ function receiveLessonPlan(activityId){
 	</div>
 	<div class='clear'></div>
 </div>
-<iframe id="discuss_iframe" frameborder=0 scrolling="no" onload="setCwinHeight(this,false,100)" style="width:1200px;"></iframe>
-<iframe id="commentBox" frameborder=0 scrolling="no" onload="setCwinHeight(this,false,100)" style="width:1200px;"></iframe>
+<iframe id="discuss_iframe" frameborder=0 scrolling="no" onload="setCwinHeight(this,false,100)" style="width:1000px;"></iframe>
+<iframe id="commentBox" frameborder=0 scrolling="no" onload="setCwinHeight(this,false,100)" style="width:1000px;"></iframe>
 <c:if test="${data.flags=='manager'}">
 	<iframe id="checkedBox" onload="setCwinHeight(this,false,100)" style="border:none;width:100%;" scrolling="no" frameborder="no"></iframe>
 </c:if>
  </div>
+		<ui:htmlFooter style="1"></ui:htmlFooter>
 </body>
 </html>

@@ -30,7 +30,9 @@
 	<link rel="stylesheet" type="text/css" href="${ctxStatic }/modules/check/check_thesis/css/check_thesis.css" media="screen">
 </head>
 <body>
-<c:set value="<%=request.getSession().getId() %>" var="sessionId" scope="session"></c:set>
+	<div class="jyyl_top">
+		<ui:tchTop style="1" modelName="${theme}"></ui:tchTop>
+	</div>
 	<jy:di key="${data.userId }" className="com.tmser.tr.uc.service.UserService" var="u"/>
 	<div class="check_teacher_wrap">
 		<div class="check_teacher_wrap2"> 
@@ -52,7 +54,6 @@
 						撰写日期：<fmt:formatDate value="${data.crtDttm}" pattern="yyyy-MM-dd"/>
 					</div>
 				</c:if>
-				<input type="button" class="download" data-name="${data.lessonName }" id="downloadBtn"/>
 			</div>
 			<div class="word_plug_ins">
 				<iframe id="view"  width="100%"	height="660px;"style="border:none;" frameborder="0" scrolling="no"></iframe>
@@ -70,13 +71,7 @@
 							data-title="<ui:sout value='${lesson.planName }' encodingURL='true' escapeXml='true'></ui:sout>" 
 							data-id="${lesson.planId }"  data-resId="${lesson.resId}" data-type="${lesson.planType}" data-userId="${lesson.userId}" data-orgId="${lesson.orgId}"
 							>
-							<c:if test="${type == 0 }">	
-								<c:choose>
-									<c:when test="${lesson.hoursId=='-1' }">不分课时</c:when>
-									<c:when test="${lesson.hoursId=='0' }">简案</c:when>
-									<c:otherwise>第${lesson.hoursId}课时</c:otherwise>
-								</c:choose>
-							</c:if>
+							<c:if test="${type == 0 }">	第${lesson.hoursId}课时	</c:if>
 							<c:if test="${type == 1 }">	课件${rescount}	</c:if>
 							<c:if test="${type == 2 }">	反思${rescount}	</c:if>
 							</li>
@@ -86,13 +81,7 @@
 							data-title="<ui:sout value='${lesson.planName }' encodingURL='true' escapeXml='true'></ui:sout>" 
 							data-id="${lesson.planId }"  data-resId="${lesson.resId}" data-type="${lesson.planType}" data-userId="${lesson.userId}" data-orgId="${lesson.orgId}"
 							>
-								<c:if test="${type == 0 }">
-									<c:choose>
-										<c:when test="${lesson.hoursId=='-1' }">不分课时</c:when>
-										<c:when test="${lesson.hoursId=='0' }">简案</c:when>
-										<c:otherwise>第${lesson.hoursId}课时</c:otherwise>
-									</c:choose>
-								</c:if>
+								<c:if test="${type == 0 }">	第${lesson.hoursId}课时	</c:if>
 								<c:if test="${type == 1 }">	课件${rescount}	</c:if>
 								<c:if test="${type == 2 }">	反思${rescount}	</c:if>
 							</li>
@@ -110,13 +99,14 @@
 		</div>
 	</div>
 	<div class="clear"></div>
+	<ui:htmlFooter style="1"></ui:htmlFooter>
 	<script type="text/javascript">
 	$(document).ready(function(){
 	    $(window).scroll(function (){
 				$("#kongdiv").toggle();
 			});
 		var resid = $("li.see_word_nav_act").attr("data-resId");
-		$("#view").attr("src","jy/scanResFile?to=true&resId="+resid);
+		$("#view").attr("src","jy/scanResFile?resId="+resid);
 		$("#checkedBox").attr("src","jy/teachingView/view/infoIndex?flags=false&term=${data.termId}&gradeId=${data.gradeId}&subjectId=${data.subjectId}&title=<ui:sout value='${data.lessonName }' encodingURL='true' escapeXml='true'></ui:sout>&resType=${type}&authorId=${data.userId}&resId=${data.id}&titleShow=true");
 		$("li.see_word_nav_1").click(function(){
 			loadResource(this);
@@ -127,18 +117,15 @@
 			$this.addClass('see_word_nav_act');
 			var resid = $this.attr("data-resId");
 			var type = $this.attr("data-type");
-			$("#view").attr("src","jy/scanResFile?to=true&resId="+resid);
+			$("#view").attr("src","jy/scanResFile?resId="+resid);
 			var planid = $this.attr("data-id");
 			var userid= $this.attr("data-userId");
 			var type= $this.attr("data-type");
 			var title= $this.attr("data-title");
 			var orgId=$this.attr("data-orgId");
-			$("#view").attr("src","jy/scanResFile?to=true&resId="+resid+"&orgId="+orgId);
+			$("#view").attr("src","jy/scanResFile?resId="+resid+"&orgId="+orgId);
 			$("#commentBox").attr("src","jy/teachingView/view/comment/list?titleShow=true&authorId="+userid+"&resType="+type+"&resId="+planid+"&flags=true&title="+encodeURI(title));
 		}
-		$("#downloadBtn").click(function(){
-			window.open(_WEB_CONTEXT_+"/jy/manage/res/download/"+$("li.see_word_nav_act").attr("data-resId")+"?filename="+encodeURI($(this).attr("data-name")),"_self");
-		});
 		var size = $("li.see_word_nav_1").length;
 		if(size >0){
 			loadResource($("li.see_word_nav_1").eq(0));

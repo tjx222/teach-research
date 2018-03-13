@@ -36,7 +36,7 @@
 						<strong>${lr.lecturePeople}</strong>
 						<b>听课时间</b>
 						<strong><fmt:setLocale value="zh"/><fmt:formatDate value="${lr.lectureTime}" pattern="yyyy-MM-dd"/></strong>
-						<b>听课次数</b>
+						<b>听课节数</b>
 						<strong>${lr.numberLectures}</strong>
 					</div>
 					<div  class="r_s_c" style="width: 920px;height: 35px;float: left;">

@@ -1,39 +1,46 @@
 <%@ include file="/WEB-INF/include/taglib.jspf"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html >
+<html lang="en">
 <head>
-	<ui:htmlHeader title="教学管理记录"></ui:htmlHeader>
-	<link rel="stylesheet" href="${ctxStatic }/modules/record/css/list.css" media="screen">
-	<link rel="stylesheet" href="${ctxStatic }/modules/managerecord/css/index.css" media="screen">
-	<script  type="text/javascript"  src="${ctxStatic }/modules/managerecord/js/highcharts.js"></script>
-	<script type="text/javascript">
-	 var term = '${term}';
-	</script>
-	<script type="text/javascript" src="${ctxStatic }/modules/managerecord/js/tch.js"></script> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta charset="UTF-8">
+	<ui:mHtmlHeader title="管理记录"></ui:mHtmlHeader>
+	<link rel="stylesheet" href="${ctxStatic }/m/managerecord/css/managerecord.css" media="screen" />
+	<ui:require module="../m/managerecord/js"></ui:require>	
 </head>
-<body>
-	<div class="wrapper"> 
-	<div class='jyyl_top'>
-		<ui:tchTop modelName="教学管理记录"></ui:tchTop>
-	</div>
-	<div class="jyyl_nav">
-		当前位置：<jy:nav id="jxgljl"></jy:nav>
-	</div>
-	<div class="managerCont">
-		<div class="managerCont_title">
-			<form action="">
-				请选择：
-				<input style="margin-top:-3px;" type="radio"  onclick ="showList(this)" name="term"  <c:if test='${term==0}'>checked="checked"</c:if>   value="0">上学期
-				<input style="margin-top:-3px;" type="radio"  onclick ="showList(this)" name="term"   <c:if test='${term==1}'>checked="checked"</c:if>  value="1">下学期
-			</form>
+<body> 
+<div class="more_wrap_hide" onclick='moreHide()'></div>
+<div id="wrapper">
+	<header>
+		<span onclick="javascript:window.history.go(-1);"></span>管理记录
+		<div class="more" onclick="more()"></div>
+	</header>
+	<section> 
+		<div class="managerecord_bottom_wrap">
+			<div class="managerecord_check">
+				<div class="managerecord_check_top">
+					<header>
+						<ul data-term="${term}">
+							<li><a class="${term==0?'com_header_act':''}" data-term="0">上学期</a></li>
+							<li><a class="${term==1?'com_header_act':''}" data-term="1">下学期</a></li>
+						</ul>
+					</header>
+				</div>
+				<div class="managerecord_check_bottom">
+					<div id="chart"></div>
+					<div id="chart_btn">
+						<p class="p1"><a href="jy/managerecord/planDetail?listType=0">查看详情</a></p>
+						<p class="p1"><a href="jy/managerecord/lecturedetailed">查看详情</a></p> 
+					</div>
+				</div>
+			</div>
 		</div>
-		<div id="container"></div>
-		<a id="bottom" name="bottom"></a>
-	</div>
-	<div class="clear"></div>
-	<ui:htmlFooter></ui:htmlFooter>
-	</div>
+	</section>
+</div>
 </body>
+<script type="text/javascript">
+	require(['zepto','echarts/echarts','tch'],function($){	
+	}); 
+</script>
 </html>

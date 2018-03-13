@@ -64,7 +64,7 @@
 									<dl>
 									    <a href="${ctx}jy/teachingView/view/thesisview?id=${thesis_.id}&showType=manager" target="_blank">
 		 									<dt>
-			 									<img src="${ctxStatic }/common/icon/base/word.png"/>
+			 									<img src="${ctxStatic }/modules/teachingview/images/w_img1.png"/>
 		 									</dt>
 		 									<dd class="article_name" title='[${thesis_.thesisType}] ${thesis_.thesisTitle}'>[${thesis_.thesisType}]
 											 <ui:sout value="${thesis_.thesisTitle}" escapeXml="true" length="12" needEllipsis="true"/>

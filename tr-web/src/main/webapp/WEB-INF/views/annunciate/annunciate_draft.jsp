@@ -1,49 +1,47 @@
 <%@ include file="/WEB-INF/include/taglib.jspf"%>
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<ui:htmlHeader  title="通知公告-草稿箱"></ui:htmlHeader>
-<link rel="stylesheet" href="${ctxStatic }/modules/annunciate/css/notice.css" media="screen">
-<ui:require module="annunciate/js"></ui:require>
-</head>
-<body style="background:#fff;">
-	<div class="table_cont">
-		<table border=1 >
-			<tr>
-				<th style="width:428px;">通知主题</th>
-				<th style="width:125px;">操作</th>
-			</tr>
-			<c:forEach items="${draftlist.datalist}" var="d">
-				<tr>
-					<td>
-						<span class='red_head'><c:if test="${d.redTitleId!=0}"><b></b></c:if></span>
-						<c:choose>
-							<c:when test="${jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId, 'jyy')||jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId, 'jyzr')}">
-								【区域通知】<a class="td_name" href="${ctx}/jy/annunciate/release?id=${d.id}" title="${d.title}" target="_parent"><ui:sout value="${d.title}" length="40" needEllipsis="true" ></ui:sout></a>
-							</c:when>
-							<c:otherwise>
-								<c:if test="${d.annunciateType==0}">【学校通知】<a class="td_name" href="${ctx}/jy/annunciate/release?id=${d.id}" title="${d.title}" target="_parent"><ui:sout value="${d.title}" length="40" needEllipsis="true" ></ui:sout></a></c:if>
-								<c:if test="${d.annunciateType==1}">【区域通知】<a class="td_name" href="${ctx}/jy/annunciate/toForwardAnnunciate?id=${d.id}" title="${d.title}" target="_parent"><ui:sout value="${d.title}" length="40" needEllipsis="true" ></ui:sout></a></c:if>
-							</c:otherwise> 
-						</c:choose>
-					</td>
-					<td>
-						<span title='继续编辑' class="continue_edit_btn" data-id="${d.id }" data-annunciateType="${d.annunciateType}" data-roleId="${_CURRENT_SPACE_.sysRoleId }"></span>
-						<span title='删除'  class='delete_btn deleteDraft' data-id="${d.id }" data-status="${d.status }" style="margin:0;"></span>
-					</td>
-				</tr>
-			</c:forEach>
-		</table>
-		<form  name="pageForm" method="post">
-			<ui:page url="${ctx}jy/annunciate/draft" data="${draftlist}"  />
-			<input type="hidden" class="currentPage" name="currentPage">
-		</form>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta charset="UTF-8">
+	<ui:mHtmlHeader title="通知公告"></ui:mHtmlHeader>
+	<link rel="stylesheet" href="${ctxStatic }/m/annunciate/css/annunciate.css" media="screen">
+	<ui:require module="../m/annunciate/js"></ui:require>
+</head> 
+<body>
+<div class="act_draft_content" id="wrap_draft">
+	<div id="scroller">
+	 <c:forEach items="${draftlist.datalist}" var="d">
+	     <div class="draft_list"> 
+	            <input type="hidden" name="${d.id}">
+				<div class="draft_list_top"> 
+					<c:if test="${d.redTitleId!=0}"><div class="red"></div></c:if> 
+					<c:if test="${d.redTitleId==0}"><div  style="margin-left: 52px;"></div></c:if>
+					<div style="float:left;">【学校通知】</div>
+					<a data-id="${d.id}" data-type="${d.type}" style="cursor:pointer;">
+						<span title="${d.title}"><ui:sout value="${d.title}" length="36" needEllipsis="true"></ui:sout></span>
+					</a>
+				</div>  
+				<div class="draft_list_bottom">
+					<ul>
+						<li class="edit" data-id="${d.id}" data-type="${d.type}"><span>修改</span></li>
+						<li class="del" style="border-right:none;" data-id="${d.id}" data-status="${d.status}"><span>删除</span></li>
+					</ul>
+				</div>
+			</div>
+	 </c:forEach>
 	</div>
-</body>
+</div>
 <script type="text/javascript">
-	require(['jquery','jp/jquery-ui.min','jp/jquery.blockui.min','index'],function(){
-		
-	});
+	require(["zepto",'js'],function(){	
+		$(function(){ 
+			$('.draft_list_top a').click(function(){
+				parent.location.href=_WEB_CONTEXT_+"/jy/annunciate/release?id="+$(this).attr("data-id")+"&type="+$(this).attr("data-type");
+			})
+		})
+	}); 
 </script>
+</body>
+
 </html>

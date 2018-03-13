@@ -69,7 +69,6 @@
 									    <a href="${ctx}jy/teachingView/view/${plan.userSpaceId}/planSummary/${plan.id}?userId=${plan.userId}" target="_blank">
 											<dt><ui:icon ext="${plan.contentFileType}"></ui:icon></dt>
 											<dd class="article_name" title="${plan.title }">${plan.title }</dd>
-											<c:if test="${not empty plan.label }"><dd class="article_name">${plan.label }</dd></c:if>
 											<dd class="article_date"><fmt:formatDate value="${plan.crtDttm}" pattern="yyyy-MM-dd"/></dd>
 										</a>
 									</dl>
@@ -92,7 +91,6 @@
 									    <a href="${ctx}jy/teachingView/view/${summary.userSpaceId}/planSummary/${summary.id}?userId=${summary.userId}" target="_blank">
 											<dt><ui:icon ext="${summary.contentFileType}"></ui:icon></dt>
 											<dd class="article_name" title="${summary.title }">${summary.title}</dd>
-											<c:if test="${not empty plan.label }"><dd class="article_name">${plan.label }</dd></c:if>
 											<dd class="article_date"><fmt:formatDate value="${summary.crtDttm}" pattern="yyyy-MM-dd"/></dd>
 										</a>
 									</dl>
@@ -123,7 +121,6 @@
 									    <a href="${ctx}jy/teachingView/view/${plan.userSpaceId}/planSummary/${plan.id}?userId=${plan.userId}" target="_blank">
 											<dt><ui:icon ext="${plan.contentFileType}"></ui:icon></dt>
 											<dd class="article_name" title="${plan.title }">${plan.title }</dd>
-											<c:if test="${not empty plan.label }"><dd class="article_name">${plan.label }</dd></c:if>
 											<dd class="article_date"><fmt:formatDate value="${plan.crtDttm}" pattern="yyyy-MM-dd"/></dd>
 										</a>
 									</dl>
@@ -146,7 +143,6 @@
 									    <a href="${ctx}jy/teachingView/view/${summary.userSpaceId}/planSummary/${summary.id}?userId=${summary.userId}" target="_blank">
 											<dt><ui:icon ext="${summary.contentFileType}"></ui:icon></dt>
 											<dd class="article_name" title="${summary.title }">${summary.title }</dd>
-											<c:if test="${not empty plan.label }"><dd class="article_name">${plan.label }</dd></c:if>
 											<dd class="article_date"><fmt:formatDate value="${summary.crtDttm}" pattern="yyyy-MM-dd"/></dd>
 										</a>
 									</dl>

@@ -1,12 +1,10 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/include/taglib.jspf"%>
 <head>
-<c:set value="<%=request.getSession().getId() %>" var="sessionId" scope="session"></c:set>
 <ui:htmlHeader title="校际教研内容-同备教案"></ui:htmlHeader>
 <link rel="stylesheet" href="${ctxStatic }/modules/schoolactivity/css/school_teaching.css" />
 <script type="text/javascript" src="${ctxStatic }/modules/schoolactivity/js/activity.js"></script>
 <script type="text/javascript">
-var sessionId = "${sessionId}";
 $(document).ready(function(){
 	$(window).scroll(function (){
 		$(".kongdiv").toggle();
@@ -58,6 +56,9 @@ function showTrackList(planId,activityId){
 </script>
 </head>
 <body>
+	<div class="jyyl_top">
+		<ui:tchTop style="1" modelName="校际教研内容-同备教案"></ui:tchTop>
+	</div>
 	<div class="wrapper">
 		<div class='partake_activity_cont'>
 			<div class='partake_info_cont'>
@@ -259,7 +260,7 @@ function showTrackList(planId,activityId){
 									<c:forEach items="${zhengliList }" var="zhengli">
 										<dl>
 											<dd>
-												<img src="${ctxStatic }/common/icon/base/word.png"
+												<img src="${ctxStatic }/common/images/icon/word.png"
 													title="${zhengli.planName }" style="cursor: pointer;"
 													data-id="${zhengli.resId}" id="scanPlanTrack">
 											</dd>
@@ -365,6 +366,7 @@ function showTrackList(planId,activityId){
 					src="${ctx}jy/comment/list?authorId=${activity.organizeUserId }&resType=${activityType }&resId=${activity.id }&title=<ui:sout value='${activity.activityName}' encodingURL='true' escapeXml='true'></ui:sout>&flags=false"></iframe>
 			</div>
 		</div>
+		<ui:htmlFooter style="1"></ui:htmlFooter>
 	</div>
 </body>
 </html>

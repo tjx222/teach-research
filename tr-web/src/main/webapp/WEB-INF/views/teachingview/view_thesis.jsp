@@ -14,14 +14,14 @@
 		$(window).scroll(function(){
 			$("#kongdiv").toggle();
 		});
-		$("#downloadBtn").click(function(){
-			window.open(_WEB_CONTEXT_+"/jy/manage/res/download/"+$(this).attr("data-resId")+"?filename="+encodeURI($(this).attr("data-name")),"_self");
-		});
 	});
 </script>
 </head>
 <body>
-<c:set value="<%=request.getSession().getId() %>" var="sessionId" scope="session"></c:set>
+	<div class="jyyl_top">
+		<ui:tchTop style="1" modelName="教学文章内容"></ui:tchTop>
+	</div>
+	
 	<div class="check_teacher_wrap">
 		<div class="check_teacher_wrap2"> 
 			<h3 class="file_title"><ui:sout value="${thesis.thesisTitle}" escapeXml="true" length="50" needEllipsis="true"/></h3>
@@ -48,10 +48,9 @@
 						提交日期：<fmt:formatDate value="${thesis.submitTime}" pattern="yyyy-MM-dd"/>
 					</div>
 				</c:if>
-				<input type="button" class="download" data-name="${thesis.thesisTitle}" data-resId="${thesis.resId}" id="downloadBtn"/>
 			</div>
 			<div class="word_plug_ins">
-				<iframe id="view" src="jy/scanResFile?to=true&resId=${thesis.resId}" width="100%"	height="660px;"style="border:none;" frameborder="0" scrolling="no"></iframe>
+				<iframe id="view" src="jy/scanResFile?resId=${thesis.resId}" width="100%"	height="660px;"style="border:none;" frameborder="0" scrolling="no"></iframe>
 			</div>
 			<div class="check_teacher_wrap2" style="margin-top:20px;">
 				<c:if test="${not empty showType}">
@@ -67,6 +66,7 @@
 		<div class="clear"></div>
 	</div>
 		<div class="clear"></div>
+		<ui:htmlFooter style="1"></ui:htmlFooter>
 	<script src="${ctxStatic }/lib/jquery/jquery.blockui.min.js"></script>
 </body>
 </html>

@@ -41,6 +41,7 @@ import com.tmser.tr.common.utils.WebThreadLocalUtils;
 import com.tmser.tr.lessonplan.bo.LessonInfo;
 import com.tmser.tr.lessonplan.bo.LessonPlan;
 import com.tmser.tr.lessonplan.dao.LessonInfoDao;
+import com.tmser.tr.lessonplan.service.LessonPlanService;
 import com.tmser.tr.manage.meta.Meta;
 import com.tmser.tr.manage.meta.MetaUtils;
 import com.tmser.tr.manage.org.bo.Organization;
@@ -57,7 +58,6 @@ import com.tmser.tr.uc.dao.UserDao;
 import com.tmser.tr.uc.dao.UserSpaceDao;
 import com.tmser.tr.uc.utils.SessionKey;
 import com.tmser.tr.utils.StringUtils;
-import com.tmser.tr.writelessonplan.service.LessonPlanService;
 
 /**
  * 集体备课活动 服务实现类
@@ -180,10 +180,9 @@ public class ActivityServiceImpl extends AbstractService<Activity, Integer> impl
       // SqlMapping.LIKE_PRFIX);
       // activity.setSubjectIds(SqlMapping.LIKE_PRFIX + "," +
       // userSpace.getSubjectId()+ "," + SqlMapping.LIKE_PRFIX);
-      activity
-          .addCustomCondition(
-              " and ((gradeIds like :gradeId and subjectIds like :subjectId) or (mainUserGradeId=:gradeId and mainUserSubjectId=:subjectId and mainUserId=:userId))",
-              map);
+      activity.addCustomCondition(
+          " and ((gradeIds like :gradeId and subjectIds like :subjectId) or (mainUserGradeId=:gradeId and mainUserSubjectId=:subjectId and mainUserId=:userId))",
+          map);
     }
     activity.addOrder("releaseTime desc");
     PageList<Activity> listPage = activityDao.listPage(activity);
@@ -642,8 +641,8 @@ public class ActivityServiceImpl extends AbstractService<Activity, Integer> impl
     String gradeIdsStr = "0," + activity.getGradeIds().substring(1, activity.getGradeIds().length() - 1);
     List<Integer> gradeIdList = idsStrToIdsList(gradeIdsStr);
     List<Integer> orgIdList = idsStrToIdsList(activity.getOrgId().toString());
-    List<UserSpace> userSpacesList = userSpaceDao
-        .getUserSpaceByOrg_Subject_Grade(orgIdList, subjectIdList, gradeIdList); // 有参与权限的用户
+    List<UserSpace> userSpacesList = userSpaceDao.getUserSpaceByOrg_Subject_Grade(orgIdList, subjectIdList,
+        gradeIdList); // 有参与权限的用户
 
     Map<String, Object> info = new HashMap<String, Object>();
     info.put("activityId", id);

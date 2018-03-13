@@ -1,113 +1,86 @@
 <%@ include file="/WEB-INF/include/taglib.jspf"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" import="java.util.*,java.text.SimpleDateFormat"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<ui:htmlHeader title="集体备课"></ui:htmlHeader>
-<link rel="stylesheet" href="${ctxStatic }/lib/jquery/css/validationEngine.jquery.css" media="screen">
-<link rel="stylesheet" href="${ctxStatic }/modules/activity/css/activity.css" media="all">
-	
-<script type="text/javascript" src="${ctxStatic }/lib/jquery/jquery.form.min.js"></script>
-<script type="text/javascript" src="${ctxStatic }/lib/jquery/jquery.validationEngine-zh_CN.js"></script>
-<script type="text/javascript" src="${ctxStatic }/lib/jquery/jquery.validationEngine.min.js"></script>
-<ui:require module="activity/js"></ui:require>
-<script type="text/javascript">
-require(['jquery','jp/jquery-ui.min','jp/jquery.blockui.min','activity'],function(){});
-//参与或查看
-function canyu_chakan(activityId,typeId,isOver,startDateStr){
-	if(typeId==1){//同备教案
-		if(isOver){//已结束，则查看
-			window.open(_WEB_CONTEXT_+"/jy/activity/viewTbjaActivity?id="+activityId,"_blank");
-		}else{//参与
-			if(ifActivityStart('<%=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())%>',startDateStr)){
-				window.open(_WEB_CONTEXT_+"/jy/activity/joinTbjaActivity?id="+activityId,"_blank");
-			}
-		}
-	}else if(typeId==2){//主题研讨
-		if(isOver){//已结束，则查看
-			window.open(_WEB_CONTEXT_+"/jy/activity/viewZtytActivity?id="+activityId,"_self");
-		}else{//参与
-			if(ifActivityStart('<%=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())%>',startDateStr)){
-				window.open(_WEB_CONTEXT_+"/jy/activity/joinZtytActivity?id="+activityId,"_self");
-			}
-		}
-	}else if(typeId==3){//视频教研
-		if(isOver){//已结束，则查看
-			window.open(_WEB_CONTEXT_+"/jy/activity/viewZtytActivity?id="+activityId,"_self");
-		}else{//参与
-			if(ifActivityStart('<%=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())%>',startDateStr)){
-				window.open(_WEB_CONTEXT_+"/jy/activity/joinZtytActivity?id="+activityId,"_self");
-			}
-		}
-	}
-}
-</script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta charset="UTF-8">
+	<ui:mHtmlHeader title="集体备课"></ui:mHtmlHeader>
+	<link rel="stylesheet" href="${ctxStatic }/m/activity/css/activity.css" media="screen">
+	<ui:require module="../m/activity/js"></ui:require>
 </head>
 <body>
-<div class="wrapper"> 
-	<div class='jyyl_top'>
-	<ui:tchTop style="1" modelName="集体备课"></ui:tchTop>
-	</div>
-	<div class="jyyl_nav">
-		当前位置：<jy:nav id="jtbk"></jy:nav>
-	</div>
-	<div class='teaching_research_list_cont'>
-		<div class='t_r_l_c'>
-			<div class='t_r_l_c_cont_tab'>  
-				<div class='t_r_l_c_cont' style="margin:0 auto;padding-top:23px;"> 
-					<c:if test="${!empty activityList.datalist && fn:length(activityList.datalist)>0}">
-					<div class='t_r_l_c_cont_tab'>
-						<div class='t_r_l_c_cont_table' >
-							<table> 
-								<tr>
-									<th style="width:230px;">活动主题</th>
-									<th style="width:120px;">参与学科</th>
-									<th style="width:90px;">参与年级</th>
-									<th style="width:150px;">发起人</th>
-									<th style="width:190px;">活动时限</th>
-									<th style="width:60px;">讨论数</th> 
-									<th style="width:60px;">操作</th> 
-								</tr>
-								<c:forEach items="${activityList.datalist}" var="activity">
-									<tr>
-										<td style="text-align:left;"><a class="tdName">【${activity.typeName}】</a><a class='td_name1 td_name_d' title="${activity.activityName}" onclick="canyu_chakan(${activity.id},${activity.typeId},${activity.isOver },'<fmt:formatDate value="${activity.startTime}" pattern="yyyy-MM-dd HH:mm:ss"/>')">${activity.activityName}</a></td>
-										<td title="${activity.subjectName}"><span class='ellipsis'>${activity.subjectName}</span></td>
-										<td title="${activity.gradeName}"><span class='ellipsis1'>${activity.gradeName}</span></td>
-										<td>${activity.organizeUserName}</td>
-										<td style="width:180px;"><fmt:formatDate value="${activity.startTime}" pattern="MM-dd HH:mm"/>至<c:if test="${empty activity.endTime}"> ~ </c:if><fmt:formatDate value="${activity.endTime}" pattern="MM-dd HH:mm"/></td>
-										<td>${activity.flago}</td>
-										<td>
-										<c:if test="${!activity.isOver}">
-											<span title='参与' class='partake_btn' onclick="canyu_chakan(${activity.id},${activity.typeId},${activity.isOver },'<fmt:formatDate value="${activity.startTime}" pattern="yyyy-MM-dd HH:mm:ss"/>')"></span>
-										</c:if>
-										<c:if test="${activity.isOver}">
-											<span title='查看' class='see_btn' onclick="canyu_chakan(${activity.id},${activity.typeId},${activity.isOver },'<fmt:formatDate value="${activity.startTime}" pattern="yyyy-MM-dd HH:mm:ss"/>')"></span>
-										</c:if>
-										</td> 
-									</tr>
-								</c:forEach> 
-							</table>
+<div class="more_wrap_hide" onclick='moreHide()'></div>
+<div id="wrapper">
+	<header>
+		<span onclick="javascript:window.history.go(-1);"></span>集体备课
+		<div class="more" onclick="more()"></div>
+	</header>
+	<section>
+		<div class="content">
+			<c:if test="${!empty activityList.datalist && fn:length(activityList.datalist)>0}">
+			<div class="content_bottom1" id="wrap">
+				<div id="scroller">
+				<div id="listdiv">
+					<c:forEach items="${activityList.datalist}" var="activity">  
+					<div class="activity_tch">
+						<c:if test="${activity.typeId==1}">
+						<div class="activity_tch_left">
+						同<br />备<br />教<br />案
 						</div>
+						</c:if>
+						<c:if test="${activity.typeId==2}">
+						<div class="activity_tch_left1">
+						主<br />题<br />研<br />讨
+						</div>
+						</c:if>
+						<c:if test="${activity.typeId==3}">
+						<div class="activity_tch_left2">
+						视<br />频<br />教<br />研
+						</div>
+						</c:if>
+						
+						<div class="activity_tch_right" activityId="${activity.id }" typeId="${activity.typeId }" isOver="${activity.isOver }" startDate="${activity.startTime}">
+							<h3><span class="title">${activity.activityName}</span><c:if test="${activity.isOver }"><span class="end"></span></c:if></h3>
+							<div class="option">
+								<div class="promoter"><strong></strong>发起人：<span>${activity.organizeUserName}</span></div>
+								<div class="partake_sub"><strong></strong>参与学科：<span>${activity.subjectName}</span></div>
+								<div class="partake_class"><strong></strong>参与年级：<span>${activity.gradeName}</span></div> 
+							</div>
+							<div class="option">
+								<div class="time"><strong></strong><span><fmt:formatDate value="${activity.startTime}" pattern="MM-dd HH:mm"/><c:if test="${empty activity.startTime}"> ~ </c:if>至<c:if test="${empty activity.endTime}"> ~ </c:if><fmt:formatDate value="${activity.endTime}" pattern="MM-dd HH:mm"/></span></div>
+								<div class="discussion_number"><strong></strong>讨论数：<span>${activity.commentsNum}</span></div>
+							</div>
+						</div> 
 					</div>
-					</c:if>
-					<c:if test="${empty activityList.datalist }">
-						<div class="empty_wrap">
-							<div class="empty_img"></div>
-							<div class="empty_info">您现在还没有可参与的集体备课，稍后再来吧！</div>
-						</div>
-					</c:if>
+					</c:forEach>  
 				</div> 
-				<form  name="pageForm" method="post">
-					<ui:page url="${ctx}jy/activity/tchIndex" data="${activityList}" />
-					<input type="hidden" class="currentPage" name="currentPage">
-					<input type="hidden" id="" name="listType" value="${listType}">
-				</form>
+					<form  name="pageForm" method="post">
+						<ui:page url="${ctx}jy/activity/tchIndex" data="${activityList}"  callback="addData"/>
+						<input type="hidden" class="currentPage" name="currentPage">
+					</form> 
+					<div style="height:1rem;"></div> 
+				</div>
+				
 			</div>
+			</c:if>
+			<c:if test="${empty activityList.datalist || fn:length(activityList.datalist)<=0}">
+			<div class="content_bottom1" >
+				<div class="content_k" style="margin:10rem auto;">
+					<dl>
+						<dd></dd>
+						<dt>您现在还没有可参与的集体备课，稍后再来吧！</dt>
+					</dl>
+				</div>
+			</div>
+			</c:if>
 		</div>
-	</div>
-	<ui:htmlFooter style="1"></ui:htmlFooter>
-</div> 
+	</section>
+	
+</div>
 </body>
-
+<script type="text/javascript">
+	require(['activity'],function($){	
+	}); 
+</script>
 </html>

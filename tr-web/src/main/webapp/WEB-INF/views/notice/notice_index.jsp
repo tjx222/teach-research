@@ -1,109 +1,90 @@
-<%@page import="com.tmser.tr.uc.bo.UserSpace"%>
 <%@ include file="/WEB-INF/include/taglib.jspf"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@page import="java.util.*"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 	<meta charset="UTF-8">
-	<ui:htmlHeader title="消息中心"></ui:htmlHeader>
-	<link rel="stylesheet" href="${ctxStatic }/modules/notice/css/notice.css" media="screen" />
-	<script type="text/javascript" src="${ctxStatic }/modules/notice/js/notice_index.js"></script>
+	<ui:mHtmlHeader title="消息"></ui:mHtmlHeader>
+	<link rel="stylesheet" href="${ctxStatic }/m/notice/css/notice.css" media="screen" />
+	<ui:require module="../m/notice/js"></ui:require>	
 </head>
 <body>
-<div class="wrapper"> 
-	<div id="message_dialog" class="dialog"> 
-		<div class="dialog_wrap"> 
-			<div class="dialog_head" style="width:388px;">
-				<span class="dialog_title">消息标题</span>
-				<span class="dialog_close"></span>
-			</div>
-			<div class="dialog_content">
-				<div class="dialog_dl1"> 
-					您确定要删除此消息吗？					
-				</div>
-				<input type="button" value="确　定" class="dialog_btn" />
-			</div>
-		</div>
-	</div>	
-	<div class='jyyl_top'>
-		<ui:tchTop style="1" modelName="消息列表"></ui:tchTop>
-	</div>
-	<div class="jyyl_nav">
-		当前位置：<jy:nav id="notice"></jy:nav>
-	</div>
-	<div class="collective_cont">
-		<h3>
-			<ul id="UL">			
-				<li class="collective_cont_act <c:if test="${receiverState==0 }">collective_cont_act1</c:if>" data-status="0">
-					未读消息
-				</li>
-				<li class="collective_cont_act <c:if test="${receiverState==2 }">collective_cont_act1</c:if>" data-status="2"> 
-					已读消息
-				</li>
-			</ul>
-		</h3>
-		<div class="collective_cont_big">
-			<div class="collective_cont_tab">
-				<input type="hidden" id="currentUserId" name="currentUserId" value="${_CURRENT_SPACE_.userId}"/>
-				<c:if test="${data.totalCount > 0  }"> 
-					<table>
-						<tr>
-							<th style="width: 250px;">标题</th>
-							<th style="width: 100px;">发布时间</th>
-							<th style="width: 50px;">删除</th>
-						</tr>						
-						<c:forEach items="${data.datalist}" var="item">
-							<input class="userId" value="${item.senderId }" type="hidden" data-id="${item.id }" data-title="${item.title }">
-							<tr>
-								<td style="text-align: left;">
-									&nbsp;								
-									<input type="checkbox"
-									class="messageCheck" 
-									data-id="${item.id }"
-									data-title="${item.title }"> 									
-									<span>
-									</span>
-									<strong class="title"> 
-										<a href="./jy/notice/notices/${item.id }" class="title" title="${empty item.title?item.detail:item.title }">
-											<ui:sout value="${empty item.title?item.detail:item.title }" needEllipsis="true" length="75"></ui:sout>										
-										</a>										
-									</strong>
-								</td>
-								<td>
-									<fmt:formatDate value="${item.sendDate }" pattern="yyyy-MM-dd HH:mm" /></td>
-								<td>
-									<div class="deleteMessage" data-id="${item.id }" data-title="${item.title }"></div>
-								</td>
-							</tr>
-						</c:forEach>						 
+<div class="mask"></div>
+<div class="more_wrap_hide" onclick='moreHide()'></div>
+<div id="wrapper">
+	<header>
+		<span onclick="javascript:window.history.go(-${empty param._HS_ ? 1: param._HS_+1});"></span>
+		<ul>
+			<li><a <c:if test="${receiverState==0 }">class="header_act"</c:if> href="./jy/notice/notices?receiverState=0&_HS_=${empty param._HS_ ? 1: param._HS_+1}">未读通知</a></li>
+			<li><a <c:if test="${receiverState==2 }">class="header_act"</c:if> href="./jy/notice/notices?receiverState=2&_HS_=${empty param._HS_ ? 1: param._HS_+1}">已读通知</a></li>
+		</ul>
+		<div class="more" onclick="more()"></div>
+	</header>
+	<section> 
+		<div class="annunciate_bottom_wrap" id="annunciate_b_wrap"> 
+			<div id="scroller">
+				<div class="annunciate_bottom" >
+					<table id="tableList"> 
+					  <tr>
+					     <th style="width:5%;"></th>
+					     <th style="width:60%;text-align:left;padding-left: 1%;">标题</th>
+					     <th style="width:25%;">发布时间</th>
+					     <th style="width:10%;">操作</th>
+					  </tr>
+					  <c:forEach items="${ data.datalist}" var="item">
+					  	  <tr>
+						     <td><q dataId="${item.id }"></q></td>
+						     <td style="text-align:left;">【${item.titlePrefix }】<span dataId="${item.id }"> <ui:sout value="${item.title }" length="93" needEllipsis="true"></ui:sout></span></td>
+						     <td><fmt:formatDate value="${item.sendDate }" pattern="yyyy-MM-dd" /></td> 
+						     <td class="del" dataId="${item.id }"></td>
+						  </tr>
+					  </c:forEach>
+					  <!-- <tr>
+					     <td><q class="radio_act"></q></td>
+					     <td style="text-align:left;">【学校通知】<span> "美丽笑容 幸福校园"的通知</span></td>
+					     <td>2015-06-12</td> 
+					     <td class="del"></td>
+					  </tr>
+					  <tr>
+					     <td><q></q></td>
+					     <td style="text-align:left;">【学校通知】<span> "美丽笑容 幸福校园"的通知</span></td>
+					     <td>2015-06-12</td> 
+					     <td class="del"></td>
+					  </tr>
+					   <tr>
+					     <td><q></q></td>
+					     <td style="text-align:left;">【学校通知】<span> "美丽笑容 幸福校园"的通知</span></td>
+					     <td>2015-06-12</td> 
+					     <td class="del"></td>
+					  </tr> -->
+					  
 					</table>
-					<div style="float:left;width:300px;height:30px;line-height:30px;">
-					&nbsp;&nbsp;<input type="checkbox" id="selectAll" >&nbsp;<label for="selectAll">全选</label>&nbsp;&nbsp; 
-					<button id="delSelectMessage">删除</button>&nbsp;&nbsp;
-					<c:if test="${receiverState != '2' }"><button id="readSelectMessage">标记已读</button></c:if>
-					</div>
-				</c:if>
-				<c:if test="${data.totalCount==0  }">
-					<div class="empty_wrap">
-						<div class="empty_info">您还没有${receiverState==0?"未读":"已读"}消息哟，稍后再来查看吧！</div>
-					</div>
-				</c:if>								
-			</div>
-			<div class="clear"></div>
-			<div class="pages" style="margin-top:0px;">
-				<form id="pageForm" name="pageForm" method="get">
-					<ui:page url="./jy/notice/notices" data="${data}" />
-					<input type="hidden" name="page.currentPage" class="currentPage">
-					<input type="hidden" name="receiverState"
-						value="${receiverState}">
-				</form>
+					<form  name="pageForm">
+						<ui:page url="${ctx}jy/notice/notices_mobile" data="${data}"  callback="addData" dataType="true"/>
+						<input type="hidden" class="currentPage" name="page.currentPage">
+						<input type="hidden" name="receiverState" value="${receiverState}">
+					</form>
+					<div style="height:2rem;"></div>
+				</div>
 			</div>
 		</div>
-	</div>
-	<div class="clear"></div>
-	<ui:htmlFooter style="1"></ui:htmlFooter>
-</div>	
+		<div class="annunciate_bottom1_wrap">
+			<div class="annunciate_bottom1" >
+				<div class="notice">
+					<q></q><span>全选</span>
+				</div>
+				<input type="button" class="delete" value="删除">
+				<c:if test="${param.receiverState != '2' }">
+				<input type="button" class="yd" value="标记已读">
+				</c:if>
+			</div>
+		</div>
+	</section>
+</div>
 </body>
+<script type="text/javascript">
+	require(['zepto','js'],function($){	
+	});  
+</script>
 </html>

@@ -1,235 +1,271 @@
-<%@page import="javax.swing.text.html.CSS"%>
-<%@page import="javax.persistence.UniqueConstraint"%>
-<%@page import="com.tmser.tr.uc.bo.UserSpace"%>
-<%@page import="com.tmser.tr.manage.meta.bo.Book"%>
 <%@ include file="/WEB-INF/include/taglib.jspf"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
- <%@page import="java.util.*"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="java.util.Set"%>
+<%@page import="java.util.HashSet"%>
+<%@page import="java.util.List"%>
+<%@page import="com.tmser.tr.uc.bo.UserSpace"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<ui:htmlHeader title="修改信息"></ui:htmlHeader>
-<link rel="stylesheet" href="${ctxStatic }/modules/uc/modify/css/modify.css" media="screen">
-<link rel="stylesheet" href="${ctxStatic }/lib/jquery/css/validationEngine.jquery.css"media="screen">
-<script src="${ctxStatic }/lib/jquery/jquery.validationEngine-zh_CN.js"></script>
-<script src="${ctxStatic }/lib/jquery/jquery.validationEngine.min.js"></script>
-<script type="text/javascript" src="${ctxStatic }/lib/calendar/WdatePicker.js"></script>
-<ui:require module="uc/login/js"></ui:require>
-<style>
-.file{
-	width:200px;
-	height:27px;
-}
-</style>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta charset="UTF-8">
+	<ui:mHtmlHeader title="个人中心"></ui:mHtmlHeader>
+	<link rel="stylesheet" href="${ctxStatic }/m/uc/css/uc.css" media="screen">
+	<link rel="stylesheet" href="${ctxStatic }/lib/datetime/css/zepto.mdatetimer.css" media="screen">
+	<ui:require module="../m/uc/js"></ui:require>
 </head>
 <body>
-	<div class="wrapper"> 
-		<div class="jyyl_top"><ui:tchTop  style="1" modelName="个人中心"></ui:tchTop></div>
-		<div class="jyyl_nav">
-				当前位置：<jy:nav id="personal_index"></jy:nav> 
-		</div>
-		<div class='home_bg'>
-			<div class="t_r_l_c_select">
-	            <ol>
-	            	<li class="t_r_l_c_li ${type ==  0 ? 't_r_l_c_li_act' : ''}">修改个人信息</li>
-					<li class="t_r_l_c_li ${type ==  1 ? 't_r_l_c_li_act' : ''}">修改密码</li>
-					<li class="t_r_l_c_li ${type ==  2 ? 't_r_l_c_li_act' : ''}">修改头像</li>
-					<li class="t_r_l_c_li ${type ==  3 ? 't_r_l_c_li_act' : ''}">账号关联</li>
-	            </ol>  
-	        </div> 
-	        <div class="info_tab_wrap">
-	        	<div class="info_tab" style="${type ==  0 ? '' : 'display:none;'}">
-	        		<h3 class="info_tab_h3">
-	        			<span>${_CURRENT_USER_.name}</span>
-	        			<strong style="line-height: 60px;">${_CURRENT_USER_.orgName}</strong>
-	        		</h3>
-	        		<h3 class="info_tab_h4">
-		        		<%
-							Set<Integer> gradeids=new HashSet<Integer>(); 
-					        Set<Integer> subjectids=new HashSet<Integer>();
-					        Set<String> bookIds=new HashSet<String>();
-					     	List<UserSpace> spaces = (List<UserSpace>)request.getSession().getAttribute("_USER_SPACE_LIST_");
-					     	for(UserSpace us : spaces){
-					     		if(us.getGradeId() != 0)
-					     			gradeids.add(us.getGradeId());
-					     		if(us.getSubjectId() != 0)
-					     			subjectids.add(us.getSubjectId());
-					     		if(us.getBookId() != null)
-					     			bookIds.add(us.getBookId());
-					     	}
-						if(subjectids.size() > 0){ 
-							for(Integer sid : subjectids){
-						%>
-	        			<b>学科：<jy:dic key="<%=sid%>"></jy:dic></b>
-	        			<%
-							}}else{
-						%>
-						<b>学科：暂无</b>
-						<%
-							}
-						if(gradeids.size() > 0){ 
-							for(Integer gid : gradeids){
-						%>
-	        			<b>年级：<jy:dic key="<%=gid%>"></jy:dic></b>
-	        			<%
-							}}else{
-						%>
-						<b>年级：暂无</b>
-						<%
-							}
-						if(bookIds.size() > 0){ 
-							Map<String,String> formatNameMap = new HashMap<String,String>();
-						     for(String bid : bookIds){
-						%>
-						<jy:ds key="<%=bid%>" className="com.tmser.tr.manage.meta.service.BookService" var="book"></jy:ds>
-	        					<% 
-	        					if (pageContext.getAttribute("book") == null){
-	        						continue;
-	        					}
-	        					String name = ((Book)pageContext.getAttribute("book")).getFormatName();
-	        					if (name == null) {
-	        						continue;
-	        					}
-	        					if (formatNameMap.get(name) == null) {%>
-				        			<b>版本：${book.formatName }</b>
-	        						<% 
-	        						formatNameMap.put(name,"1");
-	        					}%>
-	        			
-	        			<%
-							}}else{
-						%>
-						<b>版本：暂无</b>
-						<%
-							}
-						%>
-	        		</h3>
-	        		<h3 class="info_tab_h4" style="min-height:38px;height:auto;">
-	        			<b style="height:auto;">职务：
-		        			<c:forEach items="${_USER_SPACE_LIST_}" var="date">
-							 	${date.spaceName}
-							</c:forEach>
-						</b> 
-	        		</h3>
-	        		<div class="border"></div>
-	        		<form id="modifyuserinformation"  method="post" onsubmit="saveUser();">
-		        		<div class="record clearfix">
-		        			<label for=""><a>*</a>昵称：</label>
-		        			<input type="text" class="validate[required,maxSize[5]] text" name="nickname" value="${user.nickname}" />
-		        		</div>
-		        		<div class="record clearfix">
-		        			<label for="">教龄：</label>
-		        			<input type="text" class="validate[custom[integer],min[0],max[99]] text" name="schoolAge" value="${user.schoolAge}" /> 
-		        		</div>
-		        		<div class="record clearfix">
-		        			<label for="">职称：</label>
-		        			<input type="text" class="validate[maxSize[6]] text" name="profession" value="${user.profession}" />
-		        		</div>
-		        		<div class="record clearfix">
-		        			<label for="">荣誉称号：</label>
-		        			<input type="text" class="validate[maxSize[15]] text" name="honorary" value="${user.honorary}" />
-		        		</div>
-		        		<div class="record record1 clearfix">
-		        			<label for="">性别：</label>
-		        			<input type="radio" class="radio" <c:if test="${user.sex==0 ||empty user.sex}">checked</c:if>  name="sex" value="0">男&nbsp;&nbsp;&nbsp;<input type="radio" class="radio" <c:if test="${user.sex==1}">checked</c:if>  name="sex" value="1">女
-		        		</div>
-		        		<div class="record clearfix">
-		        			<label for="">联系电话：</label>
-		        			<input type="text" class="validate[custom[phone],ajax[ajaxUserPhone]] text" name="cellphone" value="${user.cellphone}" />
-		        		</div>
-		        		<div class="record clearfix">
-		        			<label for="">出生日期：</label>
-		        			<input type="text" name="birthday" class="validate[custom[dateFormat]] text"
-								value="<fmt:formatDate value='${user.birthday}' pattern='yyyy-MM-dd' />"
-								onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'now'})" />
-		        		</div>
-		        		<div class="record clearfix">
-		        			<label for="">个人简介：</label>
-		        			<textarea name="explains" id="" cols="20" rows="100" class='validate[maxSize[500]] textarea'>${user.explains}</textarea>
-		        			<div class="zhu">注：最多可输入500个字</div>
-		        		</div>
-		        		<div class="bottom_btn_wrap">
-		        			<input type="submit" class="preservation_btn" value="保存">
-		        		</div>
-	        		</form>
-	       	    </div>
-	       	    <div class="info_tab" style="${type ==  1 ? '' : 'display:none;'}">
-	       	    	<form id="modifypassword"  method="post" onsubmit="updataPassword()">
-	       	    		<ui:token />
-		       	    	<div class="record2 recordTop clearfix">
-		        			<label for="">姓名：</label>
-		        			<span>${_CURRENT_USER_.name}</span>
-		        		</div>
-		        		<div class="record2 clearfix">
-		        			<label for="">原密码：</label>
-		        			<input type="password" class="validate[required,minSize[6],ajax[ajaxUserPassword]] text" id="password" name="password" value="" placeholder="原密码">
-		        		</div>
-		        		<div class="record2 clearfix">
-		        			<label for="">新密码：</label>
-		        			<input type="password" class="validate[required,minSize[6]] text" id="newpassword" name="newpassword" value="" placeholder="新密码">
-		        		</div>
-		        		<div class="record2 clearfix">
-		        			<label for="">确认新密码：</label>
-		        			<input type="password" class="validate[required,minSize[6],equals[newpassword]] text" id="renewpassword" name="renewpassword" value="" placeholder="确认密码" equalTo="#newpassword">
-		        		</div>
-		        		<div class="bottom_btn_wrap" style="margin: 40px auto;">
-		        			<input type="submit" class="preservation_btn" value="确认修改" >
-		        			<!-- <input type="button" class="temporarily_btn" value="暂不修改"> -->
-		        		</div>
-	        		</form>
-	       	    </div>
-	       	    <div class="info_tab" style="${type ==  2 ? '' : 'display:none;'}">
-	       	    	<form id="modifyPhoto"  method="post">
-       	    			<div class="head">
-		       	    		<div class="head_img">
-		       	    			<ui:photo src="${user.photo }" height="128" width="134"></ui:photo>
-		       	    		</div>
-		       	    		<div class="record2 clearfix">
-		       	    			<div id="fileuploadContainer" style="margin-top: 50px; margin-left: 89px;">
-			        				<label for="">上传头像：</label>
-			        				<ui:upload containerID="fileuploadContainer" name="photoPath" fileType="jpg,png,gif" fileSize="1" isWebRes="true"
-									relativePath="photo/o_${_CURRENT_USER_.orgId }/u_${_CURRENT_USER_.id }" startElementId="savephotobtn"
-									callback="upload" />
-			        			</div>
-			        			<!-- <input type="text" class="text"> -->
-			        		</div>
-			        		<div class="bottom_btn_wrap" style="margin: 40px auto;">
-			        			<input type="button" class="preservation_btn" value="确认修改" id="savephotobtn">
-			        			<!-- <input type="button" class="temporarily_btn" value="暂不修改"> -->
-			        		</div>
-		       	    	</div>
-	       	    	</form>
-	       	    </div>
-	       	    <div class="info_tab" style="${type ==  3 ? '' : 'display:none;'}">
-	       	    	<form id="validationMailCode"  method="post">
-		       	    	<div class="info1">如果您使用邮箱账号进行登录,请完善以下邮箱信息,并进行验证</div>
-		       	    	<div class="record clearfix">
-		        			<label for="">邮件地址：</label>
-		        			<input type="hidden" name="uid" value="${user.id}"/>
-		        			<input type="text" id="mails" class="validate[required,custom[email],ajax[ajaxUserEmail]] text" data-old="${user.mail}" name="mails" value="${user.mail}">
-		        			<input type="button" value="发送验证码" id="btnSendCode">
-		        			<span id="sendsuccess" style="display: none;">&nbsp;&nbsp;&nbsp;发送成功</span><a id="inmail" href="" style="color:blue;display:none;" target="_blank">&nbsp;请进入邮箱</a>
-		        		</div>
-		        		<div class="record" style="${not empty user.mail?'display:none':''}" id="securityCode" >
-							<label for="">邮件验证码:</label>
-							<input type="text" class="validate[required] text" id="verificationcode"  name="code" value="" />
-							<a style="color:#aeaeae;;line-height:25px;display:block;" >&nbsp;&nbsp;填写您邮箱中收到的验证码</a>
+<div class="mask"></div>
+<div class="more_wrap_hide" onclick='moreHide()'></div>
+<div id="wrapper">
+	<header>
+		<span onclick="javascript:window.history.go(-1);"></span>个人中心
+		<div class="more" onclick="more()"></div>
+	</header>
+	<section>
+		<div class="content">
+			<div class="personal_center_l">
+				<div class="personal_center_l1">
+					<dl>
+						<dd>
+							<ui:photo src="${_CURRENT_USER_.photo}" alt="" ></ui:photo>
+							<span></span>
+							<ui:upload_m isWebRes="true" num="0" callback="headerUpload" fileType="jpg,png,gif" relativePath="photo/o_${_CURRENT_USER_.orgId }/u_${_CURRENT_USER_.id }"></ui:upload_m>
+						</dd>
+						<dt>${_CURRENT_USER_.name}</dt>
+					</dl>
+				</div>
+				<ul>
+					<li class="center_li_act"><span>个人信息</span><a href="#"></a></li>
+					<li><span>修改密码</span><a href="#"></a></li>
+					<li><span>账号管理</span><a href="#"></a></li>
+				</ul>
+				<input type="button" value="退出登录" class="quit_login" onclick="javascript:location.href='/jy/logout'">
+			</div>
+			<div class="personal_center_r">
+				<div class="personal_center_r1 personal_info">
+					<div>
+						<div class="personal_info_cont1">
+							<div class="com_personal_content">
+								<div class="com_personal_cont_head_cont">
+									 <div class="com_per_img">
+									 </div>
+									 <div class="com_per_cont">
+									  	学校：${_CURRENT_USER_.orgName}
+									 </div>
+								</div>
+								<div class="com_personal_cont_head_cont">
+									 <div class="com_per_img1">
+									 </div>
+									  <div class="com_per_cont">
+									  <%
+										Set<Integer> gradeids=new HashSet<Integer>(); 
+				        				Set<Integer> subjectids=new HashSet<Integer>();
+				       					Set<String> bookIds=new HashSet<String>();
+				     					List<UserSpace> spaces = (List<UserSpace>)request.getSession().getAttribute("_USER_SPACE_LIST_");
+				     					for(UserSpace us : spaces){
+				     						if(us.getGradeId() != 0)
+				     							gradeids.add(us.getGradeId());
+				     						if(us.getSubjectId() != 0)
+				     							subjectids.add(us.getSubjectId());
+				     						if(us.getBookId() != null)
+				     							bookIds.add(us.getBookId());
+				     					}
+									%>
+									  	<span>学科：
+									  		<%
+												if(subjectids.size() > 0){ 
+													for(Integer sid : subjectids){
+											%><span><jy:dic key="<%=sid%>"></jy:dic></span>
+											<%
+												}}else{
+											%>
+												<span>暂无</span>
+											<%
+												}
+											%>
+									  	</span>    
+									  	版本：<span id="bbspan" style="display: none;">
+											<%
+												if(bookIds.size() > 0){ 
+													for(String bid : bookIds){
+											%>
+											<jy:ds key="<%=bid%>" className="com.tmser.tr.manage.meta.service.BookService" var="book"></jy:ds>
+			             					<span class="formatName" id="${book.formatName }"> ${book.formatName }</span>
+											<%
+												}}else{
+											%>
+												<span>暂无</span>
+											<%
+													}
+											%>
+											</span>
+									 </div>
+								</div>
+								<div class="com_personal_cont_head_cont">
+									 <div class="com_per_img2">
+									 </div>
+									  <div class="com_per_cont">
+									  	年级：
+									  	<%
+											if(gradeids.size() > 0){ 
+												for(Integer gid : gradeids){
+										%>
+										<span><jy:dic key="<%=gid%>"></jy:dic></span>
+										<%
+											}}else{
+										%>
+										<span>暂无</span>
+										<%
+											}
+										%>
+									 </div>
+								</div>
+								<div class="com_personal_cont_head_cont">
+									 <div class="com_per_img3">
+									 </div>
+									  <div class="com_per_cont" style="border-bottom:0;">
+									  	职务：
+									  	<c:forEach items="${_USER_SPACE_LIST_}" var="date">
+											<span>${date.spaceName}</span>
+										</c:forEach>
+									 </div>
+								</div> 
+								
+							</div>
 						</div>
 						<div class="clear"></div>
-						<div class="btn_sava bottom_btn_wrap" style="${not empty user.mail?'display:none;':''}" id="updatemail">
-							<input type="button" class="preservation_btn sava_btn" id="saveverificationcode" value="保存"/>
+						<div class="personal_info_cont2">
+							<div class="edit"></div>
+							<!-- 保存状态 -->
+							<!-- <div class="sava"></div> -->
+							<div class="info">
+								<div class="info_l"><span></span>昵称</div>
+								<div class="info_r">
+									<input type="text" name="nickname" id="nickname" value="${user.nickname}" readOnly="readonly" maxlength="5">	
+								</div>
+							</div>
+							<div class="info">
+								<div class="info_l"><span></span>教龄</div>
+								<div class="info_r">
+									<input type="text" name="schoolAge" id="schoolAge" value="${user.schoolAge}" readOnly="readonly" maxlength="2">
+								</div>
+							</div>
+							<div class="info">
+								<div class="info_l"><span></span>职称</div>
+								<div class="info_r">
+									<input type="text" name="profession" id="profession" value="${user.profession}" readOnly="readonly" maxlength="6">
+								</div>
+							</div>
+							<div class="info">
+								<div class="info_l"><span></span>荣誉称号</div>
+								<div class="info_r">
+									<input type="text" name="honorary" id="honorary" value="${user.honorary}" readOnly="readonly" maxlength="15">
+								</div>
+							</div>
+							<div class="info">
+								<div class="info_l"><span></span>性别</div>
+								<div class="info_r">
+									<p><span class="${user.sex==0?'act':'' }" data="0"></span><q>男</q></p>
+									<p><span class="${user.sex!=0?'act':'' }" data="1"></span><q>女</q></p>
+								</div>
+							</div>
+							<div class="info">
+								<div class="info_l"><span></span>联系电话</div>
+								<div class="info_r">
+									<input type="text" name="cellphone" id="cellphone" value="${user.cellphone}" readOnly="readonly" maxlength="11">
+								</div>
+							</div>
+							<div class="info">
+								<div class="info_l"><span></span>出生日期</div>
+								<div class="info_r">
+									<input type="text" id="picktime" placeholder="出生日期" value="<fmt:formatDate value="${_CURRENT_USER_.birthday}" pattern="yyyy-MM-dd"/>" readOnly="readonly" />
+								</div>
+							</div>
 						</div>
-	        		</form>
-	       	    </div>
-	        </div>
+						<div class="clear"></div>
+						<div class="personal_info_cont3"> 
+							<div class="edit"></div>
+							<div class="info">
+								<div class="info_l1">
+									<img src="static/m/uc/images/img.png" alt="">
+								</div>
+								<div class="info_r1">个人简介</div>
+							</div>
+							<div class="about"><!-- about -->
+								<textarea style="width:95%" name="explains" id="explains" rows="5" readonly="readonly" maxlength="500">${user.explains}</textarea>
+							</div>
+						</div>
+					</div>
+				</div> 
+				<div class="personal_center_r1 edit_password"  style="display:none;">
+					<div>
+						<div class="edit_password_cont">
+							<div class="com_personal_content">
+								<div class="com_personal_cont_head_cont">
+									  <div class="com_per_cont1" >
+									  	<div class="info_l2">用户名</div>
+								     	<div class="info_r2">${login.loginname}</div>
+									 </div>
+								</div> 
+								<div class="com_personal_cont_head_cont">
+									  <div class="com_per_cont1" >
+									  	<div class="info_l2">原密码</div>
+								     	<div class="info_r2">
+								     		<input id="password" type="password" placeholder="6~16个字符，区分大小写" autocomplete="off" >
+								     	</div>
+									 </div>
+								</div> 
+								<div class="com_personal_cont_head_cont">
+									  <div class="com_per_cont1" >
+									  	<div class="info_l2">新密码</div>
+								     	<div class="info_r2">
+								     		<input id="newpassword" type="password" placeholder="6~16个字符，区分大小写" autocomplete="off" >
+								     	</div>
+									 </div>
+								</div>
+								<div class="com_personal_cont_head_cont">
+									  <div class="com_per_cont1" >
+									  	<div class="info_l2">确认密码</div>
+								     	<div class="info_r2">
+								     		<input id="renewpassword" type="password" autocomplete="off">
+								     	</div>
+									 </div>
+								</div> 
+								<input type="button" class="save_edit" value="确认修改">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="personal_center_r1 account_manmgement" style="display:none;">
+					<div>
+						<div class="account_manmgement_cont">
+							<div class="info_1">
+								如果您使用邮箱账号进行登录，请完善以下邮箱信息，并进行验证
+							</div>
+								<p>
+									<label>邮箱地址</label>
+									<input type="hidden" name="uid" value="${user.id}"/>
+									<input type="text" id="mails" class="validate[required,custom[email],ajax[ajaxUserEmail]] txt" data-old="${user.mail}" name="mails" value="${user.mail}">
+									<input type="button" id="btnSendCode" class="btn" value="获取验证码">&nbsp;&nbsp;<span id="isCodeSend"></span>
+								</p>
+								<p>
+									<label>邮箱验证码</label>
+									<input type="text" class="validate[required] txt1" id="verificationcode"  name="code" placeholder="请填写邮箱中收到的验证码"/>
+								</p>
+								
+								<input type="button" class="save_1" value="保存" id="saveverificationcode">
+						</div>
+					</div>
+				</div>
+				</div>
+			</div>
 		</div>
-		<ui:htmlFooter style="1"></ui:htmlFooter>
-	</div> 
+	</section>
+</div>
 </body>
 <script type="text/javascript">
-	require(['jquery','modify'],function(){
-		
-	});
+	require(['zepto','js'],function($){	
+	}); 
 </script>
 </html>

@@ -111,7 +111,8 @@
 			</div>
 			<form  name="pageForm" method="post">
 				<ui:page url="${ctx}jy/teachingView/manager/m_check_jitibeike?userId=${searchVo.userId}&termId=${searchVo.termId}&phaseId=${searchVo.phaseId}&orgId=${searchVo.orgId}" data="${listPage}"  />
-				<input type="hidden" class="currentPage" name="page.currentPage">
+				<input type="hidden" class="currentPage" name="currentPage">
+				<input type="hidden" id="" name="listType" value="${listType}"> 
 			</form>
 		</div>
 	</div>

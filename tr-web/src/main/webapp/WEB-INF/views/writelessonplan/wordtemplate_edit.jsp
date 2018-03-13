@@ -419,8 +419,10 @@
 		<input type="button" onclick="uploadLocalLesson();" class="saveJA" value="上传本地教案"> 
 		<input type="button" onclick="saveToServer();" class="saveJA" value="保存教案">  -->
 		<input type="hidden" id="lesson_id" name="lessonId" value="" />
-		<input type="hidden" id="book_id" name="bookId" value="${bookId }" /> 
+		<input type="hidden" id="book_id" name="bookId" value="" /> 
 		<input type="hidden" id="lesson_name" name="lessonName" value="" />
+		<input type="hidden" id="gradeId" name="gradeId" value="" />
+		<input type="hidden" id="subjectId" name="subjectId" value="" />
 		<!-- 已选课时 -->
 		<input type="hidden" id="lesson_hours" name="hoursIdStr" value="" />
 		<!-- 教案id -->

@@ -26,14 +26,8 @@ import org.springframework.util.CollectionUtils;
 
 import com.tmser.tr.activity.bo.Activity;
 import com.tmser.tr.activity.bo.ActivityTracks;
-import com.tmser.tr.activity.bo.SchoolActivity;
-import com.tmser.tr.activity.bo.SchoolActivityTracks;
-import com.tmser.tr.activity.bo.SchoolTeachCircleOrg;
 import com.tmser.tr.activity.service.ActivityService;
 import com.tmser.tr.activity.service.ActivityTracksService;
-import com.tmser.tr.activity.service.SchoolActivityService;
-import com.tmser.tr.activity.service.SchoolActivityTracksService;
-import com.tmser.tr.activity.service.SchoolTeachCircleOrgService;
 import com.tmser.tr.check.bo.CheckInfo;
 import com.tmser.tr.check.service.CheckInfoService;
 import com.tmser.tr.comment.bo.CommentInfo;
@@ -41,17 +35,15 @@ import com.tmser.tr.comment.bo.Discuss;
 import com.tmser.tr.comment.service.CommentInfoService;
 import com.tmser.tr.comment.service.DiscussService;
 import com.tmser.tr.common.ResTypeConstants;
-import com.tmser.tr.common.bo.QueryObject.JOINTYPE;
 import com.tmser.tr.common.page.Page;
 import com.tmser.tr.common.page.PageList;
 import com.tmser.tr.common.utils.WebThreadLocalUtils;
 import com.tmser.tr.companion.bo.JyCompanionMessage;
 import com.tmser.tr.companion.service.JyCompanionMessageService;
-import com.tmser.tr.lecturerecords.bo.LectureRecords;
-import com.tmser.tr.lecturerecords.service.LectureRecordsService;
 import com.tmser.tr.lessonplan.bo.LessonInfo;
 import com.tmser.tr.lessonplan.bo.LessonPlan;
 import com.tmser.tr.lessonplan.service.LessonInfoService;
+import com.tmser.tr.lessonplan.service.LessonPlanService;
 import com.tmser.tr.manage.meta.Meta;
 import com.tmser.tr.manage.meta.MetaUtils;
 import com.tmser.tr.manage.meta.bo.Book;
@@ -60,8 +52,6 @@ import com.tmser.tr.manage.org.bo.Organization;
 import com.tmser.tr.manage.org.service.OrganizationService;
 import com.tmser.tr.manage.resources.bo.Resources;
 import com.tmser.tr.manage.resources.service.ResourcesService;
-import com.tmser.tr.plainsummary.bo.PlainSummary;
-import com.tmser.tr.plainsummary.service.PlainSummaryService;
 import com.tmser.tr.recordbag.bo.Record;
 import com.tmser.tr.recordbag.bo.Recordbag;
 import com.tmser.tr.recordbag.service.RecordService;
@@ -73,8 +63,6 @@ import com.tmser.tr.teachingview.TeacherDetailView;
 import com.tmser.tr.teachingview.TeacherView;
 import com.tmser.tr.teachingview.dao.TeachingViewDao;
 import com.tmser.tr.teachingview.vo.SearchVo;
-import com.tmser.tr.thesis.bo.Thesis;
-import com.tmser.tr.thesis.service.ThesisService;
 import com.tmser.tr.uc.SysRole;
 import com.tmser.tr.uc.bo.User;
 import com.tmser.tr.uc.bo.UserSpace;
@@ -85,7 +73,6 @@ import com.tmser.tr.uc.utils.SessionKey;
 import com.tmser.tr.utils.DateUtils;
 import com.tmser.tr.utils.JyCollectionUtils;
 import com.tmser.tr.utils.StringUtils;
-import com.tmser.tr.writelessonplan.service.LessonPlanService;
 
 /**
  * 
@@ -119,29 +106,15 @@ public class TeachingViewServiceImpl implements TeachingViewService {
   @Autowired
   private LessonInfoService lessonInfoService;
   @Autowired
-  private PlainSummaryService plainSummaryService;
-  @Autowired
-  private LectureRecordsService lectureRecordsService;
-  @Autowired
-  private ThesisService thesisService;
-  @Autowired
-  private SchoolTeachCircleOrgService schoolTeachCircleOrgService;
-  @Autowired
-  private SchoolActivityService schoolActivityService;
-  @Autowired
   private JyCompanionMessageService jyCompanionMessageService;
   @Autowired
   private SchoolYearService schoolYearService;
-  @Autowired
-  private SchoolActivityTracksService schoolActivityTracksService;
   @Autowired
   private ActivityTracksService activityTracksService;
   @Autowired
   private DiscussService discussService;
   @Autowired
   private LessonPlanService lessonPlanService;
-  @Autowired
-  private PlainSummaryService planSummaryService;
   @Autowired
   private JyCompanionMessageService companionMessageService;
   @Autowired
@@ -154,8 +127,6 @@ public class TeachingViewServiceImpl implements TeachingViewService {
   private BookService bookService;
   @Autowired
   private UserService userService;
-  @Autowired
-  private LectureRecordsService lectureRecordService;
   @Autowired
   private ResourcesService resService;
 
@@ -311,9 +282,9 @@ public class TeachingViewServiceImpl implements TeachingViewService {
         Map<String, Object> tempMap = getDataMapByEunm(searchVo, TeacherView.getIdsList());
         tempMap.put("userName", teacher.getUsername());
         tempMap.put("url",
-            WebThreadLocalUtils.getRequest().getContextPath()
-                + "/jy/teachingView/manager/teachingView_t_detail?termId=" + searchVo.getTermId() + "&gradeId="
-                + searchVo.getGradeId() + "&subjectId=" + searchVo.getSubjectId() + "&spaceId=" + teacher.getId());
+            WebThreadLocalUtils.getRequest().getContextPath() + "/jy/teachingView/manager/teachingView_t_detail?termId="
+                + searchVo.getTermId() + "&gradeId=" + searchVo.getGradeId() + "&subjectId=" + searchVo.getSubjectId()
+                + "&spaceId=" + teacher.getId());
         tempMap.put("spaceId", teacher.getId());
         dataList.add(tempMap);
       }
@@ -409,9 +380,10 @@ public class TeachingViewServiceImpl implements TeachingViewService {
         us.setGradeId(searchVo.getGradeId());
         us.setSubjectId(searchVo.getSubjectId());
         tempMap.put("teacherCount", userSpaceService.findAll(us).size());
-        tempMap.put("url", WebThreadLocalUtils.getRequest().getContextPath()
-            + "/jy/teachingView/manager/teachingView_t?flagz=grade&termId=" + searchVo.getTermId() + "&gradeId="
-            + searchVo.getGradeId());
+        tempMap.put("url",
+            WebThreadLocalUtils.getRequest().getContextPath()
+                + "/jy/teachingView/manager/teachingView_t?flagz=grade&termId=" + searchVo.getTermId() + "&gradeId="
+                + searchVo.getGradeId());
         dataList.add(tempMap);
       }
       if (!dataList.isEmpty()) {
@@ -456,9 +428,10 @@ public class TeachingViewServiceImpl implements TeachingViewService {
         us.setSubjectId(searchVo.getSubjectId());
         us.setGradeId(searchVo.getGradeId());
         tempMap.put("teacherCount", userSpaceService.findAll(us).size());
-        tempMap.put("url", WebThreadLocalUtils.getRequest().getContextPath()
-            + "/jy/teachingView/manager/teachingView_t?flagz=subject&termId=" + searchVo.getTermId() + "&subjectId="
-            + searchVo.getSubjectId());
+        tempMap.put("url",
+            WebThreadLocalUtils.getRequest().getContextPath()
+                + "/jy/teachingView/manager/teachingView_t?flagz=subject&termId=" + searchVo.getTermId() + "&subjectId="
+                + searchVo.getSubjectId());
         dataList.add(tempMap);
       }
       if (!dataList.isEmpty()) {
@@ -663,39 +636,6 @@ public class TeachingViewServiceImpl implements TeachingViewService {
   }
 
   /**
-   * 获取听课记录相关数据集合
-   * 
-   * @param searchVo
-   * @param m
-   * @see com.tmser.tr.teachingView.service.TeachingViewService#getListenDataList(com.tmser.tr.teachingview.vo.SearchVo,
-   *      org.springframework.ui.Model)
-   */
-  @Override
-  public void getListenDataList(SearchVo searchVo, Model m) {
-    UserSpace us = userSpaceService.findOne(searchVo.getSpaceId());
-    User user = userService.findOne(us.getUserId());
-    searchVo = setDateRange(searchVo);
-    LectureRecords lr = new LectureRecords();
-    lr.setLecturepeopleId(us.getUserId());
-    lr.setIsEpub(1);
-    lr.setIsDelete(false);
-    Map<String, Object> paramMap = new HashMap<String, Object>();
-    paramMap.put("startTime", searchVo.getStartTime());
-    paramMap.put("endTime", searchVo.getEndTime());
-    lr.addCustomCondition(" and crtDttm >= :startTime and crtDttm < :endTime", paramMap);
-    lr.addPage(searchVo.getPage());
-    lr.pageSize(10);
-    lr.addOrder(" crtDttm desc ");
-    PageList<LectureRecords> recordList = lectureRecordService.findByPage(lr);
-    m.addAttribute("recordList", recordList);
-    m.addAttribute("searchVo", searchVo);
-    m.addAttribute("userSpace", us);
-    m.addAttribute("user", user);
-    m.addAttribute("gradeName", MetaUtils.getMeta(us.getGradeId()).getName());
-    m.addAttribute("subjectName", MetaUtils.getMeta(us.getSubjectId()).getName());
-  }
-
-  /**
    * 获取集体备课相关数据集合
    * 
    * @param searchVo
@@ -718,10 +658,9 @@ public class TeachingViewServiceImpl implements TeachingViewService {
     paramMap.put("userId", us.getUserId());
     paramMap.put("spaceId", us.getId());
     paramMap.put("editType", 2);
-    activity
-        .addCustomCondition(
-            " and (a.id in (select distinct b.activityId from ActivityTracks b where b.editType!=:editType and b.userId=:userId and b.spaceId=:spaceId and b.crtDttm>=:startTime and b.crtDttm<:endTime) or a.id in (select distinct c.activityId from Discuss c where c.typeId = :typeId and c.crtId=:userId and c.spaceId=:spaceId and c.crtDttm>=:startTime and c.crtDttm<:endTime))",
-            paramMap);
+    activity.addCustomCondition(
+        " and (a.id in (select distinct b.activityId from ActivityTracks b where b.editType!=:editType and b.userId=:userId and b.spaceId=:spaceId and b.crtDttm>=:startTime and b.crtDttm<:endTime) or a.id in (select distinct c.activityId from Discuss c where c.typeId = :typeId and c.crtId=:userId and c.spaceId=:spaceId and c.crtDttm>=:startTime and c.crtDttm<:endTime))",
+        paramMap);
     paramMap.put("typeId", ResTypeConstants.ACTIVITY);
     activity.addPage(searchVo.getPage());
     activity.pageSize(2);
@@ -749,178 +688,6 @@ public class TeachingViewServiceImpl implements TeachingViewService {
     m.addAttribute("searchVo", searchVo);
     m.addAttribute("userSpace", us);
     m.addAttribute("activityList", activitList);
-    m.addAttribute("user", user);
-    m.addAttribute("gradeName", MetaUtils.getMeta(us.getGradeId()).getName());
-    m.addAttribute("subjectName", MetaUtils.getMeta(us.getSubjectId()).getName());
-  }
-
-  /**
-   * 获取已参与的校际教研数据集合
-   * 
-   * @param searchVo
-   * @param m
-   * @see com.tmser.tr.teachingView.service.TeachingViewService#getSchoolActivityDataList(com.tmser.tr.teachingview.vo.SearchVo,
-   *      org.springframework.ui.Model)
-   * @author wangdawei
-   */
-  @Override
-  public void getSchoolActivityDataList(SearchVo searchVo, Model m) {
-    UserSpace us = userSpaceService.findOne(searchVo.getSpaceId());
-    User user = userService.findOne(us.getUserId());
-    searchVo = setDateRange(searchVo);
-    SchoolActivity activity = new SchoolActivity();
-    activity.addAlias("a");
-    activity.setStatus(1);
-    Map<String, Object> paramMap = new HashMap<String, Object>();
-    paramMap.put("startTime", searchVo.getStartTime());
-    paramMap.put("endTime", searchVo.getEndTime());
-    paramMap.put("userId", us.getUserId());
-    paramMap.put("spaceId", us.getId());
-    paramMap.put("editType", 2);
-    paramMap.put("typeId", ResTypeConstants.SCHOOLTEACH);
-    activity
-        .addCustomCondition(
-            " and a.id in (select distinct b.activityId from SchoolActivityTracks b where b.editType!=:editType and b.userId=:userId and b.spaceId=:spaceId and b.crtDttm>=:startTime and b.crtDttm<:endTime) or a.id in (select distinct c.activityId from Discuss c where c.typeId = :typeId and c.crtId=:userId and c.spaceId=:spaceId and c.crtDttm>=:startTime and c.crtDttm<:endTime)",
-            paramMap);
-    activity.addPage(searchVo.getPage());
-    activity.pageSize(2);
-    PageList<SchoolActivity> activitList = schoolActivityService.findByPage(activity);
-    List<Map<String, Object>> activityMapList = new ArrayList<Map<String, Object>>();
-    for (SchoolActivity a : activitList.getDatalist()) {
-      Map<String, Object> activityMap = new HashMap<String, Object>();
-      SchoolActivityTracks at = new SchoolActivityTracks();
-      at.setActivityId(a.getId());
-      at.setUserId(us.getUserId());
-      at.setSpaceId(searchVo.getSpaceId());
-      List<SchoolActivityTracks> trackList = schoolActivityTracksService.findAll(at);
-      Discuss ad = new Discuss();
-      ad.setActivityId(a.getId());
-      ad.setCrtId(us.getUserId());
-      ad.setSpaceId(searchVo.getSpaceId());
-      ad.setTypeId(ResTypeConstants.SCHOOLTEACH);
-      List<Discuss> discussList = discussService.findAll(ad);
-      activityMap.put("activity", a);
-      activityMap.put("trackList", trackList);
-      activityMap.put("discussList", discussList);
-      activityMapList.add(activityMap);
-    }
-    m.addAttribute("activityMapList", activityMapList);
-    m.addAttribute("searchVo", searchVo);
-    m.addAttribute("userSpace", us);
-    m.addAttribute("activityList", activitList);
-    m.addAttribute("user", user);
-    m.addAttribute("gradeName", MetaUtils.getMeta(us.getGradeId()).getName());
-    m.addAttribute("subjectName", MetaUtils.getMeta(us.getSubjectId()).getName());
-  }
-
-  /**
-   * 获取撰写和分享的计划总结数据集合
-   * 
-   * @param searchVo
-   * @param m
-   * @see com.tmser.tr.teachingView.service.TeachingViewService#getSummaryDataList(com.tmser.tr.teachingview.vo.SearchVo,
-   *      org.springframework.ui.Model)
-   * @author wangdawei
-   */
-  @Override
-  public void getSummaryDataList(SearchVo searchVo, Model m) {
-    UserSpace us = userSpaceService.findOne(searchVo.getSpaceId());
-    User user = userService.findOne(us.getUserId());
-    searchVo = setDateRange(searchVo);
-    PlainSummary ps = new PlainSummary();
-    ps.setUserId(us.getUserId());
-    ps.setUserRoleId(us.getRoleId());
-    ps.setGradeId(us.getGradeId());
-    ps.setSubjectId(us.getSubjectId());
-    ps.setPhaseId(us.getPhaseId());
-    Map<String, Object> paramMap = new HashMap<String, Object>();
-    paramMap.put("startTime", searchVo.getStartTime());
-    paramMap.put("endTime", searchVo.getEndTime());
-    ps.addCustomCondition(
-        " and crtDttm>=:startTime and crtDttm<:endTime and (category=:category1 or category=:category2)", paramMap);
-    paramMap.put("category1", 1);
-    paramMap.put("category2", 3);
-    Integer planCount = planSummaryService.count(ps);
-    if ((searchVo.getFlags() == null && searchVo.getFlago() == null)
-        || ("0".equals(searchVo.getFlags()) && "0".equals(searchVo.getFlago()))) {
-      List<PlainSummary> planList = planSummaryService.findAll(ps);
-      m.addAttribute("dataList", planList);
-    }
-    paramMap.put("category1", 2);
-    paramMap.put("category2", 4);
-    Integer summaryCount = planSummaryService.count(ps);
-    if ("0".equals(searchVo.getFlags()) && "1".equals(searchVo.getFlago())) {
-      List<PlainSummary> summaryList = planSummaryService.findAll(ps);
-      m.addAttribute("dataList", summaryList);
-    }
-    ps.setIsShare(1);
-    Integer summaryShareCount = planSummaryService.count(ps);
-    if ("1".equals(searchVo.getFlags()) && "1".equals(searchVo.getFlago())) {
-      List<PlainSummary> summaryShareList = planSummaryService.findAll(ps);
-      m.addAttribute("dataList", summaryShareList);
-    }
-    paramMap.put("category1", 1);
-    paramMap.put("category2", 3);
-    Integer planShareCount = planSummaryService.count(ps);
-    if ("1".equals(searchVo.getFlags()) && "0".equals(searchVo.getFlago())) {
-      List<PlainSummary> planShareList = planSummaryService.findAll(ps);
-      m.addAttribute("dataList", planShareList);
-    }
-    m.addAttribute("planCount", planCount);
-    m.addAttribute("planShareCount", planShareCount);
-    m.addAttribute("summaryCount", summaryCount);
-    m.addAttribute("summaryShareCount", summaryShareCount);
-    m.addAttribute("writeCount", planCount + summaryCount);
-    m.addAttribute("shareCount", planShareCount + summaryShareCount);
-    m.addAttribute("searchVo", searchVo);
-    m.addAttribute("userSpace", us);
-    m.addAttribute("user", user);
-    m.addAttribute("gradeName", MetaUtils.getMeta(us.getGradeId()).getName());
-    m.addAttribute("subjectName", MetaUtils.getMeta(us.getSubjectId()).getName());
-  }
-
-  /**
-   * 获取撰写和分享的教学文章集合
-   * 
-   * @param searchVo
-   * @param m
-   * @see com.tmser.tr.teachingView.service.TeachingViewService#getThesisDataList(com.tmser.tr.teachingview.vo.SearchVo,
-   *      org.springframework.ui.Model)
-   * @author wangdawei
-   */
-  @Override
-  public void getThesisDataList(SearchVo searchVo, Model m) {
-    UserSpace us = userSpaceService.findOne(searchVo.getSpaceId());
-    User user = userService.findOne(us.getUserId());
-    searchVo = setDateRange(searchVo);
-    Thesis thesis = new Thesis();
-    thesis.setEnable(1);
-    thesis.setUserId(us.getUserId());
-    thesis.setOrgId(us.getOrgId());
-    Map<String, Object> paramMap = new HashMap<String, Object>();
-    paramMap.put("startTime", searchVo.getStartTime());
-    paramMap.put("endTime", searchVo.getEndTime());
-    thesis.addCustomCondition(" and crtDttm>=:startTime and crtDttm<:endTime", paramMap);
-    if ("0".equals(searchVo.getFlags())) {
-      thesis.addPage(searchVo.getPage());
-    }
-    thesis.pageSize(28);
-    Integer writeCount = thesisService.count(thesis);
-    PageList<Thesis> writeList = thesisService.findByPage(thesis);
-    thesis.setIsShare(1);
-    thesis.addPage(new Page());
-    if ("1".equals(searchVo.getFlags())) {
-      thesis.addPage(searchVo.getPage());
-    }
-    thesis.pageSize(28);
-    Integer shareCount = thesisService.count(thesis);
-    PageList<Thesis> shareList = thesisService.findByPage(thesis);
-    m.addAttribute("writeCount", writeCount);
-    m.addAttribute("writeList", writeList);
-    m.addAttribute("shareCount", shareCount);
-    m.addAttribute("shareList", shareList);
-    m.addAttribute("searchVo", searchVo);
-    m.addAttribute("userSpace", us);
     m.addAttribute("user", user);
     m.addAttribute("gradeName", MetaUtils.getMeta(us.getGradeId()).getName());
     m.addAttribute("subjectName", MetaUtils.getMeta(us.getSubjectId()).getName());
@@ -1037,12 +804,6 @@ public class TeachingViewServiceImpl implements TeachingViewService {
         recordBagService.saveLessonPlan(record);
       } else if (3 == Recordbag.switchResType(bag.getName())) {
         flag = recordBagService.saveActivity(record, flag, id);
-      } else if (4 == Recordbag.switchResType(bag.getName())) {
-        recordBagService.saveThesis(record, id);
-      } else if (5 == Recordbag.switchResType(bag.getName())) {
-        recordBagService.savePlainSummary(record, id);
-      } else if (6 == Recordbag.switchResType(bag.getName())) {
-        flag = recordBagService.saveLectureRecords(record, flag, id);
       } else {
         Resources res = resService.findOne(record.getPath());
         if (res != null) {
@@ -1725,247 +1486,6 @@ public class TeachingViewServiceImpl implements TeachingViewService {
   }
 
   /**
-   * 获得计划总结可查阅列表
-   * 
-   * @author wangyao
-   * @param searchVo
-   * @return
-   * @see com.tmser.tr.teachingView.service.TeachingViewService#getManagerCheckPlanSummaryDetailData(com.tmser.tr.teachingview.vo.SearchVo)
-   */
-  @Override
-  public Map<String, Object> getManagerCheckPlanSummaryDetailData(SearchVo searchVo) {
-    Map<String, Object> map = new HashMap<String, Object>();
-    List<UserSpace> userSpaceList = getUserList(searchVo);// 用户的所有身份
-    searchVo.setUserSpaceList(userSpaceList);
-    this.setDateRange(searchVo);// 设置时间限制
-    this.getUserSubjectAndGrades(userSpaceList, searchVo);
-
-    List<PlainSummary> planList = new ArrayList<PlainSummary>();
-    this.getPlanSummarySql(userSpaceList, planList, searchVo, 1);
-    List<Integer> planIds = JyCollectionUtils.getValues(planList, "id");
-    Page page1 = new Page();
-    if ("1".equals(searchVo.getFlago())) {
-      page1 = searchVo.getPage();
-    }
-    page1.setPageSize(28);
-    PlainSummary plan = new PlainSummary();
-    plan.addPage(page1);
-    PageList<PlainSummary> planPage = new PageList<PlainSummary>(null, page1);
-    if (!CollectionUtils.isEmpty(planIds)) {
-      plan.buildCondition(" and id in (:ids)").put("ids", planIds);
-      planPage = plainSummaryService.findByPage(plan);
-    }
-    List<PlainSummary> summaryList = new ArrayList<PlainSummary>();
-    this.getPlanSummarySql(userSpaceList, summaryList, searchVo, 2);
-    List<Integer> summaryIds = JyCollectionUtils.getValues(summaryList, "id");
-    Page page2 = new Page();
-    if ("2".equals(searchVo.getFlago())) {
-      page2 = searchVo.getPage();
-    }
-    page2.setPageSize(28);
-    plan.addPage(page2);
-    PageList<PlainSummary> summaryPage = new PageList<PlainSummary>(null, page2);
-    if (!CollectionUtils.isEmpty(summaryIds)) {
-      plan.buildCondition(" and id in (:ids)").put("ids", summaryIds);
-      summaryPage = plainSummaryService.findByPage(plan);
-    }
-    // plan.getPage().setPageSize(28);
-    // paramMap.put("category", Arrays.asList(2));
-    // page2.setTotalCount(summaryList.size());
-    // PageList<PlainSummary> summaryPage = new
-    // PageList<PlainSummary>(summaryList, page2);
-    map.put("chekInfoPlanData", getCheckInfo(searchVo, String.valueOf(ResTypeConstants.TPPLAIN_SUMMARY_PLIAN)));
-    map.put("chekInfoSummaryData", getCheckInfo(searchVo, String.valueOf(ResTypeConstants.TPPLAIN_SUMMARY_SUMMARY)));
-    map.put("planPage", planPage);
-    map.put("summaryPage", summaryPage);
-    return map;
-  }
-
-  /**
-   * @param userSpaceList
-   * @param planSummaryList
-   * @param searchVo
-   * @param type
-   */
-  private void getPlanSummarySql(List<UserSpace> userSpaceList, List<PlainSummary> planSummaryList, SearchVo searchVo,
-      int type) {
-    for (UserSpace userSpace : userSpaceList) {
-      Map<String, Object> paramMap = new HashMap<String, Object>();
-      Integer sysRoleId = userSpace.getSysRoleId();
-      StringBuilder sql = new StringBuilder();
-      PlainSummary plan = new PlainSummary();
-      plan.addAlias("p");
-      plan.addCustomCulomn(" DISTINCT p.id ");
-      if (sysRoleId != null && !SysRole.TEACHER.getId().equals(sysRoleId)) {
-        if (SysRole.XKZZ.getId().equals(sysRoleId)) { // 学科组长
-          plan.addJoin(
-              JOINTYPE.INNER,
-              "(select id,roleId,userId,gradeId,subjectId from UserSpace where enable = :enable and orgId = :orgId and schoolYear = :schoolYear"
-                  + " and phaseId = :phaseId and subjectId = :subjectId and sysRoleId = :sysRoleId and userId <> :userId) s")
-              .on("p.gradeId = s.grade_id and p.userId=s.user_id and p.subjectId = s.subject_id");
-        } else if (SysRole.NJZZ.getId().equals(sysRoleId)) { // 年级组长
-          plan.addJoin(
-              JOINTYPE.INNER,
-              "(select id,roleId,userId,gradeId,subjectId from UserSpace where enable = :enable and orgId = :orgId and schoolYear = :schoolYear"
-                  + " and phaseId = :phaseId and gradeId = :gradeId and sysRoleId = :sysRoleId and userId <> :userId) s")
-              .on("p.gradeId = s.grade_id and p.userId=s.user_id and p.subjectId = s.subject_id");
-        } else if (SysRole.BKZZ.getId().equals(sysRoleId)) { // 备课组长
-          plan.addJoin(
-              JOINTYPE.INNER,
-              "(select id,roleId,userId,gradeId,subjectId from UserSpace where enable = :enable and orgId = :orgId and userId <> :userId and schoolYear = :schoolYear"
-                  + " and phaseId = :phaseId and gradeId = :gradeId and subjectId = :subjectId and sysRoleId = :sysRoleId) s")
-              .on("p.gradeId = s.grade_id and p.userId=s.user_id and p.subjectId = s.subject_id");
-        } else if (SysRole.ZR.getId().equals(sysRoleId)) { // 主任
-          plan.addJoin(
-              JOINTYPE.INNER,
-              "(select id,roleId,userId,gradeId,subjectId from UserSpace where enable = :enable and orgId = :orgId and userId <> :userId and schoolYear = :schoolYear"
-                  + " and phaseId = :phaseId and sysRoleId = :sysRoleId) s").on(
-              "p.gradeId = s.grade_id and p.userId=s.user_id and p.subjectId = s.subject_id");
-        }
-        paramMap.put("schoolYear", userSpace.getSchoolYear());
-        paramMap.put("subjectId", userSpace.getSubjectId());
-        paramMap.put("gradeId", userSpace.getGradeId());
-        paramMap.put("phaseId", searchVo.getPhaseId());
-        paramMap.put("orgId", searchVo.getOrgId());
-        paramMap.put("phaseId", searchVo.getPhaseId());
-        paramMap.put("enable", 1);
-        paramMap.put("userId", searchVo.getUserId());
-        paramMap.put("sysRoleId", SysRole.TEACHER.getId());
-
-        paramMap.put("startTime", searchVo.getStartTime());
-        paramMap.put("endTime", searchVo.getEndTime());
-        paramMap.put("category", Arrays.asList(type));
-        sql.append(" and p.submitTime >= :startTime and p.submitTime < :endTime and p.category in (:category)");
-        plan.addCustomCondition(sql.toString(), paramMap);
-        plan.setIsSubmit(1);
-        plan.setOrgId(searchVo.getOrgId());
-        plan.setPhaseId(searchVo.getPhaseId());
-        plan.addGroup("p.id");
-        plan.addOrder("p.submitTime desc");
-        planSummaryList.addAll(plainSummaryService.findAll(plan));
-      }
-    }
-  }
-
-  /**
-   * 获得计划总结撰写数列表
-   * 
-   * @author wangyao
-   * @param plan
-   * @param searchVo
-   * @return
-   * @see com.tmser.tr.teachingView.service.TeachingViewService#getManagerPersonPlanWriteDetailData(com.tmser.tr.plainsummary.bo.PlainSummary,
-   *      com.tmser.tr.teachingview.vo.SearchVo)
-   */
-  @Override
-  public Map<String, Object> getManagerPersonPlanWriteDetailData(PlainSummary plan, SearchVo searchVo) {
-    Map<String, Object> map = new HashMap<String, Object>();
-    List<UserSpace> userSpaceList = getUserList(searchVo);// 用户的所有身份
-    searchVo.setUserSpaceList(userSpaceList);
-    List<Integer> roleIds = JyCollectionUtils.getValues(userSpaceList, "roleId");
-    this.setDateRange(searchVo);// 设置时间限制
-    String sql = "";
-    plan.setUserId(searchVo.getUserId());
-    plan.setOrgId(searchVo.getOrgId());
-    plan.setPhaseId(searchVo.getPhaseId());
-    Map<String, Object> paramMap = new HashMap<String, Object>();
-    Integer isShare = plan.getIsShare();
-    if (isShare != null && isShare > 0) {
-      sql += " and shareTime >= :startTime and shareTime < :endTime";
-    } else {
-      sql += " and crtDttm >= :startTime and crtDttm < :endTime";
-    }
-    sql += " and category in (:category)";
-    if (String.valueOf(ResTypeConstants.TPPLAIN_SUMMARY_PLIAN).equals(searchVo.getFlags())) {
-      paramMap.put("category", Arrays.asList(1, 3));// 计划
-    } else {
-      paramMap.put("category", Arrays.asList(2, 4));// 总结
-    }
-    if (!CollectionUtils.isEmpty(roleIds)) {
-      sql += " and userRoleId in (:roleIds)";
-      paramMap.put("roleIds", roleIds);
-    }
-    paramMap.put("startTime", searchVo.getStartTime());
-    paramMap.put("endTime", searchVo.getEndTime());
-    plan.addCustomCondition(sql, paramMap);
-    plan.addOrder("crtDttm desc");
-    List<PlainSummary> findAll = plainSummaryService.findAll(plan);
-    map.put("listPage", findAll);
-    map.put("count", findAll.size());
-    return map;
-  }
-
-  /**
-   * 获得听课记录节数列表
-   * 
-   * @author wangyao
-   * @param searchVo
-   * @return
-   * @see com.tmser.tr.teachingView.service.TeachingViewService#getManagerLectureDetailData(com.tmser.tr.teachingview.vo.SearchVo)
-   */
-  @Override
-  public Map<String, Object> getManagerLectureDetailData(SearchVo searchVo) {
-    Map<String, Object> map = new HashMap<String, Object>();
-    List<UserSpace> userSpaceList = getUserList(searchVo);// 用户的所有身份
-    searchVo.setUserSpaceList(userSpaceList);
-    this.setDateRange(searchVo);// 设置时间限制
-    LectureRecords model = new LectureRecords();
-    model.setLecturepeopleId(searchVo.getUserId());// 听课人ID
-    model.setPhaseId(searchVo.getPhaseId());
-    model.setIsDelete(false);// 不删除
-    model.setIsEpub(1);// 发布
-    model.addPage(searchVo.getPage());
-    model.getPage().setPageSize(8);// 设置每页的展示数
-    Map<String, Object> paramMap = new HashMap<String, Object>();
-    String sql = " and crtDttm >= :startTime and crtDttm < :endTime";
-    paramMap.put("startTime", searchVo.getStartTime());
-    paramMap.put("endTime", searchVo.getEndTime());
-    model.addCustomCondition(sql, paramMap);
-    model.addOrder("epubTime desc");// 按照发布时间降序
-    PageList<LectureRecords> plList = lectureRecordsService.findByPage(model);// 查询当前页的评论
-    map.put("listPage", plList);
-    return map;
-  }
-
-  /**
-   * 获得教学文章列表
-   * 
-   * @author wangyao
-   * @param thesis
-   * @param searchVo
-   * @return
-   * @see com.tmser.tr.teachingView.service.TeachingViewService#getManagerThesisDetailData(com.tmser.tr.thesis.bo.Thesis,
-   *      com.tmser.tr.teachingview.vo.SearchVo)
-   */
-  @Override
-  public Map<String, Object> getManagerThesisDetailData(Thesis thesis, SearchVo searchVo) {
-    Map<String, Object> map = new HashMap<String, Object>();
-    List<UserSpace> userSpaceList = getUserList(searchVo);// 用户的所有身份
-    searchVo.setUserSpaceList(userSpaceList);
-    this.setDateRange(searchVo);// 设置时间限制
-    thesis.setUserId(searchVo.getUserId());// 用户Id
-    thesis.setOrgId(searchVo.getOrgId());
-    thesis.setPhaseId(searchVo.getPhaseId());
-    thesis.setEnable(1);// 有效
-    thesis.addOrder("lastupDttm desc");
-    thesis.getPage().setPageSize(35);
-    Map<String, Object> paramMap = new HashMap<String, Object>();
-    Integer isShare = thesis.getIsShare();
-    String sql = "";
-    if (isShare != null && isShare > 0) {
-      sql += " and shareTime >= :startTime and shareTime < :endTime";
-    } else {
-      sql += " and crtDttm >= :startTime and crtDttm < :endTime";
-    }
-    paramMap.put("startTime", searchVo.getStartTime());
-    paramMap.put("endTime", searchVo.getEndTime());
-    thesis.addCustomCondition(sql, paramMap);
-    PageList<Thesis> listPage = thesisService.findByPage(thesis);
-    map.put("listPage", listPage);
-    return map;
-  }
-
-  /**
    * 获得同伴互助留言列表
    * 
    * @author wangyao
@@ -1996,208 +1516,6 @@ public class TeachingViewServiceImpl implements TeachingViewService {
     PageList<JyCompanionMessage> listPage = jyCompanionMessageService.findByPage(message);
     map.put("listPage", listPage);
     return map;
-  }
-
-  /**
-   * 获得发起校际教研列表
-   * 
-   * @author wangyao
-   * @param searchVo
-   * @return
-   * @see com.tmser.tr.teachingView.service.TeachingViewService#getManagerSchActivityDetailData(com.tmser.tr.teachingview.vo.SearchVo)
-   */
-  @SuppressWarnings("unchecked")
-  @Override
-  public Map<String, Object> getManagerSchActivityDetailData(SearchVo searchVo) {
-    Map<String, Object> dataMap = new HashMap<String, Object>();
-    Integer schoolYear = (Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SCHOOLYEAR); // 学年
-    Map<String, Object> circleMap = getCircleMap(searchVo.getOrgId(), schoolYear);
-    boolean isLeader = false;
-    List<UserSpace> userSpaceList = getUserList(searchVo);// 用户的所有身份
-    searchVo.setUserSpaceList(userSpaceList);
-    this.setDateRange(searchVo);// 设置时间
-    for (UserSpace userSpace : userSpaceList) {
-      Integer sysRoleId = userSpace.getSysRoleId();
-      if (SysRole.XKZZ.getId().equals(sysRoleId) || SysRole.BKZZ.getId().equals(sysRoleId)
-          || SysRole.NJZZ.getId().equals(sysRoleId)) {
-        isLeader = true;
-      }
-      if (isLeader)
-        break;// 如果有发起的权限
-    }
-    SchoolActivity sa = new SchoolActivity();
-    PageList<SchoolActivity> listPage = new PageList<SchoolActivity>(null, new Page());
-    if (isLeader) {
-      if ("0".equals(searchVo.getFlago())) {
-        sa.addPage(searchVo.getPage());
-      }
-      sa.getPage().setPageSize(8);
-      ;
-      sa.setStatus(1);// 正式发文
-      sa.setSchoolYear(schoolYear);// 学年
-      String sql = " and createTime >= :startTime and createTime < :endTime";
-      Map<String, Object> paramMap = new HashMap<String, Object>();
-      paramMap.put("startTime", searchVo.getStartTime());
-      paramMap.put("endTime", searchVo.getEndTime());
-      sa.setOrganizeUserId(searchVo.getUserId());
-      sa.setPhaseId(searchVo.getPhaseId());
-      List<Integer> circleIds = (List<Integer>) circleMap.get("circleIds");
-      if (!(circleIds != null && circleIds.size() > 0)) {
-        circleIds = new ArrayList<Integer>();
-        circleIds.add(0);
-      }
-      paramMap.put("circleIds", circleIds);
-      sql += " and schoolTeachCircleId in (:circleIds) ";
-      sa.addCustomCondition(sql, paramMap);
-      sa.addOrder("createTime desc");
-      listPage = schoolActivityService.findByPage(sa);
-    }
-    getTuiChu(listPage, circleMap);
-    dataMap.put("data", listPage);
-    dataMap.put("isPart", isLeader);
-    return dataMap;
-  }
-
-  private void getTuiChu(PageList<SchoolActivity> listPage, Map<String, Object> circleMap) {
-    boolean isTuiChu = false;
-    if (listPage.getDatalist() != null && listPage.getDatalist().size() > 0) {
-      for (SchoolActivity saTemp : listPage.getDatalist()) {
-        @SuppressWarnings("unchecked")
-        List<Integer> listTwo = (List<Integer>) circleMap.get("tuiCircleIds");
-        if (listTwo != null && listTwo.size() > 0) {
-          for (Integer stcId : listTwo) {
-            if (stcId != null && stcId.equals(saTemp.getSchoolTeachCircleId())) {
-              isTuiChu = true;
-              break;
-            }
-          }
-          if (!isTuiChu) {// 没有退出，才进行封装数据
-            SchoolTeachCircleOrg stco = new SchoolTeachCircleOrg();
-            stco.setStcId(saTemp.getSchoolTeachCircleId());
-            stco.addCustomCondition(" and state != " + SchoolTeachCircleOrg.YI_JU_JUE, new HashMap<String, Object>());
-            stco.addOrder("sort asc");
-            saTemp.setStcoList(schoolTeachCircleOrgService.findAll(stco));
-          }
-          saTemp.setIsTuiChu(isTuiChu);
-          isTuiChu = false;
-        } else {
-          saTemp.setIsTuiChu(isTuiChu);
-          SchoolTeachCircleOrg stco = new SchoolTeachCircleOrg();
-          stco.setStcId(saTemp.getSchoolTeachCircleId());
-          stco.addCustomCondition(" and state != " + SchoolTeachCircleOrg.YI_JU_JUE, new HashMap<String, Object>());
-          stco.addOrder("sort asc");
-          saTemp.setStcoList(schoolTeachCircleOrgService.findAll(stco));
-        }
-      }
-    }
-  }
-
-  /**
-   * 获得参与校际教研列表
-   * 
-   * @author wangyao
-   * @param searchVo
-   * @return
-   * @see com.tmser.tr.teachingView.service.TeachingViewService#getManagerPartSchActivityDetailData(com.tmser.tr.teachingview.vo.SearchVo)
-   */
-  @Override
-  public PageList<SchoolActivity> getManagerPartSchActivityDetailData(SearchVo searchVo) {
-    List<UserSpace> userSpaceList = this.getUserList(searchVo);// 用户的所有身份
-    this.setDateRange(searchVo);// 设置时间
-    List<Integer> spaceIds = JyCollectionUtils.getValues(userSpaceList, "id");
-    String sql = " and editType <> :editType and crtDttm >= :startTime and crtDttm < :endTime";
-    Map<String, Object> paramMap = new HashMap<String, Object>();
-    paramMap.put("startTime", searchVo.getStartTime());
-    paramMap.put("endTime", searchVo.getEndTime());
-    List<Integer> resourceSpaceId = new ArrayList<Integer>();
-    paramMap.put("editType", SchoolActivityTracks.ZHUBEI);
-    SchoolActivityTracks tracks = new SchoolActivityTracks();
-    tracks.setUserId(searchVo.getUserId());
-    tracks.setSchoolYear(schoolYearService.getCurrentSchoolYear());
-    if (!CollectionUtils.isEmpty(spaceIds)) {
-      sql += " and spaceId in (:spaceIds)";
-      paramMap.put("spaceIds", spaceIds);
-    }
-    tracks.addOrder(" crtDttm desc");
-    tracks.addCustomCondition(sql, paramMap);
-    List<SchoolActivityTracks> tracksList = schoolActivityTracksService.findAll(tracks);
-    for (SchoolActivityTracks activityTracks : tracksList) {
-      if (activityTracks.getActivityId() != null && !resourceSpaceId.contains(activityTracks.getActivityId())) {
-        resourceSpaceId.add(activityTracks.getActivityId());
-      }
-    }
-    Discuss discuss = new Discuss();
-    String sql1 = " and crtDttm >= :startTime and crtDttm < :endTime";
-    discuss.setCrtId(searchVo.getUserId());
-    if (!CollectionUtils.isEmpty(spaceIds)) {
-      sql1 += " and spaceId in (:spaceIds)";
-      paramMap.put("spaceIds", spaceIds);
-    }
-    discuss.setTypeId(ResTypeConstants.SCHOOLTEACH);
-    discuss.addOrder(" crtDttm desc");
-    discuss.addCustomCondition(sql1, paramMap);
-    List<Discuss> findAllDiscuss = discussService.findAll(discuss);
-    for (Discuss discusses : findAllDiscuss) {
-      if (discusses.getActivityId() != null && !resourceSpaceId.contains(discusses.getActivityId())) {
-        resourceSpaceId.add(discusses.getActivityId());
-      }
-    }
-    SchoolActivity sa = new SchoolActivity();
-    if ("1".equals(searchVo.getFlago())) {
-      sa.addPage(searchVo.getPage());
-    }
-    sa.getPage().setPageSize(8);
-    ;
-    PageList<SchoolActivity> listPage = new PageList<SchoolActivity>(null, new Page());
-    if (!CollectionUtils.isEmpty(resourceSpaceId)) {
-      sa.buildCondition(" and id in (:activityId)").put("activityId", resourceSpaceId);
-      listPage = schoolActivityService.findByPage(sa);
-    }
-    Integer schoolYear = (Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SCHOOLYEAR); // 学年
-    Map<String, Object> circleMap = getCircleMap(searchVo.getOrgId(), schoolYear);
-    getTuiChu(listPage, circleMap);
-    return listPage;
-  }
-
-  /**
-   * 获得的当前用户所在学校参与的教研圈，分别获得所参与教研圈并且状态是通过、恢复 还有就是退出的
-   * 
-   * @author wangyao
-   * @param orgId
-   * @param schoolYear
-   * @return
-   */
-  public Map<String, Object> getCircleMap(Integer orgId, Integer schoolYear) {
-    Map<String, Object> returnMap = new HashMap<String, Object>();
-    // 查询当前教师所在机构参与的当前学年的教研圈，并且状态分别为（同意：2 恢复：5 和 退出：4）,其中退出只能查看退出之前的信息
-    SchoolTeachCircleOrg stco = new SchoolTeachCircleOrg();
-    stco.setSchoolYear(schoolYear);
-    stco.setOrgId(orgId);
-    List<Integer> states = new ArrayList<Integer>();
-    states.add(SchoolTeachCircleOrg.YI_TONG_YI);
-    states.add(SchoolTeachCircleOrg.YI_HUI_FU);
-    Map<String, Object> map = new HashMap<String, Object>();
-    map.put("states", states);
-    stco.addCustomCondition("and state in (:states) ", map);
-    stco.addGroup("stcId");
-    List<SchoolTeachCircleOrg> listOne = schoolTeachCircleOrgService.findAll(stco);
-    states = new ArrayList<Integer>();
-    states.add(SchoolTeachCircleOrg.YI_TUI_CHU);
-    map.put("states", states);
-    List<SchoolTeachCircleOrg> listTwo = schoolTeachCircleOrgService.findAll(stco);
-    // 教研圈Ids
-    List<Integer> circleIds = new ArrayList<Integer>();
-    List<Integer> tuiCircleIds = new ArrayList<Integer>();
-    for (SchoolTeachCircleOrg stco1 : listOne) {
-      circleIds.add(stco1.getStcId());
-    }
-    for (SchoolTeachCircleOrg stco2 : listTwo) {
-      circleIds.add(stco2.getStcId());
-      tuiCircleIds.add(stco2.getStcId());
-    }
-    returnMap.put("circleIds", circleIds);
-    returnMap.put("tuiCircleIds", tuiCircleIds);
-    return returnMap;
   }
 
   /**
@@ -2307,181 +1625,9 @@ public class TeachingViewServiceImpl implements TeachingViewService {
     m.addAttribute("data", plList);// 按照分页进行查询
     m.addAttribute("huifuMap", huifuMap);// 回复map的集合
     m.addAttribute("model", info);
-    m.addAttribute("containsInput", "true".equalsIgnoreCase(info.getFlags()) || "1".equals(info.getFlags()) ? "1" : "0");
+    m.addAttribute("containsInput",
+        "true".equalsIgnoreCase(info.getFlags()) || "1".equals(info.getFlags()) ? "1" : "0");
     m.addAttribute("titleShow", (info.getTitleShow() != null && info.getTitleShow() == true) ? "1" : "0");
-  }
-
-  @Override
-  public Map<String, Object> findAllSubmitThesis(SearchVo searchVo) {
-    Map<String, Object> map = new HashMap<String, Object>();
-    List<UserSpace> userSpaceList = getUserList(searchVo);// 用户的所有身份
-    searchVo.setUserSpaceList(userSpaceList);
-    this.setDateRange(searchVo);// 设置时间限制
-    this.getUserSubjectAndGrades(userSpaceList, searchVo);
-
-    List<Thesis> thesisList = new ArrayList<Thesis>();
-    List<Thesis> thesisLists = new ArrayList<Thesis>();
-    this.getThesisData(userSpaceList, thesisList, searchVo);
-    map.put("chekInfoThesisData", getCheckInfo(searchVo, String.valueOf(ResTypeConstants.JIAOXUELUNWEN)));
-    List<Integer> thesisIds = new ArrayList<Integer>();
-    for (Thesis thesis : thesisList) {// 多个身份id去重
-      if (thesis != null && thesis.getId() != null) {
-        if (!thesisIds.contains(thesis.getId())) {
-          thesisIds.add(thesis.getId());
-          thesisLists.add(thesis);
-        }
-      }
-    }
-    map.put("thesisList", thesisLists);
-    return map;
-  }
-
-  @Override
-  public Map<String, Object> findAllSubmitLecture(SearchVo searchVo) {
-    Map<String, Object> map = new HashMap<String, Object>();
-    List<UserSpace> userSpaceList = getUserList(searchVo);// 用户的所有身份
-    searchVo.setUserSpaceList(userSpaceList);
-    this.setDateRange(searchVo);// 设置时间限制
-    this.getUserSubjectAndGrades(userSpaceList, searchVo);
-
-    List<LectureRecords> lectureList = new ArrayList<LectureRecords>();
-    this.getLectureSubmitData(userSpaceList, lectureList, searchVo);
-    map.put("chekInfoLectureData", getCheckInfo(searchVo, String.valueOf(ResTypeConstants.LECTURE)));
-    searchVo.getPage().setPageSize(15);
-    PageList<LectureRecords> listPage = new PageList<LectureRecords>(null, searchVo.getPage());
-    LectureRecords lecture = new LectureRecords();
-    lecture.addPage(searchVo.getPage());
-    List<Integer> ids = JyCollectionUtils.getValues(lectureList, "id");
-    if (!CollectionUtils.isEmpty(ids)) {
-      lecture.buildCondition(" and id in (:ids)").put("ids", ids);
-      listPage = lectureRecordsService.findByPage(lecture);
-    }
-    map.put("lectureList", listPage);
-    return map;
-  }
-
-  private void getThesisData(List<UserSpace> userSpaceList, List<Thesis> thesisList, SearchVo searchVo) {
-    for (UserSpace userSpace : userSpaceList) {
-      Map<String, Object> paramMap = new HashMap<String, Object>();
-      Integer sysRoleId = userSpace.getSysRoleId();
-      StringBuilder sql = new StringBuilder();
-      Thesis plan = new Thesis();
-      plan.addAlias("t");
-      plan.addCustomCulomn(" DISTINCT t.* ");
-      if (sysRoleId != null && !SysRole.TEACHER.getId().equals(sysRoleId)) {
-        if (SysRole.XKZZ.getId().equals(sysRoleId)) { // 学科组长
-          plan.addJoin(
-              JOINTYPE.INNER,
-              "(select id,roleId,userId,gradeId,subjectId from UserSpace where enable = :enable and orgId = :orgId and schoolYear = :schoolYear"
-                  + " and phaseId = :phaseId and subjectId = :subjectId and sysRoleId = :sysRoleId) s").on(
-              "t.userId=s.user_id");
-        } else if (SysRole.NJZZ.getId().equals(sysRoleId)) { // 年级组长
-          plan.addJoin(
-              JOINTYPE.INNER,
-              "(select id,roleId,userId,gradeId,subjectId from UserSpace where enable = :enable and orgId = :orgId and schoolYear = :schoolYear"
-                  + " and phaseId = :phaseId and gradeId = :gradeId and sysRoleId = :sysRoleId) s").on(
-              "t.userId=s.user_id");
-        } else if (SysRole.BKZZ.getId().equals(sysRoleId)) { // 备课组长
-          plan.addJoin(
-              JOINTYPE.INNER,
-              "(select id,roleId,userId,gradeId,subjectId from UserSpace where enable = :enable and orgId = :orgId and schoolYear = :schoolYear"
-                  + " and phaseId = :phaseId and gradeId = :gradeId and subjectId = :subjectId and sysRoleId = :sysRoleId) s")
-              .on("t.userId=s.user_id");
-        } else if (SysRole.ZR.getId().equals(sysRoleId)) { // 主任
-          plan.addJoin(
-              JOINTYPE.INNER,
-              "(select id,roleId,userId,gradeId,subjectId from UserSpace where enable = :enable and orgId = :orgId and schoolYear = :schoolYear"
-                  + " and phaseId = :phaseId and sysRoleId in (:sysRoleIds)) s").on("t.userId=s.user_id");
-        }
-        paramMap.put("schoolYear", userSpace.getSchoolYear());
-        paramMap.put("subjectId", userSpace.getSubjectId());
-        paramMap.put("gradeId", userSpace.getGradeId());
-        paramMap.put("phaseId", searchVo.getPhaseId());
-        paramMap.put("orgId", searchVo.getOrgId());
-        paramMap.put("phaseId", searchVo.getPhaseId());
-        paramMap.put("enable", 1);
-        paramMap.put("userId", searchVo.getUserId());
-        paramMap.put("sysRoleId", SysRole.TEACHER.getId());
-        paramMap.put("sysRoleIds",
-            Arrays.asList(SysRole.XKZZ.getId(), SysRole.NJZZ.getId(), SysRole.BKZZ.getId(), SysRole.TEACHER.getId()));
-
-        paramMap.put("startTime", searchVo.getStartTime());
-        paramMap.put("endTime", searchVo.getEndTime());
-        sql.append(" and t.submitTime >= :startTime and t.submitTime < :endTime");
-        plan.addCustomCondition(sql.toString(), paramMap);
-        plan.setIsSubmit(1);
-        plan.setOrgId(searchVo.getOrgId());
-        plan.setPhaseId(searchVo.getPhaseId());
-        plan.addGroup("t.id");
-        plan.addOrder("t.submitTime desc");
-        thesisList.addAll(thesisService.findAll(plan));
-      }
-    }
-  }
-
-  private void getLectureSubmitData(List<UserSpace> userSpaceList, List<LectureRecords> lectureList, SearchVo searchVo) {
-    for (UserSpace userSpace : userSpaceList) {
-      Map<String, Object> paramMap = new HashMap<String, Object>();
-      Integer sysRoleId = userSpace.getSysRoleId();
-      StringBuilder sql = new StringBuilder();
-      LectureRecords lecture = new LectureRecords();
-      lecture.addAlias("t");
-      lecture.addCustomCulomn(" DISTINCT t.* ");
-      if (sysRoleId != null && !SysRole.TEACHER.getId().equals(sysRoleId)) {
-        if (SysRole.XKZZ.getId().equals(sysRoleId)) { // 学科组长
-          lecture
-              .addJoin(
-                  JOINTYPE.INNER,
-                  "(select id,roleId,userId,gradeId,subjectId from UserSpace where enable = :enable and orgId = :orgId and schoolYear = :schoolYear"
-                      + " and phaseId = :phaseId and subjectId = :subjectId and sysRoleId = :sysRoleId) s").on(
-                  "t.lecturepeopleId=s.user_id");
-        } else if (SysRole.NJZZ.getId().equals(sysRoleId)) { // 年级组长
-          lecture
-              .addJoin(
-                  JOINTYPE.INNER,
-                  "(select id,roleId,userId,gradeId,subjectId from UserSpace where enable = :enable and orgId = :orgId and schoolYear = :schoolYear"
-                      + " and phaseId = :phaseId and gradeId = :gradeId and sysRoleId = :sysRoleId) s").on(
-                  "t.lecturepeopleId=s.user_id");
-        } else if (SysRole.BKZZ.getId().equals(sysRoleId)) { // 备课组长
-          lecture
-              .addJoin(
-                  JOINTYPE.INNER,
-                  "(select id,roleId,userId,gradeId,subjectId from UserSpace where enable = :enable and orgId = :orgId and schoolYear = :schoolYear"
-                      + " and phaseId = :phaseId and gradeId = :gradeId and subjectId = :subjectId and sysRoleId = :sysRoleId) s")
-              .on("t.lecturepeopleId=s.user_id");
-        } else if (SysRole.ZR.getId().equals(sysRoleId)) { // 主任
-          lecture
-              .addJoin(
-                  JOINTYPE.INNER,
-                  "(select id,roleId,userId,gradeId,subjectId from UserSpace where enable = :enable and orgId = :orgId and schoolYear = :schoolYear"
-                      + " and phaseId = :phaseId and sysRoleId in (:sysRoleIds)) s").on("t.lecturepeopleId=s.user_id");
-        }
-        paramMap.put("schoolYear", userSpace.getSchoolYear());
-        paramMap.put("subjectId", userSpace.getSubjectId());
-        paramMap.put("gradeId", userSpace.getGradeId());
-        paramMap.put("phaseId", searchVo.getPhaseId());
-        paramMap.put("orgId", searchVo.getOrgId());
-        paramMap.put("phaseId", searchVo.getPhaseId());
-        paramMap.put("enable", 1);
-        paramMap.put("userId", searchVo.getUserId());
-        paramMap.put("sysRoleId", SysRole.TEACHER.getId());
-        paramMap.put("sysRoleIds",
-            Arrays.asList(SysRole.XKZZ.getId(), SysRole.NJZZ.getId(), SysRole.BKZZ.getId(), SysRole.TEACHER.getId()));
-
-        paramMap.put("startTime", searchVo.getStartTime());
-        paramMap.put("endTime", searchVo.getEndTime());
-        sql.append(" and t.submitTime >= :startTime and t.submitTime < :endTime");
-        lecture.addCustomCondition(sql.toString(), paramMap);
-        lecture.setIsSubmit(1);
-        lecture.setIsDelete(false);
-        lecture.setIsEpub(1);// 正式发文
-        lecture.setOrgId(searchVo.getOrgId());
-        lecture.setPhaseId(searchVo.getPhaseId());
-        lecture.addGroup("t.id");
-        lecture.addOrder("t.submitTime desc");
-        lectureList.addAll(lectureRecordsService.findAll(lecture));
-      }
-    }
   }
 
 }

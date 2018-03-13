@@ -1,30 +1,33 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/include/taglib.jspf"%>
 <html>
-<ui:htmlHeader title="集备意见教案列表"></ui:htmlHeader>
+<ui:mHtmlHeader title="集备意见教案列表"></ui:mHtmlHeader>
 <head>
-	<link rel="stylesheet" href="${ctxStatic }/modules/activity/css/activity.css" media="all">
+	<link rel="stylesheet" href="${ctxStatic }/m/activity/css/activity.css" media="screen">
+	<ui:require module="../m/activity/js"></ui:require>
 <script type="text/javascript">
-//新选项卡查看修改教案
-function scanLessonPlanTrack(resId,orgId){
-	window.open(_WEB_CONTEXT_+"/jy/activity/scanLessonPlanTrack?resId="+resId+"&orgId="+orgId,"hidenframe");
-}
 </script>
 </head>
-<body style="background:#fff;">
-<c:if test="${!empty yijianList }">
-<c:forEach var="yijian" items="${yijianList }">
-<dl class="participant_edit_right_cont_dl">
-	<dd>
-		<img src="${ctxStatic }/common/icon/base/word.png" title="${yijian.planName }" onclick="scanLessonPlanTrack('${yijian.resId}','${yijian.orgId}');">
-	</dd>
-	<dt>${yijian.userName }</dt>
-</dl>
-</c:forEach>
-</c:if>
-<c:if test="${empty yijianList }">
-	<div class="emptyInfo">还没有参与人修改留痕！</div>
-</c:if> 
-<iframe id="hiddenIframe" style="display: none;"></iframe>
+<body>
+	<div class="act_hour_wrap" id="act_hour">
+		<div id="scroller">
+			<div class="act_hour_wrap_tab" > 
+				<c:forEach var="yijian" items="${yijianList }">
+					<div class="hour" resId="${yijian.resId }">
+					<div class="hour_title">教案</div>
+					<h3><ui:sout value="${yijian.planName }" length="21" needEllipsis="true"></ui:sout> </h3>
+					<p><img src="${ctxStatic }/common/icon_m/base/doc.png" /></p>
+					<div class="hour_modified">
+						修改人：${yijian.userName }
+					</div>
+					</div>
+				</c:forEach>
+			</div>
+		</div>
+	</div> 
 </body>
+<script type="text/javascript">
+	require(['list'],function(){	
+	}); 
+</script>
 </html>

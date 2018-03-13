@@ -67,7 +67,7 @@
 								<c:forEach items="${planData.datalist}" var="ps">
 									<dl>
 									    <a href="${ctx}jy/teachingView/view/planSummary/${ps.id}?userId=${searchVo.userId}&flago=manager" target="_blank">
-		 									<dt><img src="${ctxStatic }/common/icon/base/word.png"/></dt>
+		 									<dt><img src="${ctxStatic }/modules/teachingview/images/w_img1.png"/></dt>
 		 									<dd class="article_name" title='<ui:sout value="${ps.title}" escapeXml="true"/>'>
 		 									<c:if test="${ps.category==1}">[个人计划]</c:if><c:if test="${ps.category==2}">[个人总结]</c:if>
 											<c:if test="${ps.category==3}"><c:if test="${jfn:checkSysRole(ps.roleId, 'xkzz')}">[学科计划]</c:if>
@@ -110,7 +110,7 @@
 								<c:forEach items="${summaryPage.datalist }" var="ps">
 									<dl>
 									    <a href="${ctx}jy/teachingView/view/planSummary/${ps.id}?userId=${searchVo.userId}&flago=manager" target="_blank">
-		 									<dt><img src="${ctxStatic }/common/icon/base/word.png"/></dt>
+		 									<dt><img src="${ctxStatic }/modules/teachingview/images/w_img1.png"/></dt>
 		 									<dd class="article_name" title='<ui:sout value="${ps.title}" escapeXml="true"/>'>
 		 									<c:if test="${ps.category==1}">[个人计划]</c:if><c:if test="${ps.category==2}">[个人总结]</c:if>
 											<c:if test="${ps.category==3}"><c:if test="${jfn:checkSysRole(ps.roleId, 'xkzz')}">[学科计划]</c:if>

@@ -27,6 +27,7 @@ import com.tmser.tr.common.web.controller.AbstractController;
 import com.tmser.tr.lessonplan.bo.LessonInfo;
 import com.tmser.tr.lessonplan.bo.LessonPlan;
 import com.tmser.tr.lessonplan.service.LessonInfoService;
+import com.tmser.tr.lessonplan.service.LessonPlanService;
 import com.tmser.tr.manage.meta.bo.Book;
 import com.tmser.tr.manage.meta.bo.BookSync;
 import com.tmser.tr.manage.meta.service.BookService;
@@ -40,7 +41,6 @@ import com.tmser.tr.uc.SysRole;
 import com.tmser.tr.uc.bo.UserSpace;
 import com.tmser.tr.uc.utils.CurrentUserContext;
 import com.tmser.tr.uc.utils.SessionKey;
-import com.tmser.tr.writelessonplan.service.LessonPlanService;
 
 /**
  * <pre>

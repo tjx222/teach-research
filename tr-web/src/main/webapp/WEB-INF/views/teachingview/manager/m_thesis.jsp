@@ -67,7 +67,7 @@
 								<c:forEach items="${thesisWriteData.datalist}" var="data">
 									<dl>
 										<a href="${ctx}jy/teachingView/view/thesisview?id=${data.id}" target="_blank">
-											<dt><img src="${ctxStatic }/common/icon/base/word.png"/></dt>
+											<dt><img src="${ctxStatic }/modules/teachingview/images/w_img1.png"/></dt>
 											<dd class="article_name" title='[${data.thesisType}] ${data.thesisTitle}'>
 												[${data.thesisType}]
 												<ui:sout value="${data.thesisTitle}" length="18"
@@ -103,7 +103,7 @@
 								<c:forEach items="${shareThesisData.datalist }" var="data">
 									<dl>
 									    <a href="${ctx}jy/teachingView/view/thesisview?id=${data.id}" target="_blank">
-											<dt><img src="${ctxStatic }/common/icon/base/word.png"/></dt>
+											<dt><img src="${ctxStatic }/modules/teachingview/images/w_img1.png"/></dt>
 											<dd class="article_name" title='[${data.thesisType}] ${data.thesisTitle}'>
 												[${data.thesisType}]
 												<ui:sout value="${data.thesisTitle}" length="18"

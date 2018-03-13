@@ -1,146 +1,138 @@
 <%@ include file="/WEB-INF/include/taglib.jspf"%>
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<ui:htmlHeader title="课件提交"></ui:htmlHeader>
-	<link rel="stylesheet" href="${ctxStatic }/modules/courseware/css/dlog_submit.css" media="screen">
-	<link rel="stylesheet" href="${ctxStatic }/modules/courseware/css/courseware.css" media="screen">
-	<link rel="stylesheet" href="${ctxStatic }/lib/jquery/css/validationEngine.jquery.css" media="screen"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta charset="UTF-8">
+	<ui:mHtmlHeader title="上传课件"></ui:mHtmlHeader>
+	<link rel="stylesheet" href="${ctxStatic }/m/courseware/css/courseware.css" media="screen">
+	<ui:require module="../m/courseware/js"></ui:require>
 </head>
-<body style="background:#fff;">
-<div class="clear"></div>
-<div class="upload-bottom_submit_big">
-		<div class="upload-bottom_submit_big_tab">
-		   <div style="overflow:auto;height:500px;width: 800px;">
-		<div class="upload-bottom_submit">
-			<p>
-				<input id="quanxuan" type="checkbox" onclick="selectAll(this)"> 
-				<b>全选</b>
-			</p>
-			<c:if test="${isSubmit==0 }">
-				<input type="button" class="submit2" onclick="submitThis(0)" value="提交">
-			</c:if>
-			<c:if test="${isSubmit==1 }">
-				<input type="button" class="submit1" onclick="submitThis(1)" value="取消提交">
-				<span>注意：禁选的课件表示上级领导已查阅，不允许取消提交！</span>
-			</c:if>
+<body>
+<div class="return_1"></div>
+<input type="hidden" id="selectedlessonId" value="${lessonId }" />
+<div class="submit_upload_wrap">
+	<div class="submit_upload">
+		<div class="submit_upload_title">
+			<h3>提交课件</h3>
+			<span class="close"></span>
 		</div>
-		<ul class="expmenu">
-			
-			<!-- 动态数据的遍历展示 -->
-			<c:choose>
-				<c:when test="${not empty dataMap || not empty dataMap2 }">
-					<c:if test="${not empty dataMap }">
-					<li class="top_li">${bookName }</li>
-					<c:forEach var="level1" items="${treeList }" varStatus="statu">
-						<c:if test="${not empty dataMap[level1.lessonId]}">
-							<li id="li_level1_${statu.index }" levelname="level1">
-							<c:if test="${!dataMap[level1.lessonId]['isLeaf'] }">
-							<%--处理父级节点  --%>
-								<p>
-									<input type="checkbox" name="check_${level1.lessonId }" level="parent" child="check_">
-								</p>
-								<a class="header">
-									<span class="label">${level1.lessonName}</span>
-									<span class="arrow up"></span>
-								</a>
-								<ui:submitLesson dataMap="${dataMap }" data="${level1 }" level="${statu.index }" kejian="true"></ui:submitLesson>
-							</c:if>
-							<c:if test="${dataMap[level1.lessonId]['isLeaf'] }">
-							<%--处理叶节点  --%>
-								<p>
-									<input type="checkbox" name="check_${level1.lessonId }" child="check_" level="leaf">
-								</p>
-								<a class="header">
-									<span class="label">${level1.lessonName}</span>
-									<strong>
-										<span id="span_level1_${level1.lessonId }_kejian" style="display: none;"><input type="checkbox" child="check_kejianAll" onclick="checkOrNot(this,'check_kejian');">课件：<span id="span_level1_${level1.lessonId}_kejian_num"></span></span>
-									</strong>
-									<span class="arrow up"></span>
-								</a>
-								<ul class="menu" style="display:none;">
-									<li>
-										<ol class="menu1" id="level1_${level1.lessonId }">
-							               	<c:forEach var="lessonPlan" items="${dataMap[level1.lessonId].kejianList }" varStatus="statu1">
-							                <li typename="kejian">
-							               		<ui:icon ext="${lessonPlan.planType==1?'ppt':'doc' }" title="${lessonPlan.planName }"></ui:icon>
-							               		<span title="${lessonPlan.planName }">课件${statu1.index+1 }</span>
-						               			<input value="${lessonPlan.planId }" type="checkbox" class="li_box" child="check_kejian" name="check_${level1.lessonId }_kejian" <c:if test="${lessonPlan.isScan}">disabled="disabled"</c:if>>
-							               	</li>
-							               	</c:forEach>
-							  			</ol>
-									</li>
-								</ul>
-							</c:if>
-							</li>
-						</c:if>
-						<div class="clear"></div>
-						</c:forEach>
-					</c:if>
-					<c:if test="${not empty dataMap2 }">
-					<li class="top_li">${bookName2 }</li>
-					<c:forEach var="level1" items="${treeList2 }" varStatus="statu">
-						<c:if test="${not empty dataMap2[level1.lessonId]}">
-							<li id="li_level1_${statu.index }" levelname="level1">
-							<c:if test="${!dataMap2[level1.lessonId]['isLeaf'] }">
-							<%--处理父级节点  --%>
-								<p>
-									<input type="checkbox" name="check_${level1.lessonId }" level="parent" child="check_">
-								</p>
-								<a class="header">
-									<span class="label">${level1.lessonName}</span>
-									<span class="arrow up"></span>
-								</a>
-								<ui:submitLesson dataMap="${dataMap2 }" data="${level1 }" level="${statu.index }" kejian="true"></ui:submitLesson>
-							</c:if>
-							<c:if test="${dataMap2[level1.lessonId]['isLeaf'] }">
-							<%--处理叶节点  --%>
-								<p>
-									<input type="checkbox" name="check_${level1.lessonId }" child="check_" level="leaf">
-								</p>
-								<a class="header">
-									<span class="label">${level1.lessonName}</span>
-									<strong>
-										<span id="span_level1_${level1.lessonId }_kejian" style="display: none;"><input type="checkbox" child="check_kejianAll" onclick="checkOrNot(this,'check_kejian');">课件：<span id="span_level1_${level1.lessonId}_kejian_num"></span></span>
-									</strong>
-									<span class="arrow up"></span>
-								</a>
-								<ul class="menu" style="display:none;">
-									<li>
-										<ol class="menu1" id="level1_${level1.lessonId }">
-							               	<c:forEach var="lessonPlan" items="${dataMap2[level1.lessonId].kejianList }" varStatus="statu1">
-							                <li typename="kejian">
-							               		<ui:icon ext="${lessonPlan.planType==1?'ppt':'doc' }" title="${lessonPlan.planName }"></ui:icon>
-							               		<span title="${lessonPlan.planName }">课件${statu1.index+1 }</span>
-						               			<input value="${lessonPlan.planId }" type="checkbox" class="li_box" child="check_kejian" name="check_${level1.lessonId }_kejian" <c:if test="${lessonPlan.isScan}">disabled="disabled"</c:if>>
-							               	</li>
-							               	</c:forEach>
-							  			</ol>
-									</li>
-								</ul>
-							</c:if>
-							</li>
-						</c:if>
-						<div class="clear"></div>
-						</c:forEach>
-					</c:if>
-				</c:when>
-				<c:otherwise>
-					<!-- 无文件 -->
-					<div class="empty_wrap"> 
-					    <div class="empty_info">
-					    	<c:if test="${isSubmit==0 }">您没有可提交的课件!</c:if>
-							<c:if test="${isSubmit==1 }">您没有可取消提交的课件!</c:if>
-						</div> 
-					</div>
-				</c:otherwise>
-			</c:choose>
-					
-		</ul>
+		<div class="submit_upload_content">
+			<div class="submit_width">
+				<q class="dlog_submit"></q>
+				<span>您确定要提交给上级吗？提交后，学校管理者将看到这些内容！</span>
+			</div>
+			<div class="border_bottom"></div>
+			<div>
+				<input type="button" class="btn_confirm" value="确定">
+				<input type="button" class="btn_cencel" value="取消">
+			</div>
+		</div>
 	</div>
 </div>
+<div class="cw_menu_wrap">
+	<div class="cw_menu_list" >
+		<span class="cw_menu_list_top"></span>
+		<div id="wrap2" class="cw_menu_list_wrap1"> 
+			<div id="scroller">
+			<p level="leaf" value="" >全部</p>
+				<div class="p_label" >${fasiciculeName }</div>
+				<c:forEach items="${bookChapters }" var="bookChapter">
+					<c:if test="${bookChapter.isLeaf}">
+						<p level="leaf" value="${bookChapter.lessonId }" >${bookChapter.lessonName } </p>
+					</c:if>
+					<c:if test="${!bookChapter.isLeaf}">
+						<p level="parent" value="${bookChapter.lessonId }">${bookChapter.lessonName } </p>
+						<c:forEach items="${bookChapter.bookLessons }" var="bookChapter2">
+							<c:if test="${bookChapter2.isLeaf}">
+								<p class="cw_menu_2" level="leaf" value="${bookChapter2.lessonId }" >${bookChapter2.lessonName } </p>
+							</c:if>
+							<c:if test="${!bookChapter2.isLeaf}">
+								<p class="cw_menu_2" level="parent" value="${bookChapter2.lessonId }" >${bookChapter2.lessonName } </p>
+								<c:forEach items="${bookChapter2.bookLessons }" var="bookChapter3">
+									<p class="cw_menu_3" level="leaf" value="${bookChapter3.lessonId }">${bookChapter3.lessonName } </p>
+								</c:forEach>
+							</c:if>
+						</c:forEach>
+					</c:if>
+				</c:forEach>
+				<c:if test="${not empty fasiciculeName2 }">
+					<div class="p_label" >${fasiciculeName2 }</div>
+					<c:forEach items="${bookChapters2 }" var="bookChapter">
+						<c:if test="${bookChapter.isLeaf}">
+							<p level="leaf" value="${bookChapter.lessonId }" >${bookChapter.lessonName } </p>
+						</c:if>
+						<c:if test="${!bookChapter.isLeaf}">
+							<p level="parent" value="${bookChapter.lessonId }">${bookChapter.lessonName } </p>
+							<c:forEach items="${bookChapter.bookLessons }" var="bookChapter2">
+								<c:if test="${bookChapter2.isLeaf}">
+									<p class="cw_menu_2" level="leaf" value="${bookChapter2.lessonId }" >${bookChapter2.lessonName } </p>
+								</c:if>
+								<c:if test="${!bookChapter2.isLeaf}">
+									<p class="cw_menu_2" level="parent" value="${bookChapter2.lessonId }" >${bookChapter2.lessonName } </p>
+									<c:forEach items="${bookChapter2.bookLessons }" var="bookChapter3">
+										<p class="cw_menu_3" level="leaf" value="${bookChapter3.lessonId }">${bookChapter3.lessonName } </p>
+									</c:forEach>
+								</c:if>
+							</c:forEach>
+						</c:if>
+					</c:forEach>
+				</c:if>
+			</div>
+		</div>
+	</div> 
+</div>
+<div class="mask"></div>
+<div class="more_wrap_hide" onclick='moreHide()'></div>
+<div id="wrapper">
+	<header>
+		<span onclick="javascript:window.history.go(-1);"></span>提交课件
+		<div class="more" onclick="more()"></div>
+	</header>
+	<section>
+		<div class="content">
+			<div class="content_top">
+				<div class="content_top_left">
+					<input type="button" class="btn_submit" value="提交">
+					<input type="button" class="btn_cencel_r" value="取消">
+					<span act="qx">全选</span>
+				</div>
+				<div class="content_top_right">
+					<label>课题目录：</label>
+					<span id="currentLesson">全部</span>
+					<strong></strong>
+				</div>
+			</div>
+		</div>
+		<div class="content_bottom" id="wrap">
+			<div id="scroller">
+				<div class="content_bottom_width">
+					<c:forEach var="kejian" items="${coursewareList.datalist }">
+					<jy:ds key="${kejian.resId }" className="com.tmser.tr.manage.resources.service.ResourcesService" var="res"/>
+						<div class="courseware_img">
+						<div class="courseware_img_1">课件</div>
+						<h3>${kejian.planName }</h3>
+						<p><ui:icon ext="${res.ext }" title="${kejian.planName }"></ui:icon></p>
+						<div class="courseware_img_2"></div>
+						<div class="courseware_img_3"></div>
+						<c:if test="${kejian.isSubmit }">
+						<div id="${kejian.planId }" class="cw_option_mask_act3"></div>
+						</c:if>
+						<c:if test="${!kejian.isSubmit }">
+						<div id="${kejian.planId }" class="cw_option_mask_act1"></div>
+						</c:if>
+						</div>
+					</c:forEach>
+				</div>
+			</div>
+		</div>
+	</section>
 </div>
 </body>
-	<script src="${ctxStatic }/modules/courseware/js/courseware_submit.js"></script>
+<script type="text/javascript"> 
+require(['submit'],function(){	
+});
+
+</script>
 </html>

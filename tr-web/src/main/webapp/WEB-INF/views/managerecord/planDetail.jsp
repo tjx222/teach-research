@@ -1,156 +1,80 @@
 <%@ include file="/WEB-INF/include/taglib.jspf"%>
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<ui:htmlHeader title="计划总结"></ui:htmlHeader>
-	<link rel="stylesheet" href="${ctxStatic }/modules/managerecord/css/check_detail.css" media="screen">
-	<style type="text/css">
-	.Pre_cont_right_1_dl{
-		width:1170px;
-		height:auto;
-		min-height:500px;
-		margin:0 auto;
-	}
-	.record_reco_cont{
-		width:582px;
-		float:left;
-		min-height:490px;
-		height:auto;
-		margin-bottom:0;
-	}
-	.record_reco_3{
-		width:572px;
-		height:30px;
-		line-height:30px;
-		font-size:16px;
-		font-weight:bold;
-		border:0;
-		border-bottom:1px #51c7f8 dashed;
-		padding-left:10px;
-	}
-	.record_dl{
-		margin:6px;
-	}
-	</style>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta charset="UTF-8">
+	<ui:mHtmlHeader title="管理记录"></ui:mHtmlHeader>
+	<link rel="stylesheet" href="${ctxStatic }/m/managerecord/css/managerecord.css" media="screen" />
+	<ui:require module="../m/managerecord/js"></ui:require>	
 </head>
 <body>
-	<div class="wrapper"> 
-		<div class='jyyl_top'>
-		<ui:tchTop style="1" modelName="计划总结"></ui:tchTop>
+<div class="semester_wrapper">
+	<div class="semester_wrap" style="top:18%;">
+		<span class="check_menu_top"></span>
+		<div class="semester_wrap1">  
+			<p data-term="0">上学期</p>
+			<p data-term="1">下学期</p> 
 		</div>
-		<div class="jyyl_nav">
-			当前位置：<jy:nav id="jxgljl_jhzj"></jy:nav>
-		</div>
-		<div class="clear"></div>
-		<div class="record_reco">
-				<h3>
-					<ul id="UL">
-						<c:if test='${empty listType || listType==0 }'>
-							<li class="record_act1" value="0" onclick="toCheckInfo(this.value);">撰写（${count}）</li>
-							<li class="record_act" value="1" onclick="toCheckInfo(this.value);">分享（${shareCount }）</li>
-						</c:if>
-						<c:if test='${listType==1 }'>
-							<li class="record_act" value="0" onclick="toCheckInfo(this.value);">撰写（${count}）</li>
-							<li class="record_act1" value="1" onclick="toCheckInfo(this.value);">分享（${shareCount }）</li>
-						</c:if>
-					</ul>
-					<label style="float: right;margin-right:10px;margin-top:15px;"> 
-						学期：
-						<input name="term"  style="vertical-align:middle;margin-top:-3px;" type="radio" value="0"  <c:if test="${term==0}">checked="checked" </c:if> onclick="toCheckInfo1(this);"  >
-					    上学期
-					    <input name="term"  style="vertical-align: middle;margin-top:-3px;" type="radio" value="1"  <c:if test="${term==1}">checked="checked" </c:if> onclick="toCheckInfo1(this);"  >
-					    下学期
-					</label>
-				</h3>
-				<div class="clear"></div>
-				<div class="Pre_cont_right_1_dl">
-					<div class="record_reco_cont"  style="border-right:1px #51c7f8 dashed;">
-						<div class="record_reco_3">计划（${listCount }）</div>
-						<div class="clear"></div>
-						<div style="width:572px;height:480px;overflow:auto;">
-							<c:forEach var="ps" items="${list }">
-								<div class="record_dl" onclick="viewCheckInfo('${ps.id}');">
-								<dl class="fileIcon" data-id="${ps.id }">
-									<dd>
-										<ui:icon ext="${ps.contentFileType }"></ui:icon>
-									</dd>
-									<dt>
-										
-										<span>
-											<a href="javascript:void(0);" title='<ui:sout value="${ps.title}" escapeXml="true"/>'>
-												<ui:sout value="${ps.title}" escapeXml="true" length="20" needEllipsis="true"/>
-											 </a>
-											 <br>
-											 <fmt:formatDate value="${ps.lastupDttm}" pattern="yyyy-MM-dd"/>
-										</span>
-									</dt>
-								</dl>
-									<c:if test='${empty listType || listType==0 }'>
-											<c:if test="${ps.isCheck!=0 }">
-												<strong class="trans"></strong>
-											</c:if>
-								   </c:if>
-								   		<c:if test='${ listType==1 &&ps.isReview!=0}'>
-										      <strong class="trans1"><b>${ ps.reviewNum}</b></strong>
-										</c:if>
-								</div>
-							</c:forEach>
-						</div>
-					</div>
-					<div class="record_reco_cont" >
-						<div class="record_reco_3">总结（${zCount }）</div>
-						<div class="clear"></div>
-						<div style="width:465px;height:480px;overflow:auto;">
-							<c:forEach var="ps" items="${zlist }">
-								<div class="record_dl" onclick="viewCheckInfo('${ps.id}');">
-										<dl class="fileIcon" data-id="${ps.id }">
-											<dd>
-												<ui:icon ext="${ps.contentFileType }"></ui:icon>
-											</dd>
-											<dt>
-												 <span>
-													<a href="javascript:void(0);" title='<ui:sout value="${ps.title}" escapeXml="true"/>'>
-														<ui:sout value="${ps.title}" escapeXml="true" length="20" needEllipsis="true"/>
-													 </a>
-													 <br>
-													 <fmt:formatDate value="${ps.lastupDttm}" pattern="yyyy-MM-dd"/>
-												</span>
-											</dt>
-										</dl>
-										<c:if test='${empty listType || listType==0 }'>
-											<c:if test="${ps.isCheck!=0 }">
-												<strong class="trans"></strong>
-											</c:if>
-										</c:if>
-										<c:if test='${ listType==1 &&ps.isReview!=0}'>
-											<strong class="trans1"><b>${ ps.reviewNum}</b></strong>
-										</c:if>
-								</div>
-							</c:forEach>
-						</div>
-					</div>
-				</div>
-				<div class="clear"></div>
-			</div>
-		<div class="clear"></div>
-	<ui:htmlFooter style="1"></ui:htmlFooter>
 	</div>
+</div>
+<div class="mask"></div>
+<div class="more_wrap_hide" onclick='moreHide()'></div>
+<div id="wrapper">
+	<header>
+		<span onclick="javascript:window.history.go(-${empty param._HS_ ? 1 : param._HS_ });"></span>
+		<ul>
+			<li><a class="${listType==0?'com_header_act':''}" data-type="0">撰写(${count})</a></li>
+			<li><a class="${listType==1?'com_header_act':''}" data-type="1">分享(${shareCount })</a></li>
+		</ul>
+		<div class="more" onclick="more()"></div>
+	</header>
+	<section>
+	    <form id="hiddenForm" action="${ctx }jy/managerecord/planDetail?_HS_=${empty param._HS_ ? 2 :param._HS_+1 }" method="post">
+			<input id="hid_term" type="hidden" name="term" value="${term }">
+			<input id="hid_listType" type="hidden" name="listType" value="${listType }">
+	    </form>
+		<div class="managerecord_bottom_wrap">
+			<div class="managerecord_check_top" style="width: 90%;height:6rem;margin: 0 auto;border-bottom:0.083rem solid #D0D1D2; ">
+				<div class="managerecord_slide">
+					<span class="mana_act" data-type="0">计划(${listCount })</span><span data-type="1">总结(${zCount })</span>
+				</div>
+				<div class="semester" style="margin-right:8rem;">
+				   <c:if test="${empty term||term==0}">上学期</c:if> <c:if test="${term==1}">下学期</c:if>
+				  <strong></strong>
+				</div>
+			</div>
+			<div class="referCourseware_cont_box" id="planbox">
+				<div class="referCourseware_cont_box1">
+				    <c:forEach var="ps" items="${list }">
+						<div class="courseware_ppt" data-id="${ps.contentFileKey}">
+							<div class="courseware_img_fs">计划</div>
+							<h3 title="${ps.title}"><ui:sout value="${ps.title}" escapeXml="true" length="20" needEllipsis="true"/></h3>
+							<p><img src="${ctxStatic }/m/check/images/ppt.png" /></p> 
+						</div> 
+					</c:forEach>
+				</div>
+				<c:if test="${empty list }"><div class="content_k"><dl><dd></dd><dt>您还没有可撰写的计划总结，请稍后再来吧！</dt></dl></div></c:if>
+			</div>
+			<div class="referCourseware_cont_sum_box" style="display:none;">
+				<div class="referCourseware_cont_sum_box1">
+				    <c:forEach var="ps" items="${zlist }">
+						<div class="planSummary_ppt" data-id="${ps.contentFileKey}">
+							<div class="courseware_img_fs">总结</div>
+							<h3 title="${ps.title}"><ui:sout value="${ps.title}" escapeXml="true" length="20" needEllipsis="true"/></h3>
+							<p><img src="${ctxStatic }/m/check/images/ppt.png" /></p> 
+						</div> 
+					</c:forEach>
+				</div>
+				<c:if test="${empty zlist }"><div class="content_k"><dl><dd></dd><dt>您还没有可分享的计划总结，请稍后再来吧！</dt></dl></div></c:if>
+			</div>
+		</div>
+	</section>
+</div>
 </body>
 <script type="text/javascript">
-var currentTerm = '${term}';
-var listType = '${listType}';
-function toCheckInfo(listType){
-	location.href = _WEB_CONTEXT_ + "/jy/managerecord/planDetail?listType="+listType+"&term="+currentTerm
-}
-function toCheckInfo1(obj){
-	location.href = _WEB_CONTEXT_ + "/jy/managerecord/planDetail?listType="+listType+"&term="+$(obj).val();
-}
-function viewCheckInfo(planInfoId){
-	window
-	.open(_WEB_CONTEXT_ + '/jy/planSummary/'
-			+ planInfoId
-			+ '/viewFile', '');
-}
+	require(['zepto','plandetail'],function($){	
+	});  
 </script>
-</html>
+</html> 

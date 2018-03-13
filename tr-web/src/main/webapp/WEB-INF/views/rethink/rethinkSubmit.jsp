@@ -1,186 +1,95 @@
 <%@ include file="/WEB-INF/include/taglib.jspf"%>
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<ui:htmlHeader title="教学反思"></ui:htmlHeader>
-	<link rel="stylesheet" href="${ctxStatic }/modules/rethink/css/dlog_rethink.css" media="screen">
-	<link rel="stylesheet" href="${ctxStatic }/lib/jquery/css/validationEngine.jquery.css" media="screen"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta charset="UTF-8">
+	<ui:mHtmlHeader title="反思提交"></ui:mHtmlHeader>
+	<link rel="stylesheet" href="${ctxStatic }/m/rethink/css/rethink.css" media="screen">
+	<ui:require module="../m/rethink/js"></ui:require>
 </head>
-<body style="background:#fff;">
-<div class="clear"></div>
-<div class="upload-bottom_submit_big">
-		<div class="upload-bottom_submit_big_tab">
-		   <div style="overflow:auto;height:558px;width: 800px;">
-		<div class="upload-bottom_submit">
-			<p>
-				<input id="quanxuan" type="checkbox" onclick="selectAll(this)"> <b>全选</b>
-			</p>
-			<c:if test="${isSubmit==0 }">
-				<input type="button" class="submit2" onclick="submitThis(0)" value="提交">
-			</c:if>
-			<c:if test="${isSubmit==1 }">
-				<input type="button" class="submit1" onclick="submitThis(1)" value="取消提交">
-				<span>注意：禁选的反思表示上级领导已查阅，不允许取消提交！</span>
-			</c:if>
+<body>
+<input type="hidden" id="planTypeIdHid" value="${planType }" />
+<div class="submit_upload_wrap">
+	<div class="submit_upload">
+		<div class="submit_upload_title">
+			<h3>提交反思</h3>
+			<span class="close"></span>
 		</div>
-		
-		<div class="expmenu_wrap_left">
-			<h3>
-				<input type="checkbox" class="kh" onclick="selectKHfansi(this)">
-				<b>课后反思</b>
-			</h3>
-			<div class="expmenu_wrap_left_ul">
-				<ul class="expmenu">  
-				<!-- 动态数据的遍历展示 -->
-					<c:choose>
-						<c:when test="${not empty dataMap || not empty dataMap2 }">
-						<c:if test="${not empty dataMap }">
-							<li class="top_li">${bookName }</li>
-							<c:forEach var="level1" items="${treeList }" varStatus="statu">
-							<c:if test="${not empty dataMap[level1.lessonId]}">
-								<li id="li_level1_${statu.index }" levelname="level1">
-								<c:if test="${!dataMap[level1.lessonId]['isLeaf'] }">
-								<%--处理父级节点  --%>
-									<p>
-										<input type="checkbox" name="check_${level1.lessonId }" level="parent" child="check_">
-									</p>
-									<a class="header">
-										<span class="label">${level1.lessonName}</span>
-										<span class="arrow up"></span>
-									</a>
-									<ui:submitLesson dataMap="${dataMap}" data="${level1 }" level="${statu.index }" fansi="true"></ui:submitLesson>
-								</c:if>
-								<c:if test="${dataMap[level1.lessonId]['isLeaf'] }">
-								<%--处理叶节点  --%>
-									<p>
-										<input type="checkbox" name="check_${level1.lessonId }" child="check_" level="leaf">
-									</p>
-									<a class="header">
-										<span class="label">${level1.lessonName}</span>
-										<strong>
-											<span id="span_level1_${level1.lessonId }_fansi" style="display: none;"><input type="checkbox" child="check_fansiAll" onclick="checkOrNot(this,'check_fansi');">反思：<span id="span_level1_${level1.lessonId }_fansi_num"></span></span>
-										</strong>
-										<span class="arrow up"></span>
-									</a>
-									<ul class="menu" style="display:none;">
-										<li>
-											<ol class="menu1" id="level1_${level1.lessonId }">
-								               	<c:forEach var="lessonPlan" items="${dataMap[level1.lessonId].fansiList }" varStatus="statu1">
-								                <li typename="fansi">
-								               		<ui:icon ext="${lessonPlan.planType==1?'ppt':'doc' }" title="${lessonPlan.planName }"></ui:icon>
-								               		<span title="${lessonPlan.planName }">反思${statu1.index+1 }</span>
-							               			<input value="${lessonPlan.planId }" type="checkbox" class="li_box" child="check_fansi" name="check_${level1.lessonId }_fansi" <c:if test="${lessonPlan.isScan}">disabled="disabled"</c:if>>
-								               	</li>
-								               	</c:forEach>
-								  			</ol>
-										</li>
-									</ul>
-								</c:if>
-								</li>
-							</c:if>
-							<div class="clear"></div>
-							</c:forEach>
-						</c:if>
-							<c:if test="${not empty dataMap2 }">
-							<li class="bottom_li">${bookName2 }</li>
-							<c:forEach var="level1" items="${treeList2 }" varStatus="statu">
-							<c:if test="${not empty dataMap2[level1.lessonId]}">
-								<li id="li_level1_${statu.index }" levelname="level1">
-								<c:if test="${!dataMap2[level1.lessonId]['isLeaf'] }">
-								<%--处理父级节点  --%>
-									<p>
-										<input type="checkbox" name="check_${level1.lessonId }" level="parent" child="check_">
-									</p>
-									<a class="header">
-										<span class="label">${level1.lessonName}</span>
-										<span class="arrow up"></span>
-									</a>
-									<ui:submitLesson dataMap="${dataMap2}" data="${level1 }" level="${statu.index }" fansi="true"></ui:submitLesson>
-								</c:if>
-								<c:if test="${dataMap2[level1.lessonId]['isLeaf'] }">
-								<%--处理叶节点  --%>
-									<p>
-										<input type="checkbox" name="check_${level1.lessonId }" child="check_" level="leaf">
-									</p>
-									<a class="header">
-										<span class="label">${level1.lessonName}</span>
-										<strong>
-											<span id="span_level1_${level1.lessonId }_fansi" style="display: none;"><input type="checkbox" child="check_fansiAll" onclick="checkOrNot(this,'check_fansi');">反思：<span id="span_level1_${level1.lessonId }_fansi_num"></span></span>
-										</strong>
-										<span class="arrow up"></span>
-									</a>
-									<ul class="menu" style="display:none;">
-										<li>
-											<ol class="menu1" id="level1_${level1.lessonId }">
-								               	<c:forEach var="lessonPlan" items="${dataMap2[level1.lessonId].fansiList }" varStatus="statu1">
-								                <li typename="fansi">
-								               		<ui:icon ext="${lessonPlan.planType==1?'ppt':'doc' }" title="${lessonPlan.planName }"></ui:icon>
-								               		<span title="${lessonPlan.planName }">反思${statu1.index+1 }</span>
-							               			<input value="${lessonPlan.planId }" type="checkbox" class="li_box" child="check_fansi" name="check_${level1.lessonId }_fansi" <c:if test="${lessonPlan.isScan}">disabled="disabled"</c:if>>
-								               	</li>
-								               	</c:forEach>
-								  			</ol>
-										</li>
-									</ul>
-								</c:if>
-								</li>
-							</c:if>
-							<div class="clear"></div>
-							</c:forEach>
-							</c:if>
-						</c:when>
-						<c:otherwise>
-							<!-- 无文件 -->
-							<div class="empty_wrap">
-							    <div class="empty_img"></div>
-							    <div class="empty_info">
-									<c:if test="${isSubmit==0 }">您没有您可提交的课后反思!</c:if>
-									<c:if test="${isSubmit==1 }">您没有您可取消提交的课后反思!</c:if>
-							    </div> 
-							</div>
-						</c:otherwise>
-					</c:choose> 
-				</ul>
+		<div class="submit_upload_content">
+			<div class="submit_width">
+				<q></q>
+				<span>您确定要提交给上级吗？提交后，学校管理者将看到这些内容！</span>
 			</div>
-		</div>
-		<div class="expmenu_wrap_right">
-			<h3>
-				<input type="checkbox" class="qtfs" onclick="selectQTfansi(this)">
-				<b>其他反思</b>
-			</h3>
-			<div class="expmenu_wrap_right_ul">
-				<ul class="expmenu1"> 
-					<c:choose>
-						<c:when test="${!empty qtSubmitDatas }">
-							<c:forEach items="${qtSubmitDatas }" var="lessonPlan" varStatus="st">
-								<h2 <c:if test="${st.index==0 }">style="margin-top:10px;"</c:if>>
-									<input id="fs_${lessonPlan.planId }" value="${lessonPlan.planId }" name="qtfs" class="<c:if test="${!(isSubmit==1 && lessonPlan.isScan) }">qtfs</c:if>" type="checkbox" <c:if test="${isSubmit==1 && lessonPlan.isScan }">disabled="disabled"</c:if>>
-									<c:if test="${isSubmit==1 && lessonPlan.isScan }"><b class="d-chenkbox" style="left:15px;top:10px;"></b></c:if>
-									<jy:ds key="${lessonPlan.resId }" className="com.tmser.tr.manage.resources.service.ResourcesService" var="res"/>
-									<ui:icon ext="${res.ext }" height="16" width="16"></ui:icon>
-									<span title="${lessonPlan.planName }"><ui:sout value="${lessonPlan.planName }" length="28" needEllipsis="true"></ui:sout> </span>
-									
-								</h2>
-							</c:forEach>
-						</c:when>
-						<c:otherwise>
-							<!-- 无文件 -->
-							<div class="empty_wrap">
-							    <div class="empty_img"></div>
-							    <div class="empty_info">
-									<c:if test="${isSubmit==0 }">您没有您可提交的其他反思!</c:if>
-									<c:if test="${isSubmit==1 }">您没有您可取消提交的其他反思!</c:if>
-							    </div> 
-							</div>
-						</c:otherwise>
-					</c:choose>
-				</ul>
+			<div class="border_bottom"></div>
+			<div>
+				<input type="button" class="btn_confirm" value="确定">
+				<input type="button" class="btn_cencel" value="取消">
 			</div>
 		</div>
 	</div>
 </div>
+<div class="cw_menu_wrap" >
+	<div class="cw_menu_list" >
+		<span class="cw_menu_list_top"></span>
+		<div id="wrap2" class="cw_menu_list_wrap1" style="height: 6.5rem;"> 
+			<div id="scroller">
+				<p level="leaf" value="2" >课后反思</p>
+				<p level="leaf" value="3" >其他反思</p>
+			</div>
+		</div>
+	</div> 
+</div>
+<div class="mask"></div>
+<div class="more_wrap_hide" onclick='moreHide()'></div>
+<div id="wrapper">
+	<header>
+		<span onclick="javascript:window.history.go(-1);"></span>提交反思
+		<div class="more" onclick="more()"></div>
+	</header>
+	<section>
+		<div class="content">
+			<div class="content_top">
+				<div class="content_top_left">
+					<input type="button" class="btn_submit" value="提交">
+					<input type="button" class="btn_cencel_r" value="取消">
+					<span act="qx">全选</span><span act="qxqx">全选</span>
+				</div>
+				<div class="content_top_right">
+					<label>反思类型：</label>
+					<span id="currentLesson"></span>
+					<strong></strong>
+				</div>
+			</div>
+		</div>
+		<div class="content_bottom" id="wrap">
+			<div id="scroller">
+				<div class="content_bottom_width">
+					<c:forEach var="fansi" items="${rethinkList.datalist }">
+					<jy:ds key="${fansi.resId }" className="com.tmser.tr.manage.resources.service.ResourcesService" var="res"/>
+						<div class="courseware_img">
+						<div class="courseware_img_1">反思</div>
+						<h3>${fansi.planName }</h3>
+						<p><ui:icon ext="${res.ext }" title="${fansi.planName }"></ui:icon></p>
+						<div class="courseware_img_2"></div>
+						<div class="courseware_img_3"></div>
+						<c:if test="${fansi.isSubmit }">
+						<div id="${fansi.planId }" class="cw_option_mask_act3"></div>
+						</c:if>
+						<c:if test="${!fansi.isSubmit }">
+						<div id="${fansi.planId }" class="cw_option_mask_act1"></div>
+						</c:if>
+						</div>
+					</c:forEach>
+				</div>
+			</div>
+		</div>
+	</section>
 </div>
 </body>
-<script src="${ctxStatic }/modules/rethink/js/sub_rethink.js"></script>
+<script type="text/javascript"> 
+require(['zepto','submitr'],function($){	
+}); 
+</script>
 </html>

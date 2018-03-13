@@ -1,185 +1,200 @@
 <%@ include file="/WEB-INF/include/taglib.jspf"%>
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<ui:htmlHeader title="${name }"></ui:htmlHeader>
-	<link rel="stylesheet" href="${ctxStatic }/modules/record/css/recordCss.css" media="screen">
-	<link rel="stylesheet" href="${ctxStatic }/modules/record/css/dlog_submit.css" media="screen">
-<!-- 	<link rel="stylesheet" href="${ctxStatic }/modules/record/css/list.css" media="screen"> -->
-	<link rel="stylesheet" href="${ctxStatic }/lib/jquery/css/validationEngine.jquery.css" media="screen">
-	
-    <ui:require module="record/js"></ui:require>
-	<script type="text/javascript" src="${ctxStatic }/lib/jquery/jquery.form.min.js"></script>
-	<script type="text/javascript" src="${ctxStatic }/lib/jquery/jquery.validationEngine-zh_CN.js"></script>
-	<script type="text/javascript" src="${ctxStatic }/lib/jquery/jquery.validationEngine.min.js"></script>
-<script type="text/javascript">
-	we = '${ctx}';
-	page='${page}';
-		$(function(){
-			var id = '${id}';
-			$("#kj_form").validationEngine();
-		});
-</script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta charset="UTF-8">
+	<ui:mHtmlHeader title="成长档案袋"></ui:mHtmlHeader>
+	<link rel="stylesheet" href="${ctxStatic }/m/record/css/record.css" media="screen">
+	<ui:require module="../m/record/js"></ui:require>
+	<style>
+		#progressDiv {
+	      width: 45rem;
+		  height: 3rem;
+		}
+		#process {
+		  width: 45rem;
+		  height: 0.1rem;
+		  margin-left: -12rem;
+		  margin-top: -11.2rem;/* 
+		  background-color: #fe7e37; */
+		  border:0;
+		}
+		#process span{
+		   background-color: #fe7e37; 
+		   display: block;
+		  height: 0.1rem;
+		}
+		#processPercent_1{
+		display:none;
+		}
+	</style>
 </head>
-<div id="_jx"  class="dialog">
-	<div class="dialog_wrap">
-		<div class="dialog_head">
-			<span class="dialog_title">修改微评</span>
-			<span class="dialog_close"></span>
+<body>
+<input type="hidden" id="bagId" value="${id}" />
+<input type="hidden" id="bagType" value="${type}" />
+<div class="edit1_portfolio_wrap">
+	<div class="edit1_portfolio">
+		<div class="edit1_portfolio_title" >
+			<h3 style="width:33rem;padding-left: 5rem;">添加文件</h3>
+			<span class="close"></span>
 		</div>
-		<div class="dialog_content">
-			<form id="formular" >
-				<div class="Growth_Portfolio_bottom">
-					<input type="hidden"   id="one">
-					<input type="hidden"  id="bagId">
-					<p>
-						<label for="">名称：</label>
-						<span id="name1"></span><strong></strong>
-					</p>
-					<div class="clear"></div>
-					<p>
-						<label for="" id="lab">微评：</label>
-						<textarea style="float: left;padding: 5px;font-size: 12px;" placeholder="您可以给精选文件添加微评，如不想添加，请直接点击“保存”" name="desc" id="desc" cols="38" rows="4" class="validate[optional,maxSize[50]] text-input"></textarea>
-						<strong >注：最多可输入50个字</strong>
-					</p>
-					<div class="clear"></div>
-					<div class="btn_bottom" style="margin-top:25px;">
-						<input id="button" type="button" class="btn_bottom_3" value="修改"> 
-						<input type="button" class="btn_bottom_4" value="不改了" onclick="$('.dialog_close').click();">
+		<div class="edit1_portfolio_content">
+			<form id="kj_form" action="${ctx}jy/record/save" method="post">
+				<ui:token></ui:token>
+				<input type="hidden" name="id" value="${id }">
+				<input type="hidden" name="recordId"  id="recordId">
+				<input type="hidden" id="resId" name="resId"/>
+				<input type="hidden" name="page">
+				<div class="form_input">
+					<label >名称</label>
+					<p style="width:27rem;height:5rem">
+						<input type="text" id="name" name="name" class="name_txt" style="width:27rem;margin-left:0;"  placeholder="请输入名称" maxlength="10">
+					</p> 
+				</div>
+				<div id="fileuploadContainer" class="form_input">
+					<label style="background-color: #fff; position: absolute;z-index: 1;">上传附件</label>
+					<div class="edit_strong" style="display: none;"><a>24223424</a><span></span></div>
+					<strong id="uploadId" style="margin-left:8rem;"> 
+						<ui:upload_m fileType="doc,docx,ppt,pptx,pdf,jpg,jpeg,gif,png,mp3,mp4,flv,swf" progressBar="true" fileSize="50" startElementId="save" callback="afterUpload" beforeupload="uploading"></ui:upload_m>
+					</strong>
+				</div>
+				<div class="form_input" style="height:5rem;">
+					<label >微评</label>
+					<p style="width:27rem;height:7.5rem;">
+						<textarea name="desc" id="kjms" class="desc" cols="100" rows="3"style="width:27rem;height:7rem;" placeholder="请输入微评" maxlength="50"></textarea>
+						<a class="note" style="display:none;">注：最多可输入50个字</a>
+					</p> 
+				</div>
+				<div class="border_bottom" style="margin: 3rem auto 1rem auto;width:36rem;"></div>
+				<div class="portfolio_btn">
+					<input type="button" class="btn_preserve" value="保存" style="margin:2rem auto;display:none;" id="save">
+					
+					<div class="btn_sc" style="display: none;">
+						<div class="spinner ">
+						  <div class="rect1"></div>
+						  <div class="rect2"></div>
+						  <div class="rect3"></div>
+						  <div class="rect4"></div>
+						  <div class="rect5"></div>
+						</div>
+						<span>上传中...</span>
 					</div>
+					<input type="button" class="btn_preserve" value="保存" style="margin:2rem auto;display: none;" id="save1">
 				</div>
 			</form>
 		</div>
 	</div>
 </div>
-<body> 
-	<div class="wrapper"> 
-		<div class="jyyl_top">
-			<ui:tchTop style="1" modelName="成长档案袋"></ui:tchTop>
-		</div>  
-		<div class="jyyl_nav">
-			<h3>当前位置：<jy:nav id="czdad"></jy:nav>&nbsp;>&nbsp;${name }</h3>
-			<!-- <h4>当前学年：<select name="" id=""><option value="">2013-2014学年</option><option value="">2014-2015学年</option></select></h4> -->
+<div class="edit_portfolio_wrap">
+	<div class="edit_portfolio">
+		<div class="edit_portfolio_title" >
+			<h3 style="width:33rem;padding-left: 5rem;">微评</h3>
+			<span class="close"></span>
+			<span class="portfolio_edit"></span>
 		</div>
-		<div class="clear"></div>
-		<form id="hiddenForm" action="${ctx}jy/record/findRList" method="post">
-			<input  type="hidden" name="id"  value="${id }">
-			<input  type="hidden" name="page"  value="${page }">
-		</form>
-		<div class="Growth_Portfolio_cont">
-			<div class="Reflect_cont_left">
-				<h3>添加内容</h3>
-				<div class="Reflect_cont_left_1">
-					<form id="kj_form" action="${ctx}jy/record/save" method="post">
-						<input type="hidden" name="id" value="${id }">
-						<input type="hidden" name="recordId"  id="recordId">
-						<input type="hidden" name="page" value="${page }">
-						<p>	
-							<span class="courseware_title_p_span">*</span>
-							<label for="">标题：</label>
-							<input type="text" id="name" name="name" class="input_txt validate[required,maxSize[30]]" >
-						</p>
-						<div id="scfj_to"></div>
-						<div id="fileuploadContainer" style="margin-left:18px;">
-							<span class="courseware_title_p_span">*</span>
-							<label for="">文件：</label>
-							<ui:upload containerID="fileuploadContainer" relativePath="record/o_${_CURRENT_USER_.orgId }/u_${_CURRENT_USER_.id }" fileType="doc,docx,ppt,pptx,pdf,jpg,jpeg,gif,png,mp3,mp4,flv,swf"  fileSize="50"  startElementId="save"  beforeupload="start"   callback="backSave" name="resId" ></ui:upload>
-						</div>
-						<p>
-							<label for=""  style="margin-left:8px;">微评：</label>
-							<textarea  id="kjms" style="float: left;padding: 5px;font-size: 12px;" cols="21" rows="10" name="desc" class="validate[optional,maxSize[50]] " ></textarea>
-							<br/><br/><br/>
-							<strong style="margin-left:54px;display:inline-block;margin-top:82px;line-height:25px;">注：最多可输入50个字</strong>
-						</p>
-						<div class="btn_bottom" style="margin-top:240px;">
-								<input id="save"  type="button" class="btn_bottom_1" value="保存"> 
-								<input id="empty"  type="button" class="btn_bottom_2" value="清空" onclick="notUpdate()">
-						</div>
-					</form>
+		<div class="edit_portfolio_content">
+			<form>
+				<ui:token></ui:token>
+				<div class="form_input">
+					<label style="width:5rem;">名称:</label>
+					<p style="width:27rem;height:5rem">
+						<input type="text" class="name_txt" style="width:27rem;border:none;"  value="" readonly="readonly">
+					</p> 
+				</div> 
+				<div class="form_input">
+					<label style="width:5rem;">微评:</label>
+					<p style="width:27rem;height:7.5rem;">
+						<textarea name="desc" id="desc" cols="100" rows="3"style="width:27rem;height:7rem;" maxlength="50"></textarea>
+						<a class="note" style="display:none;">注：最多可输入50个字</a>
+					</p> 
 				</div>
-			</div>
-			<div class="Reflect_cont_right ">
-				<h3>
-					<span>${name }列表</span>
-				</h3>
-
-				<div class="clear"></div>
-				
-				<div class="Reflect_cont_right_1_big">
-					<div class="Reflect_cont_right_1">
-						<c:choose>
-		           			<c:when test="${!empty data.datalist }">
-							<div class="Reflect_cont_right_1_wid">
-								
-								<c:forEach items="${data.datalist  }" var="data">
-									
-									<div class="Reflect_cont_right_1_dl Growth_jx_1" style="height:145px;margin:25px 10px;">
-										<dl class="dl" onclick="scanResFile('${data.path }')" style="height:145px;">
-												<c:choose>
-													<c:when test="${data.desc!=null&&data.desc!='' }">
-														<dd><ui:icon ext="${data.flags }"></ui:icon><span class="tspan"  resId="${data.recordId }"  rId="${data.bagId }" resName="${data.recordName }"   title="${data.desc }"></span></dd>
-													</c:when>
-													<c:otherwise>
-														<dd><ui:icon ext="${data.flags }"></ui:icon></dd>
-													</c:otherwise>
-												</c:choose>
-											<dt style="height:40px;">
-												<span class="title" title="${data.recordName }.${data.flags }"><ui:sout value="${data.recordName }.${data.flags }" length="30"  needEllipsis="true"></ui:sout></span></br>
-												<span><fmt:formatDate value="${data.createTime  }" pattern="yyyy-MM-dd"/></span>
-											</dt>
-										</dl>
-										<div class="show_p">
-											<ol>
-												<c:choose>
-													<c:when test="${data.status==0}">
-														<li title="禁止修改" class="jz_li_edit"></li>
-														<li title="禁止删除" class="jz_li_del"></li>
-													</c:when>
-													<c:otherwise>
-														<li title="修改" class="li_edit" onclick="updateThis('${data.recordId}','${data.bagId }','${data.path }','${data.recordName }','${data.desc }')"></li>
-														<li title="删除" class="li_del" onclick="deleteThis('${data.recordId}','${data.bagId }')"></li>
-													</c:otherwise>
-												</c:choose>
-												<a title="下载" href="<ui:download resid='${data.path}' filename='${data.recordName }'></ui:download>"><li class="li_down"></li></a>
-											</ol>
-										</div>
-									</div>
-									
-								</c:forEach>
-								<div class="clear"></div>
-								</br>
-								</br>
-								</br>
-								</br>
-								<form name="pageForm" method="post">
-									<ui:page url="${ctx}jy/record/findRList" data="${data}"  />
-									<input type="hidden" class="currentPage" name="page.currentPage">
-									<input type="hidden" name="id" value="${id}" >
-								</form>
-								</div>
-						
-		           			</c:when>
-		           			<c:otherwise>
-		           				<!-- 无文件 -->
-	           					<div class="empty_wrap"> 
-									<div class="empty_info">
-										您的档案袋里还没有内容哟，赶快去左边"添加"吧！
-									</div>
-								</div>
-		           			</c:otherwise>
-		           		</c:choose>
-					</div>
+				<div class="border_bottom" style="margin: 3rem auto;display:none;"></div>
+				<div class="portfolio_btn" style="display:none;">
+					<input type="button" class="btn_confirm" value="修改">
+					<input type="button" class="btn_cencel" value="取消">
 				</div>
-				
-			</div>
+			</form>
 		</div>
-		<div class="clear"></div>
-		<ui:htmlFooter></ui:htmlFooter>
 	</div>
-	
-<script type="text/javascript">
-require(['jquery','jp/jquery-ui.min','jp/jquery.blockui.min','jp/jquery.form.min','jp/jquery.validationEngine-zh_CN','jp/jquery.validationEngine.min','selfjx'],function(){});
-</script>
+</div>
+<div class="del_upload_wrap">
+	<div class="del_upload">
+		<div class="del_upload_title">
+			<h3>删除</h3>
+			<span class="close"></span>
+		</div>
+		<div class="del_upload_content">
+			<div class="del_width">
+				<q></q>
+				<span>您确定要删除该文件吗？</span>
+			</div>
+			<div class="border_bottom"></div>
+			<div>
+				<input type="button" class="btn_confirm" value="确定">
+				<input type="button" class="btn_cencel" value="取消">
+			</div>
+		</div> 
+	</div>
+</div>
+<div class="mask"></div>
+<div class="more_wrap_hide" onclick='moreHide()'></div>
+<div id="wrapper">
+	<header>
+		<span onclick="javascript:window.history.go(-1);"></span>${name }
+		<div class="more" onclick="more()"></div>
+	</header>
+	<section>
+		<div class="record_content" id="c_b_w_list">
+			<div id="scroller">
+				<div class="content_bottom_width">
+					<div class="add_cour_wrap">
+						<div class="add_cour_wrap_div">
+							<div class="add_cour_wrap_div_top">
+								<div class="add_cour_wrap_div_top_img"></div> 
+							</div>
+							<div class="add_cour_wrap_div_bottom">添加文件</div>
+						</div>
+					</div>
+					<c:forEach  items="${data.datalist  }" var="record">
+						<div class="record_word">
+							<div class="record_word_1">文件</div>
+							<h3>${record.flago }${record.recordName }</h3>
+							<p resId="${record.path }"><ui:icon ext="${record.flags }" /></p>
+							<div class="record_word_21"></div> 
+							<c:if test="${record.desc!=null&&record.desc!='' }">
+								<div class="record_word_3" resId="${record.recordId }"  resName="${record.flago }${record.recordName }" title="${record.desc }"></div> 
+							</c:if>
+							<div class="record_option" style="display:none;">
+								<c:choose>
+									<c:when test="${record.status==0}">
+										<div title="禁止修改" class="jz_record_edit"></div>
+										<div title="禁止删除" class="jz_record_del"></div>
+									</c:when>
+									<c:otherwise>
+										<div class="record_edit" recordId="${record.recordId}" bagId="${record.bagId }" resId="${record.path }" recordName="${record.recordName }" desc="${record.desc }"></div>
+										<div class="record_del" recordId="${record.recordId}" bagId="${record.bagId }"></div>
+									</c:otherwise>
+								</c:choose>
+								<a title="下载" href="<ui:download resid='${record.path}' filename='${record.recordName }'></ui:download>"><div class="record_down"></div></a>
+								<div class="record_close" ></div>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
+				<form  name="pageForm" method="post">
+					<ui:page url="${ctx}jy/record/findRList" data="${data }"  callback="addData" dataType="true"/>
+					<input type="hidden" class="currentPage" name="page.currentPage">
+					<input type="hidden" name="id" value="${id}" />
+				</form> 
+			</div>
+		</div>
+	</section>
+</div>
 </body>
+<script type="text/javascript">
+	require(["zepto",'self'],function($){	
+	});
+</script>
 </html>

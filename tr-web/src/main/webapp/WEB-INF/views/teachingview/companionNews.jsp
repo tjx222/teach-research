@@ -37,7 +37,7 @@
 								<jy:dic key="${subject }"/>
 							</c:if>
 							<c:if test="${fn:length(searchVo.subjectIds)!=c.count}">
-								<jy:dic key="${subject }"/>
+								<jy:dic key="${subject }"/>、
 							</c:if>
 						</c:forEach>
 					</b></span>

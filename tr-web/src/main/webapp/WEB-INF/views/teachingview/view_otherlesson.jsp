@@ -15,7 +15,11 @@
 <link rel="stylesheet" type="text/css" href="${ctxStatic }/modules/check/check_thesis/css/check_thesis.css" media="screen">
 </head>
 <body>
-<c:set value="<%=request.getSession().getId() %>" var="sessionId" scope="session"></c:set>
+	<div class="jyyl_top">
+		<ui:tchTop style="1" modelName="${theme}"></ui:tchTop>
+	</div>
+	
+	
 	<div class="check_teacher_wrap">
 		<div class="check_teacher_wrap2"> 
 		<jy:di key="${data.userId }" className="com.tmser.tr.uc.service.UserService" var="u"/>
@@ -36,10 +40,9 @@
 						<fmt:formatDate value="${data.crtDttm}" pattern="yyyy-MM-dd"/>
 					</div>
 				</c:if>
-				<input type="button" class="download" data-name="${data.planName }" data-resId="${data.resId}" id="downloadBtn"/>
 			</div>
 			<div class="word_plug_ins">
-				<iframe id="view" src="jy/scanResFile?to=true&resId=${data.resId}" width="100%"	height="660px;"style="border:none;" frameborder="0" scrolling="no"></iframe>
+				<iframe id="view" src="jy/scanResFile?resId=${data.resId}" width="100%"	height="660px;"style="border:none;" frameborder="0" scrolling="no"></iframe>
 			</div>
 		</div>
 		<div class="border"></div>
@@ -48,6 +51,7 @@
 		<iframe id="commentBox" onload="setCwinHeight(this,false,100)" width="100%" height="100%" style="border: none;display:block;margin:0 auto;" scrolling="no" frameborder="no"></iframe>
 		</div>
 	</div>
+	<ui:htmlFooter style="1"></ui:htmlFooter>
 	<script type="text/javascript">
 	$(document).ready(function(){
 	    $(window).scroll(function (){
@@ -62,13 +66,10 @@
 			$("li.see_word_nav_act").removeClass("see_word_nav_act");
 			$this.addClass('see_word_nav_act');
 			var resid = $this.attr("data-resId");
-			$("#view").attr("src","jy/scanResFile?to=true&resId="+resid);
+			$("#view").attr("src","jy/scanResFile?resId="+resid);
 		});
 		$("div.see_word_Annex dl").click(function(){
 			 scanResFile($(this).attr("data-resId"));
-		});
-		$("#downloadBtn").click(function(){
-			window.open(_WEB_CONTEXT_+"/jy/manage/res/download/"+$(this).attr("data-resId")+"?filename="+encodeURI($(this).attr("data-name")),"_self");
 		});
 	});
 	</script>

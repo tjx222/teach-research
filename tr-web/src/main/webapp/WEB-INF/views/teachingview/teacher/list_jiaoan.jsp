@@ -64,7 +64,7 @@
 							<c:forEach var="lesson" items="${lessonList }">
 								<dl>
 								    <a href="${ctx}jy/teachingView/view/lesson?type=0&infoId=${lesson.id}" target="_blank">
-										<dt><img src="${ctxStatic }/common/icon/base/word.png"/></dt>
+										<dt><img src="${ctxStatic }/modules/teachingview/images/w_img1.png"/></dt>
 										<dd class="article_name" title="${lesson.lessonName }">${lesson.lessonName }</dd>
 										<dd class="article_date"><fmt:formatDate value="${lesson.crtDttm}" pattern="yyyy-MM-dd"/></dd>
 									</a>
@@ -88,7 +88,7 @@
 							<c:forEach var="plan" items="${planList.datalist }">
 								<dl>
 								    <a href="${ctx}jy/scanResFile?resId=${plan.resId}" target="_blank">
-										<dt><img src="${ctxStatic }/common/icon/base/word.png"/></dt>
+										<dt><img src="${ctxStatic }/modules/teachingview/images/w_img1.png"/></dt>
 										<dd class="article_name" title="${plan.planName }">${plan.planName }</dd>
 										<dd class="article_date"><fmt:formatDate value="${plan.crtDttm}" pattern="yyyy-MM-dd"/></dd>
 									</a>

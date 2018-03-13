@@ -1,161 +1,284 @@
 <%@ include file="/WEB-INF/include/taglib.jspf"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<ui:htmlHeader title="同伴互助用户留言详情"></ui:htmlHeader>
-<link rel="stylesheet"
-	href="${ctxStatic}/modules/companion/css/companion.css" media="screen"></link>
-<style type="text/css">
-#uploadFile,#uploadFileFace input {
-	width: 151px;
-	height: 23px;
-	border: 1px #c1c1c1 solid;
-	float: left;
-	margin-right: 10px;
-	padding-left: 5px;
-}
-</style>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta charset="UTF-8">
+	<ui:mHtmlHeader title="同伴互助"></ui:mHtmlHeader>
+	<link rel="stylesheet" href="${ctxStatic }/m/companion/css/companion.css" media="screen">
+	<ui:require module="../m/companion/js"></ui:require>
 </head>
 <body>
-	<div id="add_sava" class="dialog">
-		<div class="dialog_wrap">
-			<div class="dialog_head">
-				<span class="dialog_title">提示信息</span> <span class="dialog_close"></span>
-			</div>
-			<div class="dialog_content">
-				<div class="table_cont">
-					<div class="info">恭喜您，关注成功！</div>
-				</div>
-			</div>
+<jy:di key="${companionId }" className="com.tmser.tr.uc.service.UserService" var="u"></jy:di>
+<div class="com_personal_center" style="width:100%;">
+	<div class="right_option" style="width:9.5%;">
+		<div>
+			<!-- right_option_act1  选中的的样式 -->
+			<c:if test="${not empty datas.jiaoanlist }">
+				<a href="javascript:void(0);">
+					<span class="right_option_act">教案</span>
+					<span class="border1"></span>
+				</a>
+			</c:if>
+			<c:if test="${not empty datas.kejianlist }">
+				<a href="javascript:void(0);">
+					<span class="right_option_act">课件</span>
+					<span class="border1"></span>
+				</a>
+			</c:if>
+			<c:if test="${not empty datas.fansilist }">
+				<a href="javascript:void(0);">
+					<span class="right_option_act">反思</span>
+					<span class="border1"></span>
+				</a>
+			</c:if>
+			<c:if test="${not empty datas.lecturelist }">
+				<a href="javascript:void(0);">
+					<span class="right_option_act" style="line-height:1.4rem;height:3.8rem;padding-top:1.2rem;" >听课<br />记录</span>
+					<span class="border1"></span>
+				</a>
+			</c:if>
+			<c:if test="${not empty datas.plainlist }">
+				<a href="javascript:void(0);">
+					<span class="right_option_act" style="line-height:1.4rem;height:3.8rem;padding-top:1.2rem;">计划<br />总结</span>
+					<span class="border1"></span>
+				</a>
+			</c:if>
+			<c:if test="${not empty datas.thesislist }">
+				<a href="javascript:void(0);">
+					<span class="right_option_act" style="line-height:1.4rem;height:3.8rem;padding-top:1.2rem;">教学<br />文章</span>
+					<span class="border1"></span>
+				</a>
+			</c:if>
 		</div>
 	</div>
-	<div id="cancel_attention" class="dialog">
-		<div class="dialog_wrap">
-			<div class="dialog_head">
-				<span class="dialog_title">取消关注</span> <span class="dialog_close"></span>
-			</div>
-			<div class="dialog_content">
-				<div class="table_cont">
-					<div class="info1">你确定要取消关注“”吗?</div>
-					<input type='button' value="确定" class="ascertain" />
-				</div>
-			</div>
-		</div>
-	</div>
-	<div id="wrap" class="wrapper">
-		<div class='jyyl_top'>
-			<ui:tchTop style="1" modelName="同伴互助用户留言详情"></ui:tchTop>
-		</div>
-		<div class="jyyl_nav">
-			<h3>
-				当前位置：
-				<jy:nav id="copanions_detail">
-					<jy:param name="userIdCompanion" value="${vo.userIdCompanion }"></jy:param>
-					<jy:param name="name" value="同伴互助" />
-					<jy:param name="isSameSchool" value="${vo.isSameOrg }" />
-					<jy:param name="detailName" value="${vo.isSameOrg==1?'校内':'校外' }同伴" />
-				</jy:nav>
-			</h3>
-		</div>
-		<div class='fq_activity_cont'>
-			<div class="department_detail_wrap">
-				<div class="detail_wrap_top">
-					<div class="detail_wrap_top_l">
-						<ui:photo src="${vo.photo }" width="58" height="58" />
-						<div class="detail_head_bg"></div>
-						<c:if test="${vo.isFriend==1 }">
-							<input type="button" class="ygz detail_btn"
-								data-userIdCompanion="${vo.userIdCompanion }"
-								data-userNameCompanion="${vo.isSameOrg eq 1 ? vo.userNameCompanion : vo.userNicknameCompanion }" />
+	<div class="com_personal_center1" style="margin:0 0 0 4rem;">
+		<h3><a href="${ctx }/jy/companion/companions/compSendMsg/${companionId}">返回</a>${u.name }</h3>
+		<div class="com_personal_cont" id="com_personal_cont">
+			<div id="scroller">
+				<div class="com_personal_cont_head" style="height:6rem;">
+					<ui:photo src="${u.photo }" width="69" height="69"></ui:photo>
+					<h4>${u.name }(${u.sex==0?'男':'女' })</h4>
+				</div> 
+				<div class="com_personal_content">
+					<div class="com_personal_cont_head_cont">
+						 <div class="com_per_img4">
+						 </div>
+						  <div class="com_per_cont">
+						  	学校名称：${datas.orgName }
+						 </div>
+					</div>
+					<div class="com_personal_cont_head_cont">
+						 <div class="com_per_img">
+						 </div>
+						 <div class="com_per_cont">
+						  	<span>教龄：${u.schoolAge }${empty u.schoolAge ? "暂无" : "年"}</span>    
+					 		<c:if test="${not empty u.profession }">
+					 			<span>职称：${u.profession }</span>
+					 		</c:if>
+						 </div>
+					</div>
+					<div class="com_personal_cont_head_cont">
+						 <div class="com_per_img1">
+						 </div>
+						  <div class="com_per_cont">
+						  	<span>学科：${datas.subject }</span>    
+						  	<span>版本：${datas.formatName }</span>
+						 </div>
+					</div>
+					<div class="com_personal_cont_head_cont">
+						 <div class="com_per_img2">
+						 </div>
+						  <div class="com_per_cont">
+						  	年级：${datas.grade }
+						 </div>
+					</div>
+					<div class="com_personal_cont_head_cont">
+						 <div class="com_per_img3">
+						 </div>
+						  <div class="com_per_cont" style="border-bottom:0;">
+						  	职务：${datas.role }
+						 </div>
+					</div>
+					<div class="com_personal_cont_head_btn">
+						<a href="${ctx }/jy/companion/companions/compSendMsg/${companionId}" class="message_btn"></a>
+						<c:if test="${datas.isCare }">
+							<span class="gz_btn" act="revoke" userIdCompanion="${companionId}" userNameCompanion="${u.name }">取消关注</span>
 						</c:if>
-						<c:if test="${vo.isFriend==0 }">
-							<input type="button" class="add_gz detail_btn addFriend"
-								data-userIdCompanion="${vo.userIdCompanion }" />
+						<c:if test="${!datas.isCare }">
+							<span class="gz_btn" act="add" userIdCompanion="${companionId}" >+ 加关注</span>
 						</c:if>
 					</div>
-					<div class="detail_wrap_top_r">
-						<div class="detail_name">
-							<c:if test="${vo.isSameOrg==1 }">
-								${vo.userNameCompanion }<span>(${vo.sex==0?"男":"女" })</span>
-							</c:if>
-							<c:if test="${vo.isSameOrg==0 }">
-								${vo.userNicknameCompanion }<span>(${vo.sex==0?"男":"女" })</span>
-							</c:if>
-						</div>
-						<c:if test="${not empty vo.profession || not empty vo.schoolAge}">
-							<div class="detail_info">
-								<c:if test="${not empty vo.profession }">
-									<span>职称：${vo.profession }</span>
-								</c:if>
-								<c:if test="${not empty vo.schoolAge }">
-									<span>教龄：${vo.schoolAge }年</span>
-								</c:if>
-							</div>
-						</c:if>
-						<c:if
-							test="${not empty vo.subjectNames || not empty vo.formatNames || not empty vo.gradeNames}">
-							<div class="detail_info">
-								<c:if test="${not empty vo.subjectNames }">
-									<span>学科：${vo.subjectNames }</span>
-								</c:if>
-								<c:if test="${not empty vo.formatNames }">
-									<span>版本：${vo.formatNames}</span>
-								</c:if>
-								<c:if test="${not empty vo.gradeNames }">
-									<span>年级：${vo.gradeNames }</span>
-								</c:if>
-							</div>
-						</c:if>
-						<div class="detail_info">职务：${vo.roleNames }</div>
-						<c:if test="${vo.isSameOrg==0 }">
-							<div class="detail_info">学校名称：${vo.schoolNameCompanion }</div>
-						</c:if>
-					</div>
-					<div class="clear"></div>
-				</div>
-				<div class="detail_wrap_center">
-					<form id="messageForm" method="post">
-						<input type="hidden" name="userIdReceiver"
-							value="${vo.userIdCompanion }">
-						<h3>
-							<span></span> 和他聊一聊：<b
-								style="float: right; font-size: 16px; color: #a9a9a9; font-weight: normal;"><b
-								id="w_count">0</b>/500</b>
-						</h3>
-						<span id="messageInput_count" style="display: none;"></span>
-						<div class="detail_wrap_center_cont">
-							<textarea name="message" id="messageInput"></textarea>
-							<div class="detail_wrap_center_cont_b">
-								<div class="detail_w_c_b_l" style="width: 328px;"
-									id="uploadUiId">
-									<ui:upload name="attachment" originFileName="uploadFile"
-										fileType="doc,docx,xls,xlsx,ppt,pptx,pdf,txt,zip,rar,jpg,jpeg,gif,png,mp3,mp4,wma,rm,rmvb,flV,swf,avi"
-										fileSize="50"
-										relativePath="companion/o_${_CURRENT_USER_.orgId }/u_${_CURRENT_USER_.id }"
-										startElementId="btn" beforeupload="beforeupload"
-										containerID="uploadUiId" isWebRes="false"
-										callback="savePsCallBack" />
-									<input type="button" value="上传文件" class="file_btn" id="btn" />
+					<div class="border" style="width:85%;"></div>
+					 <div class="com_per_cont_share">
+						<div id="scroll">
+							<c:if test="${not empty datas.jiaoanlist }">
+								<div class="ja_wrap">
+									<div class="ja">教案</div>
+									<c:forEach items="${datas.jiaoanlist }" var="ja">
+										<div class="com_personal_cont_head_cont1" style="width:100%";>
+											<div class="com_personal_cont_head_cont1_l" style="width:10%;">
+												<ui:photo src="${u.photo }" width="57" height="57"></ui:photo>
+											</div>
+											<div class="com_personal_cont_head_cont1_r" style="width:88%;">
+												<h4>${u.name }</h4>
+												<div class="com_per_c_h_fj" style="width:100%";>
+													<jy:ds key="${ja.resId }" className="com.tmser.tr.manage.resources.service.ResourcesService" var="res"></jy:ds>
+													<div class="com_per_c_h_fj_l">
+													</div>
+													<div class="com_per_c_h_fj_r">
+														<h4>分享了教案：${ja.planName }</h4>
+														<h5>${ja.planName }.${res.ext }</h5>
+													</div>
+													<a href="<ui:download resid="${res.id}" filename="${ja.planName }"></ui:download>" class="down_btn"></a> 
+												</div>
+												<span><fmt:formatDate value="${ja.shareTime}" pattern="yyyy-MM-dd HH:mm"/></span>
+											</div>
+										</div> 
+									</c:forEach>
 								</div>
-								<div class="detail_w_c_b_r" id="attachViews"></div>
-							</div>
+							</c:if>
+							<c:if test="${not empty datas.kejianlist }">
+								<div class="ja_wrap">
+									<div class="ja">课件</div>
+									<c:forEach items="${datas.kejianlist }" var="kj">
+										<div class="com_personal_cont_head_cont1" style="width:100%";>
+											<div class="com_personal_cont_head_cont1_l" style="width:10%;">
+												<ui:photo src="${u.photo }" width="57" height="57"></ui:photo>
+											</div>
+											<div class="com_personal_cont_head_cont1_r" style="width:88%;">
+												<h4>${u.name }</h4>
+												<div class="com_per_c_h_fj" style="width:100%";>
+													<jy:ds key="${kj.resId }" className="com.tmser.tr.manage.resources.service.ResourcesService" var="res"></jy:ds>
+													<div class="com_per_c_h_fj_l">
+													</div>
+													<div class="com_per_c_h_fj_r">
+														<h4>分享了课件：${kj.planName }</h4>
+														<h5>${res.name }.${res.ext }</h5>
+													</div> 
+													<a href="<ui:download resid="${res.id}" filename="${res.name }"></ui:download>" class="down_btn"></a>
+												</div>
+												<span><fmt:formatDate value="${kj.shareTime}" pattern="yyyy-MM-dd HH:mm"/></span>
+											</div>
+										</div> 
+									</c:forEach>
+								</div>
+							</c:if>
+							<c:if test="${not empty datas.fansilist }">
+								<div class="ja_wrap">
+									<div class="ja">反思</div>
+									<c:forEach items="${datas.fansilist }" var="fs">
+										<div class="com_personal_cont_head_cont1" style="width:100%";>
+											<div class="com_personal_cont_head_cont1_l" style="width:10%;">
+												<ui:photo src="${u.photo }" width="57" height="57"></ui:photo>
+											</div>
+											<div class="com_personal_cont_head_cont1_r" style="width:88%;">
+												<h4>${u.name }</h4>
+												<div class="com_per_c_h_fj" style="width:100%";>
+													<jy:ds key="${fs.resId }" className="com.tmser.tr.manage.resources.service.ResourcesService" var="res"></jy:ds>
+													<div class="com_per_c_h_fj_l">
+													</div>
+													<div class="com_per_c_h_fj_r">
+														<h4>分享了反思：${fs.planName }</h4>
+														<h5>${res.name }.${res.ext }</h5>
+													</div> 
+													<a href="<ui:download resid="${res.id}" filename="${res.name }"></ui:download>" class="down_btn"></a>
+												</div>
+												<span><fmt:formatDate value="${fs.shareTime}" pattern="yyyy-MM-dd HH:mm"/></span>
+											</div>
+										</div> 
+									</c:forEach>
+								</div>
+							</c:if>
+							<c:if test="${not empty datas.lecturelist }">
+								<div class="ja_wrap">
+									<div class="ja">听课记录</div>
+									<c:forEach items="${datas.lecturelist }" var="lecture">
+										<div class="com_personal_cont_head_cont1" style="width:100%";>
+											<div class="com_personal_cont_head_cont1_l" style="width:10%;">
+												<ui:photo src="${u.photo }" width="57" height="57"></ui:photo>
+											</div>
+											<div class="com_personal_cont_head_cont1_r" style="width:88%;">
+												<h4>${u.name }</h4>
+												<div class="com_per_c_h_fj" style="width:100%";>
+													<div class="com_per_c_h_fj_l">
+													</div>
+													<div class="com_per_c_h_fj_r">
+														<h4>分享了听课记录：${lecture.topic }</h4>
+				<!-- 										<h5>${res.name }.${res.ext }</h5> -->
+													</div> 
+				<!-- 									<a href="<ui:download resid="${res.id}" filename="${res.name }"></ui:download>" class="down_btn"></a> -->
+												</div>
+												<span><fmt:formatDate value="${lecture.shareTime}" pattern="yyyy-MM-dd HH:mm"/></span>
+											</div>
+										</div> 
+									</c:forEach>
+								</div>
+							</c:if>
+							<c:if test="${not empty datas.plainlist }">
+								<div class="ja_wrap">
+									<div class="ja">计划总结</div>
+									<c:forEach items="${datas.plainlist }" var="plain">
+										<div class="com_personal_cont_head_cont1" style="width:100%";>
+											<div class="com_personal_cont_head_cont1_l" style="width:10%;">
+												<ui:photo src="${u.photo }" width="57" height="57"></ui:photo>
+											</div>
+											<div class="com_personal_cont_head_cont1_r" style="width:88%;">
+												<h4>${u.name }</h4>
+												<div class="com_per_c_h_fj" style="width:100%";>
+													<jy:ds key="${plain.contentFileKey }" className="com.tmser.tr.manage.resources.service.ResourcesService" var="res"></jy:ds>
+													<div class="com_per_c_h_fj_l">
+													</div>
+													<div class="com_per_c_h_fj_r">
+														<h4>分享了计划总结：${plain.title }</h4>
+														<h5>${res.name }.${res.ext }</h5>
+													</div> 
+													<a href="<ui:download resid="${res.id}" filename="${res.name }"></ui:download>" class="down_btn"></a>
+												</div>
+												<span><fmt:formatDate value="${plain.shareTime}" pattern="yyyy-MM-dd HH:mm"/></span>
+											</div>
+										</div> 
+									</c:forEach>
+								</div>
+							</c:if>
+							<c:if test="${not empty datas.thesislist }">
+								<div class="ja_wrap">
+									<div class="ja">教学文章</div>
+									<c:forEach items="${datas.thesislist }" var="thesis">
+										<div class="com_personal_cont_head_cont1" style="width:100%";>
+											<div class="com_personal_cont_head_cont1_l" style="width:10%;">
+												<ui:photo src="${u.photo }" width="57" height="57"></ui:photo>
+											</div>
+											<div class="com_personal_cont_head_cont1_r" style="width:88%;">
+												<h4>${u.name }</h4>
+												<div class="com_per_c_h_fj" style="width:100%";>
+													<jy:ds key="${thesis.resId }" className="com.tmser.tr.manage.resources.service.ResourcesService" var="res"></jy:ds>
+													<div class="com_per_c_h_fj_l">
+													</div>
+													<div class="com_per_c_h_fj_r">
+														<h4>分享了教学文章：${thesis.thesisTitle }</h4>
+														<h5>${res.name }.${res.ext }</h5>
+													</div> 
+													<a href="<ui:download resid="${res.id}" filename="${res.name }"></ui:download>" class="down_btn"></a>
+												</div>
+												<span><fmt:formatDate value="${thesis.shareTime}" pattern="yyyy-MM-dd HH:mm"/></span>
+											</div>
+										</div> 
+									</c:forEach>
+								</div>
+							</c:if>
+							<div style="clear:both;height:2rem;"></div>
 						</div>
-						<div class="clear"></div>
-						<input type="button" class="submit_disscuss" value='说完了' id="confirm" />
-					</form>
+					</div>
 				</div>
-				<iframe src="./jy/companion/messages/${vo.userIdCompanion }/page"
-					onload="setCwinHeight(this,false,100)" scrolling="no"
-					frameborder="0" style="width: 100%;" id="frameDetail"> </iframe>
 			</div>
 		</div>
-		<ui:htmlFooter style="1" needCompanionSide="false"></ui:htmlFooter>
 	</div>
+</div>
 </body>
-<ui:require module="companion/js"></ui:require>
 <script type="text/javascript">
-	require([ 'companion_detail' ]);
+	require(["zepto","detail"],function(){
+	});
 </script>
 </html>

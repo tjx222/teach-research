@@ -117,8 +117,6 @@ public class RegisterServiceImpl extends ExcelBatchService implements RegisterSe
   @Autowired
   private MenuService menuService;
   @Autowired
-  private UserMenuService userMenuService;
-  @Autowired
   private BookService bookService;
   @Autowired
   private UserRoleService userRoleService;
@@ -159,8 +157,8 @@ public class RegisterServiceImpl extends ExcelBatchService implements RegisterSe
     String filepath = "";
     if ("xxyh".equals(templateType)) { // 学校用户模板
       filepath = "/registertemplate/registertemplate_xxyh.xls";
-      workbook = ExcelUtils.createWorkBook(WebThreadLocalUtils.getRequest().getSession().getServletContext()
-          .getRealPath(filepath));
+      workbook = ExcelUtils
+          .createWorkBook(WebThreadLocalUtils.getRequest().getSession().getServletContext().getRealPath(filepath));
       if (workbook == null) {
         returnErrMsg(filepath, response);
         return;
@@ -182,8 +180,8 @@ public class RegisterServiceImpl extends ExcelBatchService implements RegisterSe
       initSheetTeplate(workbook, sheet, org, phaseId, headers);
     } else if ("qyyh".equals(templateType)) { // 区域用户模板
       filepath = "/registertemplate/registertemplate_qyyh.xls";
-      workbook = ExcelUtils.createWorkBook(WebThreadLocalUtils.getRequest().getSession().getServletContext()
-          .getRealPath(filepath));
+      workbook = ExcelUtils
+          .createWorkBook(WebThreadLocalUtils.getRequest().getSession().getServletContext().getRealPath(filepath));
       if (workbook == null) {
         returnErrMsg(filepath, response);
         return;
@@ -205,8 +203,8 @@ public class RegisterServiceImpl extends ExcelBatchService implements RegisterSe
       initAreaSheetTeplate(sheet, org, phaseId, headers);
     } else if ("xx".equals(templateType)) { // 学校模板
       filepath = "/registertemplate/registertemplate_xx.xls";
-      workbook = ExcelUtils.createWorkBook(WebThreadLocalUtils.getRequest().getSession().getServletContext()
-          .getRealPath(filepath));
+      workbook = ExcelUtils
+          .createWorkBook(WebThreadLocalUtils.getRequest().getSession().getServletContext().getRealPath(filepath));
       if (workbook == null) {
         returnErrMsg(filepath, response);
         return;
@@ -226,8 +224,8 @@ public class RegisterServiceImpl extends ExcelBatchService implements RegisterSe
       sheet = setPromptOfCell(sheet, objectListToStringArray(schoolTypeMeataList, "getName", false), 4, 500, 2, 2); // 学校类型
     } else if ("zjyh".equals(templateType)) { // 专家用户模板
       filepath = "/registertemplate/registertemplate_zjyh.xls";
-      workbook = ExcelUtils.createWorkBook(WebThreadLocalUtils.getRequest().getSession().getServletContext()
-          .getRealPath(filepath));
+      workbook = ExcelUtils
+          .createWorkBook(WebThreadLocalUtils.getRequest().getSession().getServletContext().getRealPath(filepath));
       if (workbook == null) {
         returnErrMsg(filepath, response);
         return;
@@ -245,8 +243,8 @@ public class RegisterServiceImpl extends ExcelBatchService implements RegisterSe
       if (workbook != null) {
         response.reset();
         response.setContentType("application/x-msdownload");
-        response.setHeader("Content-Disposition", "attachment; filename="
-            + new String(fileName.getBytes("gb2312"), "ISO-8859-1") + ext);
+        response.setHeader("Content-Disposition",
+            "attachment; filename=" + new String(fileName.getBytes("gb2312"), "ISO-8859-1") + ext);
         workbook.write(response.getOutputStream());
       } else {
         response.getWriter().write("模板文件不存在！");
@@ -839,7 +837,8 @@ public class RegisterServiceImpl extends ExcelBatchService implements RegisterSe
    *      javax.servlet.http.HttpServletResponse)
    */
   @Override
-  public void exportTemplateWithUser(String templateType, Integer phaseId, Integer orgId, HttpServletResponse response) {
+  public void exportTemplateWithUser(String templateType, Integer phaseId, Integer orgId,
+      HttpServletResponse response) {
     String fileName = "批量注册模板";
     String filepath = "";
     Map<String, Object> params = new HashMap<String, Object>();
@@ -860,10 +859,10 @@ public class RegisterServiceImpl extends ExcelBatchService implements RegisterSe
       String ext = filepath.substring(filepath.lastIndexOf("."));
       response.reset();
       response.setContentType("application/x-msdownload");
-      response.setHeader("Content-Disposition", "attachment; filename="
-          + new String(fileName.getBytes("gb2312"), "ISO-8859-1") + ext);
-      exportData(response.getOutputStream(), params, sb, new File(WebThreadLocalUtils.getRequest().getSession()
-          .getServletContext().getRealPath(filepath)));
+      response.setHeader("Content-Disposition",
+          "attachment; filename=" + new String(fileName.getBytes("gb2312"), "ISO-8859-1") + ext);
+      exportData(response.getOutputStream(), params, sb,
+          new File(WebThreadLocalUtils.getRequest().getSession().getServletContext().getRealPath(filepath)));
     } catch (IOException e) {
       logger.error("", e);
       returnErrMsg(filepath, response);
@@ -972,16 +971,16 @@ public class RegisterServiceImpl extends ExcelBatchService implements RegisterSe
     if ((cn = headers.get(ExcelHeader.SUBJECT)) != null) {
       subjectColumnIndex = cn.getIndex();
       List<Meta> subjects = MetaUtils.getPhaseSubjectMetaProvider().listAllSubject(org.getId(), phaseId,
-              StringUtils.toIntegerArray(org.getAreaIds().substring(1, org.getAreaIds().lastIndexOf(",")), ","));
+          StringUtils.toIntegerArray(org.getAreaIds().substring(1, org.getAreaIds().lastIndexOf(",")), ","));
       String subjectnames[] = new String[subjects.size() + 1];
       int i = 0;
       for (Meta meta : subjects) {
-    	  subjectnames[i++] = meta.getName();
+        subjectnames[i++] = meta.getName();
       }
       subjectnames[i] = "无";
-      //MetaRelationship mr = MetaUtils.getPhaseSubjectMetaProvider().getMetaRelationshipByPhaseId(phaseId);
-      sheet = setPromptOfCell(sheet, subjectnames, headline + 1, 500, subjectColumnIndex,
-          subjectColumnIndex); // 学科
+      // MetaRelationship mr =
+      // MetaUtils.getPhaseSubjectMetaProvider().getMetaRelationshipByPhaseId(phaseId);
+      sheet = setPromptOfCell(sheet, subjectnames, headline + 1, 500, subjectColumnIndex, subjectColumnIndex); // 学科
     }
 
     if ((cn = headers.get(ExcelHeader.GRADE)) != null) {
@@ -1025,9 +1024,9 @@ public class RegisterServiceImpl extends ExcelBatchService implements RegisterSe
           int relationRow = start + 1;
           String subjectToColumn = ExcelUtils.indexToColumn(subjectColumnIndex + 1);
           String gradeToColumn = ExcelUtils.indexToColumn(gradeColumnIndex + 1);
-          DataValidation setDataValidationByName = ExcelUtils.createDataValidation(sheet, "INDIRECT($" + gradeToColumn
-              + "$" + relationRow + "&$" + subjectToColumn + "$" + relationRow + ")", start, start, clumnIndex,
-              clumnIndex);
+          DataValidation setDataValidationByName = ExcelUtils.createDataValidation(sheet,
+              "INDIRECT($" + gradeToColumn + "$" + relationRow + "&$" + subjectToColumn + "$" + relationRow + ")",
+              start, start, clumnIndex, clumnIndex);
           sheet.addValidationData(setDataValidationByName);
         }
 
@@ -1108,8 +1107,8 @@ public class RegisterServiceImpl extends ExcelBatchService implements RegisterSe
 
           insertCellData(row, headers, ExcelHeader.SUBJECT,
               MetaUtils.getPhaseSubjectMetaProvider().getMeta(sp.getSubjectId()));
-          insertCellData(row, headers, ExcelHeader.GRADE, MetaUtils.getPhaseGradeMetaProvider()
-              .getMeta(sp.getGradeId()));
+          insertCellData(row, headers, ExcelHeader.GRADE,
+              MetaUtils.getPhaseGradeMetaProvider().getMeta(sp.getGradeId()));
           insertCellData(row, headers, ExcelHeader.ROLE, roleService.findOne(sp.getRoleId()));
           insertCellData(row, headers, ExcelHeader.DEPARTMENT, orgService.findOne(sp.getDepartmentId()));
           insertCellData(row, headers, ExcelHeader.BOOK, getBookShortName(sp.getBookId()));
@@ -1242,7 +1241,8 @@ public class RegisterServiceImpl extends ExcelBatchService implements RegisterSe
   protected void endSheetParse(Sheet sheet, Map<String, Object> params, StringBuilder returnMsg) {
     if (params != null) {
       List<UserSpace> batchSpaceList = (List<UserSpace>) params.get("batchSpaceList"); // 待插入用户空间集合
-      //List<UserMenu> batchMenuList = (List<UserMenu>) params.get("batchMenuList"); // 待插入用户菜单集合
+      // List<UserMenu> batchMenuList = (List<UserMenu>)
+      // params.get("batchMenuList"); // 待插入用户菜单集合
       List<User> batchUserList = (List<User>) params.get("batchUserList");// 待插入用户集合
       Map<String, UserSpace> areadySpaceIdMap = (Map<String, UserSpace>) params.get("areadySpaceIdMap");// 需要删除的用户空间id
       Map<String, String> spaceTempMap = (Map<String, String>) params.get("spaceTempMap");// 需要删除的用户空间id
@@ -1256,28 +1256,28 @@ public class RegisterServiceImpl extends ExcelBatchService implements RegisterSe
           deleteSpace.add(space);
         }
       }
-      
+
       if (!CollectionUtils.isEmpty(deleteSpace)) {
         for (UserSpace space : deleteSpace) {
           userManageService.delUserSpace(space);
         }
       }
-      
+
       // 开始批量插入
       userService.batchSave(batchUserList);
       userSpaceService.batchSave(batchSpaceList);
-      Map<String,UserRole> userRoleMap = new HashMap<>();
+      Map<String, UserRole> userRoleMap = new HashMap<>();
       for (UserSpace userSpace : batchSpaceList) {
-    	  String roleKey = "u"+userSpace.getUserId()+"-"+userSpace.getRoleId();
-    	  UserRole ur = new UserRole();
-    	  ur.setUserId(userSpace.getUserId());
-    	  ur.setRoleId(userSpace.getRoleId());
-    	  userRoleMap.put(roleKey, ur);
-	  }
-      if(!userRoleMap.isEmpty()){
-    	  userRoleService.batchSave(new ArrayList<UserRole>(userRoleMap.values()));
+        String roleKey = "u" + userSpace.getUserId() + "-" + userSpace.getRoleId();
+        UserRole ur = new UserRole();
+        ur.setUserId(userSpace.getUserId());
+        ur.setRoleId(userSpace.getRoleId());
+        userRoleMap.put(roleKey, ur);
       }
-     // userMenuService.batchSave(batchMenuList);
+      if (!userRoleMap.isEmpty()) {
+        userRoleService.batchSave(new ArrayList<UserRole>(userRoleMap.values()));
+      }
+      // userMenuService.batchSave(batchMenuList);
 
     }
   }

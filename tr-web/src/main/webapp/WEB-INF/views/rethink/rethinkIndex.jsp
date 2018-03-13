@@ -1,305 +1,313 @@
 <%@ include file="/WEB-INF/include/taglib.jspf"%>
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<ui:htmlHeader title="教学反思"></ui:htmlHeader>
-	<link rel="stylesheet" href="${ctxStatic }/modules/rethink/css/teaching_reflection.css" media="screen">
-	<link rel="stylesheet" href="${ctxStatic }/lib/jquery/css/validationEngine.jquery.css" media="screen">
-	<link rel="stylesheet" href="${ctxStatic }/lib/AmazeUI/css/amazeui.chosen.css" media="screen">
-	<script type="text/javascript" src="${ctxStatic }/lib/AmazeUI/js/amazeui.chosen.min.js"></script>
-	<script type="text/javascript" src="${ctxStatic }/lib/jquery/jquery.form.min.js"></script>
-	<script type="text/javascript" src="${ctxStatic }/lib/jquery/jquery.validationEngine-zh_CN.js"></script>
-	<script type="text/javascript" src="${ctxStatic }/lib/jquery/jquery.validationEngine.min.js"></script>
-	<ui:require module="rethink/js"></ui:require>
-	<style>
-	.chosen-container .chosen-drop{
-	width:99%;}
-	</style>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta charset="UTF-8">
+	<ui:mHtmlHeader title="教学反思"></ui:mHtmlHeader>
+	<link rel="stylesheet" href="${ctxStatic }/m/rethink/css/rethink.css" media="screen">
+	<ui:require module="../m/rethink/js"></ui:require>
 </head>
 <body>
-	<div class="jyyl_top"> 
-		<ui:tchTop style="1" modelName="教学反思"></ui:tchTop>
+<input type="hidden" id="planTypeIdHid" value="${model.planType }" />
+
+<!-- 查阅意见 -->
+<div class="opinions_comment_wrap" id="checkComment">
+	<div class="opinions_comment">  
+		<div class="opinions_comment_title">
+			<h3>查阅意见</h3>
+			<span class="close"></span>
+		</div>
+		<iframe id="iframe_scan" style="border:none;overflow:hidden;width:100%;height:35rem;" src=""></iframe>
+	</div>
+</div>
+<!-- 评论意见 -->
+<div class="opinions_comment_wrap" id="comment_div">
+	<div class="opinions_comment">  
+		<div class="opinions_comment_title">
+			<h3>评论意见</h3>
+			<span class="close"></span>
+		</div>
+		<iframe id="iframe_comment" style="border:none;overflow:hidden;width:100%;height:35rem;" src=""></iframe>
+	</div>
+</div>
+
+<div class="cw_menu_wrap" >
+	<div class="cw_menu_list" >
+		<span class="cw_menu_list_top"></span>
+		<div id="wrap2" class="cw_menu_list_wrap1" style="height: 6.5rem;"> 
+			<div id="scroller">
+				<p level="leaf" value="2" >课后反思</p>
+				<p level="leaf" value="3" >其他反思</p>
+			</div>
+		</div>
 	</div> 
-	<div class="jyyl_nav">
-		<h3>当前位置：<jy:nav id="jxfs"></jy:nav></h3>
+</div>
+<div class="share_upload_wrap">
+	<div class="share_upload">
+		<div class="share_upload_title">
+			<h3>分享反思</h3>
+			<span class="close"></span>
+		</div>
+		<div class="share_upload_content">
+			<div class="share_width">
+				<q class="dlog_share"></q>
+				<span>您确定要分享该反思吗？分享后，您的小伙伴就可以看到喽！</span>
+			</div>
+			<div class="border_bottom"></div>
+			<div>
+				<input type="button" class="btn_confirm" value="确定">
+				<input type="button" class="btn_cencel" value="取消">
+			</div>
+		</div>
 	</div>
-	<div class="clear"></div>
-		<input id="bkb_lessonId" type="hidden" value="${editModel.lessonId}">
-		<input id="bkb_planId" type="hidden" value="${editModel.planId}">
-		<input id="bkb_resId" type="hidden" value="${editModel.resId}">
-		<input id="bkb_planType" type="hidden" value="${editModel.planType}">
-	<div class="home_cont">
-		<form id="hiddenForm" action="${ctx}jy/rethink/index" method="post">
-			<input id="hi_lessonId" type="hidden" name="lessonId" >
-			<input id="hi_planType" type="hidden" name="planType" value="${planType}">
-			<c:if test="${!empty rethinkList.datalist }">
-				<input id="hi_currentPage" type="hidden" name="currentPage" value="${rethinkList.page.currentPage }">
-			</c:if>
-		</form>
-			<div class="home_cont_l"> 
-				<h3 class="courseware_title"><span></span><strong>撰写反思</strong></h3>
-					<form id="fs_form" action="${ctx}jy/rethink/save"  method="post" >
-						<ui:token/>
-						<input type="hidden" name="lessonId" id="lessonId">
-						<input type="hidden" name="planName" id="planName">
-						<input type="hidden" name="planId" id="planId">
-						<div class="courseware_title_p">
-							<span class="courseware_title_p_span">*</span>
-							<label for="">反思类型：</label>
-							<div class="project_directory_sel">
-								<span id="type_zc">
-								  <input id="planType_2" style="" name="planType" type="radio" value="2" checked="checked" onclick="changeTitle('khfs')">课后反思
-								  <input id="planType_3" style="" name="planType" type="radio" value="3" onclick="changeTitle('qtfs')">其他反思
-								</span>
-								<span id="type_audit" style="display: none;">
-									<span id="typeStr"></span>
-									<input type="hidden" name="planType" id="typeVal" value="">
-								</span>
-							</div>
-						</div> 
-						<div class="courseware_title_p sel_fs_to" id="ktmlyz_to"> 
-							<span class="courseware_title_p_span">*</span>
-							<label for="" id="ktml">课题目录：</label>
-							<span id="fsbt" style="display:none;">
-								<label for="">反思标题：</label>
-							</span>
-							<div class="project_directory_sel" id="sel_fsbt" style="display:none;">
-								<input type="text" id="sel_fs" maxlength="30" onchange="setValue('sel_fs')" >
-							</div>
-							<div class="project_directory_sel" id="sel_ktml">
-								<select id="sel_kt" style="width:180px;height:25px;" class="chosen-select-deselect" onchange="setValue('sel_kt')">
-										<option value="">请选择</option>
-										<optgroup label="${fasiciculeName}">
-										<c:forEach items="${bookChapters }" var="bookChapter">
-											<ui:bookChapter data="${bookChapter }" selectedid="${lessonId }"></ui:bookChapter>
-										</c:forEach>
-										</optgroup>
-										<c:if test="${not empty fasiciculeName2}">
-											<optgroup label="${fasiciculeName2}">
-											<c:forEach items="${bookChapters2 }" var="bookChapter">
-												<ui:bookChapter data="${bookChapter }" selectedid="${lessonId }"></ui:bookChapter>
-											</c:forEach>
-											</optgroup>
+</div>
+<div class="submit_upload_wrap">
+	<div class="submit_upload">
+		<div class="submit_upload_title">
+			<h3>提交反思</h3>
+			<span class="close"></span>
+		</div>
+		<div class="submit_upload_content">
+			<div class="submit_width">
+				<q></q>
+				<span>您确定要提交该反思吗？提交后，学校管理者将看到这些内容！</span>
+			</div>
+			<div class="border_bottom"></div>
+			<div>
+				<input type="button" class="btn_confirm" value="确定">
+				<input type="button" class="btn_cencel" value="取消">
+			</div>
+		</div>
+	</div>
+</div>
+<div class="del_upload_wrap">
+	<div class="del_upload">
+		<div class="del_upload_title">
+			<h3>删除反思</h3>
+			<span class="close"></span>
+		</div>
+		<div class="del_upload_content">
+			<div class="del_width">
+				<q></q>
+				<span>您确定要删除该反思吗？</span>
+			</div>
+			<div class="border_bottom"></div>
+			<div>
+				<input type="button" class="btn_confirm" value="确定">
+				<input type="button" class="btn_cencel" value="取消">
+			</div>
+		</div> 
+	</div>
+</div>
+
+<div class="add_upload_wrap">
+	<div class="add_upload_wrap1"></div>
+	<div class="add_upload">
+		<div class="add_upload_title">
+			<h3>撰写反思</h3>
+			<span class="close"></span>
+		</div>
+		<div class="add_upload_content">
+			<form id="fs_form" action="${ctx}jy/rethink/save" method="post">
+			<ui:token/>
+			<input type="hidden" name="bookId" value="${bookId }">
+			<input type="hidden" name="planType" id="planType" value="${planType }">
+			<input type="hidden" name="lessonId" id="lessonId" value="">
+			<input type="hidden" name="planName" id="planName" value="">
+			<input type="hidden" name="planId" id="planId" value="">
+			<input type="hidden" name="resId" id="resId" value="">
+			<input type="hidden" name="gradeId" value="${model.gradeId}"/> 
+			<input type="hidden" name="subjectId" value="${model.subjectId}"/> 
+			<input type="hidden" name="phaseId" value="${model.phaseId}"/> 
+				<div id="kh_kt" class="form_input">
+					<label>课题目录</label>
+					<strong class="select" id="uploadLesson">请选择<q></q></strong>
+					<div class="menu_list" >
+						<span class="menu_list_top"></span>
+							<div id="wrap1" class="menu_list_wrap1"> 
+								<div id="scroller">
+									<div class="p_label" >${fasiciculeName }</div>
+									<c:forEach items="${bookChapters }" var="bookChapter">
+										<c:if test="${bookChapter.isLeaf}">
+											<p level="leaf" value="${bookChapter.lessonId }" >${bookChapter.lessonName } </p>
 										</c:if>
-									</select>
-							</div>
-						</div> 
-						<div class="courseware_title_p scfj_to" style="height:40px;" id="fileuploadContainer">
-							<span class="courseware_title_p_span"></span>
-							<label for="">上传附件：</label>  
-							<ui:upload containerID="fileuploadContainer" fileType="docx,doc,pptx,ppt,pdf" fileSize="50" startElementId="save" beforeupload="start" callback="backSave" name="resId" relativePath="rethink/o_${_CURRENT_USER_.orgId}/u_${_CURRENT_USER_.id}"></ui:upload>
-						</div>
-						<div id="qt_jcsj" class="courseware_title_p" >
-							<span class="courseware_title_p_span"></span>
-							<label>教材书籍：</label>
-							<select id="sel_qt_sjjc" name="bookId" style="width:180px;height:25px;" class="chosen-select-deselect" >
-								<c:forEach items="${books }" var="book">
-									<option value="${book.comId }">${book.comName }</option>
-								</c:forEach>
-							</select>
-						</div>
-						<div id="def_but" class="btn_bottom">
-							<input id="save" type="button" class="uploadBtn" value='上传'> 
-							<input id="noUpdate" type="button" class="uploadBtn uploadBtn0" value='不改了'  onclick="notUpdate()" style="display:none;">
-						</div>
-					</form>
-			</div>
-			<div class="home_cont_r">
-				<div class="home_cont_r1">
-				<div class="home_cont_r1_h3">
-			 		<ul id="UL">
-						<li <c:if test="${planType==2 }">class="active_1"</c:if> onclick="selectFSLX('2')">课后反思</li>
-						<li <c:if test="${planType==3 }">class="active_1"</c:if> onclick="selectFSLX('3')">其他反思</li>
-					</ul>
-			 		<div class="selWrap">
-			 			<c:if test="${planType==2 }">
-			 			<label for="">课题目录：</label>
-			 			<select id="selectKT" class="chosen-select-deselect" style="width:200px;height:25px;cursor: pointer;" onchange="selectKT()">
-								<option value="">全部</option>
-								<optgroup label="${fasiciculeName}">
-								<c:forEach items="${bookChapters }" var="bookChapter">
-									<ui:bookChapter data="${bookChapter }" selectedid="${lessonId }"></ui:bookChapter>
-								</c:forEach>
-								</optgroup>
-								<c:if test="${not empty fasiciculeName2 }">
-									<optgroup label="${fasiciculeName2}">
-									<c:forEach items="${bookChapters2 }"  var="bookChapter">
-										<ui:bookChapter data="${bookChapter }" selectedid="${lessonId }"></ui:bookChapter>
+										<c:if test="${!bookChapter.isLeaf}">
+											<p level="parent" value="${bookChapter.lessonId }">${bookChapter.lessonName } </p>
+											<c:forEach items="${bookChapter.bookLessons }" var="bookChapter2">
+												<c:if test="${bookChapter2.isLeaf}">
+													<p class="menu_2" level="leaf" value="${bookChapter2.lessonId }" >${bookChapter2.lessonName } </p>
+												</c:if>
+												<c:if test="${!bookChapter2.isLeaf}">
+													<p class="menu_2" level="parent" value="${bookChapter2.lessonId }" >${bookChapter2.lessonName } </p>
+													<c:forEach items="${bookChapter2.bookLessons }" var="bookChapter3">
+														<p class="menu_3" level="leaf" value="${bookChapter3.lessonId }">${bookChapter3.lessonName } </p>
+													</c:forEach>
+												</c:if>
+											</c:forEach>
+										</c:if>
 									</c:forEach>
-									</optgroup>
-								</c:if>
-							</select>
-							</c:if>
-			 		</div>
-			 		<input type="button" class="submit_up" value='提交给上级'>
-			 	</div>
-				<div class="clear"></div>
-				
-   				<div class="home_cont_r1_bottom">
-					<div class="Pre_cont_right_1">
-						<c:choose>
-		           			<c:when test="${!empty rethinkList.datalist }">
-								
-								<c:forEach items="${rethinkList.datalist  }" var="data">
-									
-									<div class="Pre_cont_right_1_dl">
-										<dl onclick="scanResFile('${data.resId }')">
-											<jy:ds key="${data.resId }" className="com.tmser.tr.manage.resources.service.ResourcesService" var="res"/>
-											<dd><ui:icon ext="${res.ext }"></ui:icon></dd>
-											<dt style="word-break:break-all;">
-												<span id="planid_${data.planId }" title="${data.planName }" ><ui:sout value="${data.planName }" length="40" needEllipsis="true"></ui:sout></span>
-												<strong style="display:block;"><fmt:formatDate value="${data.lastupDttm  }" pattern="yyyy-MM-dd"/></strong>
-												<input type="hidden" id="planName_${data.planId }" value="${data.planName }">
-											</dt>
-										</dl>
-										<div class="show_p">
-											<ol>
-												<c:choose>
-													<c:when test="${data.isSubmit || data.isShare}">
-														<li title="禁止修改" class="jz_li_edit"></li>
-														<li title="禁止删除" class="jz_li_del"></li>
-													</c:when>
-													<c:otherwise>
-														<li title="修改" class="li_edit" onclick="updateThis('${data.planId}','${data.planType }','${data.lessonId }','${data.resId }')"></li>
-														<li title="删除" class="li_del" onclick="deleteThis('${data.planId}','${data.resId }','${data.planType }')"></li>
-													</c:otherwise>
-												</c:choose>
-												<c:choose>
-													<c:when test="${data.isShare}">
-														<c:if test="${!data.isComment }"><li title="取消分享" class="qx_li_share" onclick="sharingThis('${data.planType }','${data.planId}',false)"></li></c:if>
-														<c:if test="${data.isComment }"><li title="禁止取消分享" class="jz_li_share"></li></c:if>
-													</c:when>
-													<c:otherwise>
-														<li title="分享" class="li_share" onclick="sharingThis('${data.planType }','${data.planId}',true)"></li>
-													</c:otherwise>
-												</c:choose>
-												<a title="下载" href="<ui:download resid="${data.resId}" filename="${data.planName }"></ui:download>"><li class="li_down"></li></a>
-												<c:if test="${data.isScan}">
-													<c:if test="${data.scanUp}"><li title="查阅意见" class="li_yue" onclick="cyyj('${data.planType}','${data.infoId}','${data.planId}','true')"><span class="spot"></span></li></c:if>
-													<c:if test="${!data.scanUp}"><li title="查阅意见" class="li_yue" onclick="cyyj('${data.planType}','${data.infoId}','${data.planId}','false')"></li></c:if>
-												</c:if>
-												<c:if test="${data.isComment }">
-													<c:if test="${data.commentUp }"><li title="评论意见" class="li_ping" onclick="showCommentListBox('${data.planType}','${data.planId}','true')"><span class="spot"></span></li></c:if>
-													<c:if test="${!data.commentUp }"><li title="评论意见" class="li_ping" onclick="showCommentListBox('${data.planType}','${data.planId}','false')"></li></c:if>
-												</c:if>
-											</ol>
-										</div>
-									</div>
-									
-								</c:forEach>
-									
-								<div class="clear"></div>
-								
-								<form name="pageForm" method="post">
-									<ui:page url="${ctx}jy/rethink/index" data="${rethinkList}"  />
-									<input type="hidden" class="currentPage" name="currentPage">
-									<input type="hidden" name="planType" value="${planType}">
-									<input type="hidden" name="lessonId" value="${lessonId}" <c:if test="${empty lessonId}">disabled="disabled"</c:if> >
-								</form>
-		           			</c:when>
-		           			<c:otherwise>
-		           				<!-- 无文件 -->
-		           				<div class="empty_wrap">
-								    <div class="empty_img"></div>
-								    <div class="empty_info">您还没有上传反思哟，赶紧去左边“上传反思”吧！</div> 
+									<c:if test="${not empty fasiciculeName2 }">
+										<div class="p_label" >${fasiciculeName2 }</div>
+										<c:forEach items="${bookChapters2 }" var="bookChapter">
+											<c:if test="${bookChapter.isLeaf}">
+												<p level="leaf" value="${bookChapter.lessonId }" >${bookChapter.lessonName } </p>
+											</c:if>
+											<c:if test="${!bookChapter.isLeaf}">
+												<p level="parent" value="${bookChapter.lessonId }">${bookChapter.lessonName } </p>
+												<c:forEach items="${bookChapter.bookLessons }" var="bookChapter2">
+													<c:if test="${bookChapter2.isLeaf}">
+														<p class="menu_2" level="leaf" value="${bookChapter2.lessonId }" >${bookChapter2.lessonName } </p>
+													</c:if>
+													<c:if test="${!bookChapter2.isLeaf}">
+														<p class="menu_2" level="parent" value="${bookChapter2.lessonId }" >${bookChapter2.lessonName } </p>
+														<c:forEach items="${bookChapter2.bookLessons }" var="bookChapter3">
+															<p class="menu_3" level="leaf" value="${bookChapter3.lessonId }">${bookChapter3.lessonName } </p>
+														</c:forEach>
+													</c:if>
+												</c:forEach>
+											</c:if>
+										</c:forEach>
+									</c:if>
 								</div>
-		           			</c:otherwise>
-		           		</c:choose>
+							</div>
+					</div> 
+				</div>
+				<div id="qt_kt" class="form_input" style="display: none;">
+					<label>反思标题</label>
+					<strong><input type="text" id="qt_planName" name="planName" style="width: 22.5rem;height: 3.5rem;border-radius: 0.5rem;padding-left:0.5rem;font-weight: normal;" maxlength="30"/></strong>
+				</div>
+				<div id="fileuploadContainer" class="form_input">
+					<label style="background-color: #fff; position: absolute;left: -3px;z-index: 1;">上传附件</label>
+					<div class="enclosure_name" style="display: none;">
+						<q></q>
+						<span id="uploadFileName"></span>
+						<div class="enclosure_del"></div>
 					</div>
+					<strong id="uploadId" style="display: none;margin-left:7rem;">
+						<ui:upload_m fileType="doc,docx,ppt,pptx,pdf" fileSize="50" startElementId="save" beforeupload="start" callback="afterUpload" relativePath="rethink/o_${_CURRENT_USER_.orgId}/u_${_CURRENT_USER_.id}"></ui:upload_m>					
+					</strong>
 				</div>
-				
-			</div>
-			</div>
+				<div>
+					<input id="save" type="button" class="btn_edit" value="上传"> 
+					<input type="button" class="btn_cencel" value="取消">
+				</div>
+				<div class="btn_sc" style="display: none;">
+					<div class="spinner ">
+					  <div class="rect1"></div>
+					  <div class="rect2"></div>
+					  <div class="rect3"></div>
+					  <div class="rect4"></div>
+					  <div class="rect5"></div>
+					</div>
+					<span>上传中...</span>
+				</div>
+			</form>	
+		</div>
 	</div>
-		<div class="clear"></div>
-		<ui:htmlFooter style="1"></ui:htmlFooter>
-		<div id="submit_fs" class="dialog"> 
-			<div class="dialog_wrap"> 
-				<div class="dialog_head">
-					<span class="dialog_title">提交上级</span>
-					<span class="dialog_close" onclick="location.reload()"></span>
+</div>
+<div class="zx_option_wrap" style="display: none;">
+	<div class="zx_option">
+		<div class="zx_option_kh"></div>
+		<div class="zx_option_qt"></div>
+	</div>
+</div>
+<div class="mask"></div>
+<div class="more_wrap_hide" onclick='moreHide()'></div>
+<div id="wrapper">
+	<header>
+		<span onclick="javascript:window.history.go(-${empty param._HS_ ? 1 : param._HS_ });"></span>教学反思
+		<div class="more" onclick="more()"></div>
+	</header>
+	<section>
+	 <form id="hiddenForm" action="${ctx }jy/rethink/index?_HS_=${empty param._HS_ ? 2 :param._HS_+1 }" method="post">
+			<input id="form_planType" type="hidden" name="planType" value="">
+		<div class="content">
+			<div class="content_top">
+				<div class="content_top_left">
+					<input type="button" class="btn_submit" value="提交上级">
 				</div>
-				<div class="dialog_content" id="load_submit_bkb">
-					<div class="upload-bottom">
-						<div class="upload-bottom_tab">
-							<ul>
-								<li id="wtjButton" class="upload-bottom_tab_blue">未提交</li>
-								<li id="ytjButton" class="">已提交</li>
-							</ul>
+				<div id="rethinktype" class="content_top_right">
+					<label>反思类型：</label>
+					<span id="currentLesson"></span>
+					<strong></strong>
+				</div>
+				<div class="content_top_right">
+				    <label>年级学科:</label>
+				    <select id="spacelist" name="spaceId" style="width: 10rem; border: none;  line-height: 3rem;  height: 3rem; font-size: 1.267rem; color: #999; background: #f7f8f9;" >
+					<c:forEach items="${sessionScope._USER_SPACE_LIST_}" var="space">
+						<c:if test="${not empty space.gradeId && not empty space.subjectId && not empty space.bookId }">
+							<option value="${space.id }" ${currentBookId == space.bookId ?'selected':''}><jy:dic key="${space.gradeId}"></jy:dic><jy:dic key="${space.subjectId}"></jy:dic></option>
+						</c:if>
+					</c:forEach>
+					</select>
+				</div>
+			</div>
+		</div>
+	</form>
+		<div class="content_bottom" id="wrap">
+			<div id="scroller">
+				<div class="content_bottom_width">
+					<div class="add_cour">
+						<div class="add_cour_div">
+							<div class="add_cour_div_top">
+								<div class="add_cour_div_top_img"></div> 
+							</div>
+							<div class="add_cour_div_bottom">撰写反思</div>
 						</div>
-						<div class="clear"></div>
-						<iframe id="submit_iframe" name="submit_content"  width="800" height="545" frameborder="0" scrolling="no" style="overflow: hidden;"></iframe>
 					</div>
+					<c:forEach var="fansi" items="${rethinkList.datalist }">
+						<jy:ds key="${fansi.resId }" className="com.tmser.tr.manage.resources.service.ResourcesService" var="res"/>
+						<div class="courseware_ppt" planId="${fansi.planId }" planType="${fansi.planType }" lessonId="${fansi.lessonId }" resId="${fansi.resId }" >
+							<div class="courseware_img_1">反思</div>
+							<h3>${fansi.planName }</h3>
+							<p><ui:icon ext="${res.ext }" title="${fansi.planName }"></ui:icon></p>
+							<div class="courseware_img_2" title="操作"></div>
+							<c:if test="${fansi.isScan}">
+								<c:if test="${fansi.planType==2 }">
+									<div class="courseware_img_3" title="查阅意见" infoId="${fansi.infoId }" planType="${fansi.planType }" isUpdate="${fansi.scanUp?'1':'0' }" >${fansi.scanUp?'<span></span>':'' }</div>
+								</c:if>
+								<c:if test="${fansi.planType==3 }">
+									<div class="courseware_img_3" title="查阅意见" planId="${fansi.planId }" planType="${fansi.planType }" isUpdate="${fansi.scanUp?'1':'0' }" >${fansi.scanUp?'<span></span>':'' }</div>
+								</c:if>
+							</c:if>
+							<c:if test="${fansi.isComment}">
+								<div class="courseware_img_4" title="评论意见" planId="${fansi.planId }" planType="${fansi.planType }" isUpdate="${fansi.commentUp?'1':'0' }" >${fansi.commentUp?'<span></span>':'' }</div>
+							</c:if>
+							<div class="cw_option_mask" style="display:none;"></div>
+							<div class="cw_option" style="display:none;">
+								<c:choose>
+									<c:when test="${fansi.isSubmit || fansi.isShare}">
+										<div class="cw_option_jz_edit" title="编辑"></div>
+										<div class="cw_option_jz_del" title="删除"></div>
+									</c:when>
+									<c:otherwise>
+										<div class="cw_option_edit" title="编辑"></div>
+										<div class="cw_option_del" title="删除"></div>
+									</c:otherwise>
+								</c:choose>
+								<div <c:if test="${!fansi.isSubmit }">class="cw_option_submit" title="提交"</c:if><c:if test="${fansi.isSubmit && !fansi.isScan}">class="cw_option_qx_submit" title="取消提交"</c:if><c:if test="${fansi.isSubmit && fansi.isScan}">class="cw_option_jz_submit" title="已被查阅，禁止取消提交"</c:if> ></div>
+								<div  <c:if test="${!fansi.isShare }">class="cw_option_share" title="分享"</c:if><c:if test="${fansi.isShare && !fansi.isComment}">class="cw_option_qx_share" title="取消分享"</c:if><c:if test="${fansi.isShare && fansi.isComment}">class="cw_option_jz_share" title="已有评论，禁止取消分享"</c:if>></div>
+								<div class="cw_option_down" title="下载" href="<ui:download resid="${fansi.resId}" filename="${fansi.planName }"></ui:download>"></div>
+								<div class="cw_option_close" ></div>
+							</div>
+						</div>
+					</c:forEach>
 				</div>
 			</div>
 		</div>
-	<div id="jxfs_review" class="dialog"> 
-		<div class="dialog_wrap"> 
-			<div class="dialog_head">
-				<span class="dialog_title">评论意见</span>
-				<span class="dialog_close" onclick="location.reload()"></span>
-			</div>
-			<div class="dialog_content">
-				<iframe name="comment" id="commentBox" style="width:100%;height:100%;border:0;"></iframe>
-			</div>
-		</div>
-	</div>
-	<div id="jxfs_option" class="dialog"> 
-		<div class="dialog_wrap"> 
-			<div class="dialog_head">
-				<span class="dialog_title">查阅意见</span>
-				<span class="dialog_close" onclick="location.reload()"></span>
-			</div>
-			<div class="dialog_content">
-				<iframe name="checkedBox" id="checkedBox" style="width:100%;height:100%;border:0;"></iframe>
-			</div>
-		</div>
-	</div>
-	<div id="jxfs_share" class="dialog"> 
-		<div class="dialog_wrap"> 
-			<div class="dialog_head">
-				<span class="dialog_title">分享</span>
-				<span class="dialog_close"></span>
-			</div>
-			<div class="dialog_content">
-				<div class="share_info">
-					<h4>
-					您确定要分享“<span id="res_title"></span>”反思吗？分享成功后，您的小伙伴们就可以看到喽！您也可以去“<a href="${ctx}jy/comres/index">同伴资源</a>”中查看其它小伙伴的反思哦！
-					</h4>		
-				</div>
-				<div class="del_info" style="display:none;">
-					您确定要取消分享吗？			
-				</div>
-				<div class="BtnWrap">
-					<input type="button" id="querenbut" value="确定" class="confirm">
-				    <input type="button" value="取消" class="cancel" data="" onclick="sharingClose()">  
-				</div> 
-			</div>
-		</div>
-	</div>
-	<div id="jxfs_del" class="dialog"> 
-		<div class="dialog_wrap"> 
-			<div class="dialog_head">
-				<span class="dialog_title">删除</span>
-				<span class="dialog_close"></span>
-			</div>
-			<div class="dialog_content">
-				<div class="del_info">
-					您确定要删除吗？				
-				</div>
-				<div class="BtnWrap">
-					<input type="button" value="确定" class="confirm" id="bt_delete">
-				    <input type="button" value="取消" class="cancel" id="bt_cancel_delete"> 
-				</div>
-			</div>
-		</div>
-	</div>
+	</section>
+</div>
+
+<!-- 提交上级 -->
+<div id="submitDiv" style="display: none;">
+	<iframe id="submitIframe" frameborder="0" scrolling="no" width="100%" height="100%" src=""></iframe>
+</div>
+
 </body>
 <script type="text/javascript">
-$(function(){
-	$(".chosen-select-deselect").chosen({disable_search : true});
-});
-require(['jquery','jp/jquery-ui.min','jp/jquery.blockui.min','teaching_reflection'],function(){});
+	require(['zepto','js'],function($){	
+	}); 
 </script>
 </html>

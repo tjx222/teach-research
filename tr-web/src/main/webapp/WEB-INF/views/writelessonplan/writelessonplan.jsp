@@ -45,6 +45,8 @@ $(document).ready(function(){
 		
 		try {
 			document.getElementById("iframe2").contentWindow.updateLessonName(hoursIdStr);
+			$('#gradeId',document.getElementById("iframe2").contentWindow.document).val('${lessonPlan.gradeId}');
+			$('#subjectId',document.getElementById("iframe2").contentWindow.document).val('${lessonPlan.subjectId}');
 	　　     } catch(error) {
 		
 	　　     }
@@ -82,6 +84,11 @@ $(document).ready(function(){
 	}else if(${currentBook !=null}){
 		showTree('${currentBook.comId}');
 	}
+	
+	$("#spacelist").change(function () {  
+		var so = $(this).children('option:selected');
+        location.href="jy/toWriteLessonPlan?nocookie=true&spaceId="+so.val();
+	});
 });
 //将已选课题置灰
 function checked_zhihui(hoursIdStr){
@@ -390,7 +397,9 @@ function saveLessonRecord(resId){
 				"lessonName":$("#lesson_name").val(),
 				"lessonHours":$("#lesson_hours").val(),
 				"planId":$("#plan_id").val(),
-				"bookId":$("#book_id").val()
+				"bookId":$("#book_id").val(),
+				"gradeId":"${lessonPlan.gradeId}",
+				"subjectId":"${lessonPlan.subjectId}"
 			},
 			success:function(data){
 				if(data.code==1){
@@ -409,6 +418,8 @@ function saveLessonRecord(resId){
 <input type="hidden" id="lesson_id" name="lessonId" value="" />
 <input type="hidden" id="book_id" name="bookId" value="" /> 
 <input type="hidden" id="lesson_name" name="lessonName" value="" />
+<input type="hidden" id="gradeId" name="gradeId" value="${lessonPlan.gradeId }" />
+<input type="hidden" id="subjectId" name="subjectId" value="${lessonPlan.subjectId }" />
 <!-- 已选课时 -->
 <input type="hidden" id="lesson_hours" name="hoursIdStr" value="" />
 <!-- 教案id -->
@@ -485,6 +496,15 @@ function saveLessonRecord(resId){
 					<span class="com_cont_left_h2_span"></span>教材目录</span>
 					<strong class="com_cont_left_h2_strong" title="设置保存位置" onclick="setPlanFoder();"></strong> 
 				</h2>
+				<div class="list">
+					<select id="spacelist" style="width: 232px;border: none;line-height: 30px;height: 30px;font-size: 16px;" >
+					<c:forEach items="${sessionScope._USER_SPACE_LIST_}" var="space">
+						<c:if test="${not empty space.gradeId && not empty space.subjectId && not empty space.bookId }">
+							<option value="${space.id }" ${currentBook.comId == space.bookId ?'selected':''}><jy:dic key="${space.gradeId}"></jy:dic><jy:dic key="${space.subjectId}"></jy:dic></option>
+						</c:if>
+					</c:forEach>
+					</select>
+				</div>
 				<c:forEach var="book" items="${bookList }">
 				<div class="list">
 					<h3 class="cont_left_navbg" id="bookId_${book.comId }" onclick="showTree('${book.comId }');" title="${book.comName }"><ui:sout value="${book.comName }" length="30" needEllipsis="true"></ui:sout><span class="up"></span></h3>

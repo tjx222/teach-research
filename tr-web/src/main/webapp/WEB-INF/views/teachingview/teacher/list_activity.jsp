@@ -84,7 +84,7 @@
 								<c:forEach var="track" items="${activityMap['trackList'] }">
 									<dl>
 										 <a href="${ctx}jy/activity/scanLessonPlanTrack?resId=${track.resId }&orgId=${userSpace.orgId}" target="_blank">
-											<dt><img src="${ctxStatic }/common/icon/base/word.png"/></dt>
+											<dt><img src="${ctxStatic }/modules/teachingview/images/w_img1.png"/></dt>
 											<dd class="article_name" title="${track.planName }">${track.planName }</dd>
 											<dd class="article_date"><fmt:formatDate value="${track.crtDttm}" pattern="yyyy-MM-dd"/></dd>
 										 </a>

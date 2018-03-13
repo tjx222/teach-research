@@ -17,7 +17,10 @@
 </style>
 </head>
 <body>
-<c:set value="<%=request.getSession().getId() %>" var="sessionId" scope="session"></c:set>
+	<div class="jyyl_top">
+		<ui:tchTop style="1" modelName="计划总结"></ui:tchTop>
+	</div>
+	
 	<div class="check_teacher_wrap">
 		<div class="check_teacher_wrap2">
 			<h3 class="file_title">${ps.title }</h3>
@@ -38,10 +41,9 @@
 						撰写日期：<fmt:formatDate value="${ps.crtDttm}" pattern="yyyy-MM-dd"/>
 					</div>
 				</c:if>
-				<input type="button" class="download" data-name="${ps.title }" data-resId="${ps.contentFileKey}" id="downloadBtn"/>
 			</div>
 			<div class="word_plug_ins">
-				<iframe id="fileView" src="jy/scanResFile?to=true&resId=${ps.contentFileKey}"  width="100%" height="660px;" border="0" style="border: none;margin: 0 auto;display: block;">
+				<iframe id="fileView" src="jy/scanResFile?resId=${ps.contentFileKey}"  width="100%" height="660px;" border="0" style="border: none;margin: 0 auto;display: block;">
 				</iframe>
 			</div>
 		</div>
@@ -55,13 +57,7 @@
 					width="100%" height="100%" style="border: none;display:block;margin:0 auto;" scrolling="no" frameborder="no"></iframe>
 		</div>
 </div>
+	<ui:htmlFooter style="1"></ui:htmlFooter>
 <script src="${ctxStatic }/lib/jquery/jquery.blockui.min.js"></script>
-<script type="text/javascript">
-	$(document).ready(function(){
-		$("#downloadBtn").click(function(){
-			   window.open(_WEB_CONTEXT_+"/jy/manage/res/download/"+$(this).attr("data-resId")+"?filename="+encodeURI($(this).attr("data-name")),"_self");
-		});
-	})
-</script>
 </body>
 </html>

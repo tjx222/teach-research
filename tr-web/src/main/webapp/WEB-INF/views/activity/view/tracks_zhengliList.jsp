@@ -1,35 +1,30 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/include/taglib.jspf"%>
 <html>
-<ui:htmlHeader title="集备意见教案列表"></ui:htmlHeader>
+<ui:mHtmlHeader title="集备整理教案列表"></ui:mHtmlHeader>
 <head>
-	<link rel="stylesheet" href="${ctxStatic }/modules/activity/css/activity.css" media="all">
+	<link rel="stylesheet" href="${ctxStatic }/m/activity/css/activity.css" media="screen">
+	<ui:require module="../m/activity/js"></ui:require>
 <script type="text/javascript">
-//新选项卡查看修改教案
-function scanLessonPlanTrack(resId,orgId){
-	window.open(_WEB_CONTEXT_+"/jy/activity/scanLessonPlanTrack?resId="+resId+"&orgId="+orgId,"hidenframe");
-}
 </script>
 </head>
-<body style="background:#fff;">
-<div class='edit_zb_lessonplan_cont'>
-<c:if test="${!empty zhengliList }">
-<c:forEach var="zhengli" items="${zhengliList }">
-<dl>
-	<dd>
-		<img src="${ctxStatic }/common/icon/base/word.png" title="${zhengli.planName }" onclick="scanLessonPlanTrack('${zhengli.resId}','${zhengli.orgId}');">
-	</dd>
-	<dt title="${zhengli.planName }" >${zhengli.planName }</dt>
-</dl>
-</c:forEach>
-</c:if>
-<c:if test="${empty zhengliList }">
-<script type="text/javascript">
-$("#fasong",window.parent.document).hide();
-</script>
-	<div class="emptyInfo">大家已提出了修改建议，您赶紧去<span onclick="parent.wantToEdit1();">"修改教案"</span>吧！</div>
-</c:if>
+<body>
+<div class="act_modify_content1" id="act_modify">
+	<div id="scroller">
+		<c:forEach var="zhengli" items="${zhengliList }">
+			<div class="hour" resId="${zhengli.resId }">
+				<div class="hour_title">教案</div>
+				<h3><ui:sout value="${zhengli.planName }" length="21" needEllipsis="true"></ui:sout></h3>
+				<p><img src="${ctxStatic }/common/icon_m/base/doc.png" /></p>
+				<div class="hour_modified">
+				</div>
+			</div>
+		</c:forEach>
+	</div> 
 </div>
-<iframe id="hiddenIframe" style="display: none;"></iframe>
 </body>
+<script type="text/javascript">
+	require(['list'],function(){	
+	}); 
+</script>
 </html>

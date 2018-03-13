@@ -9,21 +9,6 @@
 html,body{margin:0px; 
 height:100%;
 }
-#down_load_a {
-    line-height: 30px;
-    height: 30px;
-    width: 70px;
-    background: #ff8400;
-    text-align: center;
-    display: block;
-    text-decoration: blink;
-    font-size: 16px;
-    color: #fff;
-    float: right;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    font-weight: bold;
-}
 </style>
 <script type="text/javascript">
 var wordObj; //word控件实体
@@ -35,13 +20,6 @@ function AfterDocumentOpened() {
 </script>
 </head>
 <body>
-        <c:if test="${empty orgId ||_CURRENT_SPACE_.orgId==orgId }">
-            <div style="width:100%;margin:10px auto;height:auto;"> 
-				<a id="down_load_a" style="display: block;" href="${ctx}/jy/manage/res/download/${resId}?filename=">
-					下载
-				</a>
-			</div>
-        </c:if>
     	<div style="height:100%;width:100%;overflow-y:hidden">
 	    	<po:PageOfficeCtrl id="PageOfficeCtrl1" height="700">
 	        </po:PageOfficeCtrl>

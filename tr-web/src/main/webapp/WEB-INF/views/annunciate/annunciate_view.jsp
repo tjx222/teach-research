@@ -1,105 +1,84 @@
 <%@ include file="/WEB-INF/include/taglib.jspf"%>
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<ui:htmlHeader title="通知公告"></ui:htmlHeader>
-<link rel="stylesheet" href="${ctxStatic }/modules/annunciate/css/notice.css" media="screen">
-<ui:require module="annunciate/js"></ui:require>
-</head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta charset="UTF-8">
+	<ui:mHtmlHeader title="通知公告"></ui:mHtmlHeader>
+	<link rel="stylesheet" href="${ctxStatic }/m/annunciate/css/annunciate.css" media="screen">
+	<ui:require module="../m/annunciate/js"></ui:require>
+</head> 
 <body>
-	<div class="wrapper">
-		<div class="jyyl_top">
-			<ui:tchTop style="1" hideMenuList="false"></ui:tchTop>
-		</div>
-		<div class="jyyl_nav">
-			当前位置：
-			<c:choose>
-				<c:when test="${type==1}">
-					<jy:nav id="cktzggxx"></jy:nav>
-				</c:when>
-				<c:otherwise>
-					<c:if test="${ja.isForward==0}">
-						<c:if test="${jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId, 'jyy')||jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId, 'jyzr')}">
-							<jy:nav id="cktzgg"></jy:nav>
-						</c:if>
-						<c:if test="${!jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId, 'jyy')&&!jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId, 'jyzr')}">
-							<jy:nav id="ckwzftzgg"></jy:nav>
-						</c:if>
+<div class="mask"></div>
+<div class="more_wrap_hide" onclick='moreHide()'></div>
+<div id="wrapper">
+	<header> 
+		<span onclick="javascript:window.history.go(-1);"></span>通知公告
+		<div class="more" onclick="more()"></div>
+	</header>
+	<section> 
+		<div class="annunciate_content" id="annunciate_content">
+			<div id="scroller">
+				<div class="annunciate_content_width"> 
+				    <c:if test="${ja.redTitleId!=0}">
+						<div class="annun_cont_red">
+							<h3>${jrt.title}</h3>
+							<h4>${ja.fromWhere}</h4>
+							<span></span>
+						</div>
 					</c:if>
-					<c:if test="${ja.isForward==1}"><jy:nav id="cktzgg"></jy:nav></c:if>
-				</c:otherwise>
-			</c:choose>
-		</div>
-		<div class="clear"></div>
-		<div class='file_wrap'>
-			<c:if test="${!jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId, 'jyy')&&!jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId, 'jyzr')}">
-				<c:if test="${ja.annunciateType==1&&ja.isForward==1}">
-					<h2 style="width: 80%;font-size:16px;line-height:50px;height:50px;text-align:left;padding-left:55px;">
-						转发通知:
-					</h2>
-					<div class="Teaching_schedule_cont" style="min-height: 0px;">
-						<p style="text-align: justify;" class="forwardInfo">${ja.forwardDescription}</p>
-					</div>
-				</c:if>
-			</c:if> 
-			<c:if test="${ja.redTitleId!=0}">
-				<div class="file_wrap_top">
-					<h3 class="file_wrap_h3">
-						<span>${jrt.title}</span>
-					</h3>
-					<h4 class="file_wrap_h4">${ja.fromWhere}</h4>
-				</div> 
-			</c:if>
-			<div class="file_wrap_bottom">
-				<h3 class="pt_file_wrap_h3">
-					<span title="${ja.title}">${ja.title}</span>
-					<c:if test="${!jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId, 'jyy')&&!jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId, 'jyzr')}">
-						<c:if test="${type==0 && ja.annunciateType==1 && ja.isForward==0}">
-							<input type='button' class="forward" value="转发" onclick="forwardAnnunciate('${ja.id}')">
-						</c:if>
-					</c:if>
-				</h3> 
-				<div class="clear"></div>
-				<jy:di key="${ja.crtId}" className="com.tmser.tr.uc.service.UserService" var="u"></jy:di>
-				<h4 class="file_wrap_bottom_h4">发布时间：<fmt:formatDate value="${ja.crtDttm}" pattern="yyyy-MM-dd" />&nbsp;&nbsp;|&nbsp;&nbsp;       作者：${u.name }</h4> 
-				<div class="file_wrap_border"></div>
-				
-				<p>${ja.content}</p>
-			</div>
-			<c:if test="${!empty ja.attachs}">
-				<div class="file_enclosure">
-					<h3>
-						<span></span>
-						<strong>附件</strong>
-						<b>${attachSum }</b>
-					</h3>
-					<div class="file_enclosure_cont">
-						<c:forEach items="${rList}" var="res">
-							<dl onclick="scanResFile('${res.id}');">
-								<dd></dd>
-								<dt title="${res.name}.${res.ext }"><ui:sout value="${res.name}.${res.ext }" length="30" needEllipsis="true" ></ui:sout></dt>
-							</dl>
-						</c:forEach>
+					<div class="annun_cont">
+						<h5><ui:sout value="${ja.title}"></ui:sout></h5>
+						<ul>
+							<li>发布时间：<fmt:formatDate value="${ja.crtDttm}" pattern="yyyy-MM-dd" /></li>
+							<li>|</li>
+							<jy:di key="${ja.crtId}" className="com.tmser.tr.uc.service.UserService" var="u">
+							<li>作者：${u.name}</li></jy:di>
+						</ul>
+						<div class="annun_cont_c">
+							<p>${ja.content}</p>
+							<!-- <ul>
+								<li>1、确定研究主题，制定研究方案；</li>
+								<li>2、搜索资讯，召开家庭会议，确定研究方法；</li>
+								<li>3、记录旅游过程中研究内容，搜集相关资料；</li>
+								<li>4、回家后，整理资料，可通过绘画、游记、照片、微博、统计图表或研究报告等各种形式记录下自己的研究成果。</li>
+							</ul> -->
+						</div>
+						<div class="annun_cont_b">
+							<h6>
+								<span class="span1"></span>
+								<span class="span2">附件</span>
+								<span class="span3"><c:if test="${!empty ja.attachs}">${attachSum}</c:if><c:if test="${empty ja.attachs}">0</c:if></span>
+							</h6>
+							<c:if test="${!empty ja.attachs}">
+								<c:forEach items="${rList}" var="res">
+									<div class="annun_fj">
+									   <a href="<ui:download filename='${res.name}' resid='${res.id}'></ui:download>">
+										<dl>
+											<dd></dd>
+											<dt title="${res.name}.${res.ext }"><ui:sout value="${res.name}.${res.ext }" length="18" needEllipsis="true" ></ui:sout></dt>
+										</dl>
+										</a>
+									</div>
+								</c:forEach>
+							</c:if>
+							<!-- <div class="annun_fj">
+								<dl>
+									<dd></dd>
+									<dt>查阅听课记录...</dt>
+								</dl>
+							</div> -->
+						</div>
 					</div>
 				</div>
-			</c:if>
-			<div class="clear"></div>
-			<ul class="article" data-id="${ja.id}" data-status="${ja.status}" data-type="${type}">
-				<c:if test="${isFirst!=true}">
-					<li class="last_one" style="cursor: pointer;"><a><span></span>上一篇</a></li>
-				</c:if>
-				<c:if test="${isLast!=true}">
-					<li class="next_article"><a><span></span>下一篇</a></li>
-				</c:if>
-			</ul>
+			</div>
 		</div>
-		<ui:htmlFooter style="1"></ui:htmlFooter>
-	</div>
+	</section>
+</div>
 </body>
 <script type="text/javascript">
-	require(['jquery','jp/jquery-ui.min','jp/jquery.blockui.min','annunciate'],function(){
-		
-	});
+	require(["zepto",'public'],function($){	
+	}); 
 </script>
 </html>

@@ -36,7 +36,6 @@
 				</li>
 			</ul>
 		</div>
-		<div id="list">
 		<table cellpadding="0" cellspacing="0" class="teachingManagement_table" id="load_tr_table">
 			<tr class="load_tr">
 				<td rowspan="2" style="cursor:pointer;width:90px;">
@@ -119,8 +118,12 @@
 			<table cellpadding="0" cellspacing="0" class="teachingManagement_table2" id="exportTable">
 				<c:if test="${dataSize != 0}">
 					<c:forEach  items="${dataList}" var="data">
-						<tr class="change_bg replace_tr">
-							<td style="width:88px;"><a href="${ctx}jy/teachingView/manager/m_details?userId=${data.userId}&termId=${data.searchVo.termId}&orgId=${data.searchVo.orgId}">${data.userName}</a></td>
+						<tr class="change_bg">
+							<td style="width:88px;">
+								<a href="${ctx}jy/teachingView/manager/m_details?userId=${data.userId}&termId=${data.searchVo.termId}&orgId=${data.searchVo.orgId}">
+									${data.userName}
+								</a>
+							</td>
 							<td style="width:79px;">
 								<a href="${ctx}jy/teachingView/manager/m_lesson?userId=${data.userId}&flago=0&phaseId=${data.searchVo.phaseId}&termId=${data.searchVo.termId}&orgId=${data.searchVo.orgId}">
 									<c:set var="cyja" value="${cyja+data.jiaoan_read}" ></c:set>
@@ -172,7 +175,7 @@
 						</tr>
 					</c:forEach>
 				</c:if>
-				<tr class="replace_tr">
+				<tr class="change_bg">
 					<td style="width:88px;">
 						合计
 					</td>         
@@ -201,17 +204,6 @@
 						${jhzjfq}
 					</td>
 				</tr>
-				<tr id="viewChart">
-					<td>查看图表</td>
-					<td><button class="checkBtn"></button></td>
-					<td><button class="checkBtn"></button></td>
-					<td><button class="checkBtn"></button></td>
-					<td><button class="checkBtn"></button></td>
-					<td><button class="checkBtn"></button></td>
-					<td><button class="checkBtn"></button></td>
-					<td><button class="checkBtn"></button></td>
-					<td class="no_border"><button class="checkBtn"></button></td>
-				</tr>
 				<c:if test="${dataSize == 0}">
 	   				<div class="nofile">
 						<div class="nofile1">
@@ -221,54 +213,12 @@
 				</c:if>
 			</table>
 		</div>
-		<p class="teachingManagement_tip">注：表格为各项资源数，点击各项名称即对该项进行排序显示。</p> 
-		</div>
-		<div class="chartDiv"  style="display: none;width:986px;">
-			<div class="radio_div">
-				<div class="radioDiv"><input type="radio" name="kind" value="1"/>查阅教案（查阅数）</div>
-				<div class="radioDiv"><input type="radio" name="kind" value="2"/>查阅课件（查阅数）</div>
-				<div class="radioDiv"><input type="radio" name="kind" value="3"/>查阅反思（查阅数）</div>
-				<div class="radioDiv"><input type="radio" name="kind" value="4"/>查阅计划总结（查阅数）</div>
-				<div class="radioDiv"><input type="radio" name="kind" value="5"/>查阅教学文章（查阅数）</div>
-				<div class="radioDiv"><input type="radio" name="kind" value="6"/>查阅听课记录（查阅数）</div>
-				<div class="radioDiv"><input type="radio" name="kind" value="7"/>集体备课查阅数 </div>
-				<div class="radioDiv"><input type="radio" name="kind" value="8"/>集体备课发起数</div>
-			</div> 
-			<div id="chartDiv" style="width: 900px;height:450px;margin:0 auto;"></div> 
-			<div class="cencelDiv">
-				<span></span>
-				<strong>点此返回查看教学管理情况一览表</strong>
-			</div> 
-		</div>
-		<div class="clear"></div>
+		<p class="teachingManagement_tip">注：表格为各项资源数，点击各项名称即可按该项达标率进行排序显示。</p>
 	</div>
 	<!--footer-->
 	<ui:htmlFooter style="1"></ui:htmlFooter>
 </body>
 <script type="text/javascript">
-	require(['jquery','tablexport','managerList','viewChart'],function(){
-		$("#viewChart").find("td").each(function(index,obj){
-			$(obj).find("button").click(function(){
-				//更改标题
-				$(".teachingManagement_title").text("教学管理分项情况图表");
-				//选中查看的类别
-				$(".radio_div").find(".radioDiv").eq(index-1).find("input").prop("checked",true);
-				//生成图表
-				$("#list").hide();
-				var trArray = $(".teachingManagement_table2").find(".change_bg");
-				viewChart(trArray,index);
-			});
-		});
-		$(".cencelDiv").click(function(){
-			$(".chartDiv").hide();
-			$("#list").show();
-			//更改标题
-			$(".teachingManagement_title").text("教学管理情况一览");
-		});
-		$(".radio_div").find("input[type='radio']").click(function(){
-			var trArray = $(".teachingManagement_table2").find(".change_bg");
-			viewChart(trArray,$(this).val());
-		});
-	});
+	require(['jquery','tablexport','managerList'],function(){});
 </script>
 </html>

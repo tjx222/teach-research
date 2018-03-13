@@ -92,11 +92,11 @@
 		</div>
 	</div>
 	<div class='info_border'></div>
-	<div class="partake_discuss_Wrap" style="width:1120px;margin: 10px auto;">
+	<div class="partake_discuss_Wrap" style="width:920px;margin: 10px auto;">
 		<div class='partake_discuss_title'>
 			<h5 class='partake_discuss_title_h51'><span></span>参与人：（点击头像可以阅读他的全部留言）</h5>
 		</div>
-		<div class="partake_discuss_r_b" style="width:1120px;">
+		<div class="partake_discuss_r_b" style="width:920px;">
 			<c:forEach items="${usList }" var="user">
 			<jy:di key="${user.userId }" className="com.tmser.tr.uc.service.UserService" var="u"/>
 			<div class="partake_wrap" onclick="discussUser(this,'${activity.id }','${u.id }',false)">
@@ -111,8 +111,8 @@
 	</div>
 	<div class='clear'></div>
 </div>
-<iframe id="discuss_iframe" frameborder=0 scrolling="no" onload="setCwinHeight(this,false,100)" style="width:1200px;"></iframe>
-<iframe id="commentBox" frameborder=0 scrolling="no" onload="setCwinHeight(this,false,100)" style="width:1200px;"></iframe>
+<iframe id="discuss_iframe" frameborder=0 scrolling="no" onload="setCwinHeight(this,false,100)" style="width:1000px;"></iframe>
+<iframe id="commentBox" frameborder=0 scrolling="no" onload="setCwinHeight(this,false,100)" style="width:1000px;"></iframe>
 <c:if test="${data.flags=='manager'}">
 	<iframe id="checkedBox" onload="setCwinHeight(this,false,100)" style="border:none;width:100%;" scrolling="no" frameborder="no"></iframe>
 </c:if>

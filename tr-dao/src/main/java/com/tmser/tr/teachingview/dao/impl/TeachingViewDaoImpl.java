@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
 
 import com.tmser.tr.activity.bo.ActivityTracks;
-import com.tmser.tr.activity.bo.SchoolActivityTracks;
 import com.tmser.tr.common.ResTypeConstants;
 import com.tmser.tr.common.dao.AbstractQuery;
 import com.tmser.tr.common.orm.SqlMapping;
@@ -328,8 +327,9 @@ public class TeachingViewDaoImpl extends AbstractQuery implements TeachingViewDa
       if (searchVo.getSubjectId() != null) {
         condition1.append(" and u.subjectId = :subjectId");
       }
-      sql.append(" and a.lecturepeopleId in (select distinct u.userId from UserSpace u where u.enable = :enable and u.orgId = :orgId and u.sysRoleId = :sysRoleId "
-          + condition1.toString() + ")");
+      sql.append(
+          " and a.lecturepeopleId in (select distinct u.userId from UserSpace u where u.enable = :enable and u.orgId = :orgId and u.sysRoleId = :sysRoleId "
+              + condition1.toString() + ")");
       argsMap.put("enable", 1);
       argsMap.put("sysRoleId", SysRole.TEACHER.getId());
     }
@@ -360,8 +360,9 @@ public class TeachingViewDaoImpl extends AbstractQuery implements TeachingViewDa
       if (searchVo.getSubjectId() != null) {
         condition1.append(" and u.subjectId = :subjectId");
       }
-      sql.append(" and a.lecturepeopleId in (select distinct u.userId from UserSpace u where u.enable = :enable and u.orgId = :orgId and u.sysRoleId = :sysRoleId "
-          + condition1.toString() + ")");
+      sql.append(
+          " and a.lecturepeopleId in (select distinct u.userId from UserSpace u where u.enable = :enable and u.orgId = :orgId and u.sysRoleId = :sysRoleId "
+              + condition1.toString() + ")");
       argsMap.put("enable", 1);
       argsMap.put("sysRoleId", SysRole.TEACHER.getId());
     }
@@ -384,8 +385,8 @@ public class TeachingViewDaoImpl extends AbstractQuery implements TeachingViewDa
     if (searchVo.getSpaceId() != null) {
       condition.append(" where a.spaceId = :spaceId");
       condition1.append(" where b.spaceId = :spaceId and b.typeId=:typeId");
-      condition
-          .append(" and a.editType != :editType and a.orgId = :orgId and a.crtDttm >= :startTime and a.crtDttm < :endTime ");
+      condition.append(
+          " and a.editType != :editType and a.orgId = :orgId and a.crtDttm >= :startTime and a.crtDttm < :endTime ");
       condition1.append(" and b.crtDttm >= :startTime and b.crtDttm < :endTime ");
       argsMap.put("editType", ActivityTracks.ZHUBEI);
       sql = new StringBuilder("select count(distinct m.activity_id) from (select a.activityId from ActivityTracks a ");
@@ -394,10 +395,10 @@ public class TeachingViewDaoImpl extends AbstractQuery implements TeachingViewDa
       sql.append(condition1.toString());
       sql.append(" ) m ");
     } else {
-      condition
-          .append(" where a.spaceId in(select u.id from UserSpace u where u.orgId = :orgId and u.sysRoleId = :sysRoleId and u.enable = :enable ");
-      condition1
-          .append(" where b.typeId=:typeId and b.spaceId in(select u.id from UserSpace u where u.orgId = :orgId and u.sysRoleId = :sysRoleId and u.enable = :enable ");
+      condition.append(
+          " where a.spaceId in(select u.id from UserSpace u where u.orgId = :orgId and u.sysRoleId = :sysRoleId and u.enable = :enable ");
+      condition1.append(
+          " where b.typeId=:typeId and b.spaceId in(select u.id from UserSpace u where u.orgId = :orgId and u.sysRoleId = :sysRoleId and u.enable = :enable ");
       if (searchVo.getGradeId() != null) {
         condition.append(" and u.gradeId = :gradeId");
         condition1.append(" and u.gradeId = :gradeId");
@@ -410,8 +411,8 @@ public class TeachingViewDaoImpl extends AbstractQuery implements TeachingViewDa
       condition1.append(")");
       argsMap.put("sysRoleId", SysRole.TEACHER.getId());
       // condition1.append(" where 1=1 ");
-      condition
-          .append(" and a.editType != :editType and a.orgId = :orgId and a.crtDttm >= :startTime and a.crtDttm < :endTime ");
+      condition.append(
+          " and a.editType != :editType and a.orgId = :orgId and a.crtDttm >= :startTime and a.crtDttm < :endTime ");
       condition1.append(" and b.crtDttm >= :startTime and b.crtDttm < :endTime ");
       argsMap.put("editType", ActivityTracks.ZHUBEI);
       sql = new StringBuilder(
@@ -464,8 +465,8 @@ public class TeachingViewDaoImpl extends AbstractQuery implements TeachingViewDa
         condition1.append(" and u.subjectId = :subjectId");
         condition2.append(" and a.mainUserSubjectId = :subjectId");
       }
-      condition
-          .append("a.mainUserId in (select distinct u.userId from UserSpace u where u.enable = :enable and u.orgId = :orgId and u.sysRoleId = :sysRoleId "
+      condition.append(
+          "a.mainUserId in (select distinct u.userId from UserSpace u where u.enable = :enable and u.orgId = :orgId and u.sysRoleId = :sysRoleId "
               + condition1.toString() + ") " + condition2.toString() + "))");
       argsMap.put("enable", 1);
       argsMap.put("sysRoleId", SysRole.TEACHER.getId());
@@ -554,8 +555,9 @@ public class TeachingViewDaoImpl extends AbstractQuery implements TeachingViewDa
       if (searchVo.getSubjectId() != null) {
         condition1.append(" and u.subjectId = :subjectId");
       }
-      sql.append(" and a.lecturepeopleId in (select distinct u.userId from UserSpace u where u.enable = :enable and u.orgId = :orgId and u.sysRoleId = :sysRoleId "
-          + condition1.toString() + ")");
+      sql.append(
+          " and a.lecturepeopleId in (select distinct u.userId from UserSpace u where u.enable = :enable and u.orgId = :orgId and u.sysRoleId = :sysRoleId "
+              + condition1.toString() + ")");
       argsMap.put("sysRoleId", SysRole.TEACHER.getId());
     }
     return countByNamedSql(sql.toString(), argsMap);
@@ -584,8 +586,9 @@ public class TeachingViewDaoImpl extends AbstractQuery implements TeachingViewDa
       if (searchVo.getSubjectId() != null) {
         condition1.append(" and u.subjectId = :subjectId");
       }
-      sql.append(" and a.userId in (select distinct u.userId from UserSpace u where u.enable = :enable and u.orgId = :orgId and u.sysRoleId = :sysRoleId "
-          + condition1.toString() + ")");
+      sql.append(
+          " and a.userId in (select distinct u.userId from UserSpace u where u.enable = :enable and u.orgId = :orgId and u.sysRoleId = :sysRoleId "
+              + condition1.toString() + ")");
       argsMap.put("sysRoleId", SysRole.TEACHER.getId());
     }
     return countByNamedSql(sql.toString(), argsMap);
@@ -612,8 +615,9 @@ public class TeachingViewDaoImpl extends AbstractQuery implements TeachingViewDa
       if (searchVo.getSubjectId() != null) {
         condition1.append(" and u.subjectId = :subjectId");
       }
-      sql.append(" and a.userIdSender in (select distinct u.userId from UserSpace u where u.enable = :enable and u.orgId = :orgId and u.sysRoleId = :sysRoleId "
-          + condition1.toString() + ")");
+      sql.append(
+          " and a.userIdSender in (select distinct u.userId from UserSpace u where u.enable = :enable and u.orgId = :orgId and u.sysRoleId = :sysRoleId "
+              + condition1.toString() + ")");
       argsMap.put("enable", 1);
       argsMap.put("sysRoleId", SysRole.TEACHER.getId());
     }
@@ -646,8 +650,8 @@ public class TeachingViewDaoImpl extends AbstractQuery implements TeachingViewDa
       if (searchVo.getSubjectId() != null) {
         condition1.append(" and u.subjectId = :subjectId");
       }
-      condition
-          .append(" and a.userIdSender in (select distinct u.userId from UserSpace u where u.enable = :enable and u.orgId = :orgId and u.sysRoleId = :sysRoleId "
+      condition.append(
+          " and a.userIdSender in (select distinct u.userId from UserSpace u where u.enable = :enable and u.orgId = :orgId and u.sysRoleId = :sysRoleId "
               + condition1.toString() + ")");
       argsMap.put("enable", 1);
       argsMap.put("sysRoleId", SysRole.TEACHER.getId());
@@ -728,57 +732,13 @@ public class TeachingViewDaoImpl extends AbstractQuery implements TeachingViewDa
         condition1.append(" and u.subjectId = :subjectId");
         condition2.append(" and a.mainUserSubjectId = :subjectId");
       }
-      condition
-          .append("a.mainUserId in (select distinct u.userId from UserSpace u where u.enable = :enable and u.orgId = :orgId and u.sysRoleId = :sysRoleId "
+      condition.append(
+          "a.mainUserId in (select distinct u.userId from UserSpace u where u.enable = :enable and u.orgId = :orgId and u.sysRoleId = :sysRoleId "
               + condition1.toString() + ") " + condition2.toString() + "))");
       argsMap.put("enable", 1);
       argsMap.put("sysRoleId", SysRole.TEACHER.getId());
     }
     sql.append(condition.toString());
-    return countByNamedSql(sql.toString(), argsMap);
-  }
-
-  /**
-   * 校际教研参与数（老师）
-   * 
-   * @param searchVo
-   * @return
-   * @author wangdawei
-   */
-  public Integer count_schoolActivityJoin(SearchVo searchVo) {
-    Map<String, Object> argsMap = getArgsMap(searchVo);
-    StringBuilder condition = new StringBuilder("");
-    StringBuilder condition1 = new StringBuilder("");
-    if (searchVo.getSpaceId() != null) {
-      condition.append(" where a.userId = :userId and a.spaceId = :spaceId");
-      condition1.append(" where b.typeId = :typeId and b.crtId = :userId and b.spaceId = :spaceId");
-      argsMap.put("typeId", ResTypeConstants.SCHOOLTEACH);
-    } else {
-      condition.append(" inner join UserSpace u on a.spaceId = u.id and u.sysRoleId = :sysRoleId");
-      condition1
-          .append(" inner join UserSpace u on b.spaceId = u.id and u.sysRoleId = :sysRoleId and u.orgId = :orgId");
-      condition.append(" where 1=1 ");
-      if (searchVo.getGradeId() != null) {
-        condition.append(" and a.gradeId = :gradeId");
-        condition1.append(" and u.gradeId = :gradeId");
-      }
-      if (searchVo.getSubjectId() != null) {
-        condition.append(" and a.subjectId = :subjectId");
-        condition.append(" and u.subjectId = :subjectId");
-      }
-      condition1.append(" where 1=1 ");
-      argsMap.put("sysRoleId", SysRole.TEACHER.getId());
-    }
-    condition
-        .append(" and a.editType != :editType and a.orgId = :orgId and a.crtDttm >= :startTime and a.crtDttm < :endTime ");
-    condition1.append(" and b.crtDttm >= :startTime and b.crtDttm < :endTime ");
-    argsMap.put("editType", SchoolActivityTracks.ZHUBEI);
-    StringBuilder sql = new StringBuilder(
-        "select count(distinct m.activity_id) from (select a.activityId from SchoolActivityTracks a ");
-    sql.append(condition.toString());
-    sql.append(" union all select b.activityId from Discuss b ");
-    sql.append(condition1.toString());
-    sql.append(" ) m ");
     return countByNamedSql(sql.toString(), argsMap);
   }
 
@@ -1246,8 +1206,8 @@ public class TeachingViewDaoImpl extends AbstractQuery implements TeachingViewDa
           condition
               .append(" and a.gradeIds like :lkgradeId and a.subjectIds like :lksubjectId and a.spaceId!=:spaceId");
         } else if (sysRoleId.intValue() == SysRole.TEACHER.getId().intValue()) { // 教师
-          condition
-              .append(" and ((a.gradeIds like :lkgradeId and a.subjectIds like :lksubjectId) or (a.subjectIds like :subjectId and a.mainUserId=:userId))");
+          condition.append(
+              " and ((a.gradeIds like :lkgradeId and a.subjectIds like :lksubjectId) or (a.subjectIds like :subjectId and a.mainUserId=:userId))");
         }
         if (searchVo.getOrgId() != null) {
           condition.append(" and a.orgId = :orgId");
@@ -1298,10 +1258,8 @@ public class TeachingViewDaoImpl extends AbstractQuery implements TeachingViewDa
     argsMap.put("editType", ActivityTracks.ZHUBEI);
     argsMap.put("typeId", ResTypeConstants.ACTIVITY);
     String sql = "select count(DISTINCT t.activity_id) from (select a.activityId from ActivityTracks a where a.userId = :userId and a.editType <> :editType"
-        + aSpaceIds
-        + " and a.crtDttm >= :startTime and a.crtDttm < :endTime"
-        + " union all select c.activityId from Discuss c where c.crtId = :userId and c.typeId=:typeId "
-        + cSpaceIds
+        + aSpaceIds + " and a.crtDttm >= :startTime and a.crtDttm < :endTime"
+        + " union all select c.activityId from Discuss c where c.crtId = :userId and c.typeId=:typeId " + cSpaceIds
         + " and c.crtDttm >= :startTime and c.crtDttm < :endTime) t" + condition.toString();
     return countByNamedSql(sql, argsMap);
   }
@@ -1679,13 +1637,13 @@ public class TeachingViewDaoImpl extends AbstractQuery implements TeachingViewDa
           condition
               .append(" and a.orgids like :lkorgId and a.gradeIds like :lkgradeId and a.organizeUserId != :userId");
         } else if (SysRole.BKZZ.getId().equals(sysRoleId)) { // 备课组长
-          condition
-              .append(" and a.orgids like :lkorgId and a.subjectIds like :lksubjectId and a.gradeIds like :lkgradeId and a.organizeUserId != :userId");
+          condition.append(
+              " and a.orgids like :lkorgId and a.subjectIds like :lksubjectId and a.gradeIds like :lkgradeId and a.organizeUserId != :userId");
         } else if (SysRole.ZR.getId().equals(sysRoleId) || SysRole.XZ.getId().equals(sysRoleId)) { // 校长或主任
           condition.append(" and a.orgids like :lkorgId");
         } else if (SysRole.TEACHER.getId().equals(sysRoleId)) { // 教师
-          condition
-              .append(" and a.orgids like :lkorgId and ((a.subjectIds like :lksubjectId and a.gradeIds like :lkgradeId) or a.mainUserId=:userId)");
+          condition.append(
+              " and a.orgids like :lkorgId and ((a.subjectIds like :lksubjectId and a.gradeIds like :lkgradeId) or a.mainUserId=:userId)");
         }
         if (searchVo.getPhaseId() != null) {
           condition.append(" and a.phaseId = :phaseId");
@@ -1735,10 +1693,8 @@ public class TeachingViewDaoImpl extends AbstractQuery implements TeachingViewDa
     argsMap.put("typeId", ResTypeConstants.SCHOOLTEACH);
 
     String sql = "select count(DISTINCT t.activity_id) from ((select a.activityId from SchoolActivityTracks a where a.userId = :userId and a.editType <> :editType "
-        + aSpaceIds
-        + " and a.crtDttm >= :startTime and a.crtDttm < :endTime)"
-        + " union all (select c.activityId from Discuss c where c.typeId = :typeId and c.crtId = :userId "
-        + cSpaceIds
+        + aSpaceIds + " and a.crtDttm >= :startTime and a.crtDttm < :endTime)"
+        + " union all (select c.activityId from Discuss c where c.typeId = :typeId and c.crtId = :userId " + cSpaceIds
         + " and c.crtDttm >= :startTime and c.crtDttm < :endTime)) t";
     return countByNamedSql(sql, argsMap);
   }

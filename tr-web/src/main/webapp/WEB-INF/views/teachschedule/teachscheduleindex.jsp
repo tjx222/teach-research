@@ -1,402 +1,261 @@
 <%@ include file="/WEB-INF/include/taglib.jspf"%>
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<ui:htmlHeader title="教研进度表"></ui:htmlHeader>
-<link rel="stylesheet" href="${ctxStatic }/lib/jquery/css/validationEngine.jquery.css" media="screen">
-<link rel="stylesheet" href="${ctxStatic }/modules/teachschedule/css/teachschedule.css" media="screen">
-<link rel="stylesheet" href="${ctxStatic }/lib/AmazeUI/css/amazeui.chosen.css" media="screen">
-<script type="text/javascript" src="${ctxStatic }/lib/AmazeUI/js/amazeui.chosen.min.js"></script>
-<script type="text/javascript" src="${ctxStatic }/lib/jquery/jquery.form.min.js"></script>
-<script type="text/javascript" src="${ctxStatic }/lib/jquery/jquery.validationEngine-zh_CN.js"></script>
-<script type="text/javascript" src="${ctxStatic }/lib/jquery/jquery.validationEngine.min.js"></script>
-<script type="text/javascript">
-	//表单提交
-	function backSave(data) {
-		if (data.code == 0) {
-			$.ajax({
-				type : "post",
-				dataType : "json",
-				url : _WEB_CONTEXT_ + "/jy/teachschedule/save.json",
-				data : $("#jy_from").serialize(),
-				success : function(data) {
-					alert("保存成功");
-					//刷新页面
-					location.href = _WEB_CONTEXT_ + "/jy/teachschedule/index";
-				}
-			});
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta charset="UTF-8">
+	<ui:mHtmlHeader title="校际教研"></ui:mHtmlHeader>
+	<link rel="stylesheet" href="${ctxStatic }/m/schoolactivity/css/schoolactivity.css" media="screen" />
+	<ui:require module="../m/schoolactivity/js"></ui:require>	
+	<style>
+		#fileToUpload_1 {
+		    margin-left: -10.5rem;
 		}
-	}
-
-	function change() {
-		var circleId = $("#sel_st").val();
-		if (circleId != "") {
-			var name = "";
-			var contentStr = "";
-			var schoolOptions = "";
-			<c:forEach items="${stlist}" var="stc">
-			var id = "${stc.id }";
-			if (circleId == id) {
-				name = "${stc.name }";
-				<c:forEach items="${stc.stcoList }" var="stco">
-				var state = "${stco.state }";
-				var orgId = "${stco.orgId }";
-				var orgName = "${stco.orgName }";
-				if (state == 1) {
-					contentStr += '<li><a title="'+orgName+'" class="w180">' + orgName + '</a><span class="z_zc">待接受</span></li>';
-				} else if (state == 2) {
-					contentStr += '<li><a title="'+orgName+'" class="w180">' + orgName + '</a><span class="z_ty">已同意</span></li>';
-					schoolOptions += '<option value="'+orgId+'">' + orgName + '</option>';
-				} else if (state == 3) {
-					contentStr += '<li><a title="'+orgName+'" class="w180">' + orgName + '</a><span class="z_jj">已拒绝</span></li>';
-				} else if (state == 4) {
-					contentStr += '<li><a title="'+orgName+'" class="w180">' + orgName + '</a><span class="z_tc">已退出</span></li>';
-				} else if (state == 5) {
-					contentStr += '<li><a title="'+orgName+'" class="w180">' + orgName + '</a><span class="z_ty">已恢复</span></li>';
-					schoolOptions += '<option value="'+orgId+'">' + orgName + '</option>';
-				}
-				</c:forEach>
-			}
-			</c:forEach>
-			$("#circleName").html(name);
-			$("#circleOrg").html(contentStr);
-			$("#circleContent").css("display", "block");
-		} else {
-			$("#circleContent").css("display", "none");
-		}
-	}
-	//修改校际进度表
-	function updateTeachSchedule(id, schoolTeachCircleId, subjectId, gradeId, name, resId) {
-		if (resId != "") {
-			$.ajax({
-				type : "post",
-				dataType : "json",
-				url : _WEB_CONTEXT_ + "/jy/teachschedule/getFileById.json",
-				data : {
-					"resId" : resId
-				},
-				success : function(data) {
-					if (data.res != null) {
-						$("#originFileName").val(data.res.name + "." + data.res.ext);
-						$("#hiddenFileId").val(resId);
-						$(".mes_file_process").html("");
-					}
-				}
-			});
-		}
-		$(".formError").remove();
-		$("#id").attr("value", id);
-		$("#name").attr("value", name);
-		$("#sel_st").val(schoolTeachCircleId);
-		$("#sel_sb").val(subjectId);
-		$("#sel_gd").val(gradeId);
-		//显示修改,不修改按钮,隐藏保存按钮
-		$("#save").attr("class", "Update");
-		$("#noUpdate").attr("style", "");
-
-		$("#sel_st").trigger('chosen:updated');
-		$("#sel_sb").trigger('chosen:updated');
-		$("#sel_gd").trigger('chosen:updated');
-
-	}
-	function notUpdate(subjectId) {
-		$("#id").attr("value", "");
-		$("#name").attr("value", "");
-		$("#sel_st").val("");
-		$("#sel_sb").val("");
-		$("#sel_gd").val("");
-
-		$("#originFileName").val("请选择文件");
-		$("#hiddenFileId").val("");
-		//显示保存按钮同时隐藏修改与不修改按钮
-		$("#save").attr("class", "Upload1");
-		$("#noUpdate").attr("style", "display: none;");
-
-		$("#sel_st").trigger('chosen:updated');
-		$("#sel_sb").trigger('chosen:updated');
-		$("#sel_gd").trigger('chosen:updated');
-	}
-	function deleteTeachSchedule(id, resId) {
-		if (confirm("您确定要删除此文件吗")) {
-			$.ajax({
-				type : "post",
-				dataType : "json",
-				url : _WEB_CONTEXT_ + "/jy/teachschedule/delete.json",
-				data : {
-					"id" : id,
-					"resId" : resId
-				},
-				success : function(data) {
-					if (data.isOk) {
-						alert("删除成功！");
-						location.href = _WEB_CONTEXT_ + "/jy/teachschedule/index";
-					} else {
-						alert("删除失败！");
-					}
-				}
-			})
-		}
-	}
-	function releaseTeachSchedule(id, isRelease) {
-		var releaseOk = "您要确定发布该文件吗？";
-		if (!isRelease) {
-			releaseOk = "您要确定取消发布该文件吗？";
-		}
-		if (confirm(releaseOk)) {
-			$.ajax({
-				type : "post",
-				dataType : "json",
-				url : _WEB_CONTEXT_ + "/jy/teachschedule/release.json",
-				data : {
-					"id" : id,
-					"isRelease" : isRelease
-				},
-				success : function(data) {
-					if (data.isRelease) {
-						if (data.isOk) {
-							alert("发布成功！");
-							location.href = _WEB_CONTEXT_ + "/jy/teachschedule/index";
-						} else {
-							alert("发布失败！");
-						}
-					} else {
-						if (data.isOk) {
-							alert("取消发布成功！");
-							location.href = _WEB_CONTEXT_ + "/jy/teachschedule/index";
-						} else {
-							alert("取消发布失败！");
-						}
-					}
-				}
-			})
-		}
-	}
-	function searchContent() {
-		var search = $("#search").val();
-		if (search != null && search != "") {
-			$("#search_form").submit();
-			$("#whole").attr("style", "margin-top:-2px;");
-		}
-	}
-	//表单验证
-	function start(fileArraySize) {
-		if ($("#originFileName").val() == "请选择文件") {
-			$("#scfj_to").html(getCheckHtml(505, "请 选 择 文 件"));
-			return false;
-		} else {
-			$("#scfj_to").html();
-		}
-		if (Number(fileArraySize) > 0) {
-			return ($("#jy_from").validationEngine('validate'));
-		} else {
-			if ($("#jy_from").validationEngine('validate')) {
-				$.ajax({
-					type : "post",
-					dataType : "json",
-					url : _WEB_CONTEXT_ + "/jy/teachschedule/save.json",
-					data : $("#jy_from").serialize(),
-					success : function(data) {
-						alert("保存成功");
-						//window.location.reload();
-						//刷新页面
-						location.href = _WEB_CONTEXT_ + "/jy/teachschedule/index";
-					}
-				});
-			}
-		}
-	}
-	//getcheckhtml
-	function getCheckHtml(topNum, content) {
-		var str = '<div class="kjmsformError parentFormkj_form formError" style="opacity:0.87; position:absolute; top:'+topNum+'px; left:280px;">'
-				+ '<div class="formErrorContent" style="padding:8px 10px;">* ' + content + '<br></div>'
-				+ '<div class="formErrorArrow"><div class="line10"></div><div class="line9"></div><div class="line8"></div>'
-				+ '<div class="line7"></div><div class="line6"></div><div class="line5"></div>'
-				+ '<div class="line4"></div><div class="line3"></div><div class="line2"></div><div class="line1"></div>' + '</div></div>';
-		return str;
-	}
-</script>
+	</style>
 </head>
 <body>
-	<div class="wrapper">
-		<div class='jyyl_top'>
-			<ui:tchTop modelName="校际教研"></ui:tchTop>
+<div class="partake_school_wrap1" style="z-index:104;">
+	<div class="partake_school_wrap">
+		<div class="partake_school_title">
+			<h3>教研圈名称:校级教研圈1</h3>
+			<span class="close1"></span>
 		</div>
-		<div class="jyyl_nav">
-			<h3>
-				当前位置：
-				<jy:nav id="jyjdb">
-				</jy:nav>
-			</h3>
-		</div>
-		<div class="clear"></div>
-		<div class="research_circle">
-			<div class="research_circle_l">
-				<h3>
-					<span>上传教研进度表</span>
-				</h3>
-				<form id="jy_from" action="jy/teachschedule/save" method="post">
-					<ui:token></ui:token>
-					<div class="from_list">
-						<span class="from_list_span">*</span>
-						<label for="">教研圈：</label> 
-						<input type="hidden" id="id" name="id" /> 
-						<div class="from_list_sel">
-							<select name="schoolTeachCircleId" id="sel_st" style="width: 190px;height:27px;" onchange="change()" class="chosen-select-deselect jyq validate[required]">
-								<option value="">请选择</option>
-								<c:forEach var="s" items="${stlist}">
-									<option value="${s.id}">${s.name}</option>
-								</c:forEach>
-							</select>
-						</div>
-						<div id="circleContent" class="hover_td">
-							查 看
-							<div class="school1" style="color: #474747;">
-								<h5 style="font-weight: bold; border-bottom: 1px #ccc solid;">
-									教研圈名称：<span id="circleName"></span>
-								</h5>
-								<ol id="circleOrg"></ol>
-							</div>
-						</div> 
-					</div> 
-					<div class="from_list">
-						<span class="from_list_span">*</span>
-						<label for="">学科：</label>
-						<div class="from_list_sel">
-						    <select name="subjectId" style="width: 190px;height:27px;" id="sel_sb" class="chosen-select-deselect jyq validate[required]">
-								<option value="">请选择</option>
-								<ui:relation var="list" type="xdToXk" id="${_CURRENT_SPACE_.phaseId}">
-									<c:forEach var="xk" items="${list}">
-										<option value="${xk.id}">${xk.name}</option>
-									</c:forEach>
-								</ui:relation>
-							</select>
-						</div>
-					</div>
-					<div class="from_list">
-						<span class="from_list_span">*</span>
-						<label for="" >年级：</label>
-						<div class="from_list_sel">
-							<select name="gradeId" style="width: 190px;height:27px;" id="sel_gd" class="chosen-select-deselect jyq validate[required]">
-								<option value="">请选择</option>
-								<ui:relation var="grades" type="xdToNj" id="${_CURRENT_SPACE_.phaseId }"></ui:relation>
-								<c:forEach items="${grades }" var="g" varStatus="st">
-									<li data="${g.id }"
-										class="grade ${grade == g.id || (empty grade && st.index == 0) ? 'nj_act':'' }">
-										<option value="${g.id}">${g.name }</option>
-									</li>
-								</c:forEach>
-							</select>
-						</div>
-					</div>
-					<div class="from_list">
-						<span class="from_list_span">*</span>
-						<label for="">标题：</label>
-						<div class="from_list_sel">
-							<input type="text" id="name" name="name" class="txt validate[required,maxSize[30]]">
-						</div>
-					</div>
-					<div id="scfj_to"></div>
-					<div id="fileuploadContainer" class="from_list">
-						<span class="from_list_span">*</span>
-						<label for="">上传附件：</label>
-						<ui:upload containerID="fileuploadContainer"
-							fileType="docx,doc,xlsx,xls,pdf" fileSize="50"
-							startElementId="save" callback="backSave" beforeupload="start"
-							relativePath="teachschedule/o_${_CURRENT_USER_.orgId }/u_${_CURRENT_USER_.id }"
-							name="resId"></ui:upload>
-					</div>
-					<p style="text-align: center; margin-top: 80px;">
-						<input id="save" type="button" class="Upload1" value="上传" /> 
-						<input id="noUpdate" type="button" class="NoUpdate" value="不改了"  style="display: none;" onclick="notUpdate('${_CURRENT_SPACE_.subjectId}')" />
-					</p>
-				</form>
-			</div>
-			<div class="research_circle_r">
-				<h3>教研进度表</h3>
-				<div class="research_circle_r1">
-					<c:choose>
-						<c:when test="${!empty tSchedules }">
-							<c:forEach items="${tSchedules}" var="data">
-								<div class="Reflect_cont_right_1_dl">
-									<dl>
-										<a target="_blank" href="jy/teachschedule/view?id=${data.id}&listType=upload">
-											<dd>
-												<ui:icon ext="${data.fileSuffix}"></ui:icon>
-											</dd>
-											<dt>
-												<span title="${data.name}">[<jy:dic
-														key="${data.subjectId}"></jy:dic>][<jy:dic
-														key="${data.gradeId}"></jy:dic>] <ui:sout
-														value="${data.name}" length="18" needEllipsis="true"></ui:sout>
-												</span> <span><fmt:formatDate value="${data.lastupDttm}"
-														pattern="yyyy-MM-dd" /></span>
-											</dt>
-										</a>
-									</dl>
-									<div class="show_p">
-										<ol>
-											<c:choose>
-												<c:when test="${data.isRelease==true}">
-													<li title="禁止修改" class="menu_li_11"></li>
-												</c:when>
-												<c:otherwise>
-													<li title="修改" class="menu_li_1"
-														onclick="updateTeachSchedule('${data.id}','${data.schoolTeachCircleId}','${data.subjectId}','${data.gradeId}','${data.name}','${data.resId}')"></li>
-												</c:otherwise>
-											</c:choose>
-											<li title="删除" class="menu_li_2"
-												onclick="deleteTeachSchedule('${data.id}','${data.resId}')"></li>
-											<c:choose>
-												<c:when test="${data.isRelease==true}">
-													<li title="取消发布" class="menu_li_31"
-														onclick="releaseTeachSchedule('${data.id}',false)"></li>
-													<!-- <li class="menu_li_32"></li> -->
-												</c:when>
-												<c:otherwise>
-													<li title="发布" class="menu_li_3"
-														onclick="releaseTeachSchedule('${data.id}',true)"></li>
-												</c:otherwise>
-											</c:choose>
-											<a
-												href="<ui:download filename="${data.name}" resid="${data.resId}"></ui:download>">
-												<li title="下载" class="menu_li_6"></li>
-											</a>
-										</ol>
-									</div>
-								</div>
-							</c:forEach>
-						</c:when>
-						<c:otherwise>
-							<div class="empty_wrap">
-								<div class="empty_img"></div>
-								<div class="empty_info" style="text-align: center;">您还没有上传教研进度表哟，赶紧去左边“上传教研进度表”吧！</div>
-							</div>
-						</c:otherwise>
-					</c:choose>
-				</div>
+		<div class="partake_school_content">
+			<div>
+				<ul id="ul3">
+				</ul>
 			</div>
 		</div>
-		<div class="clear"></div>
-		<ui:htmlFooter style="1"></ui:htmlFooter>
 	</div>
-	<script src="${ctxStatic }/lib/jquery/jquery.blockui.min.js"></script>
-	<script type="text/javascript">
-		$(function() {
-			//下拉列表
-			var config = {
-				'.chosen-select' : {},
-				'.chosen-select-deselect' : {
-					allow_single_deselect : true
-				},
-				'.chosen-select-deselect' : {
-					disable_search : true
-				}
-			};
-			for ( var selector in config) {
-				$(selector).chosen(config[selector]);
-			}
-		})
-	</script>
+</div>
+<div class="add_upload_wrap">
+	<div class="add_upload_wrap1"></div>
+	<div class="add_upload">
+		<div class="add_upload_title">
+			<h3>上传教研进度表</h3>
+			<span class="close"></span>
+		</div>
+		<div class="add_upload_content">
+		   <!--  <form id="index" action="jy/teachschedule/index" method="post"></form> -->
+			<form id="jy_from" action="jy/teachschedule/save" method="post"> 
+			    <ui:token></ui:token>
+		     	<input type="hidden" id="id" name="id" value=""/>
+			    <input type="hidden" id="schoolTeachCircleId" name="schoolTeachCircleId" value=""/>
+			    <input type="hidden" id="subjectId" name="subjectId" value=""/>
+			    <input type="hidden" id="gradeId" name="gradeId" value=""/>
+			    <input type="hidden" name="resId" id="resId" value="">
+			    <input type="hidden" name="originFileName" id="originFileName" value="">
+				<div class="form_input">
+					<label>教研圈</label>
+					<strong class="select1" id="uploadLesson">请选择<q></q></strong>
+					<div class="menu_list1" >
+						<span class="menu_list_top"></span>
+							<div class="menu_list_wrap1">
+								<div> 
+									<c:forEach var="s" items="${stlist}">
+										<p data-value="${s.id}">${s.name}</p>
+								    </c:forEach>
+								</div>
+							</div>
+					</div> 
+					<div class="viewOrg" style="display:none;" id="viewOrg">查看</div>
+				</div>
+				<div class="form_input">
+					<label>学科</label>
+					<strong class="select2" id="uploadLesson">请选择<q></q></strong>
+					<div class="menu_list2" >
+						<span class="menu_list_top"></span>
+						<div class="menu_list_wrap2">
+							<div> 
+							    <ui:relation var="list" type="xdToXk" id="${_CURRENT_SPACE_.phaseId}">
+								<c:forEach var="xk" items="${list}">
+									<p data-value="${xk.id}">${xk.name}</p>
+								</c:forEach>
+							    </ui:relation>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form_input">
+					<label>年级</label>
+					<strong class="select3" id="uploadLesson">请选择<q></q></strong>
+					<div class="menu_list3" >
+						<span class="menu_list_top"></span>
+						<div class="menu_list_wrap3">
+							<div> 
+							    <ui:relation var="grades" type="xdToNj" id="${_CURRENT_SPACE_.phaseId }"></ui:relation>
+								<c:forEach items="${grades }" var="g" varStatus="st">
+									<p data-value="${g.id}">${g.name }</p>
+								</c:forEach>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form_input">
+					<label>标题</label>
+					<strong>
+						<input type="text" id="qt_planName" name="name" maxlength="30">
+						</strong>
+				</div>
+				<div id="fileuploadContainer" class="form_input">
+					<label style="background-color: #fff; position: absolute;left: -3px;z-index: 1;width: 6.7rem;text-align: center; padding-left: 1.8rem;">上传附件</label>
+					<div class="enclosure_name" style="display:none;">
+					     <q></q>
+					     <span id="uploadFileName">最大长度为十五个字.doc</span>
+				         <div class="enclosure_del"></div>
+				    </div>
+					<strong id="uploadId" style="margin-left:8.3rem;"> 
+						<ui:upload_m fileType="doc,docx,ppt,pptx,pdf" fileSize="50" startElementId="save" beforeupload="start" callback="afterUpload" relativePath="teachschedule/o_${_CURRENT_USER_.orgId }/u_${_CURRENT_USER_.id }"></ui:upload_m>
+					</strong>
+				</div>
+				<div> 
+					<input id="save" type="button" class="btn_upload" value="上传"> 
+					<!-- <input type="button" id="save" class="edit1" value="修改"> -->
+				    <input type="button" id="b_edit1" value="不改了">
+				</div>
+				<div class="btn_sc"style="margin:3rem auto;display: none;" >
+					<div class="spinner ">
+					  <div class="rect1"></div>
+					  <div class="rect2"></div>
+					  <div class="rect3"></div>
+					  <div class="rect4"></div>
+					  <div class="rect5"></div>
+					</div>
+					<span>上传中...</span>
+				</div>
+			</form> 
+		</div>
+	</div>
+</div>
+<div class="del_upload_wrap">
+	<div class="del_upload">
+		<div class="del_upload_title">
+			<h3>删除教研进度表</h3>
+			<span class="close"></span>
+		</div>
+		<div class="del_upload_content">
+			<div class="del_width">
+				<q></q>
+				<span>您确定要删除该教研进度表吗？</span>
+			</div>
+			<div class="border_bottom"></div>
+			<div>
+				<input type="button" class="btn_confirm" value="确定">
+				<input type="button" class="btn_cencel" value="取消">
+			</div>
+		</div> 
+	</div>
+</div>
+<div class="release_upload_wrap">
+	<div class="release_upload">
+		<div class="release_upload_title">
+			<h3>发布教研进度表</h3>
+			<span class="close"></span>
+		</div>
+		<div class="release_upload_content">
+			<div class="release_width">
+				<q></q>
+				<span>您确定要发布该教研进度表吗？</span>
+			</div>
+			<div class="border_bottom"></div>
+			<div>
+				<input type="button" class="btn_confirm_rel" value="确定">
+				<input type="button" class="btn_cencel" value="取消">
+			</div>
+		</div> 
+	</div>
+</div>
+<div class="mask"></div>
+<div class="mask1"></div>
+<div class="more_wrap_hide" onclick='moreHide()'></div>
+<div id="wrapper">
+	<header>
+		<span onclick="javascript:window.history.go(-1);"></span>教研进度表
+		<div class="more" onclick="more()"></div>
+	</header>
+	<section> 
+		<div class="content_bottom2">
+			<div>
+				<div class="content_bottom_width">
+					<div class="add_cour">
+						<div class="add_cour_div">
+							<div class="add_cour_div_top">
+								<div class="add_cour_div_top_img"></div> 
+							</div>
+							<div class="add_cour_div_bottom">上传教研进度表</div>
+						</div>
+					</div>
+					<c:if test="${!empty tSchedules}">
+				    	<c:forEach items="${tSchedules}" var="data">
+							<div class="courseware_ppt" >
+								<div class="courseware_img_0"></div>
+								<h4><jy:dic key="${data.gradeId}"></jy:dic><jy:dic key="${data.subjectId}"></jy:dic></h4>
+								<h4 title="${data.name}"><ui:sout value="${data.name}" length="18" needEllipsis="true"></ui:sout></h4>
+								<p data-id="${data.id}">
+								<img src="${ctxStatic }/m/activity/images/word_d.png" />
+								</p>
+								<div class="courseware_img_2" title="操作"></div>
+								<div class="cw_option_mask" style="display:none;"></div>
+								<jy:di var="st" key="${data.schoolTeachCircleId}" className="com.tmser.tr.activity.service.SchoolTeachCircleService"/>
+								<div class="cw_option" style="display:none;" data-resId="${data.resId}" data-id="${data.id}" data-name="${data.name}" data-gradeName="<jy:dic key='${data.gradeId}'/>" data-subjectName="<jy:dic key='${data.subjectId}'/>"
+								 data-circleName="${st.name}" data-circleId="${data.schoolTeachCircleId}" data-subjectId="${data.subjectId}" data-gradeId="${data.gradeId}">
+									<c:if test="${!data.isRelease}"><div class="cw_option_edit" title="编辑"></div></c:if>
+									<c:if test="${data.isRelease}"><div class="cw_option_jz_edit" title="禁止编辑"></div></c:if>
+									<div class="cw_option_del" title="删除"></div>
+									<c:if test="${!data.isRelease}"><div class="cw_option_publish" data-isRelease="true" title="发布"></div></c:if> 
+									<c:if test="${data.isRelease}"><div class="cw_option_qx_publish" data-isRelease="false" title="取消发布"></div></c:if> 
+									<a href="<ui:download filename="${data.name}" resid="${data.resId}"></ui:download>"><div class="cw_option_down" title="下载"></div></a>
+									<div class="cw_option_close" ></div>
+								</div>
+							</div> 
+						</c:forEach>
+					</c:if>
+				</div>
+				<c:if test="${empty tSchedules}"><div class="content_k" style="margin:3rem auto;"><dl><dd></dd><dt>您还没有上传教研进度表哟，赶紧去左上角“上传教研进度表”吧！</dt></dl></div></c:if>
+				<div style="height:2rem;clear:both;"></div>
+			</div>
+		</div> 
+	</section>
+</div>
 </body>
+<script type="text/javascript">
+	require(['zepto','teach'],function(){
+        $(function(){
+        	//显示机构信息
+	    	$('.viewOrg').click(function(){
+	    		var circleId=$(this).attr("data-circleId");
+	    		var circleName=$(this).attr("data-name");
+	    		$('.partake_school_title h3').text(circleName);
+	    		$('.partake_school_wrap1').show();
+	    		$('.mask1').show();
+	    		<c:forEach items="${stlist }" var="stc">
+				   var id = "${stc.id }";
+				   if(circleId == id){
+					  var orgStr = "";
+					   <c:forEach items="${stc.stcoList }" var="stco">
+					    	if(orgId != "${stco.orgId }"){
+						   		var id = "${stco.orgId }@${stco.orgName}@${stco.state}";
+						   		var name = "${stco.orgName}";
+						   		var orgId = "${stco.orgId}";
+						   		if("${stco.state}"=="1"){
+						   			orgStr += '<li isone="'+orgId+'" title="'+name+'" id="'+id+'">'+name+'<q>待接受</q></li>';
+						   		}else if("${stco.state}"=="2"){
+						   			orgStr += '<li isone="'+orgId+'" title="'+name+'" id="'+id+'">'+name+'<span>已接受</span></li>';
+						   		}else if("${stco.state}"=="3"){
+						   			orgStr += '<li isone="'+orgId+'" title="'+name+'" id="'+id+'">'+name+'<q>已拒绝</q></li>';
+						   		}else if("${stco.state}"=="4"){
+						   			orgStr += '<li isone="'+orgId+'" title="'+name+'" id="'+id+'">'+name+'<a>已退出</a></li>';
+						   		}else if("${stco.state}"=="5"){
+						   			orgStr += '<li isone="'+orgId+'" title="'+name+'" id="'+id+'">'+name+'<span>已恢复</span></li>';
+						   		}
+					    	}
+					   </c:forEach>
+					  $('#ul3').html(orgStr);
+				   }
+			  </c:forEach> 
+	    	});
+        })
+	});  
+</script>
 </html>

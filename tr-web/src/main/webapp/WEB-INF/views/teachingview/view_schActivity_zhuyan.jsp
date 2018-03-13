@@ -237,7 +237,7 @@
 									<c:forEach items="${zhengliList }" var="zhengli">
 										<dl>
 											<dd>
-												<img src="${ctxStatic }/common/icon/base/word.png"
+												<img src="${ctxStatic }/common/images/icon/word.png"
 													title="${zhengli.planName }" style="cursor: pointer;"
 													data-id="${zhengli.resId}" id="scanPlanTrack">
 											</dd>

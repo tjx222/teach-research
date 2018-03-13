@@ -1,119 +1,128 @@
 <%@ include file="/WEB-INF/include/taglib.jspf"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<ui:htmlHeader title="成长档案袋"></ui:htmlHeader>
-	<link rel="stylesheet" href="${ctxStatic }/lib/jquery/css/validationEngine.jquery.css" media="screen">
-	<link rel="stylesheet" href="${ctxStatic }/modules/record/css/recordCss.css" media="screen"> 
-	<ui:require module="record/js"></ui:require>
-	<script type="text/javascript">
-	var we = '${ctx}';
-	var id = '${id}';
-	var type = '${type}';
-	var page = '${page}';
-	//参与或查看
-	function canyu_chakan(activityId,typeId){
-		if(typeId==1){//同备教案
-				window.open(_WEB_CONTEXT_+"/jy/activity/viewTbjaActivity?id="+activityId,"_blank");
-		}else if(typeId==2){//主题研讨
-				window.open(_WEB_CONTEXT_+"/jy/activity/viewZtytActivity?id="+activityId,"_blank");
-		}
-	}
-	</script> 
-</head> 
-<div id="_jx"  class="dialog">
-	<div class="dialog_wrap">
-		<div class="dialog_head">
-			<span class="dialog_title">修改微评</span>
-			<span class="dialog_close"></span>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta charset="UTF-8">
+	<ui:mHtmlHeader title="成长档案袋"></ui:mHtmlHeader>
+	<link rel="stylesheet" href="${ctxStatic }/m/record/css/record.css" media="screen">
+	<ui:require module="../m/record/js"></ui:require>
+</head>
+<body>
+<input type="hidden" id="bagId" value="${id}" />
+<input type="hidden" id="bagType" value="${type}" />
+<div class="del_upload_wrap">
+	<div class="del_upload">
+		<div class="del_upload_title">
+			<h3>删除档案袋</h3>
+			<span class="close"></span>
 		</div>
-		<div class="dialog_content">
-			<form id="formular" >
-			<div class="Growth_Portfolio_bottom">
-			<input type="hidden"   id="one">
-				<p>
-					<label for="">名称：</label>
-					<span id="name"></span><strong></strong>
-				</p>
-				<div class="clear"></div>
-				<p>
-					<label for="" id="lab">微评：</label>
-					<textarea name="desc" id="desc" style="float: left;padding: 5px;font-size: 12px;" placeholder="您可以给精选文件添加微评，如不想添加，请直接点击“保存”" cols="38" rows="4" class="validate[optional,maxSize[50]] text-input"></textarea>
-					<strong class="strong_sty" >注：最多可输入50个字</strong>
-				</p>
-				<div class="clear"></div>
-				<div class="btn_bottom" style="margin-top:25px;">
-					<input id="button" type="button" class="btn_bottom_3" value="修改"> 
-					<input id="empty" type="button" class="btn_bottom_4" value="不改了" onclick="$('.dialog_close').click();">
-				</div>
+		<div class="del_upload_content">
+			<div class="del_width" style="width:20rem;">
+				<q></q>
+				<span>您确定要删除该教研活动吗？</span>
 			</div>
+			<div class="border_bottom"></div>
+			<div>
+				<input type="button" class="btn_confirm" value="确定" id="del_confirm">
+				<input type="button" class="btn_cencel" value="取消">
+			</div>
+		</div> 
+	</div>
+</div>
+<div class="edit_portfolio_wrap" style="display:none;">
+	<div class="edit_portfolio" style="position: fixed;">
+		<div class="edit_portfolio_title" >
+			<h3 style="width:33rem;padding-left: 5rem;">微评</h3>
+			<span class="close"></span> 
+			<span class="portfolio_edit"></span>
+		</div>
+		<div class="edit_portfolio_content">
+			<form>
+			<ui:token></ui:token>
+			<input type="hidden" id="one">
+				<div class="form_input">
+					<label style="width:5rem;">名称:</label>
+					<p style="width:27rem;height:5rem">
+						<input type="text" id="name" class="name_txt" style="width:27rem;border:none;" >
+					</p> 
+				</div>
+				<div class="form_input">
+					<label style="width:5rem;">微评:</label>
+					<p style="width:27rem;height:7.5rem;">
+						<textarea cols="100" rows="3"style="width:27rem;height:7rem;" maxlength="50" name="desc" class="desc" id="desc"></textarea>
+						<a class="note">注：最多可输入50个字</a>
+					</p> 
+				</div>
+				<div class="border_bottom" style="margin: 3rem auto;display:none;"></div>
+				<div class="portfolio_btn" style="display:none;">
+					<input type="button" class="btn_confirm" value="修改">
+					<input type="button" class="btn_cencel" value="取消">
+				</div>
 			</form>
 		</div>
 	</div>
 </div>
-<body>
-	<div class="wrapper">
-		<div class="jyyl_top">
-			<ui:tchTop style="1" modelName="成长档案袋" ></ui:tchTop>
-		</div> 
-		<div class="jyyl_nav">
-			<h3>当前位置：<jy:nav id="czdad"></jy:nav>&nbsp;>&nbsp;${name }</h3>
-		</div>
-		<div class="clear"></div>
-		<div class="jx_list_content">
-			<div class="Growth_Portfolio_jx">
-				<h3 class="Growth_Portfolio_content1_h3">${name }</h3>
-				<input type="button" class="jx_btn" >
-			</div>
-			<div class="Growth_Portfolio_tab">
-				<div class="Growth_Portfolio_table">
-					<table>
-					  <tr>
-					    <th style="width:280px;">活动主题</th>
-					    <th style="width:100px;">参与学科</th>
-					    <th style="width:120px;">参与年级</th>
-					    <th style="width:60px;">发起人</th>
-					    <th style="width:160px;">活动时限</th>
-					    <th style="width:40px;">评论数</th>
-					    <th style="width:40px;">操作</th>
-					  </tr>
-					<c:forEach  items="${data.datalist  }" var="activity"><!-- 有精选记录 -->
-					  	<tr>
-						    <td title="${activity.recordName}" style="text-align:left;" >${activity.flago}<a onclick="canyu_chakan(${activity.resId},${activity.flags})" style="color:#014efd;cursor:pointer;"><ui:sout value="${activity.recordName}" length="23"  needEllipsis="true" ></ui:sout><c:if test="${activity.desc !=''}"><span class="tspan1"  resId="${activity.recordId }"  resName="${activity.flago }${activity.recordName }"   id="sp" title="${activity.desc }"></span></c:if></a></td>
-						    <td title="${activity.ext.subjectName}"><ui:sout value="${activity.ext.subjectName}" length="20"  needEllipsis="true" > </ui:sout> </td>
-						    <td title="${activity.ext.gradeName}"><ui:sout value="${activity.ext.gradeName}" length="20"  needEllipsis="true" > </ui:sout> </td>
-						   <td>${activity.ext.mainUserName}</td>
-						    <td>${activity.ext.startTime}<c:if test="${empty activity.ext.startTime}"> ~ </c:if>至<c:if test="${empty activity.ext.endTime}"> ~ </c:if>${activity.ext.endTime}</td>
-						    <td>${activity.ext.commentsNum}</td>
-						   	<td class="del"  id="${activity.recordId }" name="${activity.flago }${activity.recordName }">
-						    	<span class="li_del1 img2" title="删除"></span>
-						    </td>
-						  </tr>
-					</c:forEach>
-				</table>
-				<c:if test="${data.datalist =='[]' }"><!--未精选 -->
-				<div class="empty_wrap"> 
-					<div class="empty_info">您还没有精选“教学设计”哟<br />，赶紧去“精选”吧！</div>
+<div class="mask"></div>
+<div class="more_wrap_hide" onclick='moreHide()'></div>
+<div id="wrapper">
+	<header>
+		<span onclick="javascript:window.history.go(-1);"></span>${name }
+		<div class="more" onclick="more()"></div>
+	</header>
+	<section>	
+		<div class="record_content">
+			<div class="record_c_t">
+				<input id="jingxuan" type="button" value="精 选">
+			</div>	
+			<div class="record_cont_bottom" id="act_list_yjx">
+				<div id="scroller">
+				<div class="record_cont_bottom_win">
+				<c:forEach  items="${data.datalist  }" var="activity">
+					<div class="activity_tch">
+						<div <c:if test="${activity.ext.typeId==1 }">class="activity_tch_left"</c:if><c:if test="${activity.ext.typeId==2 }">class="activity_tch_left1"</c:if>>
+						${activity.ext.typeName}
+						</div> 
+						<div class="activity_tch_right" activityId="${activity.resId}" typeId="${activity.flags}">
+							<h3><span class="title">${activity.recordName}</span></h3>
+							<h4><span class="del" id="${activity.recordId }"></span><c:if test="${activity.desc !=''}"><span class="wei" resId="${activity.recordId }"  resName="${activity.flago }${activity.recordName }"   id="sp" title="${activity.desc }"></span></c:if></h4>
+							<div class="option">
+								<div class="promoter"><strong></strong>发起人：<span>${activity.ext.mainUserName}</span></div>
+								<div class="partake_sub"><strong></strong>参与学科：<span>${activity.ext.subjectName}</span></div>
+								<div class="partake_class"><strong></strong>参与年级：<span>${activity.ext.gradeName}</span></div> 
+							</div>
+							<div class="option">
+								<div class="time"><strong></strong><span>${activity.ext.startTime}<c:if test="${empty activity.ext.startTime}"> ~ </c:if>至<c:if test="${empty activity.ext.endTime}"> ~ </c:if>${activity.ext.endTime}</span></div>
+								<div class="discussion_number"><strong></strong>讨论数：<span>${activity.ext.commentsNum}</span></div>
+							</div>
+						</div> 
+					</div>
+				</c:forEach>
 				</div>
+				<form  name="pageForm" method="post">
+					<ui:page url="${ctx}jy/record/sysList" data="${data }" dataType="true" callback="addData"/>
+					<input type="hidden" class="currentPage" name="page.currentPage">
+					<input type="hidden" name="id" value="${id}" />
+					<input type="hidden" name="type" value="${type}" />
+				</form>  
+				<div style="height:1rem;clear:both;"></div>
+				</div>
+				<c:if test="${data.datalist =='[]' }">
+					<div class="content_k" style="margin-top: 5rem;">
+						<dl>
+							<dd></dd>
+							<dt>您还没有精选“教学设计”哟，赶紧去“精选”吧！</dt>
+						</dl>
+					</div>
 				</c:if>
-			</div>
-			<div class="pages">
-				<form name="pageForm"  method="post">
-						<ui:page url="${ctx}jy/record/sysList?id=${id}&type=${type}"  data="${data }"  />
-						<input type="hidden" class="currentPage" name="page.currentPage">
-						<input type="hidden" name="id" value="${id}">
-						<input type="hidden" name="type" value="${type}">
-				</form>
-			</div>
+			</div> 
 		</div>
-	</div>
-	<div class="clear"></div>
-	<ui:htmlFooter></ui:htmlFooter>
+	</section>
 </div>
-<script type="text/javascript">
-	require(['jquery','jp/jquery-ui.min','jp/jquery.blockui.min','jp/jquery.form.min','jp/jquery.validationEngine-zh_CN','jp/jquery.validationEngine.min','common/comm','jingxuan'],function(){});
-</script>
 </body>
+<script type="text/javascript">
+	require(["zepto",'actlist'],function($){	
+	});
+</script>
 </html>

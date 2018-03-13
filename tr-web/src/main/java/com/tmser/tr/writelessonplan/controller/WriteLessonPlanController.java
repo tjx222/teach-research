@@ -22,6 +22,7 @@ import com.tmser.tr.common.utils.WebThreadLocalUtils;
 import com.tmser.tr.common.vo.Result;
 import com.tmser.tr.common.web.controller.AbstractController;
 import com.tmser.tr.lessonplan.bo.LessonPlan;
+import com.tmser.tr.lessonplan.service.LessonPlanService;
 import com.tmser.tr.lessonplantemplate.bo.LessonPlanTemplate;
 import com.tmser.tr.lessonplantemplate.service.LessonPlanTemplateService;
 import com.tmser.tr.manage.meta.bo.Book;
@@ -35,7 +36,6 @@ import com.tmser.tr.manage.resources.service.ResourcesService;
 import com.tmser.tr.uc.bo.User;
 import com.tmser.tr.uc.bo.UserSpace;
 import com.tmser.tr.uc.utils.SessionKey;
-import com.tmser.tr.writelessonplan.service.LessonPlanService;
 import com.zhuozhengsoft.pageoffice.DocumentVersion;
 import com.zhuozhengsoft.pageoffice.FileSaver;
 import com.zhuozhengsoft.pageoffice.OfficeVendorType;
@@ -53,7 +53,7 @@ import com.zhuozhengsoft.pageoffice.wordwriter.WordDocument;
  *          $
  */
 @Controller
-@RequestMapping("/jy")
+@RequestMapping("/jy/")
 public class WriteLessonPlanController extends AbstractController {
 
   @Autowired
@@ -76,46 +76,47 @@ public class WriteLessonPlanController extends AbstractController {
    * @return
    */
   @RequestMapping("toWriteLessonPlan")
-  public String toWriteLessonPlan(Integer spaceId,Model m) {
+  public String toWriteLessonPlan(Integer spaceId, Model m) {
 
     @SuppressWarnings("unchecked")
-	List<UserSpace> userSpaceList = (List<UserSpace>) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.USER_SPACE_LIST); // 用户空间
-    
+    List<UserSpace> userSpaceList = (List<UserSpace>) WebThreadLocalUtils
+        .getSessionAttrbitue(SessionKey.USER_SPACE_LIST); // 用户空间
+
     LessonPlan lessonPlan = lpService.getLatestLessonPlan(0);
-    if(lessonPlan == null){
-    	lessonPlan = new LessonPlan();
+    if (lessonPlan == null) {
+      lessonPlan = new LessonPlan();
     }
-    
+
     String bookId = null;
     Integer gradeId = null;
     Integer subjectId = null;
-    if(spaceId == null){
-    	 // 获取上次最后操作的教案
-        if(lessonPlan.getBookId() != null){
-        	bookId= lessonPlan.getBookId();
-        	gradeId = lessonPlan.getGradeId();
-        	subjectId = lessonPlan.getSubjectId();
-        }else{
-        	for (UserSpace userSpace : userSpaceList) {
-    			if(userSpace.getBookId() != null){
-    				bookId = userSpace.getBookId();
-    				gradeId = userSpace.getGradeId();
-    				subjectId = userSpace.getSubjectId();
-    				break;
-    			}
-    		}
+    if (spaceId == null) {
+      // 获取上次最后操作的教案
+      if (lessonPlan.getBookId() != null) {
+        bookId = lessonPlan.getBookId();
+        gradeId = lessonPlan.getGradeId();
+        subjectId = lessonPlan.getSubjectId();
+      } else {
+        for (UserSpace userSpace : userSpaceList) {
+          if (userSpace.getBookId() != null) {
+            bookId = userSpace.getBookId();
+            gradeId = userSpace.getGradeId();
+            subjectId = userSpace.getSubjectId();
+            break;
+          }
         }
-    }else{
-    	for (UserSpace userSpace : userSpaceList) {
-			if(userSpace.getId().equals(spaceId) && userSpace.getBookId() != null){
-				bookId = userSpace.getBookId();
-				gradeId = userSpace.getGradeId();
-				subjectId = userSpace.getSubjectId();
-				break;
-			}
-		}
+      }
+    } else {
+      for (UserSpace userSpace : userSpaceList) {
+        if (userSpace.getId().equals(spaceId) && userSpace.getBookId() != null) {
+          bookId = userSpace.getBookId();
+          gradeId = userSpace.getGradeId();
+          subjectId = userSpace.getSubjectId();
+          break;
+        }
+      }
     }
-    
+
     lessonPlan.setSubjectId(subjectId);
     lessonPlan.setGradeId(gradeId);
     List<Book> bookList = new ArrayList<Book>();

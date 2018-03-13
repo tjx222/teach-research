@@ -1,140 +1,102 @@
 <%@ include file="/WEB-INF/include/taglib.jspf"%>
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<c:if test="${empty listType || listType==0 }"><ui:htmlHeader title="查阅课件 已查阅"></ui:htmlHeader></c:if>
-	<c:if test="${listType==1 }"><ui:htmlHeader title="查阅课件 查阅意见"></ui:htmlHeader></c:if>
-	<link rel="stylesheet" href="${ctxStatic }/modules/managerecord/css/check_detail.css" media="screen">
-	<script type="text/javascript">
-		//切换选项
-		function changeListType(listType){
-			$("#hid_listType").val(listType);
-			$("#hiddenForm").submit();
-		}
-		//切换学期
-		function changTerm(obj){
-			$("#hid_term").val($(obj).val());
-			$("#hiddenForm").submit();
-		}
-		//查看课件
-		function chakankejian(resId){
-			window.open(_WEB_CONTEXT_+"/jy/managerecord/check/1/kejianView?type=1&lesInfoId="+resId,"_blank");
-		}
-	</script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta charset="UTF-8">
+	<ui:mHtmlHeader title="管理记录"></ui:mHtmlHeader>
+	<link rel="stylesheet" href="${ctxStatic }/m/managerecord/css/managerecord.css" media="screen" />
+	<ui:require module="../m/managerecord/js"></ui:require>	
 </head>
 <body>
-	<div class="jyyl_top"> 
-		<ui:tchTop style="1" modelName="查阅课件"></ui:tchTop>
-	</div> 
-	<div class="jyyl_nav">
-		<h3>当前位置：<jy:nav id="cyjl_cykj"></jy:nav></h3>
-	</div>
-	<div class="clear"></div>
-	
-	<div class="box" style="display:none;"></div>
-	<form id="hiddenForm" action="${ctx }jy/managerecord/check/1" method="post">
-		<input id="hid_term" type="hidden" name="term" value="${term }">
-		<input id="hid_listType" type="hidden" name="listType" value="${listType }">
-	</form>
-	<div class="wrap">
-		<div class="record_reco">
-			<h3>
-				<ul id="UL">
-					<li ${listType==0?'class="record_act1"':''}${listType==1?'class="record_act"':''} ${listType==1&&checkCount>0?'onclick="changeListType(0)"':''} >
-					已查阅（${checkCount }）
-					</li>
-					<li ${listType==1?'class="record_act1"':''}${listType==0?'class="record_act"':''} ${listType==0&&yijianCount>0?'onclick="changeListType(1)"':''} >
-					查阅意见（${yijianCount }）
-					</li>
-				</ul>
-				<label style="float: right;margin-right:10px;margin-top:15px;"> 
-				 	学期： 
-					<input name="term"  style="vertical-align:middle;margin-top:-3px;" type="radio" value="0"  <c:if test="${term==0}">checked="checked" </c:if> onclick="changTerm(this);"  >上学期
-				    <input name="term"  style="vertical-align:middle;margin-top:-3px;" type="radio" value="1"  <c:if test="${term==1}">checked="checked" </c:if> onclick="changTerm(this);"  >下学期
-				</label>
-			</h3>
-			<div class="clear"></div>
-			
-			<c:if test="${listType==0 }">
-				<div class="record_reco_cont" >
-					<c:forEach items="${checkInfoList.datalist }" var="checkInfo">
-						<div class="record_dl">
-							<dl onclick="chakankejian(${checkInfo.resId })">
-								<dd><ui:icon ext="ppt"></ui:icon></dd>
-								<dt>
-									<span title="${checkInfo.title }"><ui:sout value="${checkInfo.title }" length="12" needEllipsis="true"></ui:sout></span>
-									<span><fmt:formatDate value="${checkInfo.createtime  }" pattern="yyyy-MM-dd"/></span>
-								</dt>
-							</dl>
-<!-- 							<span class="d"></span> -->
-							<strong class="trans"></strong>
-						</div>
-					</c:forEach>
-				</div>
-					<form name="pageForm" method="post">
-						<ui:page url="${ctx}jy/managerecord/check/1" data="${checkInfoList}"  />
-						<input type="hidden" class="currentPage" name="currentPage">
-						<input type="hidden" name="term" value="${term }">
-						<input type="hidden" name="listType" value="${listType }">
-					</form>
-			</c:if>
-			
-			<c:if test="${listType==1 }">
-				<div class="record_reco_cont">
-				<c:forEach items="${checkMapList }" var="checkMap">
-					<div class="record_reco_cont_1">
-					
-						<div class="check-bottom_1">
-							<h5>课题名称：<span onclick="chakankejian(${checkMap.checkInfo.resId })" style="cursor: pointer;">${checkMap.checkInfo.title }</span></h5>
-							<c:forEach items="${checkMap.optionMapList }" var="optionMap">
-								<div class="check-bottom_1_right">
-									<div class="check-bottom_1_right_top_1">
-										<div class="check-bottom_1_right_top">
-											${optionMap.parent.content }
-										</div>
-										<div class="check-bottom_1_right_botm">
-											<span><fmt:formatDate value="${optionMap.parent.crtTime  }" pattern="yyyy-MM-dd"/></span>
-										</div>
-									</div>
-									<div class="clear"></div>
-					            	<div style="border-bottom:1px #bdbdbd dashed;;width:1100px;margin:5px auto;"></div>
-									<c:forEach items="${optionMap.childList }" var="child">
-										<div class="check-bottom_2">
-											<jy:di key="${child.userId }" className="com.tmser.tr.uc.service.UserService" var="u"/>
-											<div class="check-bottom_2_left">
-												<ui:photo src="${u.photo }" width="60" height="65"></ui:photo>
-											</div>
-											<div class="check-bottom_2_right">
-												<div class="check-bottom_2_right_top1">
-													${u.name }说：${child.content }
-												</div>
-												<div class="check-bottom_2_right_botm">
-													<span><fmt:formatDate value="${child.crtTime   }" pattern="yyyy-MM-dd"/></span>
-												</div>
-											</div>
-										</div>
-										<div class="clear"></div>
-									</c:forEach>
-								</div>
-							</c:forEach>
-						</div>
-						<div class="clear"></div>
-					</div>
-					</c:forEach>
-				</div>
-					<div class="clear"></div>
-					<form name="pageForm" method="post">
-						<ui:page url="${ctx}jy/managerecord/check/1" data="${checkInfoList}"  />
-						<input type="hidden" class="currentPage" name="currentPage">
-						<input type="hidden" name="term" value="${term }">
-						<input type="hidden" name="listType" value="${listType }">
-					</form>
-			</c:if>
-			
+<div class="semester_wrapper">
+	<div class="semester_wrap" style="top:18%;">
+		<span class="check_menu_top"></span>
+		<div class="semester_wrap1">  
+			<p data-term="0">上学期</p>
+			<p data-term="1">下学期</p> 
 		</div>
 	</div>
-	<div class="clear"></div>
-	<ui:htmlFooter style="1"></ui:htmlFooter>
+</div>
+<div class="mask"></div>
+<div class="more_wrap_hide" onclick='moreHide()'></div>
+<div id="wrapper">
+	<header>
+		<span onclick="javascript:window.history.go(-${empty param._HS_ ? 1 : param._HS_ });"></span>
+		<ul>
+			<li><a class="${listType==0?'com_header_act':''}" data-type="0">已查阅(${checkCount})</a></li>
+			<li><a class="${listType==1?'com_header_act':''}" data-type="1">查阅意见(${yijianCount})</a></li>
+		</ul>
+		<div class="more" onclick="more()"></div>
+	</header>
+	<section>
+	    <form id="hiddenForm" action="${ctx }jy/managerecord/check/1?_HS_=${empty param._HS_ ? 2 :param._HS_+1 }" method="post">
+			<input id="hid_term" type="hidden" name="term" value="${term }">
+			<input id="hid_listType" type="hidden" name="listType" value="${listType }">
+	    </form>
+		<div class="managerecord_bottom_wrap">
+			<div class="managerecord_check_top" style="width: 90%;height:6rem;margin: 0 auto;border-bottom:0.083rem solid #D0D1D2; ">
+				<div class="semester" style="margin-right:8rem;">
+				    <c:if test="${empty term||term==0}">上学期</c:if> <c:if test="${term==1}">下学期</c:if>
+				  <strong></strong>
+				</div>
+			</div>
+			<div class="referCourseware_cont_box">
+				<div class="referCourseware_cont_box1">
+				    <c:forEach items="${checkInfoList.datalist }" var="checkInfo">
+						<div class="courseware_ppt viewKeJian"  data-id="${checkInfo.resId}">
+							<div class="courseware_img_1">课件</div>
+							<h3 title="${checkInfo.title}"><ui:sout value="${checkInfo.title }" length="20" needEllipsis="true"></ui:sout></h3>
+							<p><img src="${ctxStatic }/m/check/images/ppt.png" /></p> 
+							<div class="consult"></div> 
+						</div> 
+					</c:forEach>
+				</div>
+				<c:if test="${empty checkInfoList.datalist }"><div class="content_k"><dl><dd></dd><dt>您还没有可查阅的课件，请稍后再来吧！</dt></dl></div></c:if>
+			</div>
+			<div class="referCourseware_content_box" >
+				<div class="referCourseware_content_box1">
+				   <c:forEach items="${checkMapList}" var="checkMap">
+						<div class="referCourseware_content referCourseware_content_two">
+							<p class="referCourseware_content_title">
+								<span>课题名称：</span>
+								<b data-resId="${checkMap.checkInfo.resId}" data-type="1">${checkMap.checkInfo.title }</b>
+							</p>
+							<c:forEach items="${checkMap.optionMapList }" var="optionMap">
+							    <ul>
+							    	<li>
+							    		<span class="referCourseware_name">${optionMap.parent.username }：</span>
+										<p class="referCourseware_text">&nbsp;${optionMap.parent.content }</p>
+										<span class="referCourseware_time"><fmt:formatDate value="${optionMap.parent.crtTime }" pattern="yyyy-MM-dd"/></span>
+										<div class="clear"></div>
+									</li>
+								</ul>
+								<ul>
+								   <!-- 回复 -->
+								   <c:forEach items="${optionMap.childList }" var="child">
+								        <jy:di key="${child.userId}" className="com.tmser.tr.uc.service.UserService" var="u"/>
+										<li style="padding-left:5%;">
+											<ui:photo src="${u.photo }" width="60" height="65"></ui:photo>
+											<span class="referCourseware_name1">${child.username}：</span>
+											<p class="referCourseware_text1">${child.content }</p>
+											<span class="referCourseware_time"><fmt:formatDate value="${child.crtTime}" pattern="yyyy-MM-dd"/></span>
+											<div class="clear"></div>
+										</li>
+									</c:forEach>
+									</ul>
+							</c:forEach>
+						</div> 
+					</c:forEach>
+					<c:if test="${empty checkMapList}"><div class="content_k"><dl><dd></dd><dt>还没有查阅意见，请稍后再来吧！</dt></dl></div></c:if>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
 </body>
-</html>
+<script type="text/javascript">
+	require(['zepto','checkkejian'],function($){	
+	});  
+</script>
+</html> 

@@ -29,12 +29,12 @@ import com.tmser.tr.common.page.PageList;
 import com.tmser.tr.common.utils.WebThreadLocalUtils;
 import com.tmser.tr.common.web.controller.AbstractController;
 import com.tmser.tr.lessonplan.bo.LessonInfo;
+import com.tmser.tr.lessonplan.service.LessonPlanService;
 import com.tmser.tr.manage.resources.bo.Attach;
 import com.tmser.tr.manage.resources.service.AttachService;
 import com.tmser.tr.uc.SysRole;
 import com.tmser.tr.uc.bo.UserSpace;
 import com.tmser.tr.uc.utils.SessionKey;
-import com.tmser.tr.writelessonplan.service.LessonPlanService;
 import com.zhuozhengsoft.pageoffice.FileSaver;
 import com.zhuozhengsoft.pageoffice.OpenModeType;
 import com.zhuozhengsoft.pageoffice.PageOfficeCtrl;
@@ -164,10 +164,8 @@ public class ActivityController extends AbstractController {
       // 加载章节（课题）List
       if (activity.getMainUserId() != null) {
         try {
-          model.addAttribute(
-              "chapterList",
-              activityService.findChapterList(activity.getMainUserId(), activity.getMainUserGradeId(),
-                  activity.getMainUserSubjectId()));
+          model.addAttribute("chapterList", activityService.findChapterList(activity.getMainUserId(),
+              activity.getMainUserGradeId(), activity.getMainUserSubjectId()));
         } catch (ParseException e) {
           logger.error("集体备课：获取章节列表出错", e);
         }

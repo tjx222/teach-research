@@ -1,69 +1,92 @@
 <%@ include file="/WEB-INF/include/taglib.jspf"%>
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.pageoffice.cn" prefix="po"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<ui:htmlHeader title="资源查看"></ui:htmlHeader>
-<link rel="stylesheet" href="${ctxStatic }/modules/thesis/css/thesis.css" media="screen">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta charset="UTF-8">
+	<ui:mHtmlHeader title="同伴资源"></ui:mHtmlHeader>
+	<link rel="stylesheet" href="${ctxStatic }/m/comres/css/comres.css" media="screen">
+	<ui:require module="../m/comres/js"></ui:require>
 </head>
-<script type="text/javascript">
-$(document).ready(function(){
-	$(window).scroll(function (){
-		$("#kongdiv").toggle();
-	});
-	$("#downloadBtn").click(function(){
-		var resid = $(this).attr("data-resid");
-		window.open(_WEB_CONTEXT_+"/jy/manage/res/download/"+resid+"?filename="+encodeURI($(this).attr("data-name")));
-	});
-});
-</script>
 <body>
-	<div>
-		<%-- <div class="jyyl_nav">
-			<h3>
-				当前位置：
-				<jy:nav id="zyck">
-					<jy:param name="name" value="同伴资源"></jy:param>
-					<jy:param name="ckname" value="资源查看"></jy:param>
-					<jy:param name="jxlwHref" value="jy/comres/index"></jy:param>
-				</jy:nav>
-			</h3>
-		</div> --%>
-		<div class="clear"></div>
-		<div class="resources_view">
-			<div class="resources_view_cont">
-				<div class="resources_view_cont_top">
-					<h3>${data.planName}</h3>
-					<h4>
-						<jy:di key="${data.userId }"
-							className="com.tmser.tr.uc.service.UserService" var="u"/>
-						<jy:di key="${u.orgId }"
-									className="com.tmser.tr.manage.org.service.OrganizationService"
-									var="org"/>
-						学校：     <span>
-						  				 ${org.name }
-						  		  </span>作者：<span> ${u.name } </span>
-						  	分享时间：<span><fmt:formatDate value="${data.shareTime}"
-									pattern="yyyy-MM-dd" /></span>
-					</h4>
-					<input value="下载" type="button" id="downloadBtn" data-name="<ui:sout value='${data.planName}' encodingURL='true' escapeXml='true'></ui:sout>" data-resid="${data.resId}" class="download">
-				</div>	
-				<div class="see_word" style="height:750px;">
-				    <div style="width:0px;height: 0px; display: none;" id="kongdiv"></div>
-					<%-- <iframe id="view" src="jy/scanResFile?resId=${data.resId}" width="100%" height="700px;" style="background-color:#fff;" allowtransparency="true"  frameborder="0" scrolling="no"></iframe> --%>
-					<div style="width:1000px;height:700px" style="background-color:#fff;" allowtransparency="true"  frameborder="0" scrolling="no">
-				    	<po:PageOfficeCtrl id="PageOfficeCtrl1" height="700" width='920'>
-				       	</po:PageOfficeCtrl>
+<div class="look_opinion_list_wrap">
+	<div class="look_opinion_list">
+		<div class="look_opinion_list_title">
+		    <q></q>
+			<h3>课件1</h3>
+			<span class="close"></span>
+		</div>
+		<div class="look_opinion_list_content">
+		    <jy:di key="${data.userId }" className="com.tmser.tr.uc.service.UserService" var="u">
+		    <div class="look_option1"> 
+				<span></span>学校：<jy:di key="${u.orgId }" className="com.tmser.tr.manage.org.service.OrganizationService" var="org">${org.name }</jy:di>
+			</div>
+			<div class="look_option"> 
+				<span></span>作者：${u.name }
+			</div>
+			<div class="look_option"> 
+				<strong></strong>提交日期：<fmt:formatDate value="${data.shareTime}" pattern="yyyy-MM-dd" />
+			</div>
+			</jy:di>
+		</div>
+		<div class="look_opinion_list_title1">
+		    <q></q>
+			<h3>评论意见列表</h3> 
+		</div>
+		<iframe id="commentBox" style="width: 100%;height: 47rem;border: none;" ></iframe>
+		<div class="left"style="bottom:22rem;"></div>
+	</div>
+</div>
+<div class="mask"></div>
+<div class="more_wrap_hide" onclick='moreHide()'></div>
+<div id="wrapper">
+	<header>
+		<span onclick="javascript:window.history.go(-1);"></span>同伴资源
+		<div class="more" onclick="more()"></div>
+	</header>
+	<section>
+		<div class="content">
+			<div class="content_bottom1">
+			<div class="show">
+			</div>
+				<div class="content_bottom1_left">
+					 <h3></h3>
+					 <div class="content_bottom1_left1_wrap">
+					 	 <div class="content_bottom1_left1" id="content_bottom1_left1">
+						  	 <div id="scroller">
+								<div class="cour" id="comresView">
+									<ul>
+									    <li class="ul_li_act" data-title="<ui:sout value='${data.planName }' encodingURL='true' escapeXml='true'></ui:sout>" 
+													data-id="${data.planId }"  data-resId="${data.resId}" data-type="${data.planType}" data-userId="${data.userId}" data-name="${data.planName }"><c:choose><c:when test="${data.planType==0}">教案</c:when><c:when test="${data.planType==1}">课件</c:when><c:otherwise>反思</c:otherwise></c:choose></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="content_bottom1_center" style=" z-index: 1001;">
+					<iframe id="iframe1" style="width:100%;height:100%;" frameborder="0" scrolling="no" src="jy/scanResFile?resId=${data.resId}"></iframe>
+				</div>
+				<div class="content_bottom1_right">
+					<div class="content_list"> 
+						<figure>
+						  <span class="ck_list"></span>
+						  <p>查看评论</p>
+						</figure>
+						<figure>
+						  <a href="<ui:download filename='${data.planName}' resid='${data.resId}'></ui:download>"><span class="ck_down"></span>
+						  <p>下载</p></a>
+						</figure>
 					</div>
 				</div>
 			</div>
-			<div>
-			<iframe id="commentBox" onload="setCwinHeight(this,false,200)" src="jy/comment/list;jsessionid=<%=session.getId() %>?authorId=${data.userId }&resType=${data.planType}&resId=${data.planId }&title=<ui:sout value='${data.planName }' encodingURL='true' escapeXml='true'></ui:sout>" width="100%" height="200px;" style="border:none;" scrolling="no"></iframe>
-			</div>
 		</div>
-		<div class="clear"></div>
-	</div>
-	
+	</section>
+</div>
 </body>
+<script type="text/javascript">
+	require(["zepto",'view'],function($){	
+	}); 
+</script>
 </html>

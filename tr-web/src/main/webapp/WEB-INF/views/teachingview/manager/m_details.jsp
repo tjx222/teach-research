@@ -173,7 +173,7 @@
 						</dt>
 						<dd>
 							<a href="${ctx}jy/teachingView/manager/m_lecture_record?userId=${searchVo.userId}&termId=${searchVo.termId}&phaseId=${searchVo.phaseId}&orgId=${searchVo.orgId}">
-								<span>听课次数：${dataMap.lecture_hours}</span>
+								<span>听课节数：${dataMap.lecture_hours}</span>
 								<span>分享数：${dataMap.lecture_share}</span>
 							</a>
 						</dd>

@@ -24,6 +24,7 @@ import com.tmser.tr.common.web.controller.AbstractController;
 import com.tmser.tr.lessonplan.bo.LessonInfo;
 import com.tmser.tr.lessonplan.bo.LessonPlan;
 import com.tmser.tr.lessonplan.service.LessonInfoService;
+import com.tmser.tr.lessonplan.service.LessonPlanService;
 import com.tmser.tr.manage.meta.bo.Book;
 import com.tmser.tr.manage.meta.service.BookService;
 import com.tmser.tr.manage.meta.vo.BookLessonVo;
@@ -32,7 +33,6 @@ import com.tmser.tr.myplanbook.service.MyPlanBookService;
 import com.tmser.tr.uc.bo.UserSpace;
 import com.tmser.tr.uc.utils.SessionKey;
 import com.tmser.tr.utils.StringUtils;
-import com.tmser.tr.writelessonplan.service.LessonPlanService;
 import com.zhuozhengsoft.pageoffice.FileSaver;
 import com.zhuozhengsoft.pageoffice.OfficeVendorType;
 import com.zhuozhengsoft.pageoffice.OpenModeType;
@@ -191,11 +191,11 @@ public class MyPlanBookController extends AbstractController {
   }
 
   @RequestMapping(value = "toEditLessonPlan")
-  public String toEditLessonPlan(Integer planId,Model m) {
+  public String toEditLessonPlan(Integer planId, Model m) {
     m.addAttribute("planId", planId);
     return "/myplanbook/lessonplan_view";
   }
-  
+
   /**
    * 进入修改教案页面
    * 
@@ -204,7 +204,8 @@ public class MyPlanBookController extends AbstractController {
    * @return
    */
   @RequestMapping(value = "toEditLessonPlanView")
-  public String toEditLessonPlanView(Integer planId, HttpServletRequest request, Model m, HttpServletResponse response) {
+  public String toEditLessonPlanView(Integer planId, HttpServletRequest request, Model m,
+      HttpServletResponse response) {
 
     // 获取当前用户空间
     UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE);
@@ -371,23 +372,6 @@ public class MyPlanBookController extends AbstractController {
       myPlanBookService.receiveLessonPlanOfActivity(activityId, m);
     } catch (Exception e) {
       logger.error("接收集体备课的整理教案", e);
-      m.addAttribute("result", "error");
-      m.addAttribute("info", "系统出错！请重试");
-    }
-  }
-
-  /**
-   * 接收校际教研的整理教案
-   * 
-   * @param activityId
-   * @param m
-   */
-  @RequestMapping(value = "receiveLessonPlanOfSchoolActivity")
-  public void receiveLessonPlanOfSchoolActivity(Integer activityId, Model m) {
-    try {
-      myPlanBookService.receiveLessonPlanOfSchoolActivity(activityId, m);
-    } catch (Exception e) {
-      logger.error(" 接收校际教研的整理教案", e);
       m.addAttribute("result", "error");
       m.addAttribute("info", "系统出错！请重试");
     }

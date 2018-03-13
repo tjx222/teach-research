@@ -4,23 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tmser.tr.activity.bo.Activity;
 import com.tmser.tr.activity.bo.ActivityTracks;
-import com.tmser.tr.activity.bo.SchoolActivity;
-import com.tmser.tr.activity.bo.SchoolActivityTracks;
 import com.tmser.tr.activity.service.ActivityService;
 import com.tmser.tr.activity.service.ActivityTracksService;
-import com.tmser.tr.activity.service.SchoolActivityService;
-import com.tmser.tr.activity.service.SchoolActivityTracksService;
-import com.tmser.tr.activity.service.SchoolTeachCircleOrgService;
 import com.tmser.tr.check.bo.CheckInfo;
 import com.tmser.tr.check.bo.CheckOpinion;
 import com.tmser.tr.check.service.CheckInfoService;
@@ -29,30 +21,20 @@ import com.tmser.tr.comment.bo.CommentInfo;
 import com.tmser.tr.common.ResTypeConstants;
 import com.tmser.tr.common.page.PageList;
 import com.tmser.tr.common.utils.WebThreadLocalUtils;
-import com.tmser.tr.common.vo.Result;
 import com.tmser.tr.common.web.controller.AbstractController;
-import com.tmser.tr.lecturerecords.bo.LectureRecords;
-import com.tmser.tr.lecturerecords.service.LectureRecordsService;
 import com.tmser.tr.lessonplan.bo.LessonInfo;
 import com.tmser.tr.lessonplan.bo.LessonPlan;
 import com.tmser.tr.lessonplan.service.LessonInfoService;
+import com.tmser.tr.lessonplan.service.LessonPlanService;
 import com.tmser.tr.manage.resources.bo.Attach;
 import com.tmser.tr.manage.resources.service.AttachService;
-import com.tmser.tr.plainsummary.bo.PlainSummary;
-import com.tmser.tr.plainsummary.service.JyPlainSummaryCheckService;
-import com.tmser.tr.plainsummary.service.PlainSummaryService;
-import com.tmser.tr.plainsummary.vo.PlainSummaryVo;
 import com.tmser.tr.teachingView.service.TeachingViewService;
 import com.tmser.tr.teachingview.vo.SearchVo;
-import com.tmser.tr.thesis.bo.Thesis;
-import com.tmser.tr.thesis.service.ThesisService;
 import com.tmser.tr.uc.bo.User;
 import com.tmser.tr.uc.bo.UserSpace;
 import com.tmser.tr.uc.service.UserService;
 import com.tmser.tr.uc.service.UserSpaceService;
 import com.tmser.tr.uc.utils.SessionKey;
-import com.tmser.tr.utils.StringUtils;
-import com.tmser.tr.writelessonplan.service.LessonPlanService;
 
 /**
  * 教研一览详情页
@@ -80,27 +62,13 @@ public class DetailViewController extends AbstractController {
   @Autowired
   private CheckInfoService checkInfoService;
   @Autowired
-  private LectureRecordsService lectureRecordsService;
-  @Autowired
   private UserService userService;
-  @Autowired
-  private JyPlainSummaryCheckService jyPlainSummaryCheckService;
-  @Autowired
-  private PlainSummaryService plainSummaryService;
-  @Autowired
-  private ThesisService thesisService;
   @Autowired
   private ActivityTracksService activityTracksService;
   @Autowired
   private AttachService activityAttachService;
   @Autowired
   private ActivityService activityService;
-  @Autowired
-  private SchoolTeachCircleOrgService schoolTeachCircleOrgService;
-  @Autowired
-  private SchoolActivityService schoolActivityService;
-  @Autowired
-  private SchoolActivityTracksService schoolActivityTracksService;
   @Autowired
   private UserSpaceService userSpaceService;
 
@@ -213,80 +181,6 @@ public class DetailViewController extends AbstractController {
   }
 
   /**
-   * 查看单个听课记录
-   * 
-   * @param info
-   * @param m
-   * @return
-   */
-  @RequestMapping(value = "/view/LectureRecord")
-  public String seeTopic(Model m, Integer id, @RequestParam(value = "showType", required = false) String showType) {
-    LectureRecords lr = lectureRecordsService.findOne(id);
-    m.addAttribute("lr", lr);// 按照主键查询单个
-    m.addAttribute("showType", showType);// 按照主键查询单个
-    return "/teachingview/view_lecturerecords";
-  }
-
-  /**
-   * 单用户空间，计划总结详情页面
-   * 
-   * @param planSummaryId
-   *          计划总结id
-   * @param type
-   *          类型
-   * @param
-   * @return
-   */
-  @RequestMapping("/view/planSummary/{planSummaryId}")
-  public String planSummaryView(@PathVariable("planSummaryId") Integer planSummaryId, Model model, SearchVo searchVo) {
-    // 获取计划总结信息
-    PlainSummaryVo plainSummary = jyPlainSummaryCheckService.getPlanSummaryVo(planSummaryId);
-    // 获取用户信息
-    User user = userService.findOne(plainSummary.getUserId());
-    model.addAttribute("user", user);
-    model.addAttribute("ps", plainSummary);
-    return "/teachingview/view_planSummary";
-  }
-
-  /**
-   * 获取计划总结详情
-   * 
-   * @param planSummaryId
-   * @return
-   */
-  @RequestMapping("/view/planSummaryCheck/{planSummaryId}")
-  public Result getPlanSummary(@PathVariable("planSummaryId") Integer planSummaryId) {
-    PlainSummaryVo result = new PlainSummaryVo();
-    HashMap<String, Object> map = new HashMap<String, Object>();
-    // 查询计划总结
-    PlainSummary plainSummary = plainSummaryService.findOne(planSummaryId);
-    if (plainSummary != null) {
-      BeanUtils.copyProperties(plainSummary, result);
-      Integer crtId = plainSummary.getCrtId();
-      // 查询用户消息
-      User user = userService.findOne(crtId);
-      result.setEditName(user.getName());
-      // 获取用户信息
-      User users = userService.findOne(result.getUserId());
-      if (users != null) {
-        result.setEditName(users.getName());
-      }
-      map.put("ps", result);
-    }
-    return new Result(map);
-  }
-
-  // 查看教学论文
-  @RequestMapping("/view/thesisview")
-  public String thesisView(Model m, Integer id, String showType) {
-
-    Thesis thesis = thesisService.findOne(id);
-    m.addAttribute("thesis", thesis);
-    m.addAttribute("showType", showType);
-    return "/teachingview/view_thesis";
-  }
-
-  /**
    * 查阅集体备课列表
    * 
    * @return
@@ -356,90 +250,6 @@ public class DetailViewController extends AbstractController {
     List<ActivityTracks> zhengliList = activityTracksService.getActivityTracks_zhengli(activity.getId());
     m.addAttribute("zhengliList", zhengliList);
     return "/teachingview/view_chayueJiBei";
-  }
-
-  /**
-   * 查看校际教研-主题研讨
-   * 
-   * @param id
-   * @param m
-   * @return
-   */
-  @RequestMapping("/view/view_schActivity_zhuyan")
-  public String viewZtytSchoolActivity(Integer id, Model m, Integer listType) {
-    UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
-    SchoolActivity schoolActivity = schoolActivityService.findOne(id);
-    if (schoolActivity.getInfoId() != null) {
-      LessonInfo lessonInfo = lessonInfoService.findOne(schoolActivity.getInfoId());
-      m.addAttribute("lessonName", lessonInfo.getLessonName());
-    }
-    Attach temp = new Attach();
-    temp.setActivityId(id);
-    List<Attach> attachList = activityAttachService.findAll(temp);
-    // 有权限的参与人列表查询
-    List<UserSpace> usList = schoolActivityService.findUserBySubjectAndGrade(schoolActivity);
-    m.addAttribute("usList", usList);
-    m.addAttribute("activity", schoolActivity);
-    m.addAttribute("attachList", attachList);
-    m.addAttribute("userSpace", userSpace);
-    // 获取所有参与的学校的名称
-    String joinOrgNames = schoolTeachCircleOrgService
-        .getJoinOrgNamesByCircleId(schoolActivity.getSchoolTeachCircleId());
-    if (StringUtils.isNotEmpty(joinOrgNames)) {
-      String[] joinOrgs = joinOrgNames.split("、");
-      m.addAttribute("joinOrgNames", joinOrgs);
-      m.addAttribute("joinOrgLength", joinOrgs.length);
-    } else {
-      m.addAttribute("joinOrgLength", 0);
-    }
-    m.addAttribute("user2", userService.findOne(schoolActivity.getOrganizeUserId()));
-    m.addAttribute("us", userSpaceService.findOne(schoolActivity.getSpaceId()));
-    m.addAttribute("listType", listType);
-    m.addAttribute("operateType", 0);
-    m.addAttribute("activityType", ResTypeConstants.SCHOOLTEACH);
-    return "/teachingview/view_schActivity_zhuyan";
-  }
-
-  /**
-   * 查看校际教研-集备教案
-   * 
-   * @param id
-   * @param m
-   * @return
-   */
-  @RequestMapping("/view/view_schActivity_jibei")
-  public String viewTbjaSchoolActivity(Integer id, Model m, Integer listType) {
-
-    SchoolActivity schoolActivity = schoolActivityService.findOne(id);
-    if (schoolActivity.getInfoId() != null) {
-      LessonInfo lessonInfo = lessonInfoService.findOne(schoolActivity.getInfoId());
-      m.addAttribute("lessonName", lessonInfo.getLessonName());
-      m.addAttribute("lessonInfo", lessonInfo);
-    }
-    m.addAttribute("listType", listType);
-    // 获取主备人的教案
-    List<SchoolActivityTracks> zhubeiList = schoolActivityTracksService.getActivityTracks_zhubei(id);
-    m.addAttribute("zhubeiList", zhubeiList);
-    // 获取所有参与的学校的名称
-    String joinOrgNames = schoolTeachCircleOrgService
-        .getJoinOrgNamesByCircleId(schoolActivity.getSchoolTeachCircleId());
-    if (StringUtils.isNotEmpty(joinOrgNames)) {
-      String[] joinOrgs = joinOrgNames.split("、");
-      m.addAttribute("joinOrgNames", joinOrgs);
-      m.addAttribute("joinOrgLength", joinOrgs.length);
-    } else {
-      m.addAttribute("joinOrgLength", 0);
-    }
-    m.addAttribute("activity", schoolActivity);
-    // 整理教案集合
-    List<SchoolActivityTracks> zhengliList = schoolActivityTracksService.getActivityTracks_zhengli(id);
-    m.addAttribute("zhengliList", zhengliList);
-    m.addAttribute("type", ResTypeConstants.SCHOOLTEACH);
-    m.addAttribute("user1", userService.findOne(schoolActivity.getMainUserId()));
-    m.addAttribute("user2", userService.findOne(schoolActivity.getOrganizeUserId()));
-    m.addAttribute("us", userSpaceService.findOne(schoolActivity.getSpaceId()));
-    m.addAttribute("operateType", 0);
-    return "/teachingview/view_schActivity_jibei";
   }
 
   /**

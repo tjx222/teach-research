@@ -82,7 +82,7 @@
 									<dl>
 									    <a href="${ctx}jy/teachingView/view/lesson?type=${searchVo.flago}&infoId=${res.id}&showType=manager" target="_blank">
 		 									<dt>
-			 									<c:if test="${searchVo.flago=='0'}"><img src="${ctxStatic }/common/icon/base/word.png"/></c:if>
+			 									<c:if test="${searchVo.flago=='0'}"><img src="${ctxStatic }/modules/teachingview/images/w_img1.png"/></c:if>
 										    	<c:if test="${searchVo.flago=='1'}"><ui:icon ext="ppt"></ui:icon></c:if>
 		 									</dt>
 		 									<dd class="article_name" title='<ui:sout value="${res.lessonName }" escapeXml="true"/>'>

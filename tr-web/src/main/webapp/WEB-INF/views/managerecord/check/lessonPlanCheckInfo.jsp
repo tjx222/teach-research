@@ -1,85 +1,98 @@
 <%@ include file="/WEB-INF/include/taglib.jspf"%>
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<c:set value="<%=request.getSession().getId() %>" var="sessionId" scope="session"></c:set>
-<ui:htmlHeader title="查阅教案详情"></ui:htmlHeader>
-<link rel="stylesheet" type="text/css" href="${ctxStatic }/modules/check/check_thesis/css/check_thesis.css" media="screen">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta charset="UTF-8">
+	<ui:mHtmlHeader title="查阅教案"></ui:mHtmlHeader>
+	<link rel="stylesheet" href="${ctxStatic }/m/check/css/check.css" media="screen">
+	<link rel="stylesheet" href="${ctxStatic }/m/managerecord/css/managerecord.css" media="screen" />
+	<ui:require module="../m/managerecord/js"></ui:require>	
 </head>
 <body>
-<jy:di key="${data.userId }" className="com.tmser.tr.uc.service.UserService" var="u"/>
-		<div class="clear"></div>
-		<div class="check_teacher_wrap">
-			<div class="check_teacher_wrap2"> 
-				<h3 class="file_title"><ui:sout value="${data.lessonName }" escapeXml="true" length="50" needEllipsis="true"/></h3>
-				<div class="file_info">
-					<div class="file_info_l">
-						<span></span>
-						提交人：${u.name}
-					</div>
-					<div class="file_info_r">
-						<span></span>
-						提交日期：<fmt:formatDate value="${data.submitTime}" pattern="yyyy-MM-dd"/>
-					</div>
-				</div>
-				<div class="file_down_btn">
-					<input type="button" class="download">
-				</div>
-				<div class="word_plug_ins">
-					<iframe id="view"  width="100%"	height="660px;"style="border:none;" frameborder="0" scrolling="no"></iframe>
-				</div>
+<div class="look_opinion_list_wrap">
+	<div class="look_opinion_list">
+		<div class="look_opinion_list_title">
+		    <q></q>
+			<h3 id="lessonName_check">课件1</h3>
+			<span class="close"></span>
+		</div>
+		<div class="look_opinion_list_content" id="lessonCrt_message">
+			<div class="look_option"> 
+			    <jy:di key="${data.userId }" className="com.tmser.tr.uc.service.UserService" var="u"/>
+				<span></span>作者：${u.name}
 			</div>
-			<div class="see_word_nav">
-				<ul>
-					<c:forEach var="lesson" items="${lessonList}" varStatus="st">
-						<c:set value="${empty rcount ? 0 : 1 }" var="rcount"></c:set>
-						<c:choose>
-							<c:when test="${rcount == 0}">
-								<li class="see_word_nav_1 see_word_nav_act" data-resId="${lesson.resId }">
-								第${lesson.hoursId}课时
-								</li>
-							</c:when>
-							<c:otherwise>
-								<li class="see_word_nav_1" data-resId="${lesson.resId }">
-									第${lesson.hoursId}课时
-								</li>
-							</c:otherwise>
-						</c:choose>
-					</c:forEach>
-				</ul>
-			</div>
-			<div class="border"></div>
-			<div class="check_teacher_wrap2"> 
-				<iframe id="checkedBox"
-				 onload="setCwinHeight(this,false,100)" style="border:none;width:100%;" frameborder="0"scrolling="no"></iframe>
+			<div class="look_option" id="submitTime"> 
+				<strong></strong>提交日期：<fmt:formatDate value="${data.submitTime }" pattern="yyyy-MM-dd"/>
 			</div>
 		</div>
-		<ui:htmlFooter style="1"></ui:htmlFooter>
-	<script type="text/javascript">
-	$(document).ready(function(){
-	    $(window).scroll(function (){
-				$("#kongdiv").toggle();
-			});
-		var resid = $("li.see_word_nav_act").attr("data-resId");
-		$("#view").attr("src","jy/scanResFile?to=true&resId="+resid);
-		$("#checkedBox").attr("src","jy/check/infoIndex?flags=false&gradeId=${data.gradeId}&subjectId=${data.subjectId}&title=<c:out value="${data.lessonName }" escapeXml="true"></c:out>&resType=${type}&authorId=${data.userId}&resId=${data.id}&titleShow=true");
-		$("li.see_word_nav_1").click(function(){
-			$this = $(this);
-			$("li.see_word_nav_act").removeClass("see_word_nav_act");
-			$this.addClass('see_word_nav_act');
-			var resid = $this.attr("data-resId");
-			$("#view").attr("src","jy/scanResFile?to=true&resId="+resid);
-		});
-		$("div.see_word_Annex dl").click(function(){
-			 scanResFile($(this).attr("data-resId"));
-		});
-		$(".download").click(function(){
-			var name = "${data.lessonName}";
-			window.open(_WEB_CONTEXT_+"/jy/manage/res/download/"+resid+"?filename="+encodeURI(name),"_self");
-		});
-	});
-	</script>
-	<script src="${ctxStatic }/lib/jquery/jquery.blockui.min.js"></script>
+		<div class="look_opinion_list_title1">
+		    <q></q>
+			<h3>查阅意见列表</h3> 
+		</div>
+		<iframe id="iframe_checklist" style="border:none;overflow:hidden;width:100%;height:30rem;" ></iframe>
+		<input type="hidden" id="checklistobj" term="${data.termId}" gradeId="${data.gradeId}" subjectId="${data.subjectId}" resType="${type}" authorId="${data.userId}" resId="${data.id}" title="<ui:sout value='${data.lessonName }' encodingURL='true' escapeXml='true'></ui:sout>"/>
+		<div class="left" style="bottom:24rem;"></div>
+	</div>
+</div>
+<div class="mask"></div>
+<div class="more_wrap_hide" onclick='moreHide()'></div>
+<div id="wrapper">
+	<header>
+		<span onclick="javascript:window.history.go(-1);"></span>查阅教案
+		<div class="more" onclick="more()"></div>
+	</header>
+	<section>
+		<div class="content">
+			<div class="content_bottom1">
+			<div class="show">
+			</div>
+				<div class="content_bottom1_left">
+					 <h3></h3>
+					 <div class="content_bottom1_left1_wrap" id="viewLesson">
+					 	 <div class="content_bottom1_left1" id="content_bottom1_left1">
+						  	 <div id="scroller">
+								<div class="cour">
+									<div class="cour_name" ></div>
+									<ul>
+									    <c:forEach var="lesson" items="${lessonList}" varStatus="st">
+											<c:set value="${empty rcount ? 0 : 1 }" var="rcount"></c:set>
+											<c:set value="${empty rescount ? 1 : rescount+1 }" var="rescount"></c:set>
+											<c:choose>
+												<c:when test="${rcount == 0}" >
+													<li  data-resId="${lesson.resId }" data-type="${lesson.planType}" data-title="${lesson.planName}" data-id="${lesson.infoId}" data-time='<fmt:formatDate value="${data.submitTime }" pattern="yyyy-MM-dd"/>' class="ul_li_act">
+													第${lesson.hoursId}课时	
+													</li>
+												</c:when>
+												<c:otherwise>
+													<li  data-resId="${lesson.resId }" data-type="${lesson.planType}" data-title="${lesson.planName}" data-id="${lesson.infoId}" data-time='<fmt:formatDate value="${data.submitTime }" pattern="yyyy-MM-dd"/>'>
+													第${lesson.hoursId}课时	
+													</li>
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="content_bottom1_center" style=" z-index: 1001;">
+					<iframe id="iframe1" style="width:100%;height:100%;" frameborder="0" scrolling="no" src=""></iframe>
+				</div>
+				<div class="content_bottom1_right">
+					<div class="content_list" style="height:13rem;">
+						<div class="list_img"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
 </body>
+<script type="text/javascript">
+	require(["zepto",'view'],function($){	
+	}); 
+</script>
 </html>

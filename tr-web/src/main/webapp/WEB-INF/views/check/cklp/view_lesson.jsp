@@ -1,142 +1,182 @@
 <%@ include file="/WEB-INF/include/taglib.jspf"%>
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<ui:htmlHeader title="查阅资源查看"></ui:htmlHeader>
-<link rel="stylesheet" type="text/css" href="${ctxStatic }/modules/check/check_thesis/css/check_thesis.css" media="screen">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta charset="UTF-8">
+	<ui:mHtmlHeader title="查阅${type == 0 ? '教案': type == 1? '课件':'反思' }"></ui:mHtmlHeader>
+	<link rel="stylesheet" href="${ctxStatic }/m/check/css/check.css" media="screen">
+	<ui:require module="../m/check/js"></ui:require>
 </head>
 <body>
-<div class="check_teacher_wrap">
-	<div class="check_teacher_wrap2"> 
-		<h3 class="file_title"><ui:sout value="${data.lessonName }" escapeXml="true" length="50" needEllipsis="true"/></h3>
-		<div class="file_sel">
-			<div class="anti_plagiarism">
-				<label for="">反抄袭：</label>
-				<div class="ser">
-					<input type="text" class="ser_txt" id="searchFcx"/>
-					<input type="button" class="ser_button" />
+<div class="look_opinion_list_wrap">
+	<div class="look_opinion_list">
+		<div class="look_opinion_list_title">
+		    <q></q>
+			<h3 id="lessonName_check">课件1</h3>
+			<span class="close"></span>
+		</div>
+		<div class="look_opinion_list_content" id="lessonCrt_message">
+			<div class="look_option"> 
+			    <jy:di key="${data.userId }" className="com.tmser.tr.uc.service.UserService" var="u"/>
+				<span></span>作者：${u.name}
+			</div>
+			<div class="look_option" id="submitTime"> 
+				<strong></strong>提交日期：<fmt:formatDate value="${data.submitTime }" pattern="yyyy-MM-dd"/>
+			</div>
+		</div>
+		<div class="look_opinion_list_title1">
+		    <q></q>
+			<h3>查阅意见列表</h3> 
+		</div>
+		<iframe id="iframe_checklist" style="border:none;overflow:hidden;width:100%;height:30rem;" ></iframe>
+		<input type="hidden" id="checklistobj" term="${data.termId}" gradeId="${data.gradeId}" subjectId="${data.subjectId}" resType="${type}" authorId="${data.userId}" resId="${data.id}" title="<ui:sout value='${data.lessonName }' encodingURL='true' escapeXml='true'></ui:sout>"/>
+		<div class="left" style="bottom:24rem;"></div>
+	</div>
+</div>
+<div class="mask"></div>
+<div class="more_wrap_hide" onclick='moreHide()'></div>
+<div id="wrapper">
+	<header>
+		<span onclick="javascript:window.history.go(-1);"></span>
+		<c:choose><c:when test="${type==0}">查阅教案</c:when><c:when test="${type==1}">查阅课件</c:when><c:otherwise>查阅反思</c:otherwise></c:choose>
+		<div class="more" onclick="more()"></div>
+	</header>
+	<section>
+		<div class="content">
+			<div class="content_bottom1">
+			<div class="show">
+			</div>
+				<div class="content_bottom1_left">
+					 <h3></h3>
+					 <div class="content_bottom1_left1_wrap" id="viewLesson">
+					 	 <div class="content_bottom1_left1" id="content_bottom1_left1">
+						  	 <div id="scroller">
+								<div class="cour">
+									<div class="cour_name" ></div>
+									<ul>
+									    <c:forEach var="lesson" items="${lessonList}" varStatus="st">
+											<c:if test="${lesson.planType == type }">
+											<c:set value="${empty rcount ? 0 : 1 }" var="rcount"></c:set>
+											<c:set value="${empty rescount ? 1 : rescount+1 }" var="rescount"></c:set>
+											<c:choose>
+												<c:when test="${rcount == 0}" >
+													<li  data-resId="${lesson.resId }" data-type="${lesson.planType}" data-title="${lesson.planName}" data-id="${lesson.infoId}" data-time='<fmt:formatDate value="${data.submitTime }" pattern="yyyy-MM-dd"/>' class="ul_li_act">
+													<c:if test="${type == 0 }">
+														<c:choose>
+															<c:when test="${lesson.hoursId eq '-1'}">不分课时</c:when>
+															<c:when test="${lesson.hoursId eq '0'}">简案</c:when>
+															<c:otherwise>第<ui:sout value="${lesson.hoursId}" length="44" needEllipsis="true"/>课时</c:otherwise>
+														</c:choose>
+													</c:if>
+													<c:if test="${type == 1 }">	课件${rescount}	</c:if>
+													<c:if test="${type == 2 }">	反思${rescount}	</c:if>
+													</li>
+												</c:when>
+												<c:otherwise>
+													<li  data-resId="${lesson.resId }" data-type="${lesson.planType}" data-title="${lesson.planName}" data-id="${lesson.infoId}" data-time='<fmt:formatDate value="${data.submitTime }" pattern="yyyy-MM-dd"/>'>
+														<c:if test="${type == 0 }">
+															<c:choose>
+																<c:when test="${lesson.hoursId eq '-1'}">不分课时</c:when>
+																<c:when test="${lesson.hoursId eq '0'}">简案</c:when>
+																<c:otherwise>第<ui:sout value="${lesson.hoursId}" length="44" needEllipsis="true"/>课时</c:otherwise>
+															</c:choose>
+														</c:if>
+														<c:if test="${type == 1 }">	课件${rescount}	</c:if>
+														<c:if test="${type == 2 }">	反思${rescount}	</c:if>
+													</li>
+												</c:otherwise>
+											</c:choose>
+											</c:if>
+										</c:forEach>
+										<!-- <li class="ul_li_act">课件1</li>
+										<li>课件2</li> -->
+									</ul>
+								</div>
+								<c:if test="${type!=0 }">
+								    <div class="cour" id="ja_fj">
+										<div class="cour_name">
+											<span>教案</span>
+										</div>
+										<ul>
+											<c:forEach var="lesson" items="${lessonList}" varStatus="status">
+												<c:if test="${lesson.planType != type && lesson.planType == 0 }">
+												<li data-resId="${lesson.resId}" data-type="${lesson.planType}" data-title="${lesson.planName}" data-id="${lesson.infoId}" data-time='<fmt:formatDate value="${data.submitTime }" pattern="yyyy-MM-dd"/>'>
+													<%-- <dd ><ui:icon ext="${lesson.planType == 1?'ppt':'doc' }" width="26" height="25" title="${lesson.planName }"></ui:icon></dd> --%>
+													<c:choose>
+														<c:when test="${lesson.hoursId eq '-1'}">不分课时</c:when>
+														<c:when test="${lesson.hoursId eq '0'}">简案</c:when>
+														<c:otherwise>第<ui:sout value="${lesson.hoursId}" length="44" needEllipsis="true"/>课时</c:otherwise>
+													</c:choose>	
+												</li>
+												</c:if>
+											</c:forEach>
+										</ul>
+									</div>
+								</c:if>
+								<c:if test="${type!=1}">
+									<div class="cour" id="kj_fj">
+										<div class="cour_name">
+											<span>课件</span>
+										</div>
+										<ul>
+											<c:forEach var="lesson" items="${lessonList}" varStatus="status">
+												<c:if test="${lesson.planType != type && lesson.planType == 1 }">
+												<li data-resId="${lesson.resId}" data-type="${lesson.planType}" data-title="${lesson.planName}" data-id="${lesson.infoId}" data-time='<fmt:formatDate value="${data.submitTime }" pattern="yyyy-MM-dd"/>'>
+													<%-- <dd ><ui:icon ext="${lesson.planType == 1?'ppt':'doc' }" width="26" height="25" title="${lesson.planName }"></ui:icon></dd> --%>
+													<c:set value="${empty kjcount ? 1 : kjcount+1 }" var="kjcount"></c:set> 课件${kjcount}	
+												</li>
+												</c:if>
+											</c:forEach>
+										</ul>
+									</div>
+								</c:if>
+								<c:if test="${type!=2 }">
+									<div class="cour" id="fs_fj">
+										<div class="cour_name">
+											<span>反思</span>
+										</div>
+										<ul>
+											<c:forEach var="lesson" items="${lessonList}" varStatus="status">
+												<c:if test="${lesson.planType != type && lesson.planType == 2 }">
+												<li data-resId="${lesson.resId}" data-type="${lesson.planType}" data-title="${lesson.planName}" data-id="${lesson.infoId}" data-time='<fmt:formatDate value="${data.submitTime }" pattern="yyyy-MM-dd"/>'>
+													<%-- <dd ><ui:icon ext="${lesson.planType == 1?'ppt':'doc' }" width="26" height="25" title="${lesson.planName }"></ui:icon></dd> --%>
+													<c:set value="${empty fscount ? 1 : fscount+1 }" var="fscount"></c:set>反思${fscount}	
+												</li>
+												</c:if>
+											</c:forEach>
+										</ul>
+									</div>
+								</c:if>
+								<!-- <div class="cour">
+									<div class="cour_name">
+										<span>反思</span>
+									</div>
+									<ul>
+										<li>第1课时</li>
+										<li>第2课时</li>
+									</ul>
+								</div>  -->
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="content_bottom1_center" style=" z-index: 1001;">
+					<iframe id="iframe1" style="width:100%;height:100%;" frameborder="0" scrolling="no" src=""></iframe>
+				</div>
+				<div class="content_bottom1_right">
+					<div class="content_list" style="height:13rem;">
+						<div class="list_img"></div>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="file_info" style="width:348px;float:left;margin-left:90px;">
-			<div class="file_info_l">
-				<span></span>
-				<jy:di key="${data.userId}" className="com.tmser.tr.uc.service.UserService" var="u"></jy:di>
-				提交人：${u.name}
-			</div>
-			<div class="file_info_r">
-				<span></span>
-				提交日期：<fmt:formatDate value="${data.submitTime}" pattern="yyyy-MM-dd"/>
-			</div>
-		</div>
-		<div class="file_down_btn">
-			<input type="button" class="download" id="downloadBtn"/>
-		</div>
-		<div class="word_plug_ins">
-			<iframe id="view"  width="100%"	height="680px"style="border:none;" frameborder="0" scrolling="no"></iframe>
-		</div>
-	</div>
-	<div class="see_word_nav">
-		<ul>
-			<c:forEach var="lesson" items="${lessonList}" varStatus="st">
-				<c:if test="${lesson.planType == type }">
-				<c:set value="${empty rcount ? 0 : 1 }" var="rcount"></c:set>
-				<c:set value="${empty rescount ? 1 : rescount+1 }" var="rescount"></c:set>
-				<c:choose>
-					<c:when test="${rcount == 0}">
-						<li class="see_word_nav_1 see_word_nav_act" data-resId="${lesson.resId }">
-						<c:if test="${type == 0 }">
-							<c:choose>
-								<c:when test="${lesson.hoursId eq '-1'}">不分课时</c:when>
-								<c:when test="${lesson.hoursId eq '0'}">简案</c:when>
-								<c:otherwise>第<ui:sout value="${lesson.hoursId}" length="44" needEllipsis="true"/>课时</c:otherwise>
-							</c:choose>
-						</c:if>
-						<c:if test="${type == 1 }">	课件${rescount}	</c:if>
-						<c:if test="${type == 2 }">	反思${rescount}	</c:if>
-						</li>
-					</c:when>
-					<c:otherwise>
-						<li class="see_word_nav_1" data-resId="${lesson.resId }">
-							<c:if test="${type == 0 }">
-								<c:choose>
-									<c:when test="${lesson.hoursId eq '-1'}">不分课时</c:when>
-									<c:when test="${lesson.hoursId eq '0'}">简案</c:when>
-									<c:otherwise>第<ui:sout value="${lesson.hoursId}" length="44" needEllipsis="true"/>课时</c:otherwise>
-								</c:choose>
-							</c:if>
-							<c:if test="${type == 1 }">	课件${rescount}	</c:if>
-							<c:if test="${type == 2 }">	反思${rescount}	</c:if>
-						</li>
-					</c:otherwise>
-				</c:choose>
-				</c:if>
-			</c:forEach>
-		</ul>
-	</div>
-	<div class="see_word_Annex">
-			<h6>附：</h6>
-			<div class="see_word_Annex_bottom">
-			<c:forEach var="lesson" items="${lessonList}" varStatus="status">
-				<c:if test="${lesson.planType != type }">
-				<dl data-resId="${lesson.resId}">
-					<dd ><ui:icon ext="${lesson.planType == 1?'ppt':'doc' }" width="26" height="25" title="${lesson.planName }"></ui:icon></dd>
-					<dt title="${lesson.planName }">
-					<c:if test="${lesson.planType == 0 }">
-						<c:choose>
-							<c:when test="${lesson.hoursId eq '-1'}">不分课时</c:when>
-							<c:when test="${lesson.hoursId eq '0'}">简案</c:when>
-							<c:otherwise>第<ui:sout value="${lesson.hoursId}" length="44" needEllipsis="true"/>课时</c:otherwise>
-						</c:choose>
-					</c:if>
-					<c:if test="${lesson.planType == 1 }">	<c:set value="${empty kjcount ? 1 : kjcount+1 }" var="kjcount"></c:set> 课件${kjcount}	</c:if>
-					<c:if test="${lesson.planType == 2 }">	<c:set value="${empty fscount ? 1 : fscount+1 }" var="fscount"></c:set>反思${fscount}	</c:if>
-					</dt>
-				</dl>
-				</c:if>
-			</c:forEach>
-		</div>
-		<div class="clear"></div>
-	</div>
-	<div class="border"></div>
-	<div class="check_teacher_wrap2"> 
-		<iframe id="lessonOthers" onload="setCwinHeight(this,false,100)" style="border:none;width:100%;" frameborder="0"scrolling="no"></iframe>
-		<iframe id="checkedBox" src="jy/check/lookCheckOption?flags=true&term=${data.termId}&gradeId=${data.gradeId}&subjectId=${data.subjectId}&title=<ui:sout value='${data.lessonName }' encodingURL='true' escapeXml='true'></ui:sout>&resType=${type}&authorId=${data.userId}&resId=${data.id}"
-		 onload="setCwinHeight(this,false,100)" style="border:none;width:100%;" frameborder="0"scrolling="no"></iframe>
-	</div>
+	</section>
 </div>
-	<script type="text/javascript">
-	$(document).ready(function(){
-		//获取同时提交这个课题的其他人
-		$("#lessonOthers").attr("src","jy/myplanbook/lessonSubmitOthers?orgId=${data.orgId}&lessonId=${data.lessonId}&schoolYear=${data.schoolYear}&userId=${data.userId}&phaseId=${type}");
-	    $(window).scroll(function (){
-				$("#kongdiv").toggle();
-			});
-		var resid = $("li.see_word_nav_act").attr("data-resId");
-		$("#view").attr("src","jy/scanResFile?to=true&resId="+resid);
-// 		$("#checkedBox").attr("src","jy/check/infoIndex?flags=true&term=${data.termId}&gradeId=${data.gradeId}&subjectId=${data.subjectId}&title=<ui:sout value='${data.lessonName }' encodingURL='true' escapeXml='true'></ui:sout>&resType=${type}&authorId=${data.userId}&resId=${data.id}");
-		$("li.see_word_nav_1").click(function(){
-			$this = $(this);
-			$("li.see_word_nav_act").removeClass("see_word_nav_act");
-			$this.addClass('see_word_nav_act');
-			var resid = $this.attr("data-resId");
-			$("#view").attr("src","jy/scanResFile?to=true&resId="+resid);
-		});
-		$("div.see_word_Annex dl").click(function(){
-			var url = _WEB_CONTEXT_+"/jy/scanResFile?resId="+$(this).attr("data-resId");
-			window.open(url,"hidenframe");
-			//scanResFile($(this).attr("data-resId"));
-		});
-		$("#downloadBtn").click(function(){
-			var name = $.trim($("div.check_teacher_wrap2 h3.file_title").text()) + $.trim($("li.see_word_nav_act").text());
-			window.open(_WEB_CONTEXT_+"/jy/manage/res/download/"+resid+"?filename="+encodeURI(name),"_self");
-		});
-		$('.ser_button').click(function(){
-			var search=$('#searchFcx').val();
-			window.open("https://www.baidu.com/s?q1="+search+"&gpc=stf");
-		});
-	});
-	</script>
 </body>
+<script type="text/javascript">
+	require(["zepto",'check'],function($){	
+	}); 
+</script>
 </html>

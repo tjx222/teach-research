@@ -1,107 +1,101 @@
 <%@ include file="/WEB-INF/include/taglib.jspf"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<ui:htmlHeader title="查阅听课记录"></ui:htmlHeader>
-	<link rel="stylesheet" type="text/css" href="${ctxStatic }/modules/check/check_lecturerecords/css/check_lecturerecords.css">  
-	<link rel="stylesheet" type="text/css" href="${ctxStatic }/lib/AmazeUI/css/amazeui.chosen.css">
-	<style>
-	.chosen-container-single .chosen-single{
-		border:none; 
-		background: #f2f1f1;
-	}
-	.chosen-container.chosen-with-drop .chosen-drop{
-		width: 98.5%;
-	}
-	</style>
-	<script type="text/javascript" src="${ctxStatic }/lib/AmazeUI/js/amazeui.chosen.min.js"></script> 
-	<script type="text/javascript" src="${ctxStatic }/lib/AmazeUI/js/amazeui.min.js"></script> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta charset="UTF-8">
+	<ui:mHtmlHeader title="管理记录"></ui:mHtmlHeader>
+	<link rel="stylesheet" href="${ctxStatic }/m/managerecord/css/managerecord_l.css" media="screen" />
+	<ui:require module="../m/managerecord/js"></ui:require>	
 </head>
 <body>
-<div class="jyyl_top">
-	<ui:tchTop style="1" modelName="听课记录"></ui:tchTop>
+<div class="mask"></div>
+<div class="more_wrap_hide" onclick='moreHide()'></div>
+<div id="wrapper">
+	<header>
+		<span onclick="javascript:window.history.go(-1);"></span>听课记录
+		<div class="more" onclick="more()"></div>
+	</header>
+	<section> 
+		<div class="inneredit_content"> 
+			<div>
+			    <c:if test="${lr.type==0}">
+			        <div class="inneredit_content_c"> 
+						<h3>听课记录</h3>
+						<table border="1">
+							<tr>
+								<td>课题</td>
+								<td colspan="3">${lr.topic}</td>
+								<td>评价等级</td>
+								<td>${lr.evaluationRank}</td>
+							</tr>
+							<tr>
+								<td>授课教师</td>
+								<td>${lr.teachingPeople}</td>
+								<td>学科</td>
+								<td>${lr.subject}</td>
+								<td>年级</td>
+								<td>${lr.grade}</td>
+							</tr>
+							<tr>
+								<td>听课人</td>
+								<td>${lr.lecturePeople}</td>
+								<td>听课时间</td>
+								<td><fmt:setLocale value="zh"/><fmt:formatDate value="${lr.lectureTime}" pattern="yyyy-MM-dd"/></td>
+								<td>听课杰数</td>
+								<td>${lr.numberLectures}</td>
+							</tr>
+							<tr> 
+								<td colspan="6">
+									<div style="width:100%;height:40rem">${lr.lectureContent}</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+			    </c:if>
+				<c:if test="${lr.type==1}">
+				    <div class="inneredit_content_c"> 
+						<h3>听课记录</h3>
+						<table border="1">
+							<tr>
+								<td>课题</td>
+								<td colspan="3">${lr.topic}</td>
+								<td>听课地点</td>
+								<td>${lr.lectureAddress}</td>
+							</tr>
+							<tr>
+								<td>授课教师</td>
+								<td>${lr.teachingPeople}</td>
+								<td>单位</td>
+								<td>${lr.lectureCompany}</td>
+								<td>年级学科</td>
+								<td>${lr.gradeSubject}</td>
+							</tr>
+							<tr>
+								<td>听课人</td>
+								<td>${lr.lecturePeople}</td>
+								<td>听课时间</td>
+								<td><fmt:setLocale value="zh"/><fmt:formatDate value="${lr.lectureTime}" pattern="yyyy-MM-dd"/></td>
+								<td>听课杰数</td>
+								<td>${lr.numberLectures}</td>
+							</tr>
+							<tr> 
+								<td colspan="6">
+									<div style="width:100%;height:40rem">${lr.lectureContent}</div>
+								</td>
+							</tr>
+						</table> 
+					</div>
+				</c:if>
+			</div>
+		</div> 
+		
+	</section>
 </div>
-<div class="jyyl_nav">
-		当前位置：
-			<jy:nav id="jxgljl_tkjlck"></jy:nav>
-	</div>
-<div class="check_teacher_wrap">
-	<div class="check_teacher_wrap2"> 
-		<h3 class="file_title">${lr.topic }</h3>
-		<div class="word_plug_ins">
-			<c:if test="${lr.type==1}">
-			  	<div class="record_sheet_cont" style="height:auto;">
-					<div class="r_s_c">
-						<h1 style="text-align:left;"><a href="">*</a>课题</h1>
-						<strong>${lr.topic}</strong>
-						<b>听课地点</b>
-						<strong style="width:530px;">${lr.lectureAddress}</strong>
-					</div>
-					<div class="r_s_c">
-						<h1 style="border-top-left-radius:0;">授课教师</h1>
-						<strong>${lr.teachingPeople}</strong>
-						<b>单位</b>
-						<strong>${lr.lectureCompany}</strong>
-						<b>年级学科</b>
-						<strong>${lr.gradeSubject}</strong>
-					</div>
-					<div class="r_s_c">
-						<h1 style="border-top-left-radius:0;">听课人</h1>
-						<strong>${lr.lecturePeople}</strong>
-						<b>听课时间</b>
-						<strong><fmt:setLocale value="zh"/><fmt:formatDate value="${lr.lectureTime}" pattern="yyyy-MM-dd"/></strong>
-						<b>听课节数</b>
-						<strong>${lr.numberLectures}</strong>
-					</div>
-					<div  class="r_s_c" style="width: 920px;height: 35px;float: left;">
-						<b style="border-left:none;border-right:none;width: 920px;height: 35px;line-height: 35px;">听课意见</b>
-					</div>
-					<div class="clear"></div>
-					<div class="lecturerecords_style">${lr.lectureContent}</div>
-				</div>
-			</c:if>
-			
-			<!-- 校内听课查看 -->
-			<c:if test="${lr.type==0}">
-				<div class="record_sheet_cont" style="height:auto;">
-					<div class="r_s_c">
-						<h1>课题</h1>
-						<strong>${lr.topic}</strong>
-						<b>评价等级</b>
-						<strong>${lr.evaluationRank}</strong>
-					</div>
-					<div class="r_s_c">
-						<h1 style="border-top-left-radius:0;">授课教师</h1>
-						<strong>${lr.teachingPeople}</strong>
-						<b>学科</b>
-						<strong>${lr.subject}</strong>
-						<b>年级</b>
-						<strong>${lr.grade}</strong>
-					</div>
-					<div class="r_s_c">
-						<h1 style="border-top-left-radius:0;">听课人</h1>
-						<strong>${lr.lecturePeople}</strong>
-						<b>听课时间</b>
-						<strong><fmt:setLocale value="zh"/><fmt:formatDate value="${lr.lectureTime}" pattern="yyyy-MM-dd"/></strong>
-						<b>听课节数</b>
-						<strong>${lr.numberLectures}</strong>
-					</div>
-					<div  class="r_s_c" style="width: 920px;height: 35px;float: left;">
-						<b style="border-left:none;border-right:none;width: 920px;height: 35px;line-height: 35px;">听课意见</b>
-					</div>
-					<div class="clear"></div>
-					<div class="lecturerecords_style">${lr.lectureContent}</div>
-				</div>
-			</c:if>
-		</div>
-	</div>
-</div>
-<ui:htmlFooter style="1"></ui:htmlFooter>
-<ui:require module="check/check_lecturerecords/js"></ui:require>
-<script type="text/javascript">
-require(['jquery','check_lecturerecords']);
-</script>
 </body>
+<script type="text/javascript">
+	require(['zepto','lecview'],function($){	
+	});  
+</script>
 </html>

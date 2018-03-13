@@ -88,7 +88,7 @@
 								<c:forEach var="track" items="${activityMap['trackList'] }">
 									<dl>
 										 <a href="${pageContext.request.contextPath }/jy/activity/scanLessonPlanTrack?resId=${track.resId }&orgId=${userSpace.orgId}" target="_blank">
-											<dt><img src="${ctxStatic }/common/icon/base/word.png"/></dt>
+											<dt><img src="${ctxStatic }/modules/teachingview/images/w_img1.png"/></dt>
 											<dd class="article_name" title="${track.planName }">${track.planName }</dd>
 											<dd class="article_date"><fmt:formatDate value="${track.crtDttm}" pattern="yyyy-MM-dd"/></dd>
 										 </a>
@@ -127,11 +127,9 @@
 			</c:forEach>
 			<c:if test="${empty activityMapList}">
 				<!-- 无文件 -->
-				<div style="padding-top:100px;">
-		  			<div class="nofile" style="margin-top:0;">
-						<div class="nofile1">
-							暂时还没有数据，稍后再来查看吧！
-						</div>
+	  				<div class="nofile">
+					<div class="nofile1">
+						暂时还没有数据，稍后再来查看吧！
 					</div>
 				</div>
 			</c:if>
