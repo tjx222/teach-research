@@ -63,12 +63,12 @@ define(["require","zepto","iscroll","placeholder"], function (require) {
         	$('#fs_fj').hide();
         }
         $('#lessonName_check').text($('#viewLesson ul li.ul_li_act').text());
-        $("#iframe1").attr("src","jy/scanResFile?resId="+resid);
+        $("#iframe1").attr("src","jy/scanResFile?to=true&resId="+resid);
         $('#viewLesson ul li').click(function(){
 			$(this).addClass("ul_li_act").siblings().removeClass("ul_li_act");
 			$(this).addClass("ul_li_act").parent().parent().siblings().find("li").removeClass("ul_li_act");
 			var resid=$(this).attr("data-resId");
-			$("#iframe1").attr("src","jy/scanResFile?resId="+resid);
+			$("#iframe1").attr("src","jy/scanResFile?to=true&resId="+resid);
 			$('#lessonName_check').text($(this).text());
 			$('#checklistobj').attr("resId",$(this).attr("data-id"));
 			$('#checklistobj').attr("resType",$(this).attr("data-type"));

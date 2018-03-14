@@ -42,13 +42,45 @@
 						
 					</div>
 					<div class="content_top_right">
-						<div class="version">
-							<label>教材版本：</label>
-							<div id="versionSelect">
-								<span>${model.bookShortname}</span>
-								<strong></strong>     
+					   <c:if test="${fn:length(phases) > 1 }">
+					   <div class="version">
+                <label>年级：</label>
+                <div>
+                <select name="phaseId">
+                <ui:relation var="phases" type="xdToNj" id="${phaseId }"></ui:relation>
+                 <c:forEach items="${phases }" var="phase">
+                   <option value="${phase.id }" ${phase.id == phaseId ? 'selected':'' }>${phase.name }</option>
+                 </c:forEach>
+                </select>
+                </div>
+              </div>
+					   </c:if>
+					   <c:if test="${fn:length(phases) < 2 }">
+					   <input type="hidden" name="phaseId" value="${phaseId}" />
+					   </c:if>
+					   
+						   <div class="version">
+								<label>年级：</label>
+								<div>
+								<select name="gradeId">
+								<ui:relation var="grades" type="xdToNj" id="${phaseId }"></ui:relation>
+								 <c:forEach items="${grades }" var="grade">
+								   <option value="${grade.id }" ${grade.id == model.gradeId ? 'selected':'' }>${grade.name }</option>
+								 </c:forEach>
+								</select>
+								</div>
 							</div>
-						</div>
+						 <div class="version">
+              <label>学科：</label>
+              <div>
+               <select name="subjectId">
+              <ui:relation var="subjects" type="xdToXk" id="${phaseId }"></ui:relation>
+               <c:forEach items="${subjects }" var="subject">
+                 <option value="${subject.id }" ${subject.id == model.subjectId ? 'selected':'' }>${subject.name }</option>
+               </c:forEach>
+              </select>   
+              </div>
+            </div>
 						<input type="hidden" name="bookId" value="${model.bookId}" />
 						<input type="hidden" id="bookShortname" name="bookShortname"  value="${model.bookShortname}" />
 						<input type="search"  name="planName" class="btn_search" placeholder="" value="${model.lessonName}"/>

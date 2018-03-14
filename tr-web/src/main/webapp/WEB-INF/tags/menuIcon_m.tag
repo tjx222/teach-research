@@ -18,11 +18,10 @@ icon 、iconId 或 iconIdentity 属性至少有一个
 %>
 <c:choose>
 	 <c:when test="${not empty iconId}">
-	 	<%
-	 	jspContext.setAttribute("iconUrl",iconService.findOne(iconId).getImgSrc());
-	 	%>
+	 <jy:di key="${iconId }" className="com.tmser.tr.manage.meta.service.IconService" var="icon"></jy:di>
+	 <c:set var="iconUrl" value="${not empty icon ? icon.imgSrc : iconUrl }"></c:set>
 	 </c:when>
 </c:choose>
 	<c:if test="${not empty iconUrl}">
-        <img src="${ctx }${fn:replace(iconUrl,'/icon','/icon_m')}" ${not empty width ?'width="':''}${width }${not empty width ?'"':''} ${not empty height ?'height="':''}${height }${not empty height ?'"':''} title="${title }"/>
-    </c:if>
+        <img src="${ctx }${fn:replace(iconUrl,'/icon','/icon_m')}" ${not empty width ?'width="':''}${width }${not empty width ?'"':''} ${not empty height ?'height="':''}${height }${not empty height ?'"':''} title="${not empty icon ? icon.description :'' }"/>
+  </c:if>

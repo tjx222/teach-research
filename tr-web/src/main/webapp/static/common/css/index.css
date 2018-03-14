@@ -48,7 +48,7 @@ header span{
 	width:1.667rem;
 	height:2.833rem;
 	background:url(../images_m/return.png) no-repeat;
-	display:inline-block;
+	display:none;
 	position: absolute;
     left: 3%;
     top:50%;

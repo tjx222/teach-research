@@ -32,12 +32,21 @@
 							<input id="typeId" name="typeId" type="hidden" value="1">
 							<h3>确定主备人及教案<span>*</span></h3>
 							<h4>学科：
-							<c:forEach items="${subjectList}" var="sub">
-									<span>${sub.name}</span>
-							</c:forEach>
+							<c:if test="${fn:length(subjectList) > 1}">
+                  <select name="mainUserSubjectId" id="mainUserSubjectId" class="validate[required] chosen-select-deselect" <c:if test="${act.commentsNum>0 || haveTrack }">disabled="disabled"</c:if>>
+                     <c:forEach items="${subjectList}" var="sub">
+                     <option value="${sub.id}" <c:if test="${sub.id==act.mainUserSubjectId}"> selected="selected" </c:if>>${sub.name}</option>
+                     </c:forEach>
+                   </select>
+                </c:if>
+                <c:if test="${fn:length(subjectList) < 2}">
+                  <c:forEach items="${subjectList}" var="sub">
+                  <input name="mainUserSubjectId" id="mainUserSubjectId" type="hidden" value="${sub.id }"/>
+                    ${sub.name}
+                  </c:forEach>
+                </c:if>
 							</h4>
 							<div class="ja_content_class">
-							<input name="mainUserSubjectId" id="mainUserSubjectId" type="hidden" value="${_CURRENT_SPACE_.subjectId }"/>
 							年级：
 								<c:if test="${fn:length(gradeList) > 1}">
 									<select  name="mainUserGradeId" id="mainUserGradeId" class="validate[required] chosen-select-deselect" <c:if test="${act.commentsNum>0 || haveTrack }">disabled="disabled"</c:if>>
@@ -83,8 +92,7 @@
 								<c:if test="${fn:length(gradeList) > 1}">
 								<input type="hidden" id="gradeIds" name="gradeIds" />
 								<c:forEach items="${gradeList}" var="grade">
-									<%-- <p gradeId="${grade.id}"><a>${grade.name}</a></p> --%>
-									<input type="button" class="p_option" gradeId="${grade.id}" value="${grade.name}">
+								<input type="button" class="p_option" gradeId="${grade.id}" value="${grade.name}">
 								</c:forEach>
 								</c:if>
 								<c:if test="${fn:length(gradeList) < 2}">

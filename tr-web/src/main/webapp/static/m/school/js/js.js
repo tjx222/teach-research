@@ -47,42 +47,20 @@ define(["require","zepto","iscroll"], function (require) {
 		$("#tzgg2").click(function(){
 			location.href = "jy/annunciate/noticeIndex";
 		});
-		$("#jhzj").click(function(){
-			location.href = "jy/planSummary/punishs";
-		});
 		$(".identity_menu_wrap1").find("p").click(function(){
 			location.href = $(this).attr("url");
 		});
 		
 		//初始化子菜单
-		var _CHILDMAP = [];
-		$(".slide_div").click(function(e){ 
-				var jqthis = $(this), mid = jqthis.attr("data-id"), m = _CHILDMAP[mid];
-				if(!m){
-					$.getJSON(_WEB_CONTEXT_+"/jy/uc/listChild?mid="+mid+"&"+Math.random(),function(data){
-						  if(data.code == 0){
-							  _CHILDMAP[mid]=data.data;
-							  showChild(data.data,jqthis);
-							}
-						});
-				}else{
-					showChild(m,jqthis);
-				}
+		$(".slide_div dd img ").click(function(e){
+			var jqthis = $(this);
+			showChild([],jqthis);
 		});
 	}
 	
 	function showChild(children,container){
-		if(children.length > 0){
-			var dl = $("<div class='slide_hide' />").append($("<div class='slide_hide_bg'>").append($("<ul/>")));
-			for(var i=0;i<children.length;i++){
-					var m = children[i];
-					$("ul",dl).append($('<li/>').append($("<a/>").attr("href",m.url).html(m.name)));
-				}
-			$(container).append(dl);
-		}else{
-			var dddom = container.find("dl").find("dd");
+			var dddom = container.parent("dd");
 			var newWin = window.open('页面加载中。。。');  
             newWin.location.href = dddom.attr("url");
-		}
 	}
 });

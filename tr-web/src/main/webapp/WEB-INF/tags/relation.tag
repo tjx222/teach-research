@@ -35,9 +35,6 @@
 	 	if(id == null)
 	 		id = us.getPhaseId();
 	 	Organization org = organizationService.findOne(us.getOrgId());
-	 	
-	 	
-	 	
 	 	request.setAttribute(var,MetaUtils.getOrgTypeMetaProvider().listAllGrade(org.getSchoolings(), id));
 	 	%>
 	 </c:when>

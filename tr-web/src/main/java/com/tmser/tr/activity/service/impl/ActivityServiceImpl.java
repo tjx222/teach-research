@@ -10,9 +10,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +37,6 @@ import com.tmser.tr.comment.bo.Discuss;
 import com.tmser.tr.comment.dao.DiscussDao;
 import com.tmser.tr.common.ResTypeConstants;
 import com.tmser.tr.common.dao.BaseDAO;
-import com.tmser.tr.common.orm.SqlMapping;
 import com.tmser.tr.common.page.PageList;
 import com.tmser.tr.common.service.AbstractService;
 import com.tmser.tr.common.utils.WebThreadLocalUtils;
@@ -56,6 +58,7 @@ import com.tmser.tr.uc.bo.User;
 import com.tmser.tr.uc.bo.UserSpace;
 import com.tmser.tr.uc.dao.UserDao;
 import com.tmser.tr.uc.dao.UserSpaceDao;
+import com.tmser.tr.uc.utils.CurrentUserContext;
 import com.tmser.tr.uc.utils.SessionKey;
 import com.tmser.tr.utils.StringUtils;
 
@@ -113,14 +116,9 @@ public class ActivityServiceImpl extends AbstractService<Activity, Integer> impl
   // 我发起的备课
   @Override
   public PageList<Activity> findMyOrganizeActivityList(Activity activity) {
-    UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
-    Integer schoolYear = (Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SCHOOLYEAR);// 学年
-    activity.setOrganizeUserId(userSpace.getUserId());// 用户Id
-    activity.setSchoolYear(schoolYear);
-    activity.setOrganizeSubjectId(userSpace.getSubjectId());
-    activity.setOrganizeGradeId(userSpace.getGradeId());
+    User user = CurrentUserContext.getCurrentUser();
+    activity.setOrganizeUserId(user.getId());// 用户Id
     activity.setStatus(1);
-    activity.setPhaseId(userSpace.getPhaseId());
     activity.addOrder("releaseTime desc");
     PageList<Activity> listPage = activityDao.listPage(activity);
     updateStateByActivityTime(listPage.getDatalist());
@@ -146,44 +144,47 @@ public class ActivityServiceImpl extends AbstractService<Activity, Integer> impl
   // 查看可参与、可见活动
   @Override
   public PageList<Activity> findOtherActivityList(Activity activity) {
-    UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
-    Integer schoolYear = (Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SCHOOLYEAR);// 学年
+    User user = CurrentUserContext.getCurrentUser();
     // 非自己 同学校
     // 学科 年级
-    Integer sysRoleId = userSpace.getSysRoleId();
     // Assert.assertNotNull(sysRoleId);//
     // activity.setOrganizeUserId(userSpace.getUserId());//用户Id
-    activity.setOrgId(userSpace.getOrgId());
-    activity.setSchoolYear(schoolYear);
+    activity.setOrgId(user.getOrgId());
     activity.setStatus(1);
-    activity.setPhaseId(userSpace.getPhaseId());
-    Map<String, Object> map = new HashMap<String, Object>();
-    map.put("spaceId", userSpace.getId());
-    map.put("gradeId", "%" + userSpace.getGradeId() + "%");
-    map.put("subjectId", "%" + userSpace.getSubjectId() + "%");
-    map.put("userId", userSpace.getUserId());
-    if (sysRoleId.intValue() == SysRole.XKZZ.getId().intValue()) {
-      // 学科组长
-      activity.addCustomCondition(" and spaceId!=:spaceId ", map);
-      activity.setSubjectIds(SqlMapping.LIKE_PRFIX + "," + userSpace.getSubjectId() + "," + SqlMapping.LIKE_PRFIX);
-    } else if (sysRoleId.intValue() == SysRole.NJZZ.getId().intValue()) {
-      // 年级组长
-      activity.setGradeIds(SqlMapping.LIKE_PRFIX + "," + userSpace.getGradeId() + "," + SqlMapping.LIKE_PRFIX);
-    } else if (sysRoleId.intValue() == SysRole.BKZZ.getId().intValue()) {
-      // 备课组长
-      activity.addCustomCondition(" and spaceId!=:spaceId ", map);
-      activity.setGradeIds(SqlMapping.LIKE_PRFIX + "," + userSpace.getGradeId() + "," + SqlMapping.LIKE_PRFIX);
-      activity.setSubjectIds(SqlMapping.LIKE_PRFIX + "," + userSpace.getSubjectId() + "," + SqlMapping.LIKE_PRFIX);
-    } else if (sysRoleId.intValue() == SysRole.TEACHER.getId().intValue()) {
-      // 老师
-      // activity.setGradeIds(SqlMapping.LIKE_PRFIX + userSpace.getGradeId() +
-      // SqlMapping.LIKE_PRFIX);
-      // activity.setSubjectIds(SqlMapping.LIKE_PRFIX + "," +
-      // userSpace.getSubjectId()+ "," + SqlMapping.LIKE_PRFIX);
-      activity.addCustomCondition(
-          " and ((gradeIds like :gradeId and subjectIds like :subjectId) or (mainUserGradeId=:gradeId and mainUserSubjectId=:subjectId and mainUserId=:userId))",
-          map);
+
+    if (SecurityUtils.getSubject().hasRole(SysRole.XZ.name().toLowerCase())
+        || SecurityUtils.getSubject().hasRole(SysRole.FXZ.name().toLowerCase())
+        || SecurityUtils.getSubject().hasRole(SysRole.ZR.name().toLowerCase())) {
+      // do noting
+    } else {
+      List<UserSpace> spaceList = (List<UserSpace>) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.USER_SPACE_LIST);
+      Integer phaseId = null;
+      StringBuilder sql = new StringBuilder();
+      String conditon = "";
+      Map<String, Object> params = new HashMap<>();
+      int i = 0;
+      for (UserSpace sp : spaceList) {
+        i++;
+        if (sp.getGradeId() != null && 0 != sp.getGradeId()) {
+          sql.append(conditon).append(" ((gradeIds like :gradeId").append(i).append(") ");
+          conditon = "and";
+          params.put("gradeId" + i, "%," + sp.getGradeId() + ",%");
+        }
+
+        if (sp.getSubjectId() != null && 0 != sp.getSubjectId()) {
+          sql.append(conditon).append("and".equals(conditon) ? "" : "(").append(" (subjectIds like :subjectId")
+              .append(i).append(") ");
+          params.put("subjectId" + i, "%," + sp.getSubjectId() + ",%");
+        }
+        sql.append(")");
+        conditon = "or";
+        phaseId = sp.getPhaseId();
+      }
+
+      activity.setPhaseId(phaseId);
+      activity.addCustomCondition(" and ((mainUserId=:userId) or " + sql.toString() + ")", params);
     }
+
     activity.addOrder("releaseTime desc");
     PageList<Activity> listPage = activityDao.listPage(activity);
     updateStateByActivityTime(listPage.getDatalist());
@@ -204,22 +205,33 @@ public class ActivityServiceImpl extends AbstractService<Activity, Integer> impl
 
   // 读取当前可显示的学科集合
   @Override
-  public List<Meta> findSubjectList() {
-    UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
-    Integer sysRoleId = userSpace.getSysRoleId();
-    List<Meta> sysDicList = null;
-    if (sysRoleId.intValue() == SysRole.XZ.getId() || sysRoleId.intValue() == SysRole.FXZ.getId()
-        || sysRoleId.intValue() == SysRole.ZR.getId() || sysRoleId.intValue() == SysRole.NJZZ.getId()
-        || sysRoleId.intValue() == SysRole.XKZZ.getId()) {
+  public List<Meta> findSubjectList(Integer phaseId) {
+    List<UserSpace> spaceList = (List<UserSpace>) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.USER_SPACE_LIST);
+    Set<Integer> subjectSet = new HashSet<>();
 
-      Organization org = organizationService.findOne(userSpace.getOrgId());
+    for (UserSpace userSpace : spaceList) {
+      if (!SysRole.TEACHER.getId().equals(userSpace.getSysRoleId())) {
+        subjectSet.add(userSpace.getSubjectId() == null ? 0 : userSpace.getSubjectId());
+      }
+      if (phaseId == null && (!Integer.valueOf(0).equals(userSpace.getPhaseId()))) {
+        phaseId = userSpace.getPhaseId();
+      }
+    }
+
+    List<Meta> sysDicList = null;
+
+    if (subjectSet.contains(0)) {
+      User user = CurrentUserContext.getCurrentUser();
+      Organization org = organizationService.findOne(user.getOrgId());
       Integer[] areas = StringUtils.toIntegerArray(org.getAreaIds().substring(1, org.getAreaIds().lastIndexOf(",")),
           ",");
-      sysDicList = MetaUtils.getPhaseSubjectMetaProvider().listAllSubject(org.getId(), userSpace.getPhaseId(), areas);
-    } else if (sysRoleId.intValue() == SysRole.BKZZ.getId().intValue()) {
-      Meta sysDic = MetaUtils.getMeta(userSpace.getSubjectId());
-      sysDicList = new ArrayList<>();
-      sysDicList.add(sysDic);
+      sysDicList = MetaUtils.getPhaseSubjectMetaProvider().listAllSubject(org.getId(), phaseId, areas);
+    } else {
+      for (Integer subjectId : subjectSet) {
+        Meta sysDic = MetaUtils.getMeta(subjectId);
+        sysDicList = new ArrayList<>();
+        sysDicList.add(sysDic);
+      }
     }
 
     return sysDicList;
@@ -227,19 +239,31 @@ public class ActivityServiceImpl extends AbstractService<Activity, Integer> impl
 
   // 读取当前可显示的年级集合
   @Override
-  public List<Meta> findGradeList() {
-    UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
-    Integer sysRoleId = userSpace.getSysRoleId();
-    Organization org = organizationService.findOne(userSpace.getOrgId());
+  public List<Meta> findGradeList(Integer phaseId) {
+    List<UserSpace> spaceList = (List<UserSpace>) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.USER_SPACE_LIST);
+    Set<Integer> gradeSet = new HashSet<>();
+
+    for (UserSpace userSpace : spaceList) {
+      if (!SysRole.TEACHER.getId().equals(userSpace.getSysRoleId())) {
+        gradeSet.add(userSpace.getGradeId() == null ? 0 : userSpace.getGradeId());
+      }
+      if (phaseId == null && (!Integer.valueOf(0).equals(userSpace.getPhaseId()))) {
+        phaseId = userSpace.getPhaseId();
+      }
+    }
+
     List<Meta> sysDicList = null;
-    if (sysRoleId.intValue() == SysRole.XZ.getId() || sysRoleId.intValue() == SysRole.FXZ.getId()
-        || sysRoleId.intValue() == SysRole.ZR.getId() || sysRoleId.intValue() == SysRole.NJZZ.getId()
-        || sysRoleId.intValue() == SysRole.XKZZ.getId()) {
-      sysDicList = MetaUtils.getOrgTypeMetaProvider().listAllGrade(org.getSchoolings(), userSpace.getPhaseId());
-    } else if (sysRoleId.intValue() == SysRole.BKZZ.getId().intValue()) {
-      Meta sysDic = MetaUtils.getMeta(userSpace.getGradeId());
-      sysDicList = new ArrayList<>();
-      sysDicList.add(sysDic);
+
+    if (gradeSet.contains(0)) {
+      User user = CurrentUserContext.getCurrentUser();
+      Organization org = organizationService.findOne(user.getOrgId());
+      sysDicList = MetaUtils.getOrgTypeMetaProvider().listAllGrade(org.getSchoolings(), phaseId);
+    } else {
+      for (Integer gradeId : gradeSet) {
+        Meta sysDic = MetaUtils.getMeta(gradeId);
+        sysDicList = new ArrayList<>();
+        sysDicList.add(sysDic);
+      }
     }
     return sysDicList;
   }
@@ -247,9 +271,9 @@ public class ActivityServiceImpl extends AbstractService<Activity, Integer> impl
   // 读主备人列表
   @Override
   public List<UserSpace> findMainUserList(UserSpace us) {
-    UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
+    User user = CurrentUserContext.getCurrentUser();
     Integer schoolYear = (Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SCHOOLYEAR);
-    us.setOrgId(userSpace.getOrgId());
+    us.setOrgId(user.getOrgId());
     us.setSchoolYear(schoolYear);
     us.addCustomCulomn("distinct userId,username");
     List<UserSpace> userList = userSpaceDao.list(us, 200);
@@ -290,20 +314,21 @@ public class ActivityServiceImpl extends AbstractService<Activity, Integer> impl
   // 保存集体备课活动
   @Override
   public Activity saveActivityTbja(Activity activity) throws Exception {
-    UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
+    User user = CurrentUserContext.getCurrentUser();
     Integer schoolYear = (Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SCHOOLYEAR);// 学年
     Integer term = (Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_TERM);// 学期
     activity.setTypeName(activity.getTypeId() == 1 ? "同备教案" : "主题研讨");
-    activity.setOrganizeUserId(userSpace.getUserId());
-    activity.setOrganizeUserName(userSpace.getUsername());// userDao
-    activity.setSpaceId(userSpace.getId()); // 用户空间id
-    activity.setOrganizeGradeId(userSpace.getGradeId());
-    activity.setOrganizeSubjectId(userSpace.getSubjectId());
-    activity.setOrgId(userSpace.getOrgId());
+    activity.setOrganizeUserId(user.getId());
+    activity.setOrganizeUserName(user.getName());// userDao
+    /*
+     * activity.setOrganizeGradeId(userSpace.getGradeId());
+     * activity.setOrganizeSubjectId(userSpace.getSubjectId());
+     */
+    activity.setOrgId(user.getOrgId());
     activity.setCreateTime(new Date());
     activity.setSchoolYear(schoolYear);
     activity.setTerm(term);
-    activity.setPhaseId(userSpace.getPhaseId());
+    // activity.setPhaseId(userSpace.getPhaseId());
     activity.setReleaseTime(new Date());
     activity.setCommentsNum(0);
     activity.setIsOver(false);
@@ -320,8 +345,8 @@ public class ActivityServiceImpl extends AbstractService<Activity, Integer> impl
         activity.setSubjectName(MetaUtils.getMeta(activity.getMainUserSubjectId()).getName());
       }
       activity.setGradeName(getGradeNames(activity.getGradeIds()));
-      User user = userDao.get(activity.getMainUserId());
-      activity.setMainUserName(user != null ? user.getName() : "");
+      User muser = userDao.get(activity.getMainUserId());
+      activity.setMainUserName(muser != null ? muser.getName() : "");
     } else {
       activity.setStartTime(null);
       activity.setEndTime(null);
@@ -340,20 +365,19 @@ public class ActivityServiceImpl extends AbstractService<Activity, Integer> impl
   // 保存主题研讨
   @Override
   public Activity saveActivityZtyt(Activity activity, String resIds) {
-    UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
+    User user = CurrentUserContext.getCurrentUser();
     Integer schoolYear = (Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SCHOOLYEAR);// 学年
     Integer term = (Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_TERM);// 学期
     activity.setTypeName(activity.getTypeId() == 2 ? "主题研讨" : "视频研讨");
-    activity.setOrganizeUserId(userSpace.getUserId());
-    activity.setOrganizeUserName(userSpace.getUsername());// userDao
-    activity.setSpaceId(userSpace.getId()); // 用户空间id
-    activity.setOrganizeGradeId(userSpace.getGradeId());
-    activity.setOrganizeSubjectId(userSpace.getSubjectId());
-    activity.setOrgId(userSpace.getOrgId());
+    activity.setOrganizeUserId(user.getId());
+    activity.setOrganizeUserName(user.getName());// userDao
+    // activity.setOrganizeGradeId(userSpace.getGradeId());
+    // activity.setOrganizeSubjectId(userSpace.getSubjectId());
+    activity.setOrgId(user.getOrgId());
     activity.setCreateTime(new Date());
     activity.setSchoolYear(schoolYear);
     activity.setTerm(term);
-    activity.setPhaseId(userSpace.getPhaseId());
+    // activity.setPhaseId(userSpace.getPhaseId());
     activity.setReleaseTime(new Date());
     activity.setCommentsNum(0);
     activity.setIsOver(false);
@@ -377,7 +401,7 @@ public class ActivityServiceImpl extends AbstractService<Activity, Integer> impl
     // 增加活动资源
     if (resIds != null && !"".equals(resIds)) {
       String[] ids = resIds.split(",");
-      attachService.addAttach(Attach.JTBK, activity.getId(), userSpace.getUserId(), ids);
+      attachService.addAttach(Attach.JTBK, activity.getId(), user.getId(), ids);
     }
     if (activity.getStatus().intValue() == 1) { // 正式发文
       // 发送通知
@@ -547,7 +571,7 @@ public class ActivityServiceImpl extends AbstractService<Activity, Integer> impl
    * @throws FileNotFoundException
    */
   private void copyZhubei(Activity activity) {
-    UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
+    User user = CurrentUserContext.getCurrentUser();
     List<LessonPlan> lessonPlanList = lessonPlanService.getJiaoanByInfoId(activity.getInfoId());
     for (LessonPlan lp : lessonPlanList) {
       // 复制教案资源
@@ -565,7 +589,7 @@ public class ActivityServiceImpl extends AbstractService<Activity, Integer> impl
       at.setUserName(lp.getUserName());
       at.setSubjectId(lp.getSubjectId());
       at.setSchoolYear(lp.getSchoolYear());
-      at.setCrtId(userSpace.getUserId());
+      at.setCrtId(user.getId());
       at.setCrtDttm(new Date());
       at.setLastupDttm(new Date());
       activityTracksDao.insert(at);
@@ -581,7 +605,7 @@ public class ActivityServiceImpl extends AbstractService<Activity, Integer> impl
    */
   @Override
   public Activity updateActivityZtyt(Activity activity, String resIds, Model m) {
-    UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
+    User user = CurrentUserContext.getCurrentUser();
     // 增加元素项
     if (activity.getTypeId() == Activity.TBJA) {
       activity.setTypeName("同备教案");
@@ -608,8 +632,8 @@ public class ActivityServiceImpl extends AbstractService<Activity, Integer> impl
       }
       activity.setGradeName(getGradeNames(activity.getGradeIds()));
       activity.setSubjectName(getSubjectNames(activity.getSubjectIds()));
-      User user = activity.getMainUserId() != null ? userDao.get(activity.getMainUserId()) : null;
-      activity.setMainUserName(user != null ? user.getName() : "");
+      User muser = activity.getMainUserId() != null ? userDao.get(activity.getMainUserId()) : null;
+      activity.setMainUserName(muser != null ? muser.getName() : "");
     } else {
       activity.setStartTime(null);
       activity.setEndTime(null);
@@ -621,7 +645,7 @@ public class ActivityServiceImpl extends AbstractService<Activity, Integer> impl
     if (flag > 0) {
       // 更新附件资源
       String[] ids = resIds.split(",");
-      attachService.updateAttach(Attach.JTBK, activity.getId(), userSpace.getUserId(), ids);
+      attachService.updateAttach(Attach.JTBK, activity.getId(), user.getId(), ids);
     }
     return activity;
   }
@@ -729,7 +753,6 @@ public class ActivityServiceImpl extends AbstractService<Activity, Integer> impl
    */
   public void sendNoticeOfIssues(Activity activity) {
     try {
-      UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
       Integer userId = activity.getOrganizeUserId();// 发起人id
       String subjectIdsStr = "0," + activity.getSubjectIds().substring(1, activity.getSubjectIds().length() - 1);
       List<Integer> subjectIdList = idsStrToIdsList(subjectIdsStr);
@@ -745,7 +768,7 @@ public class ActivityServiceImpl extends AbstractService<Activity, Integer> impl
       info.put("typeName", activity.getTypeName());
       info.put("activityType", "activity");
       info.put("typeId", activity.getTypeId());
-      info.put("fq_role", userSpace.getSpaceName());
+      info.put("fq_role", "学校管理者");
       info.put("fq_userName", activity.getOrganizeUserName());
       String fq_startDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(activity.getStartTime());
       info.put("fq_startDate", fq_startDate);

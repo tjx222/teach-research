@@ -37,11 +37,23 @@
 								<div class="range"></div>
 								<h3>确定参与范围<span>*</span></h3>
 								<input type="hidden" id="subjectIds" name="subjectIds" value=",${_CURRENT_SPACE_.subjectId },"/>
-								<h4>学科：<span>
-								<c:forEach items="${subjectList}" var="subject">
-									&nbsp;${subject.name}
-								</c:forEach>
-								</span></h4>
+								<h4>学科：
+								<c:if test="${fn:length(subjectList) > 1}">
+								  <input type="hidden" id="subjectIds" name="subjectIds" value=""/>
+                  <select name="mainUserSubjectId" id="mainUserSubjectId" class="validate[required] chosen-select-deselect" <c:if test="${act.commentsNum>0 || haveTrack }">disabled="disabled"</c:if>>
+                     <c:forEach items="${subjectList}" var="sub">
+                     <option value="${sub.id}" <c:if test="${sub.id==act.mainUserSubjectId}"> selected="selected" </c:if>>${sub.name}</option>
+                     </c:forEach>
+                   </select>
+                </c:if>
+                <c:if test="${fn:length(subjectList) < 2}">
+                  <c:forEach items="${subjectList}" var="sub">
+                   <input name="mainUserSubjectId" id="mainUserSubjectId" type="hidden" value="${sub.id }"/>
+                   <input type="hidden" id="subjectIds" name="subjectIds" value=",${sub.id },"/>
+                    ${sub.name}
+                  </c:forEach>
+                </c:if>
+								</h4>
 								<div class="range_class">
 									<div class="label_div">年级：</div>
 									<c:if test="${fn:length(gradeList) > 1}">

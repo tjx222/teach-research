@@ -14,7 +14,7 @@
 	float: left;
 }
 .version{
-	width:19.167rem;
+	width:15.167rem;
 	float:left;
 	font-size:1.167rem;
 	color:#666;
@@ -31,6 +31,11 @@
 	float:left;
 	cursor:pointer;
 }
+.version select{
+width: 10rem;
+color: #444;
+}
+    
 .version strong{
 	float:left;
 	display:block;
@@ -39,7 +44,7 @@
 	height:2.6rem;
 }
 .content_top_right{
-	width:42.5rem;
+	width:58.5rem;
 	height:3.467rem;
 	float:right;
 	padding-top: 0.7rem; 

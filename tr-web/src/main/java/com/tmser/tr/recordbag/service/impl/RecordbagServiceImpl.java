@@ -368,7 +368,7 @@ public class RecordbagServiceImpl extends AbstractService<Recordbag, Integer> im
     record.setResType(Recordbag.switchResType(bag.getName()));
     record.setPath(plan.getResId());// 将资源id放入此字段中负责显示详情
     record.setDesc(desc.trim());
-    record.setSchoolYear(CurrentUserContext.getCurrentSpace().getSchoolYear());
+    record.setSchoolYear(CurrentUserContext.getCurrentSchoolYear());
     record.setModifyTime(new Date());
     record.setShare(bag.getShare());
     addBagResCount(id);
@@ -417,7 +417,7 @@ public class RecordbagServiceImpl extends AbstractService<Recordbag, Integer> im
     record.setResType(Recordbag.switchResType(bag.getName()));
     record.setShare(bag.getShare());
     record.setDesc(desc.trim());
-    record.setSchoolYear(CurrentUserContext.getCurrentSpace().getSchoolYear());
+    record.setSchoolYear(CurrentUserContext.getCurrentSchoolYear());
     record.setModifyTime(new Date());
     addBagResCount(id);
     record.setUserId(CurrentUserContext.getCurrentUserId());

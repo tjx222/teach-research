@@ -32,6 +32,10 @@ import com.tmser.tr.common.utils.WebThreadLocalUtils;
 import com.tmser.tr.common.web.controller.AbstractController;
 import com.tmser.tr.lessonplan.bo.LessonInfo;
 import com.tmser.tr.lessonplan.service.LessonPlanService;
+import com.tmser.tr.manage.meta.MetaUtils;
+import com.tmser.tr.manage.meta.bo.MetaRelationship;
+import com.tmser.tr.manage.org.bo.Organization;
+import com.tmser.tr.manage.org.service.OrganizationService;
 import com.tmser.tr.manage.resources.bo.Attach;
 import com.tmser.tr.manage.resources.service.AttachService;
 import com.tmser.tr.uc.SysRole;
@@ -67,6 +71,14 @@ public class ActivityController extends AbstractController {
   private ActivityTracksService activityTracksService;
   @Autowired
   private ActivityCoordinateControlService activityCoordinateControlService;
+  @Autowired
+  private OrganizationService organizationService;
+
+  private List<MetaRelationship> getCurrentPhaseList() {
+    User user = CurrentUserContext.getCurrentUser(); // 用户
+    Organization org = organizationService.findOne(user.getOrgId());
+    return MetaUtils.getOrgTypeMetaProvider().listAllPhase(org.getSchoolings());
+  }
 
   /**
    * 管理者 进入集体活动(管理者 集体备课)首页
@@ -74,7 +86,7 @@ public class ActivityController extends AbstractController {
    * @return
    */
   @RequestMapping("/index")
-  public String index(String listType, Model model, Page page, HttpServletRequest request) {
+  public String index(String listType, Model model, Page page) {
     User user = CurrentUserContext.getCurrentUser(); // 用户
     if (!(SecurityUtils.getSubject().isPermitted("fqjb") || SecurityUtils.getSubject().isPermitted("cyjb"))) {
       return "redirect:/jy/activity/tchIndex";
@@ -112,7 +124,7 @@ public class ActivityController extends AbstractController {
    */
   @RequestMapping("/indexDraft")
   public String indexDraft(Activity activity, Model model) {
-	  User user = CurrentUserContext.getCurrentUser(); // 用户
+    User user = CurrentUserContext.getCurrentUser(); // 用户
     // 草稿(总数)
     activity.setOrganizeUserId(user.getId());
     activity.setStatus(0);
@@ -146,8 +158,12 @@ public class ActivityController extends AbstractController {
    */
   @RequestMapping("/toEditActivityTbja")
   @UseToken
-  public String toEditActivityTbja(Integer id, Model model) {
+  public String toEditActivityTbja(Integer id, @RequestParam(required = false) Integer phaseId, Model model) {
     Date startDate = null;
+    if (phaseId == null) {
+      phaseId = getCurrentPhaseList().get(0).getId();
+    }
+
     if (id != null) {
       // 读取加载记录
       Activity activity = activityService.findOne(id);
@@ -184,9 +200,9 @@ public class ActivityController extends AbstractController {
       }
     }
     // 加载学科List
-    model.addAttribute("subjectList", activityService.findSubjectList());
+    model.addAttribute("subjectList", activityService.findSubjectList(phaseId));
     // 加载年级List
-    model.addAttribute("gradeList", activityService.findGradeList());
+    model.addAttribute("gradeList", activityService.findGradeList(phaseId));
     // 加载开始时间
     model.addAttribute("startDate", startDate != null ? startDate : new Date());
     return "/activity/leader/activityEditTbja";
@@ -199,8 +215,11 @@ public class ActivityController extends AbstractController {
    */
   @RequestMapping("/toEditActivityZtyt")
   @UseToken
-  public String toEditActivityZtyt(Integer id, Model model) {
+  public String toEditActivityZtyt(Integer id, @RequestParam(required = false) Integer phaseId, Model model) {
     Date startDate = null;
+    if (phaseId == null) {
+      phaseId = getCurrentPhaseList().get(0).getId();
+    }
     if (id != null) {
       // 草稿中读取加载记录
       Activity activity = activityService.findOne(id);
@@ -220,9 +239,9 @@ public class ActivityController extends AbstractController {
       model.addAttribute("resIds", resIds);
     }
     // 加载学科List
-    model.addAttribute("subjectList", activityService.findSubjectList());
+    model.addAttribute("subjectList", activityService.findSubjectList(phaseId));
     // 加载年级List
-    model.addAttribute("gradeList", activityService.findGradeList());
+    model.addAttribute("gradeList", activityService.findGradeList(phaseId));
     // 加载开始时间
     model.addAttribute("startDate", startDate != null ? startDate : new Date());
     return "/activity/leader/activityEditZtyt";
@@ -235,8 +254,11 @@ public class ActivityController extends AbstractController {
    */
   @RequestMapping("/toEditActivitySpjy")
   @UseToken
-  public String toEditActivitySpjy(Integer id, Model model) {
+  public String toEditActivitySpjy(Integer id, @RequestParam(required = false) Integer phaseId, Model model) {
     Date startDate = null;
+    if (phaseId == null) {
+      phaseId = getCurrentPhaseList().get(0).getId();
+    }
     if (id != null) {
       // 草稿中读取加载记录
       Activity activity = activityService.findOne(id);
@@ -256,9 +278,9 @@ public class ActivityController extends AbstractController {
       model.addAttribute("resIds", resIds);
     }
     // 加载学科List
-    model.addAttribute("subjectList", activityService.findSubjectList());
+    model.addAttribute("subjectList", activityService.findSubjectList(phaseId));
     // 加载年级List
-    model.addAttribute("gradeList", activityService.findGradeList());
+    model.addAttribute("gradeList", activityService.findGradeList(phaseId));
     // 加载开始时间
     model.addAttribute("startDate", startDate != null ? startDate : new Date());
     return "/activity/leader/activityEditSpjy";
@@ -470,7 +492,7 @@ public class ActivityController extends AbstractController {
     m.addAttribute("zhengliList", zhengliList);
     // 是否可以接收教案
     boolean isTeacher = SecurityUtils.getSubject().hasRole(SysRole.TEACHER.name().toLowerCase());
-    if ( isTeacher && activity.getIsSend()) {
+    if (isTeacher && activity.getIsSend()) {
       // LessonInfo lessonInfo =
       // myPlanBookService.getLessonInfoByLessonId(myPlanBookService.findOne(activity.getInfoId()).getLessonId());
       // if(lessonInfo==null ||
@@ -528,16 +550,16 @@ public class ActivityController extends AbstractController {
    */
   @RequestMapping("/viewTbjaActivity")
   public String viewTbjaActivity(Integer id, Model m) {
-	User user = CurrentUserContext.getCurrentUser(); // 用户
+    User user = CurrentUserContext.getCurrentUser(); // 用户
     Activity activity = activityService.findOne(id);
     // 判断是否有权限
     Assert.isTrue(ifHavePower(activity), "没有权限");
     boolean isTeacher = SecurityUtils.getSubject().hasRole(SysRole.TEACHER.name().toLowerCase());
     // 如果是主备人,即使活动结束，也能进入整理页，但必须是老师才可进入整理页（身份区别）
     if (user.getId().equals(activity.getMainUserId()) && isTeacher) {
-        return "redirect:/jy/activity/joinTbjaActivity?_no_office_&id=" + id;
+      return "redirect:/jy/activity/joinTbjaActivity?_no_office_&id=" + id;
     }
-   
+
     // 获取主备人的教案
     // List<LessonPlan> lessonPlanList =
     // lessonPlanService.getJiaoanByInfoId(activity.getInfoId());
@@ -547,7 +569,7 @@ public class ActivityController extends AbstractController {
     // 整理教案集合
     List<ActivityTracks> zhengliList = activityTracksService.getActivityTracks_zhengli(id);
     m.addAttribute("zhengliList", zhengliList);
-   
+
     // 是否可以接收教案
     if (isTeacher && activity.getIsSend()) {
       // LessonInfo lessonInfo =
@@ -853,33 +875,34 @@ public class ActivityController extends AbstractController {
   private boolean ifHavePower(Activity activity) {
     boolean flag = false;
     User cuser = CurrentUserContext.getCurrentUser();
-    if(!activity.getOrgId().equals(cuser.getOrgId())){
-    	return false;
+    if (!activity.getOrgId().equals(cuser.getOrgId())) {
+      return false;
     }
-    
+
     boolean[] hasroles = SecurityUtils.getSubject().hasRoles(Arrays.asList(SysRole.XZ.name().toLowerCase(),
-    		SysRole.FXZ.name().toLowerCase(),SysRole.ZR.name().toLowerCase()));
+        SysRole.FXZ.name().toLowerCase(), SysRole.ZR.name().toLowerCase()));
     for (boolean b : hasroles) {
-		if(b){
-			return b;
-		}
-	}
+      if (b) {
+        return b;
+      }
+    }
     @SuppressWarnings("unchecked")
-	List<UserSpace> userSpaces = (List<UserSpace>) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.USER_SPACE_LIST); // 用户空间
+    List<UserSpace> userSpaces = (List<UserSpace>) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.USER_SPACE_LIST); // 用户空间
     for (UserSpace userSpace : userSpaces) {
-    	   if (SysRole.XKZZ.getId().equals(userSpace.getRoleId()) &&
-    		      activity.getSubjectIds().contains("," + String.valueOf(userSpace.getSubjectId()) + ",")) {
-    		        flag = true;
-    		} else if (SysRole.NJZZ.getId().equals(userSpace.getRoleId()) &&
-    		       activity.getGradeIds().contains("," + String.valueOf(userSpace.getGradeId()) + ",")) {
-    		        flag = true;
-    		} else if ((SysRole.BKZZ.getId().equals(userSpace.getRoleId()) || SysRole.TEACHER.getId().equals(userSpace.getRoleId())) &&
-    		           activity.getSubjectIds().contains("," + String.valueOf(userSpace.getSubjectId()) + ",")
-    		          && activity.getGradeIds().contains("," + String.valueOf(userSpace.getGradeId()) + ",")) {
-    		        flag = true;
-    		}
-	}
- 
+      if (SysRole.XKZZ.getId().equals(userSpace.getSysRoleId())
+          && activity.getSubjectIds().contains("," + String.valueOf(userSpace.getSubjectId()) + ",")) {
+        flag = true;
+      } else if (SysRole.NJZZ.getId().equals(userSpace.getSysRoleId())
+          && activity.getGradeIds().contains("," + String.valueOf(userSpace.getGradeId()) + ",")) {
+        flag = true;
+      } else if ((SysRole.BKZZ.getId().equals(userSpace.getSysRoleId())
+          || SysRole.TEACHER.getId().equals(userSpace.getSysRoleId()))
+          && activity.getSubjectIds().contains("," + String.valueOf(userSpace.getSubjectId()) + ",")
+          && activity.getGradeIds().contains("," + String.valueOf(userSpace.getGradeId()) + ",")) {
+        flag = true;
+      }
+    }
+
     return flag;
   }
 

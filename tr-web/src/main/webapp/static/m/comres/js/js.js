@@ -50,23 +50,6 @@ define(["require","zepto","iscroll"], function (require) {
 //			}
 //		})
 		//版本查询选择列表
-		$.getJSON("jy/comres/listBooks",function(data){
-			//$("a").css("color","beige");
-			var contianner = $('#wrap2 div');
-			for(var i=0;i<data.length;i++){
-				var book = data[i];
-				if(!book.bookShortname)
-					continue;
-				if($("input[name=bookId]").val()==book.bookId){
-					$('<p class="selected" id='+book.bookId+'>'+book.bookShortname+'</p>').appendTo(contianner);
-						$("#versionSelect span").html(book.bookShortname);
-				}else{
-					$('<p class="selected" id='+book.bookId+'>'+book.bookShortname+'</p>').appendTo(contianner);
-				}
-			}
-			/*var bookShortname=$('#bookShortname').val();
-			$("#versionSelect span").html($('#bookShortname').val());*/
-		});
 		$('#wrap2 div').on("click",".selected",function (){
 			$('.cw_menu_wrap').hide();
             $('.mask').hide();

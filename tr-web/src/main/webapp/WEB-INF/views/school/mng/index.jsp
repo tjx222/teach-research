@@ -87,7 +87,7 @@
 								<div class="swiper-slide">
 								<div class="slide_div" data-id="${m.id }">
 									<dl>
-										<dd url="${m.url }" target="${m.target }"><ui:menuIcon_m iconUrl="${m.icoId }"></ui:menuIcon_m></dd>
+										<dd url="${m.url }" target="${m.target }"><ui:menuIcon_m iconId="${m.icoId }"></ui:menuIcon_m></dd>
 										<dt>${m.name }</dt>
 									</dl>
 								</div>
@@ -113,25 +113,6 @@
 <script type="text/javascript">
 require(["zepto",'swiper.min','js'],function(){
 	$(document).ready(function(){
-		$.ajax({
-			 url:'./jy/planSummary/punishs/unViewNum',
-			 dataType:'json',
-			 type:'GET',
-			 success:function(rs){
-				 if(rs.data.unViewNum>0){
-					 $('.li_1_d').show();
-					 $('#jhzj').html("计划总结("+rs.data.unViewNum+")");
-				 }
-				 if(rs.data.noticeNum>0){
-					 $('.li_1_d').show();
-					 $('#tzgg').html("通知公告("+rs.data.noticeNum+")");
-					 $('#tzgg1').html("通知公告("+rs.data.noticeNum+")");
-				 }
-				 if(rs.data.unViewNum<=0 && rs.data.noticeNum<=0){
-					 $('.li_1_d').hide();
-				 }
-			 }
-		});
 		$.ajax({
 			url:'./jy/notice/unreadNum?r='+Math.random(),
 			type:'get',

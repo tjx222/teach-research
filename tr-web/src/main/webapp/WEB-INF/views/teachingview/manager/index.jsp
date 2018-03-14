@@ -19,16 +19,13 @@
 		</jy:nav>
 	</div>
 	<div class="index_content">
-		<div class="index_title">
-			教研一览
-		</div>
 		<div class="index_con">
 			<ul>
-			<c:if test="${roleId != BKZZ.id}">
 				<li>
 					<a href="${pageContext.request.contextPath }/jy/teachingView/manager/teachingView_t"><img src="${ctxStatic }/modules/teachingview/images/index_img1.png"/></a>
 					<span>教师教研情况一览</span>
 				</li>
+				<shiro:hasAnyRoles name="xz,fxz,njzz,zr,xkzz">
 				<li>
 					<a href="${pageContext.request.contextPath }/jy/teachingView/manager/teachingView_g"><img src="${ctxStatic }/modules/teachingview/images/index_img2.png"/></a>
 					<span>年级教研情况一览</span>
@@ -42,13 +39,7 @@
 					<img src="${ctxStatic }/modules/teachingview/images/index_img4.png"/></a>
 					<span>教学管理情况一览</span>
 				</li>
-			</c:if>
-			<c:if test="${roleId == BKZZ.id}">
-				<li>
-					<a href="${pageContext.request.contextPath }/jy/teachingView/manager/teachingView_t"><img src="${ctxStatic }/modules/teachingview/images/index_img1.png"/></a>
-					<span>教师教研情况一览</span>
-				</li>
-			</c:if>
+        </shiro:hasAnyRoles>
 			</ul>
 			<div class="clear"></div>
 		</div>
