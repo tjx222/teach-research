@@ -68,7 +68,7 @@
 <div class="more_wrap_hide" onclick='moreHide()'></div>
 <div id="wrapper">
 	<header>
-		<span onclick="javascript:window.history.go(-1);"></span>${name }
+		<span style="display:inline-block" onclick="javascript:window.history.go(-1);"></span>${name }
 		<div class="more" onclick="more()"></div>
 	</header>
 	<section>	

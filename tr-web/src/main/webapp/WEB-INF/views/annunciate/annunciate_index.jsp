@@ -58,7 +58,7 @@
 	</header>
 	<section> 
 		<div class="annunciate_wrap">
-		 	<c:if test="${jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId, 'xz')||jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId,'zr')}">
+		 	<shiro:hasAnyRoles name="xz,fxz,zr">
 				<div class="annunciate_top">
 					<div class="annunciate_right"> 
 					   
@@ -69,8 +69,9 @@
 						
 					</div>
 				</div>
-			</c:if>
-			<div class="annunciate_bottom_wrap" id="annunciate_b_wrap" style="${jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId, 'xz')||jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId,'zr')==true?'':'top: 5.1rem;'}"> 
+			</shiro:hasAnyRoles>
+			<div class="annunciate_bottom_wrap" id="annunciate_b_wrap" style="${jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId, 'xz')||
+			jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId, 'fxz')||jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId,'zr')==true?'':'top: 5.1rem;'}"> 
 				<div id="scroller">
 					<div class="annunciate_bottom" >
 						<table> 
@@ -80,9 +81,9 @@
 						     <th style="width:50%;text-align:left;padding-left: 1%;">标题</th>
 						     <th style="width:18%;">发布时间</th>
 						     <th style="width:10%;">作者</th>
-						     <c:if test="${jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId, 'xz')||jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId,'zr')||jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId,'fxz')}">
+						     <shiro:hasAnyRoles name="xz,fxz,zr">
 						     	<th style="width:16%;">操作</th>
-						     </c:if>
+						     </shiro:hasAnyRoles>
 						  </tr>
 						  <tbody id="annunciateform">
 						  <c:forEach items="${pagelist.datalist}" var="p">
@@ -94,14 +95,14 @@
 							     <jy:di key="${p.crtId}"
 										className="com.tmser.tr.uc.service.UserService" var="u"></jy:di>
 							     <td>${u.name}</td>
-							     <c:if test="${jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId, 'xz')||jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId,'zr')||jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId,'fxz')}">
+							    <shiro:hasAnyRoles name="xz,fxz,zr">
 								     <td> 
 								     	<c:if test="${userId==u.id}"><span  title="删除" class="del deleteNotice" data-id="${p.id}" data-status="${p.status}"></span></c:if>
 								     	<c:if test="${userId!=u.id}"><span title="取消删除" class="jz_del"></span></c:if>
 								     	<c:if test="${p.isTop!=true}"><span class="top" title="置顶" data-id="${p.id}"></span></c:if>
 								     	<c:if test="${p.isTop==true}"><span class="qx_top" title="取消置顶" data-id="${p.id}"></span></c:if>
 								     </td>
-							     </c:if> 
+							     </shiro:hasAnyRoles>
 							  </tr>
 						  </c:forEach></tbody>
 						</table>

@@ -39,12 +39,6 @@ public class Recordbag extends BaseObject {
 	
 	public static String JYHD = "教研活动";
 	
-	public static String JXWZ = "教学文章";
-	
-	public static String JHZJ = "计划总结";
-	
-	public static String TKJL = "听课记录";
-	
 	/**
 	 *主键
 	 **/
@@ -134,8 +128,8 @@ public class Recordbag extends BaseObject {
 	/**
 	 *对应菜单的id(用于权限的判断)
 	 **/
-	@Column(name="menu_id")
-	private Integer menuId;
+	@Column(name="menu_id",length=32)
+	private String menuId;
 	
 	/**
 	 *用户空间id
@@ -312,11 +306,11 @@ public class Recordbag extends BaseObject {
 		return this.modifyTime;
 	}
 
-	public Integer getMenuId() {
+	public String getMenuId() {
 		return menuId;
 	}
 
-	public void setMenuId(Integer menuId) {
+	public void setMenuId(String menuId) {
 		this.menuId = menuId;
 	}
 	
@@ -457,12 +451,6 @@ public class Recordbag extends BaseObject {
 			return 2;
 		}else	if(name.equals(Recordbag.JYHD)){
 			return 3;
-		}else	if(name.equals(Recordbag.JXWZ)){
-			return 4;
-		}else	if(name.equals(Recordbag.JHZJ)){
-			return 5;
-		}else if(name.equals(Recordbag.TKJL)){
-			return 6;
 		}else {
 			return 7;
 		}

@@ -122,7 +122,7 @@
 	</header>
 	<section>
 		<div class="record_content">
-			<div class="record_content_top">
+			<%-- <div class="record_content_top">
 				<div class="record_content_top_l">
 				<c:choose>
 			      <c:when test="${_CURRENT_SPACE_.subjectId==0}">
@@ -155,7 +155,7 @@
 			      </c:otherwise>
 			    </c:choose>
 				</div>
-			</div>
+			</div> --%>
 			<div class="record_content_bottom" id="record_cont">
 				<div id="scroller">
 					<div class="record_content_bottom_list">

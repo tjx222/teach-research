@@ -24,12 +24,12 @@ define(["require","zepto","iscroll"], function (require) {
 		var resid = actli.attr("data-resId");
 		var type= actli.attr("data-type");
 		var planName=actli.attr("data-name");
-		$("#iframe1").attr("src","jy/scanResFile?resId="+resid);
+		$("#iframe1").attr("src","jy/scanResFile?to=true&resId="+resid);
 		var url="jy/manage/res/download/"+$('#comresView ul li.ul_li_act').attr("data-resId")+"?filename="+encodeURI(planName);
 		$('#dowloadpt').attr("href",url);
 		$('#comresView ul li').click(function(){
 			$(this).addClass('ul_li_act').siblings().removeClass('ul_li_act');
-			$("#iframe1").attr("src","jy/scanResFile?resId="+$(this).attr("data-resId"));
+			$("#iframe1").attr("src","jy/scanResFile?to=true&resId="+$(this).attr("data-resId"));
 			var planid = $(this).attr("data-id");
 			var resid = $(this).attr("data-resId");
 			var title= $(this).attr("data-title");

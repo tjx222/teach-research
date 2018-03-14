@@ -188,10 +188,8 @@ public class RecordbagController extends AbstractController {
     Recordbag bag = recordbagService.findOne(id);
     String name = plan.getPlanName();
     List<Record> recordList = new ArrayList<Record>();
-    Integer schoolYear = (Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SCHOOLYEAR);
     User user = (User) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_USER);
     plan.getPage().setPageSize(15);
-    plan.setSchoolYear(schoolYear);
 
     plan.setOrgId(user.getOrgId());
     plan.setUserId(user.getId());
@@ -265,8 +263,6 @@ public class RecordbagController extends AbstractController {
     Recordbag bag = recordbagService.findOne(id);
     model.setBagId(id);
     model.addOrder("createTime desc");
-    Integer schoolYear = (Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SCHOOLYEAR);
-    model.setSchoolYear(schoolYear);
     if (3 == Recordbag.switchResType(bag.getName()) || 6 == Recordbag.switchResType(bag.getName()))
       model.getPage().setPageSize(15);
     else
