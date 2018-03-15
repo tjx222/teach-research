@@ -37,7 +37,6 @@
 				<c:forEach items="${phases }" var="meta">
 					<option value="${meta.id }_${meta.eid }" >${meta.name }</option>
 				</c:forEach>
-				<c:if test="${phases.size() > 1}"><option id="quanbu" style="" value="0_0">全部</option></c:if>
 			</select>
 		</div>
 		<div class="unit" id="xueke_id">

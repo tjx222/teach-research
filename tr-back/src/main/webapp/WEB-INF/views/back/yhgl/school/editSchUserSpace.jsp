@@ -29,12 +29,6 @@
 				</c:forEach>
 			</select>
 		</div>
-		<div class="unit" id="gxbm_id">
-			<label>管辖部门：</label>
-			<c:forEach items="${data.deptOrgs}" var="dept">
-				<input id="dept_${dept.id}" type="checkbox" name="deptIds" value="${dept.id}" />${dept.name} &nbsp;&nbsp;
-			</c:forEach>
-		</div>
 		<div class="unit" id="xueduan_id">
 			<label>学段：</label>
 			<input type="hidden" name="phaseId" id="phase_id" value="${data.us.phaseId }" />

@@ -24,7 +24,7 @@
 <div class="more_wrap_hide" onclick='moreHide()'></div>
 <div id="wrapper">
 	<header>
-		<span onclick="javascript:window.history.go(-${empty param._HS_ ? 1 :param._HS_ });"></span>
+		<span style="display:inline-block" onclick="javascript:window.history.go(-${empty param._HS_ ? 1 :param._HS_ });"></span>
 		<c:choose><c:when test="${type==0}">查阅教案</c:when><c:when test="${type==1}">查阅课件</c:when><c:otherwise>查阅反思</c:otherwise></c:choose>
 		<div class="more" onclick="more()"></div>
 	</header>
@@ -69,7 +69,7 @@
 							<c:forEach items="${resList }" var="res" varStatus="st">
 								<div class="courseware_ppt">
 									<c:choose><c:when test="${type==0}"><div class="courseware_img_ja">教案</div></c:when><c:when test="${type==1}"><div class="courseware_img_1">课件</div></c:when><c:otherwise><div class="courseware_img_fs">反思</div></c:otherwise></c:choose>
-									<a href="jy/check/lesson/${type}/tch/${userId}/view?fasciculeId=${fasciculeId }&lesInfoId=${res.id}&zx=${writeCount}&tj=${submitCount}&cy=${checkCount}"><h3><ui:sout value="${res.lessonName }" length="16" needEllipsis="true" /></h3>
+									<a target="_blank" href="jy/check/lesson/${type}/tch/${userId}/view?fasciculeId=${fasciculeId }&lesInfoId=${res.id}&zx=${writeCount}&tj=${submitCount}&cy=${checkCount}"><h3><ui:sout value="${res.lessonName }" length="16" needEllipsis="true" /></h3>
 									<p><img src="${ctxStatic }/m/check/images/ppt.png" /></p></a>
 									<c:if test="${not empty checkIds[res.id] }">
 										<div class="consult"></div>

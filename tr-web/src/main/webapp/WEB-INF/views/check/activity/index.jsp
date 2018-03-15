@@ -42,27 +42,19 @@
 		<span class="check_menu_top"></span>
 		<div id="wrap2" class="check_menu_wrap1"> 
 			<div id="scroller">
-			<c:choose>
-			<c:when test="${jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId,'NJZZ')||jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId,'ZR')||jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId,'XZ') }">
-				<ui:relation var="subjects" type="xdToXk" id="${_CURRENT_SPACE_.phaseId }"></ui:relation>
-				<c:if test="${not empty subject }">
-					<c:forEach items="${subjects }" var="s" varStatus="st">
-						<c:if test="${subject==s.id }"><p data="${s.id }" class="act" dataname="${s.name }">${s.name }</p></c:if>
-						<c:if test="${subject!=s.id }"><p data="${s.id }" dataname="${s.name }">${s.name }</p></c:if>
-					</c:forEach>
-				</c:if>
-				<c:if test="${empty subject }">
-					<c:forEach items="${subjects }" var="s" varStatus="st">
-						<c:if test="${st.index==0 }"><p data="${s.id }" class="act" dataname="${s.name }">${s.name }</p> </c:if>
-						<c:if test="${st.index!=0 }"><p data="${s.id }" dataname="${s.name }">${s.name }</p> </c:if>
-					</c:forEach>
-				</c:if>
-			</c:when>
-			<c:when test="${jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId,'XKZZ')||jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId,'BKZZ') }">
-				<p data="${_CURRENT_SPACE_.subjectId }" class="act" dataname="<jy:dic key='${_CURRENT_SPACE_.subjectId }'/>"><jy:dic key="${_CURRENT_SPACE_.subjectId }"/></p> 
-			</c:when>
-			<c:otherwise></c:otherwise>
-			</c:choose>
+			    <c:if test="${not empty subjects }">
+            <c:forEach items="${subjects }" var="s" varStatus="st">
+              <p data="${s.id }" dataname="${s.name }" class="${((empty subject && st.index == 0) || subject==s.id )? 'act':''}">${s.name }</p>
+            </c:forEach>
+          </c:if>
+          <c:if test="${empty subjects }">
+            <shiro:hasAnyRoles name="xz,fxz,zr">
+                <ui:relation var="subjects" type="xdToXk" id="${phaseId }"></ui:relation>
+                <c:forEach items="${subjects }" var="s" varStatus="st">
+                  <p data="${s.id }" dataname="${s.name }" class="${((empty subject && st.index == 0) || subject==s.id )? 'act':''}">${s.name }</p>
+                </c:forEach>
+            </shiro:hasAnyRoles>
+          </c:if>
 			</div>
 		</div>
 	</div>
@@ -72,27 +64,20 @@
 		<span class="check_menu_top"></span>
 		<div id="wrap3" class="check_menu_wrap1"> 
 			<div id="scroller">
-			<c:choose>
-				<c:when test="${jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId,'XKZZ')||jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId,'ZR')||jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId,'XZ') }">
-					<ui:relation var="grades" type="xdToNj" id="${_CURRENT_SPACE_.phaseId }"></ui:relation>
-					<c:if test="${not empty grade }">
-						<c:forEach items="${grades }" var="g" varStatus="st">
-							<c:if test="${grade==g.id }"><p data="${g.id }" class="act" dataname="${g.name }">${g.name }</p></c:if>
-							<c:if test="${grade!=g.id }"><p data="${g.id }" dataname="${g.name }">${g.name }</p></c:if>  
-						</c:forEach>
-					</c:if>
-					<c:if test="${empty grade }">
-						<c:forEach items="${grades }" var="g" varStatus="st">
-							<c:if test="${st.index==0 }"><p data="${g.id }" class="act" dataname="${g.name }">${g.name }</p></c:if>
-							<c:if test="${st.index!=0 }"><p data="${g.id }" dataname="${g.name }">${g.name }</p></c:if>   
-						</c:forEach>
-					</c:if>
-				</c:when>
-				<c:when test="${jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId,'NJZZ')||jfn:checkSysRole(_CURRENT_SPACE_.sysRoleId,'BKZZ') }">
-					  <p data="${_CURRENT_SPACE_.gradeId }" class="act"  dataname="<jy:dic key='${_CURRENT_SPACE_.gradeId }'/>"><jy:dic key="${_CURRENT_SPACE_.gradeId }"/></p> 
-				</c:when>
-				<c:otherwise></c:otherwise>
-			</c:choose>
+         <c:if test="${not empty grades }">
+            <c:forEach items="${grades }" var="g" varStatus="st">
+              <p data="${g.id }" dataname="${g.name }" class="${((empty grade && st.index == 0) || grade==s.id ) ? 'act':''}">${g.name }</p>
+            </c:forEach>
+          </c:if>
+          <c:if test="${empty grades }">
+          <shiro:hasAnyRoles name="xz,fxz,zr">
+              <ui:relation var="grades" type="xdToNj"
+                id="${phaseId }"></ui:relation>
+              <c:forEach items="${grades }" var="g" varStatus="st">
+                <p data="${g.id }" dataname="${g.name }" class="${((empty grade && st.index == 0) || grade==s.id ) ? 'act':''}">${g.name }</p>
+              </c:forEach>
+            </shiro:hasAnyRoles>
+        </c:if>
 			</div>
 		</div>
 	</div>
@@ -109,13 +94,13 @@
 			<div class="check_content_top">
 				<h3>筛选：</h3>
 				<div class="check_content_block">
+          <label>年级</label>
+          <span id="gradecontent" style="width:8.5rem;"></span>
+        </div>
+				<div class="check_content_block">
 					<label>学科</label>
 					<span id="subjectcontent"></span> 
 				</div> 
-				<div class="check_content_block">
-					<label>年级</label>
-					<span id="gradecontent" style="width:8.5rem;"></span>
-				</div>
 				<div class="check_content_block" >
 					<label>学期</label>
 					<span id="termcontent" style="width:8.5rem;"></span>

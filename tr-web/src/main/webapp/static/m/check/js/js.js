@@ -3,9 +3,7 @@ define(["require","zepto","iscroll"], function (require) {
 	var $ = Zepto;
 	$(function(){ 
 		init();
-		//判断是否加载查阅数据
-		var load=$('#wrap2').attr("data_load");
-		if(load==1){
+		if(typeof(TYPE) != "undefined"){
 			initQueryParam();
 			loadData(); 
 		}
@@ -19,32 +17,48 @@ define(["require","zepto","iscroll"], function (require) {
 		 }
 	}); 
     function init() {
+    	$('.check_content_block span#phaseSelect').click(function (){ 
+    		$('#phaselist').show();
+    		$('.mask').show(); 
+    		var myScroll2 = new IScroll('#phaselistwrap',{
+    			scrollbars:true,
+          		mouseWheel:true,
+          		fadeScrollbars:true,
+          		click:true, 
+	      	});	
+    	});
     	
-    	$('.check_content_block span').click(function (){ 
-    		$('.check_menu_wrap').show();
+    	$("#phaselistwrap p").click(function () { 
+    		if($(this).attr('data') != CURRENT_PHASE){
+    			location.href = location.href.replace(/location.search/,'')+"?phaseId="+$(this).attr('data');
+    		}
+		  });
+    	
+    	$('.check_content_block span#subjectSelect').click(function (){ 
+    		$('#sublist').show();
     		$('.mask').show(); 
-    		var myScroll2 = new IScroll('#wrap2',{
+    		var myScroll2 = new IScroll('#sublistwrap',{
     			scrollbars:true,
           		mouseWheel:true,
           		fadeScrollbars:true,
           		click:true, 
 	      	});	
     	});
-    	$('.check_content_block1 span').click(function (){ 
-    		$('.check_menu1_wrap').show();
+    	$('.check_content_block span#gradeSelect').click(function (){ 
+    		$('#gradelist').show();
     		$('.mask').show(); 
-    		var myScroll3 = new IScroll('#wrap3',{
+    		var myScroll3 = new IScroll('#gradelistwrap',{
     			scrollbars:true,
           		mouseWheel:true,
           		fadeScrollbars:true,
           		click:true, 
 	      	});	
     	});
-		 $("#wrap2 p").click(function () { 
+		 $("#sublistwrap p").click(function () { 
 		 	 $( this ).addClass("act").siblings().removeClass("act"); 
-		 	 $('.check_menu_wrap').hide();
+		 	 $('#sublist').hide();
 		 	 $('.mask').hide(); 
-		 	 $('.check_content_block span').html($(this).text()+"<strong></strong>");
+		 	 $('.check_content_block span#subjectSelect').html($(this).text()+"<strong></strong>");
 		 	 $('#selectsubject').attr("data",$(this).attr('data'));
 		 	 loadData(); 
 		  });
@@ -55,7 +69,7 @@ define(["require","zepto","iscroll"], function (require) {
 		 	 $('.mask').hide(); 
 		 	 var p1=$(this).attr("data-val");
 		 	 var s=$('.semester_wrap1');
-		 	 var type=s.attr("data-type");
+		 	 var type=TYPE;
 		 	 if(type==3){
 		 		 type=2;
 		 	 } 
@@ -64,14 +78,15 @@ define(["require","zepto","iscroll"], function (require) {
 		 	 var subject=s.attr("data-subject");
 		 	 location.href = _WEB_CONTEXT_ + "/jy/check/lesson/"+type+"/tch/"+userid+"?grade="+grade+"&subject="+subject+"&fasciculeId=" + p1;//页面跳转并传参
 		  });
-    	$('#wrap3 p').click(function(){
+    	$('#gradelistwrap p').click(function(){
              $( this ).addClass("act").siblings().removeClass("act"); 
-		 	 $('.check_menu1_wrap').hide();
+		 	 $('#gradelist').hide();
 		 	 $('.mask').hide();
-		 	 $('.check_content_block1 span').html($(this).text()+"<strong></strong>");
+		 	 $('.check_content_block1 span#gradeSelect').html($(this).text()+"<strong></strong>");
 		 	 $('#selectgrade').attr("data",$(this).attr('data'));
 		 	 loadData();
-        }); 
+        });
+    	
     	$('.semester_wrapper').click(function(){
             $('.semester_wrapper').hide(); 
             $('.mask').hide();
@@ -94,12 +109,12 @@ define(["require","zepto","iscroll"], function (require) {
 		window.loadData=function(){
         	var HTMLDATA = {};
     		var sub =$("#selectsubject").attr("data");
+    		var phase =$("#selectphase").attr("data");
     		var grade = $("#selectgrade").attr("data");
-    		var type=$("#wrap2").attr("data_type");
     		var name = "s"+sub+"g"+grade;
     		var html = HTMLDATA[name];
     		if(!html){
-    			$.get("jy/check/lesson/"+type+"/tchlist?subject="+sub+"&grade="+grade,function(data){
+    			$.get("jy/check/lesson/"+TYPE+"/tchlist?phaseId="+phase+"&subject="+sub+"&grade="+grade,function(data){
     				HTMLDATA[name] = data;
     				$("#userListContent").html(data);
     				var check_c_b = new IScroll('#check_c_b',{
@@ -122,13 +137,13 @@ define(["require","zepto","iscroll"], function (require) {
     	var subject = getQueryString("subject");
     	var grade = getQueryString("grade");
     	if(subject == ""){
-    		subject = $('#wrap2 p').attr("data");
+    		subject = $('#sublistwrap p').attr("data");
     	}
     	if(grade == ""){
-    		grade = $('#wrap3 p').attr("data");
+    		grade = $('#gradelistwrap p').attr("data");
     	}
-    	 $('#subjectSelect').html($('#wrap2 p[data="'+subject+'"]').html()+"<strong></strong>");
-    	 $('#gradeSelect').html($('#wrap3 p[data="'+grade+'"]').html()+"<strong></strong>");
+    	 $('#subjectSelect').html($('#sublistwrap p[data="'+subject+'"]').html()+"<strong></strong>");
+    	 $('#gradeSelect').html($('#gradelistwrap p[data="'+grade+'"]').html()+"<strong></strong>");
     	 $('#selectgrade').attr("data",grade);
     	 $('#selectsubject').attr("data",subject);
     }

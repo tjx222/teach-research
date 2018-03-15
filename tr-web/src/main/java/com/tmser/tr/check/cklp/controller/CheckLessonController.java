@@ -4,6 +4,14 @@
  */
 package com.tmser.tr.check.cklp.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,12 +21,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tmser.tr.check.cklp.service.CheckLessonService;
+import com.tmser.tr.common.utils.WebThreadLocalUtils;
 import com.tmser.tr.common.web.controller.AbstractController;
+import com.tmser.tr.manage.meta.Meta;
+import com.tmser.tr.manage.meta.MetaUtils;
 import com.tmser.tr.manage.meta.bo.Book;
+import com.tmser.tr.manage.meta.bo.MetaRelationship;
+import com.tmser.tr.manage.meta.bo.SysDic;
 import com.tmser.tr.manage.meta.service.BookService;
+import com.tmser.tr.manage.org.bo.Organization;
+import com.tmser.tr.manage.org.service.OrganizationService;
 import com.tmser.tr.uc.SysRole;
+import com.tmser.tr.uc.bo.User;
 import com.tmser.tr.uc.bo.UserSpace;
 import com.tmser.tr.uc.service.UserSpaceService;
+import com.tmser.tr.uc.utils.CurrentUserContext;
+import com.tmser.tr.uc.utils.SessionKey;
 
 /**
  * <pre>
@@ -40,6 +58,19 @@ public class CheckLessonController extends AbstractController {
   @Autowired
   private BookService bookService;
 
+  @Autowired
+  private OrganizationService organizationService;
+
+  private static final Comparator<Meta> metaCt = new Comparator<Meta>() {
+    @Override
+    public int compare(Meta o1, Meta o2) {
+      if (o1 instanceof SysDic && o2 instanceof SysDic) {
+        return ((SysDic) o1).getDicOrderby() - ((SysDic) o2).getDicOrderby();
+      }
+      return 0;
+    }
+  };
+
   /**
    * 查阅入口页
    * 
@@ -49,11 +80,100 @@ public class CheckLessonController extends AbstractController {
   @RequestMapping(value = "/index", method = RequestMethod.GET)
   public String index(@PathVariable("type") Integer type,
       @RequestParam(value = "grade", required = false) Integer grade,
-      @RequestParam(value = "subject", required = false) Integer subject, Model m) {
+      @RequestParam(value = "subject", required = false) Integer subject,
+      @RequestParam(value = "phaseId", required = false) Integer phaseId, Model m) {
 
+    User user = CurrentUserContext.getCurrentUser(); // 用户
+    @SuppressWarnings("unchecked")
+    List<UserSpace> spaces = (List<UserSpace>) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.USER_SPACE_LIST);
+    Organization org = organizationService.findOne(user.getOrgId());
+    List<MetaRelationship> phases = null;
+
+    boolean hasPhase = true;
+    Set<Integer> actPhases = new HashSet<>();
+    for (UserSpace userSpace : spaces) {
+      if (!SysRole.TEACHER.getId().equals(userSpace.getSysRoleId())) {
+        if (userSpace.getPhaseId() != null && userSpace.getPhaseId() != 0) {
+          actPhases.add(userSpace.getPhaseId());
+        } else {
+          hasPhase = false;// 全学段
+        }
+      }
+    }
+
+    if (hasPhase) {
+      phases = new ArrayList<>();
+      for (Integer pid : actPhases) {
+        phases.add(MetaUtils.getMetaRelation(pid));
+      }
+    } else {
+      phases = MetaUtils.getOrgTypeMetaProvider().listAllPhase(org.getSchoolings());
+    }
+
+    if (grade == null) {
+      List<Meta> grades = new ArrayList<Meta>();
+      List<Meta> subjects = new ArrayList<Meta>();
+
+      if (phaseId == null) {
+        for (MetaRelationship meta : phases) {// 默认学段
+          phaseId = meta.getId();
+          break;
+        }
+      }
+
+      boolean hasGrade = true;
+      boolean hasSub = true;
+      for (UserSpace userSpace : spaces) {
+        if (!SysRole.TEACHER.getId().equals(userSpace.getSysRoleId())) {
+          if (userSpace.getGradeId() == null || 0 == userSpace.getGradeId()) {
+            hasGrade = false;
+          } else if (phaseId.equals(userSpace.getPhaseId())) {
+            grades.add(MetaUtils.getMeta(userSpace.getGradeId()));
+          }
+
+          if (userSpace.getSubjectId() == null || 0 == userSpace.getSubjectId()) {
+            hasSub = false;
+          } else if (phaseId.equals(userSpace.getPhaseId())) {
+            subjects.add(MetaUtils.getMeta(userSpace.getSubjectId()));
+          }
+
+          if (userSpace.getPhaseId() != null && userSpace.getPhaseId() != 0) {
+            actPhases.add(userSpace.getPhaseId());
+          } else {
+            hasPhase = false;// 全学段
+          }
+        }
+      }
+
+      if (hasSub) {
+        Collections.sort(grades, metaCt);
+        m.addAttribute("grades", grades);
+      }
+
+      if (hasGrade) {
+        Collections.sort(subjects, metaCt);
+        m.addAttribute("subjects", subjects);
+      }
+
+    } else if (phaseId == null) {
+      findPhase: for (Entry<Integer, List<Meta>> pg : MetaUtils.getOrgTypeMetaProvider()
+          .listPhaseGradeMap(org.getSchoolings()).entrySet()) {
+        for (Meta g : pg.getValue()) {
+          if (g.getId().equals(grade)) {
+            phaseId = pg.getKey();
+            break findPhase;
+          }
+        }
+      }
+    }
+
+    m.addAttribute("phases", phases);
+    m.addAttribute("phaseId", phaseId);
+    m.addAttribute("phase", MetaUtils.getMetaRelation(phaseId));
     m.addAttribute("type", type);
     m.addAttribute("grade", grade);
     m.addAttribute("subject", subject);
+
     return "check/cklp/index";
   }
 
@@ -97,16 +217,16 @@ public class CheckLessonController extends AbstractController {
         checkLessonService.listTchLessons(type, userId, grade, subject, searchType, termId, fasciculeId));
     m.addAttribute("writeCount",
         checkLessonService.countLessonInfo(type, userId, grade, subject, searchType, termId, fasciculeId));
-    m.addAttribute("writeCount1",
-        checkLessonService.countLessonPlan(type, userId, grade, subject, searchType, termId, fasciculeId,false,false));
+    m.addAttribute("writeCount1", checkLessonService.countLessonPlan(type, userId, grade, subject, searchType, termId,
+        fasciculeId, false, false));
     m.addAttribute("checkCount",
         checkLessonService.countCheckLesson(type, userId, grade, subject, searchType, termId, fasciculeId));
     m.addAttribute("checkCount1",
-            checkLessonService.countCheckLessonPlan(type, userId, grade, subject, searchType, termId, fasciculeId));
+        checkLessonService.countCheckLessonPlan(type, userId, grade, subject, searchType, termId, fasciculeId));
     m.addAttribute("submitCount",
         checkLessonService.countSubmitLesson(type, userId, grade, subject, searchType, termId, fasciculeId));
     m.addAttribute("submitCount1",
-            checkLessonService.countLessonPlan(type, userId, grade, subject, searchType, termId, fasciculeId,true,false));
+        checkLessonService.countLessonPlan(type, userId, grade, subject, searchType, termId, fasciculeId, true, false));
     m.addAttribute("userId", userId);
     m.addAttribute("type", type);
     m.addAttribute("grade", grade);

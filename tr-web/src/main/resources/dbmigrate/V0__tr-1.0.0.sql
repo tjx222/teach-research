@@ -1432,7 +1432,7 @@ CREATE TABLE `teacher_record_bag` (
   `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   `modify_time` timestamp NULL DEFAULT NULL COMMENT '修改时间',
   `short_desc` varchar(255) DEFAULT NULL COMMENT '微评',
-  `menu_id` int(11) DEFAULT NULL COMMENT '对应菜单的id（用于权限的判断）',
+  `menu_id` varchar(32) DEFAULT NULL COMMENT '对应菜单的code（用于权限的判断）',
   `submit` int(11) DEFAULT NULL COMMENT '是否提交  0 未提交  1已提交',
   `pinglun` int(11) DEFAULT NULL COMMENT '是否被评论过  0未评论 1已评论',
   `is_status` int(11) DEFAULT NULL COMMENT '是否已查看过评阅意见：0未查看，1已查看',

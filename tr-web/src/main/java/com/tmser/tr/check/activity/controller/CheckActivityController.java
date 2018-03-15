@@ -4,11 +4,19 @@
  */
 package com.tmser.tr.check.activity.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,11 +35,19 @@ import com.tmser.tr.common.page.Page;
 import com.tmser.tr.common.utils.WebThreadLocalUtils;
 import com.tmser.tr.common.web.controller.AbstractController;
 import com.tmser.tr.lessonplan.service.LessonPlanService;
+import com.tmser.tr.manage.meta.Meta;
+import com.tmser.tr.manage.meta.MetaUtils;
+import com.tmser.tr.manage.meta.bo.MetaRelationship;
+import com.tmser.tr.manage.meta.bo.SysDic;
+import com.tmser.tr.manage.org.bo.Organization;
+import com.tmser.tr.manage.org.service.OrganizationService;
 import com.tmser.tr.manage.resources.bo.Attach;
 import com.tmser.tr.manage.resources.service.AttachService;
 import com.tmser.tr.uc.SysRole;
+import com.tmser.tr.uc.bo.User;
 import com.tmser.tr.uc.bo.UserSpace;
 import com.tmser.tr.uc.service.SchoolYearService;
+import com.tmser.tr.uc.utils.CurrentUserContext;
 import com.tmser.tr.uc.utils.SessionKey;
 
 /**
@@ -59,6 +75,19 @@ public class CheckActivityController extends AbstractController {
   @Resource
   private SchoolYearService schoolYearService;
 
+  @Autowired
+  private OrganizationService organizationService;
+
+  private static final Comparator<Meta> metaCt = new Comparator<Meta>() {
+    @Override
+    public int compare(Meta o1, Meta o2) {
+      if (o1 instanceof SysDic && o2 instanceof SysDic) {
+        return ((SysDic) o1).getDicOrderby() - ((SysDic) o2).getDicOrderby();
+      }
+      return 0;
+    }
+  };
+
   /**
    * 查阅集体备课（活动）入口页
    * 
@@ -68,7 +97,96 @@ public class CheckActivityController extends AbstractController {
   @RequestMapping(value = "/index", method = RequestMethod.GET)
   public String index(@RequestParam(value = "grade", required = false) Integer grade,
       @RequestParam(value = "subject", required = false) Integer subject,
-      @RequestParam(value = "term", required = false) Integer term, Model m) {
+      @RequestParam(value = "term", required = false) Integer term,
+      @RequestParam(value = "phaseId", required = false) Integer phaseId, Model m) {
+
+    User user = CurrentUserContext.getCurrentUser(); // 用户
+    @SuppressWarnings("unchecked")
+    List<UserSpace> spaces = (List<UserSpace>) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.USER_SPACE_LIST);
+    Organization org = organizationService.findOne(user.getOrgId());
+    List<MetaRelationship> phases = null;
+
+    boolean hasPhase = true;
+    Set<Integer> actPhases = new HashSet<>();
+    for (UserSpace userSpace : spaces) {
+      if (!SysRole.TEACHER.getId().equals(userSpace.getSysRoleId())) {
+        if (userSpace.getPhaseId() != null && userSpace.getPhaseId() != 0) {
+          actPhases.add(userSpace.getPhaseId());
+        } else {
+          hasPhase = false;// 全学段
+        }
+      }
+    }
+
+    if (hasPhase) {
+      phases = new ArrayList<>();
+      for (Integer pid : actPhases) {
+        phases.add(MetaUtils.getMetaRelation(pid));
+      }
+    } else {
+      phases = MetaUtils.getOrgTypeMetaProvider().listAllPhase(org.getSchoolings());
+    }
+
+    if (grade == null) {
+      List<Meta> grades = new ArrayList<Meta>();
+      List<Meta> subjects = new ArrayList<Meta>();
+
+      if (phaseId == null) {
+        for (MetaRelationship meta : phases) {// 默认学段
+          phaseId = meta.getId();
+          break;
+        }
+      }
+
+      boolean hasGrade = true;
+      boolean hasSub = true;
+      for (UserSpace userSpace : spaces) {
+        if (!SysRole.TEACHER.getId().equals(userSpace.getSysRoleId())) {
+          if (userSpace.getGradeId() == null || 0 == userSpace.getGradeId()) {
+            hasGrade = false;
+          } else if (phaseId.equals(userSpace.getPhaseId())) {
+            grades.add(MetaUtils.getMeta(userSpace.getGradeId()));
+          }
+
+          if (userSpace.getSubjectId() == null || 0 == userSpace.getSubjectId()) {
+            hasSub = false;
+          } else if (phaseId.equals(userSpace.getPhaseId())) {
+            subjects.add(MetaUtils.getMeta(userSpace.getSubjectId()));
+          }
+
+          if (userSpace.getPhaseId() != null && userSpace.getPhaseId() != 0) {
+            actPhases.add(userSpace.getPhaseId());
+          } else {
+            hasPhase = false;// 全学段
+          }
+        }
+      }
+
+      if (hasSub) {
+        Collections.sort(grades, metaCt);
+        m.addAttribute("grades", grades);
+      }
+
+      if (hasGrade) {
+        Collections.sort(subjects, metaCt);
+        m.addAttribute("subjects", subjects);
+      }
+
+    } else if (phaseId == null) {
+      findPhase: for (Entry<Integer, List<Meta>> pg : MetaUtils.getOrgTypeMetaProvider()
+          .listPhaseGradeMap(org.getSchoolings()).entrySet()) {
+        for (Meta g : pg.getValue()) {
+          if (g.getId().equals(grade)) {
+            phaseId = pg.getKey();
+            break findPhase;
+          }
+        }
+      }
+    }
+
+    m.addAttribute("phases", phases);
+    m.addAttribute("phaseId", phaseId);
+    m.addAttribute("phase", MetaUtils.getMetaRelation(phaseId));
     m.addAttribute("term", term);
     m.addAttribute("currentterm", schoolYearService.getCurrentTerm());
     m.addAttribute("subject", subject);
@@ -185,30 +303,34 @@ public class CheckActivityController extends AbstractController {
    */
   private boolean ifHavePower(Activity activity) {
     boolean flag = false;
-    UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
-    Integer roleId = userSpace.getSysRoleId();// 角色id
-    if (roleId.intValue() == SysRole.XZ.getId().intValue() || roleId.intValue() == SysRole.FXZ.getId().intValue()) {// 校长
-      flag = true;
-    } else if (roleId.intValue() == SysRole.ZR.getId().intValue()) {// 主任
-      flag = true;
-    } else if (roleId.intValue() == SysRole.XKZZ.getId().intValue()) {// 学科组长
-      if (activity.getOrgId().intValue() == userSpace.getOrgId().intValue()
-          && activity.getSubjectIds().contains(String.valueOf(userSpace.getSubjectId()))) {
-        flag = true;
+    User cuser = CurrentUserContext.getCurrentUser();
+    if (!activity.getOrgId().equals(cuser.getOrgId())) {
+      return false;
+    }
+
+    boolean[] hasroles = SecurityUtils.getSubject().hasRoles(Arrays.asList(SysRole.XZ.name().toLowerCase(),
+        SysRole.FXZ.name().toLowerCase(), SysRole.ZR.name().toLowerCase()));
+    for (boolean b : hasroles) {
+      if (b) {
+        return b;
       }
-    } else if (roleId.intValue() == SysRole.NJZZ.getId().intValue()) {// 年级组长
-      if (activity.getOrgId().intValue() == userSpace.getOrgId().intValue()
-          && activity.getGradeIds().contains(String.valueOf(userSpace.getGradeId()))) {
+    }
+    @SuppressWarnings("unchecked")
+    List<UserSpace> userSpaces = (List<UserSpace>) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.USER_SPACE_LIST); // 用户空间
+    for (UserSpace userSpace : userSpaces) {
+      if (SysRole.XKZZ.getId().equals(userSpace.getSysRoleId())
+          && activity.getSubjectIds().contains("," + String.valueOf(userSpace.getSubjectId()) + ",")) {
         flag = true;
-      }
-    } else if (roleId.intValue() == SysRole.BKZZ.getId().intValue()
-        || roleId.intValue() == SysRole.TEACHER.getId().intValue()) {// 备课组长或老师
-      if (activity.getOrgId().intValue() == userSpace.getOrgId().intValue()
-          && activity.getSubjectIds().contains(String.valueOf(userSpace.getSubjectId()))
-          && activity.getGradeIds().contains(String.valueOf(userSpace.getGradeId()))) {
+      } else if (SysRole.NJZZ.getId().equals(userSpace.getSysRoleId())
+          && activity.getGradeIds().contains("," + String.valueOf(userSpace.getGradeId()) + ",")) {
+        flag = true;
+      } else if ((SysRole.BKZZ.getId().equals(userSpace.getSysRoleId()))
+          && activity.getSubjectIds().contains("," + String.valueOf(userSpace.getSubjectId()) + ",")
+          && activity.getGradeIds().contains("," + String.valueOf(userSpace.getGradeId()) + ",")) {
         flag = true;
       }
     }
+
     return flag;
   }
 }
