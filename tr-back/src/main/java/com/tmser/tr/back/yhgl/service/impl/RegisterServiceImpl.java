@@ -70,7 +70,6 @@ import com.tmser.tr.uc.service.PasswordService;
 import com.tmser.tr.uc.service.RoleService;
 import com.tmser.tr.uc.service.RoleTypeService;
 import com.tmser.tr.uc.service.SchoolYearService;
-import com.tmser.tr.uc.service.UserMenuService;
 import com.tmser.tr.uc.service.UserRoleService;
 import com.tmser.tr.uc.service.UserService;
 import com.tmser.tr.uc.service.UserSpaceService;
@@ -1003,6 +1002,9 @@ public class RegisterServiceImpl extends ExcelBatchService implements RegisterSe
       List<BookSync> findSyncBooksOfJy = bookService.findBookSync(bk);
       Map<String, Object> bookMap = new HashMap<String, Object>();
       for (BookSync bookSync : findSyncBooksOfJy) {
+        if (bookSync.getGradeLevelId() == null) {
+          continue;
+        }
         String key = MetaUtils.getMeta(bookSync.getGradeLevelId()).getName()
             + MetaUtils.getMeta(bookSync.getSubjectId()).getName();
         String formatName = bookSync.getFormatName();
