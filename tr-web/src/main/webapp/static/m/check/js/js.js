@@ -17,7 +17,8 @@ define(["require","zepto","iscroll"], function (require) {
 		 }
 	}); 
     function init() {
-    	$('.check_content_block span#phaseSelect').click(function (){ 
+    	$('.check_content_block span#phaseSelect').click(function (e){ 
+    		$('#phaselist .check_block_menu2').css({"left":e.clientX+"px","top":e.clientY+"px"});
     		$('#phaselist').show();
     		$('.mask').show(); 
     		var myScroll2 = new IScroll('#phaselistwrap',{
@@ -34,7 +35,8 @@ define(["require","zepto","iscroll"], function (require) {
     		}
 		  });
     	
-    	$('.check_content_block span#subjectSelect').click(function (){ 
+    	$('.check_content_block span#subjectSelect').click(function (e){ 
+    		$('#sublist .check_block_menu').css({"left":e.clientX+"px","top":e.clientY+"px"});
     		$('#sublist').show();
     		$('.mask').show(); 
     		var myScroll2 = new IScroll('#sublistwrap',{
@@ -44,7 +46,8 @@ define(["require","zepto","iscroll"], function (require) {
           		click:true, 
 	      	});	
     	});
-    	$('.check_content_block span#gradeSelect').click(function (){ 
+    	$('.check_content_block span#gradeSelect').click(function (e){ 
+    		$('#gradelist .check_block_menu1').css({"left":e.clientX+"px","top":e.clientY+"px"});
     		$('#gradelist').show();
     		$('.mask').show(); 
     		var myScroll3 = new IScroll('#gradelistwrap',{
