@@ -14,7 +14,7 @@
 <%-- <input type="hidden" id="subject" value="${subject }" > --%>
 <%-- <input type="hidden" id="grade" value="${grade }" > --%>
 <div class="check_menu_wrap menuzdy1">
-	<div class="check_block_menu" style="margin-left:14rem;">
+	<div class="check_block_menu">
 		<span class="check_menu_top"></span>
 		<div id="wrap1" class="check_menu_wrap1" style="height:6.3rem;"> 
 			<div id="scroller">
@@ -60,7 +60,7 @@
 	</div>
 </div>
 <div class="check_menu1_wrap menuzdy3">
-	<div class="check_block_menu1">
+	<div class="check_block_menu">
 		<span class="check_menu_top"></span>
 		<div id="wrap3" class="check_menu_wrap1"> 
 			<div id="scroller">

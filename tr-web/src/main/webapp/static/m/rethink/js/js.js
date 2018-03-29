@@ -117,9 +117,10 @@ define(["require","zepto","iscroll"], function (require) {
           	$('.submit_upload_wrap').show();
           	$('.mask').show();
           });
-          $('#rethinktype.content_top_right').click(function (){
+          $('#rethinktype.content_top_right').click(function (e){
           	$('.mask').show();
           	$('.cw_menu_wrap').show(); 
+          	$('.cw_menu_wrap .cw_menu_list').css({"top":e.clientY+"px"})
           	 var  myScroll2 = new IScroll('#wrap2',{
          		scrollbars:true,
          		mouseWheel:true,

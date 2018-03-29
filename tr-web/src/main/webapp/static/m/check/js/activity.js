@@ -35,7 +35,7 @@ define(["require","zepto","iscroll"], function (require) {
        		 	$( this ).addClass("act").siblings().removeClass("act"); 
 //    		}
     	});
-    	$('.check_content_block span').click(function (){  
+    	$('.check_content_block span').click(function (e){  
     		$('.mask').show(); 
     		var menuzdy = "";
     		var wrap = "";
@@ -51,6 +51,7 @@ define(["require","zepto","iscroll"], function (require) {
     			menuzdy = "menuzdy3";
     		}
     		$('.'+menuzdy).show();
+    		$('.'+menuzdy+' .check_block_menu').css({"left":e.clientX+"px","top":e.clientY+"px"})
     		var myScroll = new IScroll('#'+wrap,{
     			scrollbars:true,
     			mouseWheel:true,

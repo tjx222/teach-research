@@ -55,20 +55,7 @@
 		<profile>
 			<id>release</id>
 			<build>
-					<plugins>
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-release-plugin</artifactId>
-							<configuration>
-								<username>tanjinxiang</username>
-	                			<password>5yPxINDU</password>
-								<tagBase>svn://192.168.0.204/教研平台/code/jiaoyan/tags/</tagBase>
-								<arguments>${release.args}</arguments>
-							</configuration>
-						</plugin>
-					</plugins>
-
-				 <resources>
+				<resources>
 				 	<resource>
 						 <directory>src/main/resources</directory>
 						 <includes>  
