@@ -119,45 +119,6 @@ CREATE TABLE `sys_book_sync` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='书籍关联表';
 
-
-DROP TABLE IF EXISTS `feedback_recieve`;
-CREATE TABLE `feedback_recieve` (
-  `id` int(32) NOT NULL AUTO_INCREMENT,
-  `org_id` int(11) DEFAULT NULL COMMENT '机构id',
-  `user_id_sender` int(32) DEFAULT NULL COMMENT '反馈者id',
-  `user_name_sender` varchar(32) DEFAULT NULL COMMENT '反馈者姓名',
-  `message` varchar(500) DEFAULT NULL COMMENT '反馈内容',
-  `attachment_1` varchar(256) DEFAULT NULL COMMENT '附件1',
-  `attachment_2` varchar(256) DEFAULT NULL COMMENT '附件2',
-  `attachment_3` varchar(256) DEFAULT NULL COMMENT '附件3',
-  `attachment_1_name` varchar(256) DEFAULT NULL,
-  `attachment_2_name` varchar(256) DEFAULT NULL,
-  `attachment_3_name` varchar(256) DEFAULT NULL,
-  `sender_time` timestamp NULL DEFAULT NULL COMMENT '反馈时间',
-  `ishavareply` tinyint(1) DEFAULT '0' COMMENT '是否已回复',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `feedback_reply`;
-CREATE TABLE `feedback_reply` (
-  `id` int(32) NOT NULL AUTO_INCREMENT,
-  `org_id` int(11) DEFAULT NULL COMMENT '机构id',
-  `user_id_receiver` int(32) DEFAULT NULL COMMENT '后台回复者id',
-  `user_name_receiver` varchar(32) DEFAULT NULL COMMENT '后台回复者姓名',
-  `content` varchar(500) DEFAULT NULL COMMENT '反馈内容',
-  `attachment_1` varchar(256) DEFAULT NULL COMMENT '附件1',
-  `attachment_2` varchar(256) DEFAULT NULL COMMENT '附件2',
-  `attachment_3` varchar(256) DEFAULT NULL COMMENT '附件3',
-  `attachment_1_name` varchar(256) DEFAULT NULL,
-  `attachment_2_name` varchar(256) DEFAULT NULL,
-  `attachment_3_name` varchar(256) DEFAULT NULL,
-  `sender_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '回复时间',
-  `pid` int(32) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-
 DROP TABLE IF EXISTS `jy_activity`;
 CREATE TABLE `jy_activity` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
@@ -546,29 +507,6 @@ CREATE TABLE `jy_friend_message` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-DROP TABLE IF EXISTS `jy_letter`;
-CREATE TABLE `jy_letter` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `sender_id` int(11) DEFAULT NULL COMMENT '通知发送者id',
-  `receiver_id` int(11) DEFAULT NULL COMMENT '通知接受者id',
-  `send_date` datetime NOT NULL COMMENT '发送时间',
-  `content` text COMMENT '内容',
-  `sender_state` tinyint(4) DEFAULT '0' COMMENT '发送者状态,1：已删除，0：未删除',
-  `sender_state_change_date` datetime NOT NULL COMMENT '发送者更改状态时间',
-  `receiver_state` tinyint(4) DEFAULT '0' COMMENT '接受者状态，2：已阅读，1：已删除，0：未阅读',
-  `receiver_state_change_date` datetime NOT NULL COMMENT '接受通知者更改状态时间',
-  `parent_id` bigint(20) DEFAULT NULL,
-  `parent_ids` varchar(200) DEFAULT NULL,
-  `crt_id` int(11) DEFAULT NULL COMMENT '创建人',
-  `crt_dttm` datetime DEFAULT NULL COMMENT '创建时间',
-  `lastup_id` int(11) DEFAULT NULL COMMENT '最后更新用户',
-  `lastup_dttm` datetime DEFAULT NULL COMMENT '最后更新时间',
-  PRIMARY KEY (`id`),
-  KEY `serder_id_index` (`sender_id`) USING BTREE,
-  KEY `receiver_id_index` (`receiver_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
 DROP TABLE IF EXISTS `jy_notice`;
 CREATE TABLE `jy_notice` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -819,58 +757,6 @@ CREATE TABLE `school_show` (
   `top_tag` int(11) DEFAULT '0' COMMENT '置顶标示符',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `school_teach_circle`;
-CREATE TABLE `school_teach_circle` (
-  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '教研圈ID',
-  `name` varchar(30) DEFAULT NULL COMMENT '教研圈名称',
-  `org_id` int(10) DEFAULT NULL COMMENT '创建机构ID',
-  `crt_id` int(10) DEFAULT NULL COMMENT '创建者ID',
-  `crt_dttm` datetime DEFAULT NULL COMMENT '创建时间',
-  `school_year` int(4) DEFAULT NULL COMMENT '学年',
-  `lastup_dttm` datetime DEFAULT NULL COMMENT '教研圈更新时间（只能有创建人更新）',
-  `is_delete` tinyint(1) DEFAULT NULL COMMENT '0:可删除  1:不可删除',
-  `area_ids` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='校际教研圈表 ，可以由多个学校组成的一个教研圈';
-
-
-DROP TABLE IF EXISTS `school_teach_circle_org`;
-CREATE TABLE `school_teach_circle_org` (
-  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '校际教研圈附属表ID',
-  `stc_id` int(10) DEFAULT NULL COMMENT '校际教研圈ID',
-  `org_id` int(10) DEFAULT NULL COMMENT '学校机构ID',
-  `org_name` varchar(30) DEFAULT NULL COMMENT '学校机构名称',
-  `school_year` int(4) DEFAULT NULL COMMENT '学年',
-  `state` tinyint(4) DEFAULT NULL COMMENT '1：待接受  2：已接受  3：已拒绝  4：已退出  5：已恢复',
-  `sort` tinyint(4) DEFAULT NULL COMMENT '机构排序',
-  `lastup_id` int(10) DEFAULT NULL COMMENT '状态更新人',
-  `lastup_dttm` datetime DEFAULT NULL COMMENT '圈中的机构状态更新时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='教研圈附属机构表 存放某个教研圈下面的机构以及机构状态';
-
-
-DROP TABLE IF EXISTS `school_teach_schedule`;
-CREATE TABLE `school_teach_schedule` (
-  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '教研进度ID',
-  `name` varchar(30) DEFAULT NULL COMMENT '进度表名称',
-  `org_id` int(10) DEFAULT NULL COMMENT '机构ID',
-  `subject_id` int(4) DEFAULT NULL COMMENT '学科ID',
-  `grade_id` int(4) DEFAULT NULL COMMENT '年级ID',
-  `res_id` varchar(32) DEFAULT NULL COMMENT '文件资源ID',
-  `crt_id` int(10) DEFAULT NULL COMMENT '发布人(作者)',
-  `crt_dttm` datetime DEFAULT NULL COMMENT '发布时间',
-  `school_teach_circle_id` int(10) DEFAULT NULL COMMENT '校际教研圈ID',
-  `is_release` tinyint(1) DEFAULT NULL COMMENT '是否发布',
-  `release_time` datetime DEFAULT NULL COMMENT '发布时间',
-  `lastup_id` int(10) DEFAULT NULL COMMENT '最后修改人',
-  `lastup_dttm` datetime DEFAULT NULL COMMENT '最后修改时间',
-  `school_year` smallint(4) DEFAULT NULL COMMENT '学年',
-  `file_suffix` varchar(10) DEFAULT NULL COMMENT '文件后缀',
-  `area_ids` varchar(20) DEFAULT NULL COMMENT '所属地区id节点集合   示例 ： ,1,22,344,1000,',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `sys_app`;
@@ -1306,17 +1192,6 @@ CREATE TABLE `sys_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-DROP TABLE IF EXISTS `sys_usermenu_history`;
-CREATE TABLE `sys_usermenu_history` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `menus` varchar(1024) NOT NULL DEFAULT '' COMMENT '功能code 传递',
-  `user_id` int(11) NOT NULL COMMENT '用户id',
-  `school_year` int(11) NOT NULL COMMENT '学年',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `user-year` (`user_id`,`school_year`) USING BTREE
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-
 DROP TABLE IF EXISTS `sys_user_managescope`;
 CREATE TABLE `sys_user_managescope` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
@@ -1327,22 +1202,6 @@ CREATE TABLE `sys_user_managescope` (
   `org_name` varchar(30) DEFAULT NULL COMMENT '机构名称',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `sys_user_menu`;
-CREATE TABLE `sys_user_menu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sys_role_id` int(11) DEFAULT NULL,
-  `menu_id` int(11) DEFAULT NULL,
-  `name` varchar(16) DEFAULT NULL COMMENT '图标名称，支持个性化命名',
-  `ico` varchar(128) DEFAULT NULL COMMENT '图标url，用于支持个性化',
-  `display` tinyint(1) DEFAULT NULL,
-  `sort` int(11) DEFAULT NULL COMMENT '越小越靠前',
-  `user_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id_role` (`sys_role_id`,`user_id`) USING BTREE
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
 
 DROP TABLE IF EXISTS `sys_user_role`;
 CREATE TABLE `sys_user_role` (
@@ -1446,21 +1305,3 @@ CREATE TABLE `teacher_record_bag` (
   `org_id` int(11) DEFAULT NULL COMMENT '机构ID',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `teacher_schedule`;
-CREATE TABLE `teacher_schedule` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '日程表id',
-  `userid` int(11) NOT NULL COMMENT '用户id',
-  `summary` varchar(256) DEFAULT NULL COMMENT '日程主题',
-  `start` bigint(20) DEFAULT NULL COMMENT '日程起始时间',
-  `end` bigint(20) DEFAULT NULL COMMENT '日程结束时间',
-  `isallday` tinyint(1) DEFAULT NULL COMMENT '是否全天',
-  `location` varchar(128) DEFAULT NULL COMMENT '地点',
-  `description` varchar(512) DEFAULT NULL COMMENT '描述',
-  `color` char(7) DEFAULT NULL COMMENT '颜色',
-  `crt_dttm` datetime DEFAULT NULL,
-  `lastup_dttm` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-

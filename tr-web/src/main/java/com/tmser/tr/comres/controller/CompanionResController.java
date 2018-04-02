@@ -25,11 +25,7 @@ import com.tmser.tr.lessonplan.bo.LessonPlan;
 import com.tmser.tr.lessonplan.service.LessonInfoService;
 import com.tmser.tr.lessonplan.service.LessonPlanService;
 import com.tmser.tr.manage.meta.MetaUtils;
-import com.tmser.tr.manage.meta.bo.Book;
-import com.tmser.tr.manage.meta.bo.BookSync;
 import com.tmser.tr.manage.meta.bo.MetaRelationship;
-import com.tmser.tr.manage.meta.service.BookService;
-import com.tmser.tr.manage.meta.service.BookSyncService;
 import com.tmser.tr.manage.org.bo.Organization;
 import com.tmser.tr.manage.org.service.OrganizationService;
 import com.tmser.tr.manage.resources.bo.Resources;
@@ -58,11 +54,6 @@ public class CompanionResController extends AbstractController {
   @Autowired
   private OrganizationService organizationServie;
 
-  @Autowired
-  private BookService bookServie;
-
-  @Autowired
-  private BookSyncService bookSyncService;
   @Autowired
   private ResViewService resViewService;
   @Autowired
@@ -290,32 +281,6 @@ public class CompanionResController extends AbstractController {
       }
     }
     return viewName("view");
-  }
-
-  /**
-   * 根据书查找上下册
-   * 
-   * @param bookid
-   * @return
-   */
-  private List<String> listBookids(String bookid) {
-    List<String> lessonInfoList = new ArrayList<String>();
-    Book book = bookServie.findOne(bookid);
-    BookSync model = new BookSync();
-    if (book != null && book.getFormatName() != null) {
-      model.setFormatName(book.getFormatName());
-      model.setSubjectId(book.getSubjectId());
-      model.setGradeLevelId(book.getGradeLevelId());
-      model.setPublisherId(book.getPublisherId());
-      List<BookSync> synbooks = bookSyncService.findAll(model);
-      for (BookSync synbook : synbooks) {
-        if (!bookid.equals(synbook.getComId()))
-          lessonInfoList.add(synbook.getComId());
-      }
-    }
-
-    lessonInfoList.add(bookid);
-    return lessonInfoList;
   }
 
   /**

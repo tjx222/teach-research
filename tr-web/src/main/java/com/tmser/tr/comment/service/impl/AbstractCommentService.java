@@ -13,41 +13,42 @@ import com.tmser.tr.utils.SpringContextHolder;
 /**
  * 
  * <pre>
- *  评论回调抽象实现类
+ * 评论回调抽象实现类
  * </pre>
  *
  * @author tmser
- * @version $Id: AbstractCommentService.java, v 1.0 2016年11月4日 上午9:46:27 tmser Exp $
+ * @version $Id: AbstractCommentService.java, v 1.0 2016年11月4日 上午9:46:27 tmser
+ *          Exp $
  */
-public abstract class AbstractCommentService<T extends QueryObject> 
-		extends AbstractService<T, Integer> implements CommentCallbackAble {
-	
-	private static volatile List<CommentCallback> registedCallbacks;
-	
-	
-	/**
-	 * 获取注册的评论回调器
-	 * @return
-	 */
-	@Override
-	public List<CommentCallback> registedCommentCallbacks(){
-		if(registedCallbacks == null){
-			registedCallbacks =  Collections.unmodifiableList(SpringContextHolder.getBeanNamesForType(CommentCallback.class));
-		}
-		return registedCallbacks;
-	}
-	
-	/**
-	 * 注册评论回调
-	 */
-	@Override
-	public void registCommentCallback(CommentCallback callback){
-		List<CommentCallback> callbacks = new ArrayList<>();
-		if(registedCallbacks != null){
-			registedCallbacks.addAll(registedCallbacks);
-		}
-		callbacks.add(callback);
-		registedCallbacks = Collections.unmodifiableList(callbacks);
-	}
-	
+public abstract class AbstractCommentService<T extends QueryObject> extends AbstractService<T, Integer>
+    implements CommentCallbackAble {
+
+  private static volatile List<CommentCallback> registedCallbacks;
+
+  /**
+   * 获取注册的评论回调器
+   * 
+   * @return
+   */
+  @Override
+  public List<CommentCallback> registedCommentCallbacks() {
+    if (registedCallbacks == null) {
+      registedCallbacks = Collections.unmodifiableList(SpringContextHolder.getBeansForType(CommentCallback.class));
+    }
+    return registedCallbacks;
+  }
+
+  /**
+   * 注册评论回调
+   */
+  @Override
+  public void registCommentCallback(CommentCallback callback) {
+    List<CommentCallback> callbacks = new ArrayList<>();
+    if (registedCallbacks != null) {
+      registedCallbacks.addAll(registedCallbacks);
+    }
+    callbacks.add(callback);
+    registedCallbacks = Collections.unmodifiableList(callbacks);
+  }
+
 }

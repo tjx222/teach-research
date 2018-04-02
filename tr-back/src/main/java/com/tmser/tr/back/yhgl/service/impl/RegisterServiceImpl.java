@@ -47,7 +47,6 @@ import com.tmser.tr.manage.meta.Meta;
 import com.tmser.tr.manage.meta.MetaUtils;
 import com.tmser.tr.manage.meta.bo.Book;
 import com.tmser.tr.manage.meta.bo.BookSync;
-import com.tmser.tr.manage.meta.bo.Menu;
 import com.tmser.tr.manage.meta.bo.MetaRelationship;
 import com.tmser.tr.manage.meta.service.BookService;
 import com.tmser.tr.manage.meta.service.MenuService;
@@ -61,7 +60,6 @@ import com.tmser.tr.uc.bo.Login;
 import com.tmser.tr.uc.bo.Role;
 import com.tmser.tr.uc.bo.RoleType;
 import com.tmser.tr.uc.bo.User;
-import com.tmser.tr.uc.bo.UserMenu;
 import com.tmser.tr.uc.bo.UserRole;
 import com.tmser.tr.uc.bo.UserSpace;
 import com.tmser.tr.uc.service.AppService;
@@ -337,9 +335,9 @@ public class RegisterServiceImpl extends ExcelBatchService implements RegisterSe
     return resultStr;
   }
 
-  private boolean addSpace(List<UserSpace> batchSpaceList, StringBuilder resultStr, List<UserMenu> batchMenuList,
-      String formatName, int i, User tempUser, UserSpace userSpace, Map<String, User> userTempMap,
-      Map<String, String> spaceTempMap, Map<String, String> mapTempMap, Map<String, UserSpace> areadySpaceIdMap) {
+  private boolean addSpace(List<UserSpace> batchSpaceList, StringBuilder resultStr, String formatName, int i,
+      User tempUser, UserSpace userSpace, Map<String, User> userTempMap, Map<String, String> spaceTempMap,
+      Map<String, String> mapTempMap, Map<String, UserSpace> areadySpaceIdMap) {
     String spkey = tempUser.getId() + "_l" + userSpace.getRoleId() + "_s" + userSpace.getSubjectId() + "_g"
         + userSpace.getGradeId();
     if (spaceTempMap.get(spkey) != null) {// 空间重复
@@ -372,12 +370,6 @@ public class RegisterServiceImpl extends ExcelBatchService implements RegisterSe
 
       batchSpaceList.add(userSpace);
       spaceTempMap.put(spkey, "");
-
-      // 加入菜单 每个用户的每种角色加一套菜单
-      if (mapTempMap.get(tempUser.getName() + "_" + userSpace.getRoleId()) == null) {
-        batchAddMenu(userSpace.getRoleId(), tempUser.getId(), batchMenuList);
-        mapTempMap.put(tempUser.getName() + "_" + userSpace.getRoleId(), "");
-      }
     }
     return true;
   }
@@ -461,20 +453,6 @@ public class RegisterServiceImpl extends ExcelBatchService implements RegisterSe
         areadySpaceIdMap.put(key, us);
         areadySpaceIdMap.put(key + "_p" + us.getPhaseId(), us);
       }
-    }
-  }
-
-  private void batchAddMenu(Integer roleId, Integer userId, List<UserMenu> batchMenuList) {
-    List<Menu> menuList = menuService.getMenuListByRole(roleId);
-    for (Menu m : menuList) {
-      UserMenu userMenu = new UserMenu();
-      userMenu.setSysRoleId(roleId);
-      userMenu.setMenuId(m.getId());
-      userMenu.setDisplay(true);
-      userMenu.setSort(m.getSort());
-      userMenu.setUserId(userId);
-      userMenu.setName(m.getName());
-      batchMenuList.add(userMenu);
     }
   }
 
@@ -633,8 +611,8 @@ public class RegisterServiceImpl extends ExcelBatchService implements RegisterSe
     return subjectMap;
   }
 
-  private boolean addAreaSpace(List<UserSpace> batchSpaceList, StringBuilder resultStr, List<UserMenu> batchMenuList,
-      int i, User tempUser, UserSpace userSpace, Map<String, User> userTempMap, Map<String, String> spaceTempMap,
+  private boolean addAreaSpace(List<UserSpace> batchSpaceList, StringBuilder resultStr, int i, User tempUser,
+      UserSpace userSpace, Map<String, User> userTempMap, Map<String, String> spaceTempMap,
       Map<String, String> mapTempMap, Map<String, UserSpace> areadySpaceIdMap) {
     String key = tempUser.getId() + "_l" + userSpace.getRoleId() + "_s" + userSpace.getSubjectId() + "_g"
         + userSpace.getGradeId();
@@ -656,11 +634,6 @@ public class RegisterServiceImpl extends ExcelBatchService implements RegisterSe
       batchSpaceList.add(userSpace);
       spaceTempMap.put(spkey, "");
 
-      // 加入菜单 每个用户的每种角色加一套菜单
-      if (mapTempMap.get(tempUser.getName() + "_" + userSpace.getRoleId()) == null) {
-        batchAddMenu(userSpace.getRoleId(), tempUser.getId(), batchMenuList);
-        mapTempMap.put(tempUser.getName() + "_" + userSpace.getRoleId(), "");
-      }
     }
     return true;
   }
@@ -1301,7 +1274,6 @@ public class RegisterServiceImpl extends ExcelBatchService implements RegisterSe
         params.put("userTempMap", new HashMap<String, User>()); // 临时用户map<用户姓名，用户object>,用于判断待插入的数据是否重复
         params.put("batchSpaceList", new ArrayList<UserSpace>()); // 待插入用户空间集合
         params.put("spaceTempMap", new HashMap<String, String>()); // 临时空间map
-        params.put("batchMenuList", new ArrayList<UserMenu>()); // 待插入用户菜单集合
         params.put("mapTempMap", new HashMap<String, String>()); // 临时菜单map
         params.put("areadySpaceIdMap", new HashMap<String, UserSpace>());// 已经存在的用户空间id
         Organization org = orgService.findOne(orgId);
@@ -1323,7 +1295,6 @@ public class RegisterServiceImpl extends ExcelBatchService implements RegisterSe
         params.put("userTempMap", new HashMap<String, User>()); // 临时用户map<用户姓名，用户object>,用于判断待插入的数据是否重复
         params.put("batchSpaceList", new ArrayList<UserSpace>()); // 待插入用户空间集合
         params.put("spaceTempMap", new HashMap<String, String>()); // 临时空间map
-        params.put("batchMenuList", new ArrayList<UserMenu>()); // 待插入用户菜单集合
         params.put("mapTempMap", new HashMap<String, String>()); // 临时菜单map
         Organization org = orgService.findOne(orgId);
         params.put("org", org);
@@ -1357,7 +1328,6 @@ public class RegisterServiceImpl extends ExcelBatchService implements RegisterSe
         Map<String, User> userTempMap = (Map<String, User>) params.get("userTempMap"); // 临时用户map<用户姓名，用户object>,用于判断待插入的数据是否重复
         List<UserSpace> batchSpaceList = (List<UserSpace>) params.get("batchSpaceList"); // 待插入用户空间集合
         Map<String, String> spaceTempMap = (Map<String, String>) params.get("spaceTempMap"); // 临时空间map
-        List<UserMenu> batchMenuList = (List<UserMenu>) params.get("batchMenuList"); // 待插入用户菜单集合
         Map<String, String> mapTempMap = (Map<String, String>) params.get("mapTempMap"); // 临时菜单map
         Map<String, Integer> metaMap = (Map<String, Integer>) params.get("metaMap");
         Map<String, Role> roleMap = (Map<String, Role>) params.get("roleMap");
@@ -1503,8 +1473,8 @@ public class RegisterServiceImpl extends ExcelBatchService implements RegisterSe
           }
           userTempMap.put(userName, user);
         }
-        addAreaSpace(batchSpaceList, resultStr, batchMenuList, i, user, userSpace, userTempMap, spaceTempMap,
-            mapTempMap, areadySpaceIdMap);
+        addAreaSpace(batchSpaceList, resultStr, i, user, userSpace, userTempMap, spaceTempMap, mapTempMap,
+            areadySpaceIdMap);
       } else if ("SCHOOL".equals(params.get("userType"))) {// 处理学校用户
         if (row != null) {
           Organization org = (Organization) params.get("org");
@@ -1514,7 +1484,6 @@ public class RegisterServiceImpl extends ExcelBatchService implements RegisterSe
           Map<String, User> userTempMap = (Map<String, User>) params.get("userTempMap"); // 临时用户map<用户姓名，用户object>,用于判断待插入的数据是否重复
           List<UserSpace> batchSpaceList = (List<UserSpace>) params.get("batchSpaceList"); // 待插入用户空间集合
           Map<String, String> spaceTempMap = (Map<String, String>) params.get("spaceTempMap"); // 临时空间map
-          List<UserMenu> batchMenuList = (List<UserMenu>) params.get("batchMenuList"); // 待插入用户菜单集合
           Map<String, String> mapTempMap = (Map<String, String>) params.get("mapTempMap"); // 临时菜单map
           Map<String, Integer> metaMap = (Map<String, Integer>) params.get("metaMap");
           Map<String, Role> roleMap = (Map<String, Role>) params.get("roleMap");
@@ -1661,8 +1630,8 @@ public class RegisterServiceImpl extends ExcelBatchService implements RegisterSe
             }
             userTempMap.put(userName, user);
           }
-          addSpace(batchSpaceList, resultStr, batchMenuList, formatName, i, user, userSpace, userTempMap, spaceTempMap,
-              mapTempMap, areadySpaceIdMap);
+          addSpace(batchSpaceList, resultStr, formatName, i, user, userSpace, userTempMap, spaceTempMap, mapTempMap,
+              areadySpaceIdMap);
         }
 
       }

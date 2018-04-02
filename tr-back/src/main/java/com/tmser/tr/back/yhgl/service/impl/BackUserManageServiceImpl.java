@@ -55,7 +55,6 @@ import com.tmser.tr.uc.service.PasswordService;
 import com.tmser.tr.uc.service.RoleService;
 import com.tmser.tr.uc.service.RoleTypeService;
 import com.tmser.tr.uc.service.SchoolYearService;
-import com.tmser.tr.uc.service.UserMenuService;
 import com.tmser.tr.uc.service.UserSpaceService;
 import com.tmser.tr.uc.utils.SessionKey;
 import com.tmser.tr.utils.Encodes;
@@ -95,8 +94,6 @@ public class BackUserManageServiceImpl implements BackUserManageService {
   private OrganizationService organizationService;
   @Autowired
   private UserRoleDao userRoleDao;
-  @Autowired
-  private UserMenuService userMenuService;
   @Autowired
   private RoleTypeService roleTypeService;
   @Autowired
@@ -667,10 +664,7 @@ public class BackUserManageServiceImpl implements BackUserManageService {
     UserRole urtemp = userRoleDao.getOne(userRole);
     if (urtemp == null) {
       userRoleDao.insert(userRole);
-      // 添加菜单
-      userMenuService.addUserMenus(userSpace);
     }
-
   }
 
   /**

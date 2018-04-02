@@ -34,7 +34,6 @@ import com.tmser.tr.uc.exception.UserNotExistsException;
 import com.tmser.tr.uc.exception.UserPasswordNotMatchException;
 import com.tmser.tr.uc.listenner.LoginSuccessListenner;
 import com.tmser.tr.uc.log.LoginLogUtils;
-import com.tmser.tr.uc.service.LoginLogService;
 import com.tmser.tr.uc.service.LoginService;
 import com.tmser.tr.uc.service.PasswordService;
 import com.tmser.tr.uc.service.PermissionService;
@@ -53,378 +52,375 @@ import com.tmser.tr.utils.StringUtils;
 @Service
 @Transactional
 public class LoginServiceImpl extends AbstractService<Login, Integer> implements LoginService {
-	private static final Logger logger = LoggerFactory.getLogger(LoginServiceImpl.class);
-	@Resource
-	private LoginDao loginDao;
+  private static final Logger logger = LoggerFactory.getLogger(LoginServiceImpl.class);
+  @Resource
+  private LoginDao loginDao;
 
-	@Resource
-	private PasswordService passwordService;
+  @Resource
+  private PasswordService passwordService;
 
-	@Autowired(required = false)
-	private LoginSuccessListenner loginSuccessListenner;
+  @Autowired(required = false)
+  private LoginSuccessListenner loginSuccessListenner;
 
-	@Autowired(required = false)
-	private LoginLogService loginLogService;
+  @Resource
+  private RoleService roleService;
 
-	@Resource
-	private RoleService roleService;
+  @Resource
+  private PermissionService permissionService;
 
-	@Resource
-	private PermissionService permissionService;
+  @Resource
+  private UserService userService;
 
-	@Resource
-	private UserService userService;
+  @Resource
+  private MenuService menuService;
 
-	@Resource
-	private MenuService menuService;
+  /**
+   * 按用户名查找
+   * 
+   * @param username
+   * @return
+   * @see com.tmser.tr.uc.service.LoginService#findByUsername(java.lang.String)
+   */
+  @Override
+  public Login findByUsername(String username) {
+    if (StringUtils.isEmpty(username)) {
+      return null;
+    }
+    Login model = new Login();
+    model.buildCondition("and (loginname = :username or logincode = :username )").put("username", username);
+    model.setIsAdmin(false);
+    Login login = loginDao.getOne(model);
+    if (login != null && StringUtils.isNotBlank(login.getLogincode())) {
+      User u = userService.findOne(login.getId());
+      if (u.getAppId() == 0) {
+        login = null;
+      }
+    }
+    return login;
+  }
 
-	/**
-	 * 按用户名查找
-	 * 
-	 * @param username
-	 * @return
-	 * @see com.tmser.tr.uc.service.LoginService#findByUsername(java.lang.String)
-	 */
-	@Override
-	public Login findByUsername(String username) {
-		if (StringUtils.isEmpty(username)) {
-			return null;
-		}
-		Login model = new Login();
-		model.buildCondition("and (loginname = :username or logincode = :username )").put("username", username);
-		model.setIsAdmin(false);
-		Login login = loginDao.getOne(model);
-		if (login != null && StringUtils.isNotBlank(login.getLogincode())) {
-			User u = userService.findOne(login.getId());
-			if (u.getAppId() == 0) {
-				login = null;
-			}
-		}
-		return login;
-	}
+  /**
+   * 按邮箱查找用户
+   * 
+   * @param email
+   * @return
+   * @see com.tmser.tr.uc.service.LoginService#findByEmail(java.lang.String)
+   */
+  @Override
+  public Login findByEmail(String email) {
+    if (StringUtils.isEmpty(email)) {
+      return null;
+    }
+    Login model = new Login();
+    model.setMail(email);
+    model.setIsAdmin(false);
+    return loginDao.getOne(model);
+  }
 
-	/**
-	 * 按邮箱查找用户
-	 * 
-	 * @param email
-	 * @return
-	 * @see com.tmser.tr.uc.service.LoginService#findByEmail(java.lang.String)
-	 */
-	@Override
-	public Login findByEmail(String email) {
-		if (StringUtils.isEmpty(email)) {
-			return null;
-		}
-		Login model = new Login();
-		model.setMail(email);
-		model.setIsAdmin(false);
-		return loginDao.getOne(model);
-	}
+  /**
+   * 按手机号查找
+   * 
+   * @param mobilePhoneNumber
+   * @return
+   * @see com.tmser.tr.uc.service.LoginService#findByMobilePhoneNumber(java.lang.String)
+   */
+  @Override
+  public Login findByCellPhone(String cellphone) {
+    if (StringUtils.isEmpty(cellphone)) {
+      return null;
+    }
+    Login model = new Login();
+    model.setCellphone(cellphone);
+    model.setIsAdmin(false);
+    return loginDao.getOne(model);
+  }
 
-	/**
-	 * 按手机号查找
-	 * 
-	 * @param mobilePhoneNumber
-	 * @return
-	 * @see com.tmser.tr.uc.service.LoginService#findByMobilePhoneNumber(java.lang.String)
-	 */
-	@Override
-	public Login findByCellPhone(String cellphone) {
-		if (StringUtils.isEmpty(cellphone)) {
-			return null;
-		}
-		Login model = new Login();
-		model.setCellphone(cellphone);
-		model.setIsAdmin(false);
-		return loginDao.getOne(model);
-	}
+  /**
+   * @param principal
+   * @param password
+   * @return
+   * @throws UcException
+   * @see com.tmser.tr.uc.service.LoginService#login(java.lang.String,
+   *      java.lang.String)
+   */
+  @Override
+  public Login login(String principal, String password) throws UcException {
+    if (StringUtils.isEmpty(principal) || StringUtils.isEmpty(password)) {
+      LoginLogUtils.log(principal, "loginError", "principal is empty");
+      throw new UserNotExistsException();
+    }
+    // 密码如果不在指定范围内 肯定错误
+    if (password.length() < Login.PASSWORD_MIN_LENGTH || password.length() > Login.PASSWORD_MAX_LENGTH) {
+      LoginLogUtils.log(principal, "loginError", "password length error! password is between {} and {}",
+          Login.PASSWORD_MIN_LENGTH, Login.PASSWORD_MAX_LENGTH);
 
-	/**
-	 * @param principal
-	 * @param password
-	 * @return
-	 * @throws UcException
-	 * @see com.tmser.tr.uc.service.LoginService#login(java.lang.String,
-	 *      java.lang.String)
-	 */
-	@Override
-	public Login login(String principal, String password) throws UcException {
-		if (StringUtils.isEmpty(principal) || StringUtils.isEmpty(password)) {
-			LoginLogUtils.log(principal, "loginError", "principal is empty");
-			throw new UserNotExistsException();
-		}
-		// 密码如果不在指定范围内 肯定错误
-		if (password.length() < Login.PASSWORD_MIN_LENGTH || password.length() > Login.PASSWORD_MAX_LENGTH) {
-			LoginLogUtils.log(principal, "loginError", "password length error! password is between {} and {}", Login.PASSWORD_MIN_LENGTH,
-					Login.PASSWORD_MAX_LENGTH);
+      throw new UserPasswordNotMatchException();
+    }
 
-			throw new UserPasswordNotMatchException();
-		}
+    Login login = null;
 
-		Login login = null;
+    if (maybeUsername(principal)) {
+      login = findByUsername(principal);
+    }
 
-		if (maybeUsername(principal)) {
-			login = findByUsername(principal);
-		}
+    if (login == null && maybeEmail(principal)) {
+      login = findByEmail(principal);
+    }
 
-		if (login == null && maybeEmail(principal)) {
-			login = findByEmail(principal);
-		}
+    if (login == null && maybeMobilePhoneNumber(principal)) {
+      login = findByCellPhone(principal);
+    }
 
-		if (login == null && maybeMobilePhoneNumber(principal)) {
-			login = findByCellPhone(principal);
-		}
+    if (login == null || Boolean.TRUE.equals(login.getDeleted())) {
+      LoginLogUtils.log(principal, "loginError", "user is not exists!");
 
-		if (login == null || Boolean.TRUE.equals(login.getDeleted())) {
-			LoginLogUtils.log(principal, "loginError", "user is not exists!");
+      throw new UserNotExistsException();
+    }
 
-			throw new UserNotExistsException();
-		}
+    passwordService.validate(login, password);
 
-		passwordService.validate(login, password);
+    if (BaseObject.ENABLE != login.getEnable()) {
+      LoginLogUtils.log(principal, "loginError", "user is blocked!");
+      throw new UserBlockedException("");// TODO 获取禁用理由
+    }
 
-		if (BaseObject.ENABLE != login.getEnable()) {
-			LoginLogUtils.log(principal, "loginError", "user is blocked!");
-			throw new UserBlockedException("");// TODO 获取禁用理由
-		}
+    LoginLogUtils.log(principal, "loginSuccess", "");
 
-		LoginLogUtils.log(principal, "loginSuccess", "");
+    try {
+      if (loginSuccessListenner != null) {
+        loginSuccessListenner.doOnSuccess(login.getId());
+      }
+    } catch (Exception e) {
+      logger.error("invoke login listenner failed!", e);
+    }
 
-		try {
-			if (loginSuccessListenner != null) {
-				loginSuccessListenner.doOnSuccess(login.getId());
-			}
-		} catch (Exception e) {
-			logger.error("invoke login listenner failed!", e);
-		}
+    return login;
+  }
 
-		return login;
-	}
+  private boolean maybeUsername(String principal) {
+    if (!principal.matches(Login.USERNAME_PATTERN)) {
+      return false;
+    }
+    // 如果用户名不在指定范围内也是错误的
+    if (principal.length() < Login.USERNAME_MIN_LENGTH || principal.length() > Login.USERNAME_MAX_LENGTH) {
+      return false;
+    }
 
-	private boolean maybeUsername(String principal) {
-		if (!principal.matches(Login.USERNAME_PATTERN)) {
-			return false;
-		}
-		// 如果用户名不在指定范围内也是错误的
-		if (principal.length() < Login.USERNAME_MIN_LENGTH || principal.length() > Login.USERNAME_MAX_LENGTH) {
-			return false;
-		}
+    return true;
+  }
 
-		return true;
-	}
+  private boolean maybeEmail(String principal) {
+    if (!principal.matches(Login.EMAIL_PATTERN)) {
+      return false;
+    }
+    return true;
+  }
 
-	private boolean maybeEmail(String principal) {
-		if (!principal.matches(Login.EMAIL_PATTERN)) {
-			return false;
-		}
-		return true;
-	}
+  private boolean maybeMobilePhoneNumber(String principal) {
+    if (!principal.matches(Login.MOBILE_PHONE_NUMBER_PATTERN)) {
+      return false;
+    }
+    return true;
+  }
 
-	private boolean maybeMobilePhoneNumber(String principal) {
-		if (!principal.matches(Login.MOBILE_PHONE_NUMBER_PATTERN)) {
-			return false;
-		}
-		return true;
-	}
+  /**
+   * @return
+   * @see com.tmser.tr.common.service.BaseService#getDAO()
+   */
+  @Override
+  public BaseDAO<Login, Integer> getDAO() {
+    return loginDao;
+  }
 
-	/**
-	 * @return
-	 * @see com.tmser.tr.common.service.BaseService#getDAO()
-	 */
-	@Override
-	public BaseDAO<Login, Integer> getDAO() {
-		return loginDao;
-	}
+  /**
+   * @param spaceid
+   * @return
+   * @see com.tmser.tr.uc.service.LoginService#toWorkSpace(java.lang.Integer)
+   */
+  @Override
+  public String toWorkSpace(Integer spaceid) {
+    return "/jy/school/mng/index";
+  }
 
-	/**
-	 * @param spaceid
-	 * @return
-	 * @see com.tmser.tr.uc.service.LoginService#toWorkSpace(java.lang.Integer)
-	 */
-	@Override
-	public String toWorkSpace(Integer spaceid) {
-		return  "/jy/school/mng/index";
-	}
+  public void setLoginSuccessListenner(LoginSuccessListenner lsl) {
+    this.loginSuccessListenner = lsl;
+  }
 
-	public void setLoginSuccessListenner(LoginSuccessListenner lsl) {
-		this.loginSuccessListenner = lsl;
-	}
+  public void setLoginDao(LoginDao loginDao) {
+    this.loginDao = loginDao;
+  }
 
-	public void setLoginDao(LoginDao loginDao) {
-		this.loginDao = loginDao;
-	}
+  public void setPasswordService(PasswordService passwordService) {
+    this.passwordService = passwordService;
+  }
 
-	public void setPasswordService(PasswordService passwordService) {
-		this.passwordService = passwordService;
-	}
+  /**
+   * @param uid
+   * @return
+   * @see com.tmser.tr.uc.service.LoginService#findStringRoles(java.lang.Integer)
+   */
+  @Override
+  public Set<String> findStringRoles(Integer uid) {
+    Set<String> roleSet = new HashSet<>();
+    if (uid != null) {
+      List<Role> rs = roleService.findRoleByUserid(uid, null);
+      for (Role r : rs) {
+        if (r != null)
+          roleSet.add(r.getRoleCode());
+      }
+    }
+    return roleSet;
+  }
 
-	/**
-	 * @param uid
-	 * @return
-	 * @see com.tmser.tr.uc.service.LoginService#findStringRoles(java.lang.Integer)
-	 */
-	@Override
-	public Set<String> findStringRoles(Integer uid) {
-		Set<String> roleSet = new HashSet<>();
-		if (uid != null) {
-			List<Role> rs = roleService.findRoleByUserid(uid, null);
-			for (Role r : rs) {
-				if (r != null)
-					roleSet.add(r.getRoleCode());
-			}
-		}
-		return roleSet;
-	}
+  /**
+   * @param uid
+   * @return
+   * @see com.tmser.tr.uc.service.LoginService#findStringPermissions(java.lang.Integer)
+   */
+  @Override
+  public Set<String> findStringPermissions(Integer uid) {
+    Set<String> permissionSet = new HashSet<>();
+    if (uid != null) {
+      List<Role> rs = roleService.findRoleByUserid(uid, null);
 
-	/**
-	 * @param uid
-	 * @return
-	 * @see com.tmser.tr.uc.service.LoginService#findStringPermissions(java.lang.Integer)
-	 */
-	@Override
-	public Set<String> findStringPermissions(Integer uid) {
-		Set<String> permissionSet = new HashSet<>();
-		if (uid != null) {
-			List<Role> rs = roleService.findRoleByUserid(uid, null);
+      for (Role r : rs) {
+        List<Permission> ps = permissionService.findPermissionByRoleid(r.getId());
+        for (Permission p : ps) {
+          if (p != null)
+            permissionSet.add(p.getCode());
+        }
 
-			for (Role r : rs) {
-				List<Permission> ps = permissionService.findPermissionByRoleid(r.getId());
-				for (Permission p : ps) {
-					if (p != null)
-						permissionSet.add(p.getCode());
-				}
-				
-				List<Menu> menus = menuService.getMenuListByRole(r.getId());
-				for (Menu userMenu : menus) {
-					if (userMenu != null)
-						permissionSet.add(userMenu.getCode());
-				}
-			}
+        List<Menu> menus = menuService.getMenuListByRole(r.getId());
+        for (Menu userMenu : menus) {
+          if (userMenu != null)
+            permissionSet.add(userMenu.getCode());
+        }
+      }
 
-		}
-		return permissionSet;
-	}
+    }
+    return permissionSet;
+  }
 
-	/**
-	 * @param loginname
-	 * @return
-	 * @see com.tmser.tr.uc.service.LoginService#findLogin(java.lang.String)
-	 */
-	@Override
-	public Login findLogin(String principal) {
-		Login login = null;
+  /**
+   * @param loginname
+   * @return
+   * @see com.tmser.tr.uc.service.LoginService#findLogin(java.lang.String)
+   */
+  @Override
+  public Login findLogin(String principal) {
+    Login login = null;
 
-		if (maybeUsername(principal)) {
-			login = findByUsername(principal);
-		}
+    if (maybeUsername(principal)) {
+      login = findByUsername(principal);
+    }
 
-		if (login == null && maybeEmail(principal)) {
-			login = findByEmail(principal);
-		}
+    if (login == null && maybeEmail(principal)) {
+      login = findByEmail(principal);
+    }
 
-		if (login == null && maybeMobilePhoneNumber(principal)) {
-			login = findByCellPhone(principal);
-		}
+    if (login == null && maybeMobilePhoneNumber(principal)) {
+      login = findByCellPhone(principal);
+    }
 
-		return login;
-	}
+    return login;
+  }
 
-	/**
-	 * 用户互通校验
-	 * 
-	 * @param username
-	 * @param password
-	 * @return
-	 * @see com.tmser.tr.uc.service.LoginService#checkAccountLoginAccessProtocol(java.lang.String,
-	 *      java.lang.String)
-	 */
-	@Override
-	public Map<String, Object> checkAccountLoginAccessProtocol(String username, String password) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		Login model = new Login();
-		model.setLoginname(username);
-		model.setPassword(password);
-		model = loginDao.getOne(model);
-		if (model != null) {
-			User user = userService.findOne(model.getId());
-			if (user != null) {
-				map.put("restStatus", "200");
-				Map<String, Object> appUser = new HashMap<String, Object>();
-				Map<String, String> appUserMap = new HashMap<String, String>();
-				appUserMap.put("account", model.getLoginname());
-				appUserMap.put("accountStatus", model.getEnable() == 1 ? "1" : "2");
-				appUserMap.put("appAuthority", "");
-				appUserMap.put("appKey", "");
-				appUserMap.put("createHost", "");
-				appUserMap.put("userType", "27");
-				appUserMap.put("callphone", user.getCellphone());
-				appUserMap.put("mail", user.getMail());
-				appUserMap.put("nickname", user.getNickname());
-				appUserMap.put("password", model.getPassword());
-				appUserMap.put("username", user.getName());
-				appUser.put("appUser", appUserMap);
-				map.put("dataMap", appUser);
-			} else {
-				map.put("restStatus", "500");
-				map.put("errorCode", "5X013");
-				map.put("message", "没有匹配到有效的用户");
-			}
-		} else {
-			map.put("restStatus", "500");
-			map.put("errorCode", "5X013");
-			map.put("message", "没有匹配到有效的用户");
-		}
-		return map;
-	}
+  /**
+   * 用户互通校验
+   * 
+   * @param username
+   * @param password
+   * @return
+   * @see com.tmser.tr.uc.service.LoginService#checkAccountLoginAccessProtocol(java.lang.String,
+   *      java.lang.String)
+   */
+  @Override
+  public Map<String, Object> checkAccountLoginAccessProtocol(String username, String password) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    Login model = new Login();
+    model.setLoginname(username);
+    model.setPassword(password);
+    model = loginDao.getOne(model);
+    if (model != null) {
+      User user = userService.findOne(model.getId());
+      if (user != null) {
+        map.put("restStatus", "200");
+        Map<String, Object> appUser = new HashMap<String, Object>();
+        Map<String, String> appUserMap = new HashMap<String, String>();
+        appUserMap.put("account", model.getLoginname());
+        appUserMap.put("accountStatus", model.getEnable() == 1 ? "1" : "2");
+        appUserMap.put("appAuthority", "");
+        appUserMap.put("appKey", "");
+        appUserMap.put("createHost", "");
+        appUserMap.put("userType", "27");
+        appUserMap.put("callphone", user.getCellphone());
+        appUserMap.put("mail", user.getMail());
+        appUserMap.put("nickname", user.getNickname());
+        appUserMap.put("password", model.getPassword());
+        appUserMap.put("username", user.getName());
+        appUser.put("appUser", appUserMap);
+        map.put("dataMap", appUser);
+      } else {
+        map.put("restStatus", "500");
+        map.put("errorCode", "5X013");
+        map.put("message", "没有匹配到有效的用户");
+      }
+    } else {
+      map.put("restStatus", "500");
+      map.put("errorCode", "5X013");
+      map.put("message", "没有匹配到有效的用户");
+    }
+    return map;
+  }
 
-	/**
-	 * 通过账户名称获得账户对象
-	 * 
-	 * @param account
-	 * @return
-	 * @see com.tmser.tr.uc.service.LoginService#getLoginByLoginname(java.lang.String)
-	 */
-	@Override
-	public Login getLoginByLoginname(String account) {
-		Login model = new Login();
-		model.setLoginname(account);
-		return loginDao.getOne(model);
-	}
+  /**
+   * 通过账户名称获得账户对象
+   * 
+   * @param account
+   * @return
+   * @see com.tmser.tr.uc.service.LoginService#getLoginByLoginname(java.lang.String)
+   */
+  @Override
+  public Login getLoginByLoginname(String account) {
+    Login model = new Login();
+    model.setLoginname(account);
+    return loginDao.getOne(model);
+  }
 
-	/**
-	 * 根据登录名查找
-	 * 
-	 * @param loginName
-	 * @return
-	 * @see com.tmser.tr.uc.service.LoginService#findOneByLoginName(java.lang.String)
-	 */
-	@Override
-	public Login findOneByLoginName(String loginName) {
-		Login login = new Login();
-		login.setLoginname(loginName);
-		List<Login> loginList = find(login, 1);
-		if (loginList != null && loginList.size() > 0) {
-			return loginList.get(0);
-		}
-		return null;
-	}
+  /**
+   * 根据登录名查找
+   * 
+   * @param loginName
+   * @return
+   * @see com.tmser.tr.uc.service.LoginService#findOneByLoginName(java.lang.String)
+   */
+  @Override
+  public Login findOneByLoginName(String loginName) {
+    Login login = new Login();
+    login.setLoginname(loginName);
+    List<Login> loginList = find(login, 1);
+    if (loginList != null && loginList.size() > 0) {
+      return loginList.get(0);
+    }
+    return null;
+  }
 
-	/**
-	 * @param loginname
-	 * @param psd
-	 * @return
-	 * @see com.tmser.tr.uc.service.LoginService#newLogin(java.lang.String,
-	 *      java.lang.String)
-	 */
-	@Override
-	public Login newLogin(String loginname, String psd) {
-		Login l = new Login();
-		l.setLoginname(loginname);
-		l.setPassword(psd);
-		l.setDeleted(false);
-		l.setEnable(1);
-		l.setIsAdmin(false);
-		return l;
-	}
+  /**
+   * @param loginname
+   * @param psd
+   * @return
+   * @see com.tmser.tr.uc.service.LoginService#newLogin(java.lang.String,
+   *      java.lang.String)
+   */
+  @Override
+  public Login newLogin(String loginname, String psd) {
+    Login l = new Login();
+    l.setLoginname(loginname);
+    l.setPassword(psd);
+    l.setDeleted(false);
+    l.setEnable(1);
+    l.setIsAdmin(false);
+    return l;
+  }
 
 }

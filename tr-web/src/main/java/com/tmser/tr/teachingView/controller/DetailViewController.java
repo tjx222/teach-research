@@ -32,8 +32,6 @@ import com.tmser.tr.teachingView.service.TeachingViewService;
 import com.tmser.tr.teachingview.vo.SearchVo;
 import com.tmser.tr.uc.bo.User;
 import com.tmser.tr.uc.bo.UserSpace;
-import com.tmser.tr.uc.service.UserService;
-import com.tmser.tr.uc.service.UserSpaceService;
 import com.tmser.tr.uc.utils.SessionKey;
 
 /**
@@ -62,15 +60,11 @@ public class DetailViewController extends AbstractController {
   @Autowired
   private CheckInfoService checkInfoService;
   @Autowired
-  private UserService userService;
-  @Autowired
   private ActivityTracksService activityTracksService;
   @Autowired
   private AttachService activityAttachService;
   @Autowired
   private ActivityService activityService;
-  @Autowired
-  private UserSpaceService userSpaceService;
 
   /**
    * 查看课题

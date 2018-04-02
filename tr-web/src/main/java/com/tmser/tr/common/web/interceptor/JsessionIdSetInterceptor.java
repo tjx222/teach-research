@@ -58,16 +58,7 @@ public class JsessionIdSetInterceptor extends HandlerInterceptorAdapter implemen
     defaultPattern.add("/jy/activity/viewTbjaActivity");
     defaultPattern.add("/jy/activity/scanLessonPlanTrack");
 
-    defaultPattern.add("/jy/schoolactivity/joinTbjaSchoolActivity");
-    defaultPattern.add("/jy/schoolactivity/viewTbjaSchoolActivity");
-    defaultPattern.add("/jy/schoolactivity/scanLessonPlanTrack");
-
     defaultPattern.add("/jy/teachschedule/view");
-
-    defaultPattern.add("/jy/region_activity/joinTbjaRegionActivity");
-    defaultPattern.add("/jy/region_activity/viewTbjaRegionActivity");
-    defaultPattern.add("/jy/region_activity/scanLessonPlanTrack");
-
     defaultPattern.add("/jy/check/thesis/tch/*/view");
 
     defaultPattern.add("/jy/comres/viewlesson");
@@ -98,14 +89,9 @@ public class JsessionIdSetInterceptor extends HandlerInterceptorAdapter implemen
 
     defaultPattern.add("/jy/toWriteLessonPlan");
     defaultPattern.add("/jy/lecturerecords/seelesson");
-    
-    defaultPattern.add("/jy/schoolview/res/lessonres/viewlesson");
-    defaultPattern.add("/jy/schoolview/res/lessonres/view");
-    defaultPattern.add("/jy/schoolview/res/progrowth/viewFile");
-    defaultPattern.add("/jy/schoolview/res/progrowth/thesisview");
-    defaultPattern.add("/jy/schoolview/res/recordbags/viewLessons");
-    defaultPattern.add("/jy/schoolview/res/recordbags/viewThesis");
-    defaultPattern.add("/jy/schoolview/res/recordbags/viewPlain");
+
+    defaultPattern.add("/jy/check/thesis/tch/other");
+
   }
 
   private String officePage = "/WEB-INF/views/resview/pageofficeOpenWindow.jsp";

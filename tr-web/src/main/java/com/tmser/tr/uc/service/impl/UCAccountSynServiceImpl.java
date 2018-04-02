@@ -18,7 +18,6 @@ import com.tmser.tr.manage.meta.MetaUtils;
 import com.tmser.tr.manage.meta.bo.BookSync;
 import com.tmser.tr.manage.meta.bo.MetaRelationship;
 import com.tmser.tr.manage.meta.service.BookSyncService;
-import com.tmser.tr.manage.meta.service.MenuService;
 import com.tmser.tr.manage.org.bo.Organization;
 import com.tmser.tr.manage.org.service.OrganizationService;
 import com.tmser.tr.uc.SysRole;
@@ -60,8 +59,6 @@ public class UCAccountSynServiceImpl implements UCAccountSynService {
   @Autowired
   private UserSpaceService userSpaceService;
   @Autowired
-  private MenuService menuService;
-  @Autowired
   private SchoolYearService schoolYearService;
   @Autowired
   private RoleService roleService;
@@ -82,10 +79,8 @@ public class UCAccountSynServiceImpl implements UCAccountSynService {
     if (login == null) {// 不存在则新增
       // 新增登陆信息
       String loginName = getUniqueLoginName();
-      String salt = SecurityCode.getSecurityCode(8, SecurityCodeLevel.Hard,
-          false);
-      String newPassword = passwordService.encryptPassword(loginName,
-          ucAccountInfo.getPassword(), salt);
+      String salt = SecurityCode.getSecurityCode(8, SecurityCodeLevel.Hard, false);
+      String newPassword = passwordService.encryptPassword(loginName, ucAccountInfo.getPassword(), salt);
       login = new Login();
       login.setLoginname(loginName);
       login.setPassword(newPassword);
@@ -118,8 +113,8 @@ public class UCAccountSynServiceImpl implements UCAccountSynService {
       user.setLastupDttm(new Date());
       userService.save(user);
     } else {// 存在则更新密码
-      String newPass = passwordService.encryptPassword(login.getLoginname(),
-          ucAccountInfo.getPassword(), login.getSalt());
+      String newPass = passwordService.encryptPassword(login.getLoginname(), ucAccountInfo.getPassword(),
+          login.getSalt());
       login.setPassword(newPass);
       loginService.update(login);
     }
@@ -131,8 +126,7 @@ public class UCAccountSynServiceImpl implements UCAccountSynService {
    * @return
    */
   private String getUniqueLoginName() {
-    String loginName = "gd_"
-        + SecurityCode.getSecurityCode(8, SecurityCodeLevel.Simple, false);
+    String loginName = "gd_" + SecurityCode.getSecurityCode(8, SecurityCodeLevel.Simple, false);
     Login login = loginService.findOneByLoginName(loginName);
     if (login != null) {
       loginName = getUniqueLoginName();
@@ -149,8 +143,7 @@ public class UCAccountSynServiceImpl implements UCAccountSynService {
   @Override
   public void complementUCUserInfo(UCAccountInfo ucAccountInfo) {
     // 更新user
-    User user = (User) WebThreadLocalUtils
-        .getSessionAttrbitue(SessionKey.CURRENT_USER);
+    User user = (User) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_USER);
     Organization org = orgService.findOne(ucAccountInfo.getOrgId());
     Integer schoolYear = schoolYearService.getCurrentSchoolYear();// 学年
     User model = new User();
@@ -165,20 +158,17 @@ public class UCAccountSynServiceImpl implements UCAccountSynService {
       if (userSpace != null && userSpace.getSysRoleId() != null) {
         // 根据 角色+年级+科目 去重
         if (spaceMap.get(userSpace.getSysRoleId()) != null
-            && (userSpace.getSysRoleId() + "_" + userSpace.getGradeId() + "_"
-                + userSpace.getSubjectId())
-                    .equals(spaceMap.get(userSpace.getSysRoleId()))) {
+            && (userSpace.getSysRoleId() + "_" + userSpace.getGradeId() + "_" + userSpace.getSubjectId())
+                .equals(spaceMap.get(userSpace.getSysRoleId()))) {
           continue;
         }
         userSpace.setUsername(user.getName());
         userSpace.setUserId(user.getId());
 
-        String homeUrl = roleService
-            .findRoleTypeBySysRoleId(userSpace.getSysRoleId()).getHomeUrl();
+        String homeUrl = roleService.findRoleTypeBySysRoleId(userSpace.getSysRoleId()).getHomeUrl();
         userSpace.setSpaceHomeUrl(homeUrl);
         userSpace.setOrgId(ucAccountInfo.getOrgId());
-        MetaRelationship mr = MetaUtils.getPhaseMetaProvider()
-            .getMetaRelationshipByPhaseId(userSpace.getPhaseId());
+        MetaRelationship mr = MetaUtils.getPhaseMetaProvider().getMetaRelationshipByPhaseId(userSpace.getPhaseId());
         userSpace.setPhaseType(mr.getEid());
         userSpace.setPhaseId(mr.getId());
         Integer usePosition = null;
@@ -187,40 +177,29 @@ public class UCAccountSynServiceImpl implements UCAccountSynService {
         } else {
           usePosition = 1;
         }
-        List<Role> roleList = roleService
-            .findRoleListByUseOrgId(ucAccountInfo.getOrgId(), usePosition); // 根据学校获取所有角色，没有就获取系统默认的学校角色集合
+        List<Role> roleList = roleService.findRoleListByUseOrgId(ucAccountInfo.getOrgId(), usePosition); // 根据学校获取所有角色，没有就获取系统默认的学校角色集合
         for (Role r : roleList) {
-          if (r.getSysRoleId().intValue() == userSpace.getSysRoleId()
-              .intValue()) {
+          if (r.getSysRoleId().intValue() == userSpace.getSysRoleId().intValue()) {
             userSpace.setRoleId(r.getId()); // 加入角色id
           }
         }
-        if (userSpace.getSysRoleId().intValue() == SysRole.JYZR.getId()
-            .intValue()
-            || userSpace.getSysRoleId().intValue() == SysRole.JYY.getId()
-                .intValue()) { // 教研主任或教研员
+        if (userSpace.getSysRoleId().intValue() == SysRole.JYZR.getId().intValue()
+            || userSpace.getSysRoleId().intValue() == SysRole.JYY.getId().intValue()) { // 教研主任或教研员
           userSpace.setGradeId(0);
-          if (userSpace.getSysRoleId().intValue() == SysRole.JYZR.getId()
-              .intValue()) {
+          if (userSpace.getSysRoleId().intValue() == SysRole.JYZR.getId().intValue()) {
             userSpace.setSubjectId(0);
           }
-        } else if (userSpace.getSysRoleId().intValue() == SysRole.XZ.getId()
-            .intValue()
-            || userSpace.getSysRoleId().intValue() == SysRole.ZR.getId()
-                .intValue()) {
+        } else if (userSpace.getSysRoleId().intValue() == SysRole.XZ.getId().intValue()
+            || userSpace.getSysRoleId().intValue() == SysRole.ZR.getId().intValue()) {
           userSpace.setGradeId(0);
           userSpace.setSubjectId(0);
-        } else if (userSpace.getSysRoleId().intValue() == SysRole.XKZZ.getId()
-            .intValue()) {// 学科组长
+        } else if (userSpace.getSysRoleId().intValue() == SysRole.XKZZ.getId().intValue()) {// 学科组长
           userSpace.setGradeId(0);
-        } else if (userSpace.getSysRoleId().intValue() == SysRole.NJZZ.getId()
-            .intValue()) {// 年级组长
+        } else if (userSpace.getSysRoleId().intValue() == SysRole.NJZZ.getId().intValue()) {// 年级组长
           userSpace.setSubjectId(0);
-        } else if (userSpace.getSysRoleId().intValue() == SysRole.TEACHER
-            .getId().intValue()) {// 老师，需要加入bookId
+        } else if (userSpace.getSysRoleId().intValue() == SysRole.TEACHER.getId().intValue()) {// 老师，需要加入bookId
           userSpace.setSpaceHomeUrl(homeUrl);
-          BookSync book = getBookForRegister(userSpace.getSubjectId(),
-              userSpace.getGradeId(), userSpace.getFlags());
+          BookSync book = getBookForRegister(userSpace.getSubjectId(), userSpace.getGradeId(), userSpace.getFlags());
           userSpace.setBookId(book.getComId());
         }
         userSpace.setSort(1);
@@ -231,8 +210,8 @@ public class UCAccountSynServiceImpl implements UCAccountSynService {
         }
         userSpaceService.save(userSpace);
         // 创建用户功能菜单权限
-        spaceMap.put(userSpace.getSysRoleId(), userSpace.getSysRoleId() + "_"
-            + userSpace.getGradeId() + "_" + userSpace.getSubjectId());
+        spaceMap.put(userSpace.getSysRoleId(),
+            userSpace.getSysRoleId() + "_" + userSpace.getGradeId() + "_" + userSpace.getSubjectId());
       }
     }
     WebThreadLocalUtils.setSessionAttrbitue(SessionKey.CURRENT_USER, null);// 更新session
@@ -246,8 +225,7 @@ public class UCAccountSynServiceImpl implements UCAccountSynService {
    * @param flags
    * @return
    */
-  private BookSync getBookForRegister(Integer subjectId, Integer gradeId,
-      String formatName) {
+  private BookSync getBookForRegister(Integer subjectId, Integer gradeId, String formatName) {
     Integer term = schoolYearService.getCurrentTerm();// 学期
     BookSync book = new BookSync();
     book.setSubjectId(subjectId);
