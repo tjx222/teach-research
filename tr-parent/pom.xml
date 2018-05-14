@@ -36,6 +36,14 @@
         		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/pageoffice-3.4.jar</systemPath>
 			</dependency>
 			
+			<dependency>
+				<groupId>com.tmser</groupId>
+				<artifactId>jsqlparser</artifactId>
+				<version>${jsqlparser.version}</version>
+				<scope>system</scope>
+        		<systemPath>${project.basedir}/src/main/jsqlparser-1.0.2.jar</systemPath>
+			</dependency>
+			
     	   <dependency>
 				<groupId>com.tmser</groupId>
 				<artifactId>test</artifactId>
