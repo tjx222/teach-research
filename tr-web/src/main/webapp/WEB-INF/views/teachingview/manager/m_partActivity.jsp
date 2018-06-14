@@ -16,6 +16,8 @@
 	<div class="jyyl_nav">
 		当前位置：
 		<jy:nav id="jyyl_m_cylb">
+			<jy:param name="spaceId" value="${param.spaceId }"></jy:param>
+			<jy:param name="phaseId" value="${param.phaseId }"></jy:param>
 			<jy:param name="username" value="${user2.name}"></jy:param>
 			<jy:param name="url" value="jy/teachingView/manager/m_details?userId=${user2.id}&termId=${searchVo.termId}&orgId=${searchVo.orgId}"></jy:param>
 			<jy:param name="name" value="集体备课"></jy:param>

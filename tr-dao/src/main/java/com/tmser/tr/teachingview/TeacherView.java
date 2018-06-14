@@ -11,9 +11,7 @@ public enum TeacherView {
   KEJIANTOTAL("kejianTotal", "课件撰写总篇数"),
   FANSIWRITE("fansiWrite", "反思撰写数"),
   FANSITOTAL("fansiTotal", "反思撰写总篇数"),
-  LISTEN("listen", "听课记录节数"),
   ACTIVITYJOIN("activityJoin", "集体备课参与数"),
-  SUMMARYWRITE("summaryWrite", "计划总结撰写数"),
   SHARE("share", "分享发表总数"),
   TEACHERRECORD("teacherRecordRes", "成长档案袋精选数");
 

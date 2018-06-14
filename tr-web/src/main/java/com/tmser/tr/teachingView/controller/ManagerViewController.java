@@ -35,7 +35,7 @@ public class ManagerViewController extends AbstractController {
 
   @Autowired
   private TeachingViewService teachingViewService;
-
+  
   /**
    * 教学管理者情况一览
    * 
@@ -52,7 +52,6 @@ public class ManagerViewController extends AbstractController {
     if (searchVo.getTermId() == null) {
       searchVo.setTermId((Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_TERM));
     }
-    searchVo.setPhaseId(userSpace.getPhaseId());
     searchVo.setUserId(userSpace.getUserId());
     searchVo.setSchoolYear(schoolYear);
     try {

@@ -59,10 +59,10 @@
 		</div>
 	</div>
 	
-	 <div class="check_menu_wrap" id="phaselist">
-    <div class="check_block_menu2">
+<div class="check_menu1_wrap" id="phaselist">
+    <div class="check_block_menu1">
       <span class="check_menu_top"></span>
-      <div id="phaselistwrap" class="check_menu_wrap2">
+      <div id="phaselistwrap" class="check_menu_wrap1">
         <div id="scroller">
             <c:forEach items="${phases }" var="p">
               <p data="${p.id }">${p.name }</p>

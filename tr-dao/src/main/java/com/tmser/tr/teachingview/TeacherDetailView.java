@@ -14,19 +14,9 @@ public enum TeacherDetailView {
   FANSIWRITE("fansiWrite", "反思撰写数"),
   FANSITOTAL("fansiTotal", "反思撰写总篇数"),
   FANSISHARE("fansiShare", "反思分享数"),
-  LISTEN("listen", "听课记录节数"),
-  LISTENSHARE("listenShare", "听课记录分享数"),
   ACTIVITYJOIN("activityJoin", "集体备课参与数"),
   ACTIVITYCANJOIN("activityCanJoin", "集体备课可参与数"),
-  SUMMARYWRITE("summaryWrite", "计划总结撰写数"),
-  SUMMARYSHARE("summaryShare", "计划总结分享数"),
-  THESISWRITE("thesisWrite", "教学文章撰写数"),
-  THESISSHARE("thesisShare", "教学文章分享数"),
-  COMPANIONMESSAGE("companionMessage", "同伴留言数"),
-  COMPANIONRES("companionRes", "同伴资源交流数"),
-  TEACHERRECORD("teacherRecordRes", "成长档案袋精选数"),
-  SCHOOLACTIVITYCANJOIN("schoolActivityCanJoin", "校际教研可参与数"),
-  SCHOOLACTIVITYJOIN("schoolActivityJoin", "校际教研参与数");
+  TEACHERRECORD("teacherRecordRes", "成长档案袋精选数");
 
   private String id;// 统计项的id
   private String name;// 统计项的名称

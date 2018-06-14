@@ -1,5 +1,6 @@
 package com.tmser.tr.teachingView.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,10 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tmser.tr.common.utils.WebThreadLocalUtils;
 import com.tmser.tr.common.web.controller.AbstractController;
 import com.tmser.tr.manage.meta.MetaUtils;
+import com.tmser.tr.manage.meta.bo.MetaRelationship;
+import com.tmser.tr.manage.org.bo.Organization;
+import com.tmser.tr.manage.org.service.OrganizationService;
 import com.tmser.tr.recordbag.bo.Record;
 import com.tmser.tr.teachingView.service.TeachingViewService;
 import com.tmser.tr.teachingview.vo.SearchVo;
@@ -21,6 +26,7 @@ import com.tmser.tr.uc.bo.User;
 import com.tmser.tr.uc.bo.UserSpace;
 import com.tmser.tr.uc.service.UserService;
 import com.tmser.tr.uc.service.UserSpaceService;
+import com.tmser.tr.uc.utils.CurrentUserContext;
 import com.tmser.tr.uc.utils.SessionKey;
 
 /**
@@ -45,6 +51,51 @@ public class TeacherViewController extends AbstractController {
   private UserSpaceService userspaceService;
   @Autowired
   private UserService userService;
+  @Autowired
+  private OrganizationService organizationService;
+  
+  private List<MetaRelationship> getCurrentPhaseList() {
+	    User user = CurrentUserContext.getCurrentUser(); // 用户
+	    Organization org = organizationService.findOne(user.getOrgId());
+	    List<MetaRelationship> phases = MetaUtils.getOrgTypeMetaProvider().listAllPhase(org.getSchoolings());
+	    List<UserSpace> spaces =  (List<UserSpace>) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.USER_SPACE_LIST);
+	    List<MetaRelationship> newphases = null;
+	    for(UserSpace sp : spaces) {
+	    	if(0 == sp.getPhaseId() || phases.size() < 2) {
+	    		newphases = null;
+	    		break;
+	    	}
+	    	
+	    	if(SysRole.TEACHER.getId().equals(sp.getSysRoleId())) {
+	    		 continue;
+	    	}
+	    	
+	    	if(newphases == null)
+	    		newphases = new ArrayList<>();
+	    	
+	    	for (MetaRelationship metaRelationship : phases) {
+				if(metaRelationship.getId().equals(sp.getPhaseId())) {
+					newphases.add(metaRelationship);
+					break;
+				}
+			}
+	    }
+	    return newphases == null ? phases : newphases;
+  }
+  
+  private boolean isTeacher(List<UserSpace> spaces) {
+	    List<UserSpace> allspaces =  (List<UserSpace>) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.USER_SPACE_LIST);
+	    boolean isTeacher = true;
+	    for(UserSpace sp : allspaces) {
+	    	if(SysRole.TEACHER.getId().equals(sp.getSysRoleId())) {
+	    		spaces.add(sp);
+	    	}else {
+	    		isTeacher = false;
+	    	}
+	    	
+	    }
+	    return isTeacher;
+}
 
   /**
    * 教研一览入口
@@ -53,14 +104,24 @@ public class TeacherViewController extends AbstractController {
    * @author wangdawei
    */
   @RequestMapping("/index")
-  public String index(Model model) {
+  public String index(@RequestParam(value = "phaseId", required = false) Integer phaseId,
+		  @RequestParam(value = "spaceId", required = false) Integer spaceId,Model model) {
     UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
     if (userSpace == null) {
       return "";
     }
+    List<MetaRelationship> phases = getCurrentPhaseList();
+    if(phaseId == null) {
+    	phaseId = phases.get(0).getId();
+    }
+    
+    model.addAttribute("phaseId",phaseId);
+    model.addAttribute("phases",phases);
     Integer roleId = userSpace.getSysRoleId();// 角色id
-    if (roleId.intValue() == SysRole.TEACHER.getId().intValue()) { // 老师
-      return "redirect:/jy/teachingView/teacher/index";
+    List<UserSpace> tchspaces = new ArrayList<>();
+    boolean isTeacher = isTeacher(tchspaces);
+    if (isTeacher) { // 老师
+      return "redirect:/jy/teachingView/teacher/index?spaceId="+(spaceId==null?"":spaceId);
     } else { // 管理者
       model.addAttribute("roleId", roleId);
       return "/teachingview/manager/index";
@@ -75,7 +136,22 @@ public class TeacherViewController extends AbstractController {
    */
   @RequestMapping("/teacher/index")
   public String teacherIndex(SearchVo searchVo, Model m) {
-    UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
+    //UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
+    List<UserSpace> tchspaces = new ArrayList<>();
+    Integer spaceId = searchVo.getSpaceId();
+    UserSpace userSpace = null;
+    boolean isTeacher = isTeacher(tchspaces);
+   	if(spaceId  == null) {
+		spaceId = tchspaces.get(0).getId();
+    }
+   	
+   	for (UserSpace sp : tchspaces) {
+   		if(spaceId.equals(sp.getId())) {
+   			userSpace = sp;
+   			break;
+   		}
+	}
+    
     searchVo.setOrgId(userSpace.getOrgId());
     searchVo.setTermId((Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_TERM));
     searchVo.setUserId(userSpace.getUserId());
@@ -83,6 +159,9 @@ public class TeacherViewController extends AbstractController {
     searchVo.setGradeId(userSpace.getGradeId());
     searchVo.setSubjectId(userSpace.getSubjectId());
     searchVo.setPhaseId(userSpace.getPhaseId());
+    m.addAttribute("spaceId",spaceId);
+    m.addAttribute("spaces",tchspaces);
+    m.addAttribute("isTeacher",isTeacher);
     try {
       Map<String, Object> dataMap = teachingViewService.getTeacherDataDetail(searchVo);
       m.addAttribute("dataMap", dataMap);
@@ -104,8 +183,13 @@ public class TeacherViewController extends AbstractController {
   @RequestMapping("/manager/teachingView_t")
   public String teachingView_teacherList(SearchVo searchVo, Model m) {
     UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
-    List<Map<String, String>> gradeList = teachingViewService.getGradeList();
-    List<Map<String, String>> subjectList = teachingViewService.getSubjectList();
+    List<MetaRelationship> phases = getCurrentPhaseList();
+    Integer phaseId = searchVo.getPhaseId();
+    if(phaseId == null) {
+    	phaseId = phases.get(0).getId();
+    }
+    List<Map<String, String>> gradeList = teachingViewService.getGradeList(phaseId);
+    List<Map<String, String>> subjectList = teachingViewService.getSubjectList(phaseId);
     searchVo.setOrgId(userSpace.getOrgId());
     searchVo.setTermId((Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_TERM));
     searchVo.setGradeIdIfNull(Integer.valueOf(gradeList.get(0).get("id")));
@@ -142,7 +226,11 @@ public class TeacherViewController extends AbstractController {
     searchVo.setSpaceId(userSpace.getId());
     searchVo.setGradeId(userSpace.getGradeId());
     searchVo.setSubjectId(userSpace.getSubjectId());
-    searchVo.setPhaseId(userSpace.getPhaseId());
+    List<MetaRelationship> phases = getCurrentPhaseList();
+    Integer phaseId = searchVo.getPhaseId();
+    if(phaseId == null) {
+    	 searchVo.setPhaseId(phases.get(0).getId());
+    }
     try {
       Map<String, Object> dataMap = teachingViewService.getTeacherDataDetail(searchVo);
       m.addAttribute("dataMap", dataMap);
@@ -169,7 +257,11 @@ public class TeacherViewController extends AbstractController {
   public String teachingView_grade(SearchVo searchVo, Model m) {
     UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
     searchVo.setOrgId(userSpace.getOrgId());
-    searchVo.setPhaseId(userSpace.getPhaseId());
+    List<MetaRelationship> phases = getCurrentPhaseList();
+    Integer phaseId = searchVo.getPhaseId();
+    if(phaseId == null) {
+    	searchVo.setPhaseId(phases.get(0).getId());
+    }
     searchVo.setTermId((Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_TERM));
     if (userSpace.getSubjectId() != null && userSpace.getSubjectId() != 0) {
       searchVo.setSubjectId(userSpace.getSubjectId());
@@ -199,6 +291,11 @@ public class TeacherViewController extends AbstractController {
     searchVo.setTermId((Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_TERM));
     if (userSpace.getGradeId() != null && userSpace.getGradeId() != 0) {
       searchVo.setGradeId(userSpace.getGradeId());
+    }
+    List<MetaRelationship> phases = getCurrentPhaseList();
+    Integer phaseId = searchVo.getPhaseId();
+    if(phaseId == null) {
+    	 searchVo.setPhaseId(phases.get(0).getId());
     }
     try {
       List<Map<String, Object>> dataList = teachingViewService.getSubjectDataList(searchVo);

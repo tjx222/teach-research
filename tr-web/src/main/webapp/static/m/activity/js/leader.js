@@ -40,6 +40,15 @@ define(["require","zepto","iscroll",'common/dateFormat'], function (require) {
 		jq('.draft').click(function (){
 			toActivityDraft();
 		});
+		
+		$("#phaseId").on("change",function(){
+			if(location.href.indexOf("?phaseId") >=0 || location.href.indexOf("?") == -1){
+				location.href = location.href.replace(/\?phaseId=\d*/,"?phaseId="+$(this).val());
+			}else{
+				location.href = location.href.replace(/&phaseId=\d*/,"")+"&phaseId="+$(this).val();
+			}
+		});
+		
 		jq('.close').click(function (){
 			jq('.act_draft_wrap').hide();
 			jq('.act_participants_wrap').hide(); 
@@ -96,15 +105,18 @@ define(["require","zepto","iscroll",'common/dateFormat'], function (require) {
 //		});
 		
 		jq(".fq_option_tb").click(function(e){ //绑定同备教案
-			window.location.href = _WEB_CONTEXT_ + "/jy/activity/toEditActivityTbja";
+			var phaseId = $("#phaseId").val();
+			window.location.href = _WEB_CONTEXT_ + "/jy/activity/toEditActivityTbja?phaseId="+phaseId;
 			//e.preventDefault(); // 阻止“默认行为”
 		});
 		jq(".fq_option_zt").click(function(e){ //绑定主题研讨
-			window.location.href = _WEB_CONTEXT_ + "/jy/activity/toEditActivityZtyt";
+			var phaseId = $("#phaseId").val();
+			window.location.href = _WEB_CONTEXT_ + "/jy/activity/toEditActivityZtyt?phaseId="+phaseId;
 			e.preventDefault(); // 阻止“默认行为”
 		});
 		jq(".fq_option_sp").click(function(e){ //绑定视频教研
-			window.location.href = _WEB_CONTEXT_ + "/jy/activity/toEditActivitySpjy";
+			var phaseId = $("#phaseId").val();
+			window.location.href = _WEB_CONTEXT_ + "/jy/activity/toEditActivitySpjy?phaseId="+phaseId;
 			e.preventDefault(); // 阻止“默认行为”
 		});
 		jq(".draft_list_right").find(".edit").click(function(){ //绑定草稿箱的修改按钮

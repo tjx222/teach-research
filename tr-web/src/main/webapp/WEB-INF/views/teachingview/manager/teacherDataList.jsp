@@ -20,17 +20,19 @@
 	<div class="jyyl_nav">
 		当前位置：
 		<c:if test="${empty search.flagz }">
-		<jy:nav id="jyyl_jsjy"></jy:nav>
+		<jy:nav id="jyyl_jsjy"><jy:param name="phaseId" value="${param.phaseId }"></jy:param></jy:nav>
 		</c:if>
 		<c:if test="${search.flagz=='grade' }">
-		<jy:nav id="jyyl_jsjy_grade"><jy:param name="gradeName" value="${gradeName }"></jy:param></jy:nav>
+		<jy:nav id="jyyl_jsjy_grade"><jy:param name="phaseId" value="${param.phaseId }"></jy:param>
+		<jy:param name="gradeName" value="${gradeName }"></jy:param></jy:nav>
 		</c:if>
 		<c:if test="${search.flagz=='subject' }">
-		<jy:nav id="jyyl_jsjy_subject"><jy:param name="subjectName" value="${subjectName }"></jy:param></jy:nav>
+		<jy:nav id="jyyl_jsjy_subject"><jy:param name="phaseId" value="${param.phaseId }"></jy:param>
+		<jy:param name="subjectName" value="${subjectName }"></jy:param></jy:nav>
 		</c:if>
 	</div>
 	<div class="teachingTesearch_managers_content">
-		<form id="form1" action="${pageContext.request.contextPath }/jy/teachingView/manager/teachingView_t?flagz=${search.flagz}" method="post">
+		<form id="form1" action="${pageContext.request.contextPath }/jy/teachingView/manager/teachingView_t?flagz=${search.flagz}&phaseId=${param.phaseId }" method="post">
 			<div class="teachingTesearch_managers_top">
 				<p class="teachingTesearch_managers_title">教师教研情况一览</p>
 				<ul class="teachingTesearch_managers_semester">
@@ -106,20 +108,6 @@
 								</b>
 								<span class="num_tip">（撰写数）</span>
 							</td>
-							<td orderFlag="listen">
-								<b>
-									听课记录
-									<c:if test="${search.orderFlag=='listen' }">
-						    			<c:if test="${search.orderMode=='up'||empty search.orderMode }"> <span class="up"></span></c:if>
-										<c:if test="${search.orderMode=='down'||empty search.orderMode }"> <span class="down"></span></c:if>
-									</c:if>
-									<c:if test="${search.orderFlag!='listen' }">
-										<span class="up"></span>
-										<span class="down"></span>
-									</c:if>
-								</b>
-								<span class="num_tip">（节数）</span>
-							</td>
 							<td orderFlag="activityJoin">
 							    <b>
 									集体备课
@@ -134,20 +122,7 @@
 								</b>
 								<span class="num_tip">（参与数）</span>
 							</td>
-							<td orderFlag="summaryWrite">
-								<b>
-									计划总结
-									<c:if test="${search.orderFlag=='summaryWrite' }">
-						    			<c:if test="${search.orderMode=='up'||empty search.orderMode }"> <span class="up"></span></c:if>
-										<c:if test="${search.orderMode=='down'||empty search.orderMode }"> <span class="down"></span></c:if>
-									</c:if>
-									<c:if test="${search.orderFlag!='summaryWrite' }">
-										<span class="up"></span>
-										<span class="down"></span>
-									</c:if>
-								</b>
-								<span class="num_tip">（撰写数）</span>
-							</td>
+							
 							<td orderFlag="share">
 								<b>
 									分享发表
@@ -182,12 +157,10 @@
 						<table cellpadding="0" cellspacing="0" class="teachingTesearch_managers_table2" style="border-bottom: 1px solid #d5d5d5;">
 							<c:forEach var="data" items="${dataList }">
 								<tr class="change_bg">
-									<td><a href="${data['url']}&flagz=${search.flagz}">${data['userName']}</a></td>
+									<td><a href="${data['url']}&flagz=${search.flagz}&phaseId=${param.phaseId}">${data['userName']}</a></td>
 									<td>${data['jiaoanWrite']}</td>
 									<td>${data['kejianWrite']}</td>
-									<td>${data['listen']}</td>
 									<td>${data['activityJoin']}</td>
-									<td>${data['summaryWrite']}</td>
 									<td>${data['share']}</td>
 									<td class="no_border">${data['teacherRecordRes']}</td>
 								</tr>

@@ -13,14 +13,15 @@
 	</div>
 	<div class="jyyl_nav">
 		当前位置：
-		<c:if test="${userSpace.id!=_CURRENT_SPACE_.id }">
+		<c:if test="${not isTeacher }">
 		<jy:nav id="jyyl_js">
+			<jy:param name="phaseId" value="${param.phaseId }"></jy:param>
 			<jy:param name="userName" value="${userSpace.username }"></jy:param>
 			<jy:param name="url" value="${ctx}jy/teachingView/manager/teachingView_t_detail?termId=${searchVo.termId}&gradeId=${userSpace.gradeId }&subjectId=${userSpace.subjectId }&spaceId=${userSpace.id }"></jy:param>
 		</jy:nav> > <a href="${ctx}/jy/teachingView/teacher/list_recordBag?spaceId=${userSpace.id}&termId=${searchVo.termId}">成长档案袋</a> > ${name }
 		</c:if>
-		<c:if test="${userSpace.id==_CURRENT_SPACE_.id }">
-		<jy:nav id="jyyl"></jy:nav> > <a href="${ctx}/jy/teachingView/teacher/list_recordBag?spaceId=${userSpace.id}&termId=${searchVo.termId}">成长档案袋</a> > ${name }
+		<c:if test="${isTeacher}">
+		<jy:nav id="jyyl"><jy:param name="spaceId" value="${param.spaceId }"></jy:param></jy:nav> > <a href="${ctx}/jy/teachingView/teacher/list_recordBag?spaceId=${userSpace.id}&termId=${searchVo.termId}">成长档案袋</a> > ${name }
 		</c:if>
 	</div>
 	<div class="companion_content companion_content_other" style="margin-top:0;">

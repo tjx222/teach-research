@@ -185,11 +185,11 @@ public class TeachingViewServiceImpl implements TeachingViewService {
    * @author wangdawei
    */
   @Override
-  public List<Map<String, String>> getGradeList() {
+  public List<Map<String, String>> getGradeList(Integer phaseId) {
     UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
     Organization org = orgService.findOne(userSpace.getOrgId());
     List<Meta> listAllGrade = MetaUtils.getOrgTypeMetaProvider().listAllGrade(org.getSchoolings(),
-        userSpace.getPhaseId());
+        phaseId);
     List<Map<String, String>> gradeList = new ArrayList<Map<String, String>>();
     if (userSpace.getGradeId().intValue() != 0) { // 只显示当前身份的年级
       for (Meta meta : listAllGrade) {
@@ -219,13 +219,13 @@ public class TeachingViewServiceImpl implements TeachingViewService {
    * @author wangdawei
    */
   @Override
-  public List<Map<String, String>> getSubjectList() {
+  public List<Map<String, String>> getSubjectList(Integer phaseId) {
     UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
     Organization org = orgService.findOne(userSpace.getOrgId());
     Integer[] areaIds = StringUtils.toIntegerArray(org.getAreaIds().substring(1, org.getAreaIds().lastIndexOf(",")),
         ",");
     List<Meta> listAllSubjectByPhaseId = MetaUtils.getPhaseSubjectMetaProvider().listAllSubject(org.getId(),
-        userSpace.getPhaseId(), areaIds);
+        phaseId, areaIds);
     List<Map<String, String>> subjectList = new ArrayList<Map<String, String>>();
     if (userSpace.getSubjectId().intValue() != 0) {
       for (Meta meta : listAllSubjectByPhaseId) {
@@ -365,7 +365,7 @@ public class TeachingViewServiceImpl implements TeachingViewService {
     ValueWrapper element = teachingViewDataCache.get(cacheKey);
     if (element == null) {
       dataList = new ArrayList<Map<String, Object>>();
-      List<Map<String, String>> gradeList = getGradeList();
+      List<Map<String, String>> gradeList = getGradeList(searchVo.getPhaseId());
       UserSpace us = new UserSpace();
       us.addCustomCulomn("distinct userId");
       us.setOrgId(searchVo.getOrgId());
@@ -414,7 +414,7 @@ public class TeachingViewServiceImpl implements TeachingViewService {
     ValueWrapper element = teachingViewDataCache.get(cacheKey);
     if (element == null) {
       dataList = new ArrayList<Map<String, Object>>();
-      List<Map<String, String>> subjectList = getSubjectList();
+      List<Map<String, String>> subjectList = getSubjectList(searchVo.getPhaseId());
       UserSpace us = new UserSpace();
       us.setOrgId(searchVo.getOrgId());
       us.setSysRoleId(SysRole.TEACHER.getId());

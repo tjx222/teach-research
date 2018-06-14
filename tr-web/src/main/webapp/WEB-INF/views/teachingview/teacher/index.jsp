@@ -16,8 +16,21 @@
 	<div class="jyyl_nav">
 		当前位置：
 		<jy:nav id="jyyl">
+		<jy:param name="spaceId" value="${param.spaceId }"></jy:param>
 		</jy:nav>
 	</div>
+	<c:if test="${fn:length(spaces) > 1 }">
+		<div class="content_top_right" style="width: 22rem; height: 3.583rem; float: right; padding-top: 0.833rem; cursor: pointer;">
+				 <label style="display: inline-block;width: 6rem;float: left; height: 3rem; line-height: 3rem; font-size: 1.333rem; color: #999;">学段：</label>
+                <div>
+                <select name="spaceId" id="spaceId" style="width: 9.3rem; border: none; line-height: 3rem;  height: 3rem; font-size: 1.127rem; color: #999; background: #f7f8f9;">
+                 <c:forEach items="${spaces }" var="space">
+                   <option value="${space.id }" ${space.id == spaceId ? 'selected':'' }>${space.spaceName }</option>
+                 </c:forEach>
+                </select>
+            </div>
+		</div>
+	</c:if>
 	<div class="teachingTesearch_managers_details_content">
 		<form id="form1" action="${pageContext.request.contextPath }/jy/teachingView/teacher/index" method="post">
 		<div class="teachingTesearch_managers_top">
@@ -78,20 +91,7 @@
 					</dl>
 				</li>
 				</a>
-				<a href="${pageContext.request.contextPath }/jy/teachingView/teacher/list_listen?spaceId=${searchVo.spaceId}&termId=${searchVo.termId}">
-				<li style="border-right:none">
-					<dl class="managers_details_con_type">
-						<dt>
-								<b><img src="${ctxStatic }/modules/teachingview/images/img4.png"/></b>
-								<span>听课记录</span>
-						</dt>
-						<dd>
-							<span>听课节数：${dataMap['listen']}</span>
-							<span>分享数：${dataMap['listenShare']}</span>
-						</dd>
-					</dl>
-				</li>
-				</a>
+				
 				<a href="${pageContext.request.contextPath }/jy/teachingView/teacher/list_activity?spaceId=${searchVo.spaceId}&termId=${searchVo.termId}">
 				<li>
 					<dl class="managers_details_con_type">
@@ -106,48 +106,8 @@
 					</dl>
 				</li>
 				</a>
-				<a href="${pageContext.request.contextPath }/jy/teachingView/teacher/list_summary?spaceId=${searchVo.spaceId}&termId=${searchVo.termId}">
-				<li>
-					<dl class="managers_details_con_type">
-						<dt>
-								<b><img src="${ctxStatic }/modules/teachingview/images/img6.png"/></b>
-								<span>计划总结</span>
-						</dt>
-						<dd>
-							<span>撰写数：${dataMap['summaryWrite']}</span>
-							<span>分享数：${dataMap['summaryShare']}</span>
-						</dd>
-					</dl>
-				</li>
-				</a>
-				<a href="${pageContext.request.contextPath }/jy/teachingView/teacher/list_thesis?spaceId=${searchVo.spaceId}&termId=${searchVo.termId}">
-				<li>
-					<dl class="managers_details_con_type">
-						<dt>
-								<b><img src="${ctxStatic }/modules/teachingview/images/img7.png"/></b>
-								<span>教学文章</span>
-						</dt>
-						<dd>
-							<span>撰写数：${dataMap['thesisWrite']}</span>
-							<span>分享数：${dataMap['thesisShare']}</span>
-						</dd>
-					</dl>
-				</li>
-				</a>
-				<a href="${pageContext.request.contextPath }/jy/teachingView/teacher/list_companion?spaceId=${searchVo.spaceId}&termId=${searchVo.termId}">
-				<li style="border-right:none;">
-					<dl class="managers_details_con_type">
-						<dt>
-								<b><img src="${ctxStatic }/modules/teachingview/images/img8.png"/></b>
-								<span>同伴互助</span>
-						</dt>
-						<dd>
-							<span>留言数：${dataMap['companionMessage']}</span>
-							<span>资源交流数：${dataMap['companionRes']}</span>
-						</dd>
-					</dl>
-				</li>
-				</a>
+				
+				
 				<a href="${pageContext.request.contextPath }/jy/teachingView/teacher/list_recordBag?spaceId=${searchVo.spaceId}&termId=${searchVo.termId}">
 				<li style="border-bottom:none;">
 					<dl class="managers_details_con_type">
@@ -161,20 +121,7 @@
 					</dl>
 				</li>
 				</a>
-				<a href="${pageContext.request.contextPath }/jy/teachingView/teacher/list_schoolActivity?spaceId=${searchVo.spaceId}&termId=${searchVo.termId}">
-				<li style="border-bottom:none;">
-					<dl class="managers_details_con_type">
-						<dt>
-								<b><img src="${ctxStatic }/modules/teachingview/images/img11.png"/></b>
-								<span>校际教研</span>
-						</dt>
-						<dd>
-							<span>可参与数：${dataMap['schoolActivityCanJoin']}</span>
-							<span>参与数：${dataMap['schoolActivityJoin']}</span>
-						</dd>
-					</dl>
-				</li>
-				</a>
+				
 			</ul>
 			<div class="clear"></div>
 		</div>
@@ -182,6 +129,14 @@
 	<ui:htmlFooter style="1"></ui:htmlFooter>
 </body>
 <script type="text/javascript">
-require(['jquery','teacherList'],function(){});
+require(['jquery','teacherList'],function(){
+	$("#spaceId").on("change",function(){
+		if(location.href.indexOf("?spaceId") >=0 || location.href.indexOf("?") == -1){
+			location.href = location.href.replace(/\?spaceId=\d*/,'?spaceId='+$(this).val());
+		}else{
+			location.href = location.href.replace(/&spaceId=\d*/,'')+'&spaceId='+$(this).val();
+		}
+	});
+});
 </script>
 </html>

@@ -45,7 +45,7 @@
 	</properties>
 		<!-- 设定除中央仓库(repo1.maven.org/maven2/)外的其他仓库,按设定顺序进行查找. -->
 	<repositories>
-		<!-- Nexus私服 -->
+		<!-- Nexus私服 
 		<repository>
 			<id>public</id>
 			<name>Public Repositories</name>
@@ -53,7 +53,7 @@
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
-		</repository>
+		</repository>-->
 
 		<repository>
 			<id>central-repos</id>

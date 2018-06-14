@@ -82,6 +82,18 @@
 		</div>
 	</div>
 </div>
+<div class="check_menu1_wrap menuzdy4" id="phaselist">
+    <div class="check_block_menu1">
+      <span class="check_menu_top"></span>
+      <div id="phaselistwrap" class="check_menu_wrap1">
+        <div id="scroller">
+            <c:forEach items="${phases }" var="p">
+              <p data="${p.id }">${p.name }</p>
+            </c:forEach>
+        </div>
+      </div>
+    </div>
+  </div>
 <div class="mask"></div>
 <div class="more_wrap_hide" onclick='moreHide()'></div>
 <div id="wrapper">
@@ -93,7 +105,14 @@
 		<div class="check_content">
 			<div class="check_content_top">
 				<h3>筛选：</h3>
-				<div class="check_content_block">
+		<c:if test="${fn:length(phases) > 1 }">
+			 <div class="check_content_block">
+	            <label>学段</label>
+	            <span id="phaseSelect">${phase.name }<strong></strong></span>
+	            <div id="selectphase" data="${phase.id }"></div>
+	        </div>
+		</c:if>
+		<div class="check_content_block">
           <label>年级</label>
           <span id="gradecontent" style="width:8.5rem;"></span>
         </div>
@@ -112,6 +131,7 @@
 </div>
 </body>
 <script type="text/javascript">
+    var CURRENT_PHASE ="${phaseId}";
 	require(["zepto",'activity'],function($){	
 	}); 
 </script>

@@ -14,15 +14,17 @@
 	</div>
 	<div class="jyyl_nav">
 		当前位置：
-		<c:if test="${userSpace.id!=_CURRENT_SPACE_.id }">
+		<c:if test="${not isTeacher }">
 		<c:if test="${empty searchVo.flagz }">
 		<jy:nav id="jyyl_js">
+			<jy:param name="phaseId" value="${param.phaseId }"></jy:param>
 			<jy:param name="userName" value="${userSpace.username }"></jy:param>
 			<jy:param name="url" value="${ctx}jy/teachingView/manager/teachingView_t_detail?flagz=${searchVo.flagz }&termId=${searchVo.termId}&gradeId=${userSpace.gradeId }&subjectId=${userSpace.subjectId }&spaceId=${userSpace.id }"></jy:param>
 		</jy:nav>
 		</c:if>
 		<c:if test="${searchVo.flagz=='grade' }">
 		<jy:nav id="jyyl_grade_js">
+			<jy:param name="phaseId" value="${param.phaseId }"></jy:param>
 			<jy:param name="userName" value="${userSpace.username }"></jy:param>
 			<jy:param name="url" value="${ctx}jy/teachingView/manager/teachingView_t_detail?flagz=${searchVo.flagz }&termId=${searchVo.termId}&gradeId=${userSpace.gradeId }&subjectId=${userSpace.subjectId }&spaceId=${userSpace.id }"></jy:param>
 			<jy:param name="gradeName" value="${gradeName }"></jy:param>
@@ -30,18 +32,18 @@
 		</c:if>
 		<c:if test="${searchVo.flagz=='subject' }">
 		<jy:nav id="jyyl_subject_js">
+			<jy:param name="phaseId" value="${param.phaseId }"></jy:param>
 			<jy:param name="userName" value="${userSpace.username }"></jy:param>
 			<jy:param name="url" value="${ctx}jy/teachingView/manager/teachingView_t_detail?flagz=${searchVo.flagz }&termId=${searchVo.termId}&gradeId=${userSpace.gradeId }&subjectId=${userSpace.subjectId }&spaceId=${userSpace.id }"></jy:param>
 			<jy:param name="subjectName" value="${subjectName }"></jy:param>
 		</jy:nav>
 		</c:if> > 集体备课
 		</c:if>
-		<c:if test="${userSpace.id==_CURRENT_SPACE_.id }">
-		<jy:nav id="jyyl"></jy:nav> > 集体备课
+		<c:if test="${isTeacher }">
+		<jy:nav id="jyyl"><jy:param name="spaceId" value="${param.spaceId }"></jy:param></jy:nav> > 集体备课
 		</c:if>
 	</div>
 	<div class="jitibeike_content">
-		<c:if test="${userSpace.id!=_CURRENT_SPACE_.id }">
 		<div class="jitibeike_title">
 			<dl class="jitibeike_title_News">
 				<dt class="photo"><ui:photo src="${user.photo }" /></dt>
@@ -49,7 +51,6 @@
 				<dd><span class="teacher_name">${userSpace.username }</span><span class="teacher_identity">${userSpace.spaceName }</span></dd>
 			</dl>
 		</div>
-		</c:if>
 		<div class="jitibeike_con">
 			<c:forEach var="activityMap" items="${activityMapList }">
 				<div class="jitibeike_con_type">

@@ -61,17 +61,6 @@
 					<span>我的消息</span> 
 				</a>
 			</li>
-			
-			<jy:di var="curspace" key="${_CURRENT_SPACE_.id }" className="com.tmser.tr.uc.service.UserSpaceService"></jy:di>
-			<c:if test="${curspace.phaseId == 0 }">  
-				<li>
-					<a href="./jy/uc/select">
-						<span class="li_4"></span>
-						<span>学段选择</span>
-					</a>
-				</li>
-				
-			</c:if>
 		</ul>
 		<div class="more" onclick="more()"></div>	
 	</div>

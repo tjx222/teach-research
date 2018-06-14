@@ -388,25 +388,25 @@
 		<!-- 通知公告结束 -->
 		<!-- 教研一览start -->
 		<navs:nav id="jyyl"  extend="tch_index">
-			<navs:elem name="教研一览"  href="jy/teachingView/index"  />
+			<navs:elem name="教研一览"  href="jy/teachingView/index?spaceId={:spaceId}&amp;phaseId={:phaseId}"  />
 		</navs:nav>
 		<navs:nav id="jyyl_jsjy"  extend="jyyl">
-			<navs:elem name="教师教研情况一览"  href="jy/teachingView/manager/teachingView_t"  />
+			<navs:elem name="教师教研情况一览"  href="jy/teachingView/manager/teachingView_t?phaseId={:phaseId}"  />
 		</navs:nav>
 		<navs:nav id="jyyl_njjy"  extend="jyyl">
-			<navs:elem name="年级教研情况一览"  href="jy/teachingView/manager/teachingView_g"  />
+			<navs:elem name="年级教研情况一览"  href="jy/teachingView/manager/teachingView_g?phaseId={:phaseId}"  />
 		</navs:nav>
 		<navs:nav id="jyyl_xkjy"  extend="jyyl">
-			<navs:elem name="学科教研情况一览"  href="jy/teachingView/manager/teachingView_s"  />
+			<navs:elem name="学科教研情况一览"  href="jy/teachingView/manager/teachingView_s?phaseId={:phaseId}"  />
 		</navs:nav>
 		<navs:nav id="jyyl_jsjy_grade"  extend="jyyl_njjy">
-			<navs:elem name="{:gradeName}"  href="jy/teachingView/manager/teachingView_t?flagz=grade"  />
+			<navs:elem name="{:gradeName}"  href="jy/teachingView/manager/teachingView_t?flagz=grade&amp;phaseId={:phaseId}"  />
 		</navs:nav>
 		<navs:nav id="jyyl_jsjy_subject"  extend="jyyl_xkjy">
-			<navs:elem name="{:subjectName}"  href="jy/teachingView/manager/teachingView_t?flagz=subject"  />
+			<navs:elem name="{:subjectName}"  href="jy/teachingView/manager/teachingView_t?flagz=subject&amp;phaseId={:phaseId}"  />
 		</navs:nav>
 		<navs:nav id="jyyl_jxgl"  extend="jyyl">
-			<navs:elem name="教学管理情况一览"  href="jy/teachingView/manager/m_user_list"/>
+			<navs:elem name="教学管理情况一览"  href="jy/teachingView/manager/m_user_list?phaseId={:phaseId}"/>
 		</navs:nav>
 		<navs:nav id="jyyl_glzxm"  extend="jyyl_jxgl">
 			<navs:elem name="{:username}"  href="{:url}"/>

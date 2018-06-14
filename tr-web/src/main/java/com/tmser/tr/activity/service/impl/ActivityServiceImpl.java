@@ -182,6 +182,7 @@ public class ActivityServiceImpl extends AbstractService<Activity, Integer> impl
       }
 
       activity.setPhaseId(phaseId);
+      params.put("userId", user.getId());
       activity.addCustomCondition(" and ((mainUserId=:userId) or " + sql.toString() + ")", params);
     }
 
@@ -830,7 +831,6 @@ public class ActivityServiceImpl extends AbstractService<Activity, Integer> impl
       us.setSchoolYear(activity.getSchoolYear());
       us.addCustomCondition(" and subjectId in (" + subjectIds + ") and gradeId in (" + gradeIds + ") ",
           new HashMap<String, Object>());
-      us.addOrder(" sysRoleId desc ");
       us.addCustomCulomn(" distinct(userId) ");
       List<UserSpace> usList = userSpaceDao.listAll(us);
       return usList;

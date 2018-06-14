@@ -31,7 +31,7 @@ define(["require","zepto","iscroll"], function (require) {
     	
     	$("#phaselistwrap p").click(function () { 
     		if($(this).attr('data') != CURRENT_PHASE){
-    			location.href = location.href.replace(/location.search/,'')+"?phaseId="+$(this).attr('data');
+    			location.href = location.href.replace(location.search,'')+"?phaseId="+$(this).attr('data');
     		}
 		  });
     	

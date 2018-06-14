@@ -27,12 +27,16 @@
 		当前位置：
 		<jy:nav id="jyyl_m_cylb">
 			<c:if test="${searchVo.flago=='0'}">
+				<jy:param name="spaceId" value="${param.spaceId }"></jy:param>
+				<jy:param name="phaseId" value="${param.phaseId }"></jy:param>
 				<jy:param name="username" value="${user2.name}"></jy:param>
 				<jy:param name="url" value="jy/teachingView/manager/m_details?userId=${user2.id}&termId=${searchVo.termId}&orgId=${searchVo.orgId}"></jy:param>
 				<jy:param name="name" value="查阅教案"></jy:param>
 				<jy:param name="urlxqlb" value="jy/teachingView/manager/m_lesson?userId=${user2.id}&termId=${searchVo.termId}&orgId=${searchVo.orgId}&flago=${searchVo.flago}&phaseId=${searchVo.phaseId}"></jy:param>
 			</c:if>
 			<c:if test="${searchVo.flago=='1'}">
+				<jy:param name="spaceId" value="${param.spaceId }"></jy:param>
+				<jy:param name="phaseId" value="${param.phaseId }"></jy:param>
 				<jy:param name="username" value="${user2.name}"></jy:param>
 				<jy:param name="url" value="jy/teachingView/manager/m_details?userId=${user2.id}&termId=${searchVo.termId}&orgId=${searchVo.orgId}"></jy:param>
 				<jy:param name="name" value="查阅课件"></jy:param>

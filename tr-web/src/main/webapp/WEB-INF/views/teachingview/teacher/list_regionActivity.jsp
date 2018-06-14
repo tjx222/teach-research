@@ -17,7 +17,7 @@
 		<c:if test="${userSpace.id!=_CURRENT_SPACE_.id }">
 		<jy:nav id="jyyl_js">
 			<jy:param name="userName" value="${userSpace.username }"></jy:param>
-			<jy:param name="url" value="${ctx}jy/teachingView/manager/teachingView_t_detail?termId=${searchVo.termId}&gradeId=${userSpace.gradeId }&subjectId=${userSpace.subjectId }&spaceId=${userSpace.id }"></jy:param>
+			<jy:param name="url" value="${ctx}jy/teachingView/manager/teachingView_t_detail?termId=${searchVo.termId}&gradeId=${userSpace.gradeId }&subjectId=${userSpace.subjectId }&spaceId=${userSpace.id }&phaseId=${param.phaseId }"></jy:param>
 		</jy:nav> > 区域教研
 		</c:if>
 		<c:if test="${userSpace.id==_CURRENT_SPACE_.id }">

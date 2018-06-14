@@ -44,10 +44,9 @@
 					<div class="content_top_right">
 						<c:if test="${fn:length(phases) > 1 }">
              <div class="version">
-                <label>年级：</label>
+                <label>学段：</label>
                 <div>
-                <select name="phaseId">
-                <ui:relation var="phases" type="xdToNj" id="${phaseId }"></ui:relation>
+                <select name="phaseId" id="phaseId">
                  <c:forEach items="${phases }" var="phase">
                    <option value="${phase.id }" ${phase.id == phaseId ? 'selected':'' }>${phase.name }</option>
                  </c:forEach>

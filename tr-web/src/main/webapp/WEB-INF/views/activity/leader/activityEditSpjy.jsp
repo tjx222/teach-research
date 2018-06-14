@@ -27,6 +27,7 @@
 						<ui:token></ui:token>
 						<input value="${act.id}" id="id" name="id" type="hidden">
 						<input id="typeId" name="typeId" type="hidden" value="3">
+						<input name="phaseId" type="hidden" value="${not empty act ? act.phaseId :phaseId }">
 						<div class="activity_wrap_right">
 							<div class="video_seminar_content">
 								<div class="video_seminar"></div>
