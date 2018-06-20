@@ -63,6 +63,15 @@ define(["require","zepto","iscroll"], function (require) {
 		$("#searchBtn").click(function(){
 			$("#searchPlanForm").submit();
 		});
+		
+		$("#phaseId").on("change",function(){
+			if(location.href.indexOf("?phaseId") >=0 || location.href.indexOf("?") == -1){
+				location.href = location.href.replace(/\?phaseId=\d*/,"?phaseId="+$(this).val());
+			}else{
+				location.href = location.href.replace(/&phaseId=\d*/,"")+"&phaseId="+$(this).val();
+			}
+		});
+		
 		$('.close').click(function (){
 	    		$('.look_opinion_list_wrap').hide();
 	    		$('.mask').hide();

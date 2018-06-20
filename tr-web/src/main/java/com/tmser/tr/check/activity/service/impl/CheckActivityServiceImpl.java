@@ -75,7 +75,7 @@ public class CheckActivityServiceImpl implements CheckActivityService {
     model.setOrgId(u.getOrgId());// 机构
     model.setSchoolYear(schoolYear);// 学年
     model.setTerm(term);// 学期
-    model.addCustomCondition(" and organizeUserId != " + u.getId(), new HashMap<String, Object>());
+    //model.addCustomCondition(" and organizeUserId != " + u.getId(), new HashMap<String, Object>());
     model.addOrder(" createTime desc ");
     int countAll = activityDao.count(model);// 总数
     map.put("countAll", countAll);

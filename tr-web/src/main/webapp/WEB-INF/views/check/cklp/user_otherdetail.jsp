@@ -13,7 +13,7 @@
 <div class="semester_wrapper">
 	<div class="semester_wrap">
 		<span class="check_menu_top"></span>
-		<div class="semester_wrap1" data-type="${type}" data-userId="${userId }" data-grade="${grade}" data-subject="${subject}" data-wc="${param.wc }" data-sc="${param.sc }" data-cc="${param.cc }">  
+		<div class="semester_wrap1" data-type="${type}" data-wc="${param.wc }" data-sc="${param.sc }" data-cc="${param.cc }" data-userId="${userId }" data-grade="${grade}" data-subject="${subject}" data-wc="${param.wc }" data-sc="${param.sc }" data-cc="${param.cc }">  
 			<!-- <p>全部</p> -->
 			<p data-val="0" class="${fasciculeId==0?'act':''}">上学期</p>
 			<p data-val="1" class="${fasciculeId==1?'act':''}">下学期</p> 

@@ -170,6 +170,8 @@ public class NavTag extends HtmlEscapingAwareTag implements ParamAware{
 					values.add(paramMap.get(paramName));
 				}
 				 m.appendReplacement(sb, "{"+pos+"}"); 
+			}else {
+				m.appendReplacement(sb, ""); 
 			}
 	    }
 		m.appendTail(sb);

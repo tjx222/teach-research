@@ -9,7 +9,12 @@ import java.util.List;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
+import org.springframework.beans.BeanUtils;
 
+import com.tmser.tr.manage.meta.MetaUtils;
+import com.tmser.tr.manage.meta.bo.MetaRelationship;
+import com.tmser.tr.manage.org.bo.Organization;
+import com.tmser.tr.manage.org.service.OrganizationService;
 import com.tmser.tr.uc.bo.LoginLog;
 import com.tmser.tr.uc.bo.User;
 import com.tmser.tr.uc.bo.UserSpace;
@@ -34,25 +39,26 @@ public abstract class LoginSessionHelper {
 
 	/**
 	 * 根据用户id,设置session
+	 * 
 	 * @param userid
 	 */
 	public static final void setSession(Integer userid) {
-		setSession(userid,null);
+		setSession(userid, null);
 	}
 
-	private static UserSpace getCandidate(List<UserSpace> ls,Integer cpid) {
+	private static UserSpace getCandidate(List<UserSpace> ls, Integer cpid) {
 		UserSpace cus = null;
-		if(cpid != null){
+		if (cpid != null) {
 			for (UserSpace us : ls) {
-				if (us.getId().equals(cpid)){
+				if (us.getId().equals(cpid)) {
 					cus = us;
 					break;
 				}
 			}
 		}
-			
-		if(cus == null){
-			for(UserSpace us : ls) {
+
+		if (cus == null) {
+			for (UserSpace us : ls) {
 				cus = us;
 				if (cus.getIsDefault())
 					break;
@@ -63,17 +69,20 @@ public abstract class LoginSessionHelper {
 
 	/**
 	 * 根据用户id，和当前用户空间id 设置session
+	 * 
 	 * @param userid
 	 * @param spaceid
 	 */
 	public static final void setSession(Integer userid, Integer spaceid) {
-		if(SecurityUtils.getSubject() == null){
+		if (SecurityUtils.getSubject() == null) {
 			throw new RequestNotExistsException("login user changed");
 		}
-		Session session = SecurityUtils.getSubject().getSession(false);//在shiro 使用容器session 管理时可用
-		
-		if (session != null && userid != null
-				&& session.getAttribute(SessionKey.CURRENT_SCHOOLYEAR) == null) {
+		Session session = SecurityUtils.getSubject().getSession(false);// 在shiro
+																		// 使用容器session
+																		// 管理时可用
+
+		if (session != null && userid != null && session
+				.getAttribute(SessionKey.CURRENT_SCHOOLYEAR) == null) {
 			UserService userService = SpringContextHolder
 					.getBean(UserService.class);
 			UserSpaceService userSpaceService = SpringContextHolder
@@ -82,16 +91,19 @@ public abstract class LoginSessionHelper {
 					.getBean(LoginLogService.class);
 			SchoolYearService schoolYearService = SpringContextHolder
 					.getBean(SchoolYearService.class);
+			OrganizationService organizationService = SpringContextHolder
+					.getBean(OrganizationService.class);
 
 			User u = userService.findOne(userid);
 			session.setAttribute(SessionKey.CURRENT_USER, u);
-			UserSpace cus = (UserSpace)session.getAttribute(SessionKey.CURRENT_SPACE);
+			UserSpace cus = (UserSpace) session
+					.getAttribute(SessionKey.CURRENT_SPACE);
 			UserSpace model = new UserSpace();
 			model.setUserId(userid);
 			model.setEnable(1);
 			model.addOrder("sort");
 			List<UserSpace> lus = userSpaceService.findAll(model);
-			if(lus == null || lus.size() == 0){
+			if (lus == null || lus.size() == 0) {
 				throw new UserSpaceNotExistsException("用户空间不存在");
 			}
 
@@ -99,18 +111,45 @@ public abstract class LoginSessionHelper {
 				if (lus.size() == 1) {
 					cus = lus.get(0);
 				} else {
-					cus = getCandidate(lus,spaceid);
+					cus = getCandidate(lus, spaceid);
 				}
 			}
 
-			if(loginLogService != null)
+			if (loginLogService != null)
 				loginLogService.addHistroy(cus, LoginLog.T_LOGIN);
+
+			if (cus != null && cus.getPhaseId().intValue() == 0) {
+				Organization org = organizationService.findOne(cus.getOrgId());
+				List<MetaRelationship> phases = MetaUtils
+						.getOrgTypeMetaProvider()
+						.listAllPhase(org.getSchoolings());
+				if (phases.size() > 0) {
+					MetaRelationship mr = phases.get(0);
+					UserSpace newcus = new UserSpace();
+					BeanUtils.copyProperties(cus, newcus);
+					newcus.setPhaseId(mr.getId());
+					newcus.setPhaseType(mr.getEid());
+					cus = newcus;
+				}
+			}
+
+			boolean isTeacher = true;
+			for (UserSpace sp : lus) {
+				if (SysRole.TEACHER.getId().equals(sp.getSysRoleId())) {
+					continue;
+				} else {
+					isTeacher = false;
+				}
+
+			}
+
+			session.setAttribute("isTeacher", isTeacher);
 
 			User um = new User();
 			um.setId(u.getId());
 			um.setLastLogin(new Date());
 			userService.update(um);
-			
+
 			session.setAttribute(SessionKey.CURRENT_SCHOOLYEAR,
 					schoolYearService.getCurrentSchoolYear());
 			session.setAttribute(SessionKey.CURRENT_TERM,

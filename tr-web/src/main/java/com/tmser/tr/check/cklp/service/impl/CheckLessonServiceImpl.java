@@ -473,7 +473,7 @@ public class CheckLessonServiceImpl implements CheckLessonService {
     model.setGradeId(gradeId);
     model.setSubjectId(subjectId);
     model.setSchoolYear((Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SCHOOLYEAR));
-    if (searchType == 1) { // 按撰写学期
+    if (searchType!=null && searchType == 1) { // 按撰写学期
       model.setTermId(termId);
     }
     model.addCustomCondition(buildCommitLessonTypeSql(type, null), null);
@@ -653,7 +653,7 @@ public class CheckLessonServiceImpl implements CheckLessonService {
     paramMap.put("subjectId", subjectId);
     paramMap.put("userId", u.getId());
     paramMap.put("authorId", userid);
-    paramMap.put("schoolYear", (Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SCHOOLYEAR));
+    paramMap.put("schoolYear", WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SCHOOLYEAR));
     paramMap.put("resType", type);
     model.addCustomCondition("", paramMap);
     return lessonPlanDao.count(model);

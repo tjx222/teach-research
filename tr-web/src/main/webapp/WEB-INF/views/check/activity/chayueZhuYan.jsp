@@ -115,10 +115,10 @@
 						  <span class="xx_list"></span>
 						  <p>备课信息</p>
 						</div>
-						<div class="cy_list1 figure_bg">
+<%-- 						<div class="cy_list1 figure_bg">
 						  <span class="cy_list"></span>
 						  <p>参与讨论</p>
-						</div>
+						</div> --%>
 						<div class="ce_list1" resId="${activity.id }" isOver="${activity.isOver }" title="<ui:sout value='${activity.activityName }' encodingURL='true' escapeXml='true'></ui:sout>" authorId="${activity.organizeUserId}">
 						  <span class="ce_list"></span>
 						  <p>查阅列表</p>

@@ -15,10 +15,11 @@
 	<div class="jyyl_nav">
 		当前位置：
 		<jy:nav id="jyyl_xkjy">
+		<jy:param name="phaseId" value="${param.phaseId }"></jy:param>
 		</jy:nav>
 	</div>
 	<div class="teachingTesearch_class_content">
-		<form id="form1" action="${pageContext.request.contextPath }/jy/teachingView/manager/teachingView_s" method="post">
+		<form id="form1" action="${pageContext.request.contextPath }/jy/teachingView/manager/teachingView_s?phaseId=${param.phaseId }" method="post">
 		<div class="teachingTesearch_class_top">
 			<p class="teachingTesearch_class_title">学科教研情况一览</p>
 			<ul class="teachingTesearch_class_semester">
@@ -70,20 +71,7 @@
 					</b>
 					<span class="num_tip">（撰写数）</span>
 				</td>
-				<td orderFlag="listen">
-					<b>
-						听课记录
-						<c:if test="${search.orderFlag=='listen' }">
-			    			<c:if test="${search.orderMode=='up'||empty search.orderMode }"> <span class="up"></span></c:if>
-							<c:if test="${search.orderMode=='down'||empty search.orderMode }"> <span class="down"></span></c:if>
-						</c:if>
-						<c:if test="${search.orderFlag!='listen' }">
-							<span class="up"></span>
-							<span class="down"></span>
-						</c:if>
-					</b>
-					<span class="num_tip">（节数）</span>
-				</td>
+				
 				<td orderFlag="activityJoin">
 					<b>
 						集体备课
@@ -98,20 +86,7 @@
 					</b>
 					<span class="num_tip">（参与数）</span>
 				</td>
-				<td orderFlag="summaryWrite">
-					<b>
-						计划总结
-						<c:if test="${search.orderFlag=='summaryWrite' }">
-			    			<c:if test="${search.orderMode=='up'||empty search.orderMode }"> <span class="up"></span></c:if>
-							<c:if test="${search.orderMode=='down'||empty search.orderMode }"> <span class="down"></span></c:if>
-						</c:if>
-						<c:if test="${search.orderFlag!='summaryWrite' }">
-							<span class="up"></span>
-							<span class="down"></span>
-						</c:if>
-					</b>
-					<span class="num_tip">（撰写数）</span>
-				</td>
+				
 				<td orderFlag="share">
 					<b>
 						分享发表
@@ -146,12 +121,10 @@
 			<table cellpadding="0" cellspacing="0" class="teachingTesearch_class_table2">
 				<c:forEach var="data" items="${dataList }">
 					<tr class="change_bg">
-						<td><a href="${data['url'] }">${data['subjectName'] } / ${data['teacherCount'] }</a></td>
+						<td><a href="${data['url'] }&phaseId=${param.phaseId }">${data['subjectName'] } / ${data['teacherCount'] }</a></td>
 						<td>${data['jiaoanWrite']}</td>
 						<td>${data['kejianWrite']}</td>
-						<td>${data['listen']}</td>
 						<td>${data['activityJoin']}</td>
-						<td>${data['summaryWrite']}</td>
 						<td>${data['share']}</td>
 						<td class="no_border">${data['teacherRecordRes']}</td>
 					</tr>

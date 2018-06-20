@@ -2,6 +2,7 @@ package com.tmser.tr.activity.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -77,7 +78,30 @@ public class ActivityController extends AbstractController {
   private List<MetaRelationship> getCurrentPhaseList() {
     User user = CurrentUserContext.getCurrentUser(); // 用户
     Organization org = organizationService.findOne(user.getOrgId());
-    return MetaUtils.getOrgTypeMetaProvider().listAllPhase(org.getSchoolings());
+    List<MetaRelationship> phases = MetaUtils.getOrgTypeMetaProvider().listAllPhase(org.getSchoolings());
+    List<UserSpace> spaces =  (List<UserSpace>) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.USER_SPACE_LIST);
+    List<MetaRelationship> newphases = null;
+    for(UserSpace sp : spaces) {
+    	if(0 == sp.getPhaseId() || phases.size() < 2) {
+    		newphases = null;
+    		break;
+    	}
+    	
+    	if(SysRole.TEACHER.getId().equals(sp.getSysRoleId())) {
+    		 continue;
+    	}
+    	
+    	if(newphases == null)
+    		newphases = new ArrayList<>();
+    	
+    	for (MetaRelationship metaRelationship : phases) {
+			if(metaRelationship.getId().equals(sp.getPhaseId())) {
+				newphases.add(metaRelationship);
+				break;
+			}
+		}
+    }
+    return newphases == null ? phases : newphases;
   }
 
   /**
@@ -86,15 +110,24 @@ public class ActivityController extends AbstractController {
    * @return
    */
   @RequestMapping("/index")
-  public String index(String listType, Model model, Page page) {
+  public String index(String listType,  @RequestParam(value = "phaseId", required = false) Integer phaseId,
+		  Model model, Page page) {
     User user = CurrentUserContext.getCurrentUser(); // 用户
     if (!(SecurityUtils.getSubject().isPermitted("fqjb") || SecurityUtils.getSubject().isPermitted("cyjb"))) {
       return "redirect:/jy/activity/tchIndex";
+    }
+    
+    List<MetaRelationship> phases =  getCurrentPhaseList();
+    if(phaseId == null) {
+    	phaseId = phases.get(0).getId();
     }
     listType = listType == null ? "0" : listType;
     // 列表选型
     model.addAttribute("listType", listType);
     Activity activity = new Activity(); // activity.getPage().setPageSize(3);
+    if("0".equals(listType)) {
+    	activity.setPhaseId(phaseId);
+    }
     // 页码
     if (page != null)
       page.setPageSize(10);
@@ -114,6 +147,8 @@ public class ActivityController extends AbstractController {
     temp.setStatus(0);
     int activityDraftNum = activityService.count(temp);
     model.addAttribute("activityDraftNum", activityDraftNum);
+    model.addAttribute("phases", phases);
+    model.addAttribute("phaseId", phaseId);
     return "/activity/leader/activityIndex";
   }
 
@@ -203,6 +238,7 @@ public class ActivityController extends AbstractController {
     model.addAttribute("subjectList", activityService.findSubjectList(phaseId));
     // 加载年级List
     model.addAttribute("gradeList", activityService.findGradeList(phaseId));
+    model.addAttribute("phaseId", phaseId);
     // 加载开始时间
     model.addAttribute("startDate", startDate != null ? startDate : new Date());
     return "/activity/leader/activityEditTbja";
@@ -242,6 +278,7 @@ public class ActivityController extends AbstractController {
     model.addAttribute("subjectList", activityService.findSubjectList(phaseId));
     // 加载年级List
     model.addAttribute("gradeList", activityService.findGradeList(phaseId));
+    model.addAttribute("phaseId", phaseId);
     // 加载开始时间
     model.addAttribute("startDate", startDate != null ? startDate : new Date());
     return "/activity/leader/activityEditZtyt";
@@ -283,6 +320,7 @@ public class ActivityController extends AbstractController {
     model.addAttribute("gradeList", activityService.findGradeList(phaseId));
     // 加载开始时间
     model.addAttribute("startDate", startDate != null ? startDate : new Date());
+    model.addAttribute("phaseId", phaseId);
     return "/activity/leader/activityEditSpjy";
   }
 
@@ -401,6 +439,7 @@ public class ActivityController extends AbstractController {
   public void saveActivityZtyt(Activity activity, Integer status, String resIds, HttpServletRequest request, Model m) {
     Activity result = null;
     activity.setStatus(status);
+    activity.setSubjectIds(","+activity.getMainUserSubjectId()+",");
     if (activity.getId() != null && activity.getId().intValue() != 0) {
       // 更新
       result = activityService.updateActivityZtyt(activity, resIds, m);

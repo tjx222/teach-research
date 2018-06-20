@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -154,7 +155,6 @@ public class TeachingViewServiceImpl implements TeachingViewService {
    * 
    * @param cons
    * @return
-   * @author wangdawei
    */
   private String createKey(String moduleName, SearchVo searchVo) {
     UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
@@ -164,6 +164,11 @@ public class TeachingViewServiceImpl implements TeachingViewService {
     if (searchVo.getTermId() != null) {
       keyStr.append("term").append(searchVo.getTermId()).append("_");
     }
+    
+    if (searchVo.getPhaseId() != null) {
+        keyStr.append("phaseid").append(searchVo.getPhaseId()).append("_");
+    }
+    
     if (searchVo.getGradeId() != null) {
       keyStr.append("grade").append(searchVo.getGradeId()).append("_");
     }
@@ -185,11 +190,11 @@ public class TeachingViewServiceImpl implements TeachingViewService {
    * @author wangdawei
    */
   @Override
-  public List<Map<String, String>> getGradeList() {
+  public List<Map<String, String>> getGradeList(Integer phaseId) {
     UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
     Organization org = orgService.findOne(userSpace.getOrgId());
     List<Meta> listAllGrade = MetaUtils.getOrgTypeMetaProvider().listAllGrade(org.getSchoolings(),
-        userSpace.getPhaseId());
+        phaseId);
     List<Map<String, String>> gradeList = new ArrayList<Map<String, String>>();
     if (userSpace.getGradeId().intValue() != 0) { // 只显示当前身份的年级
       for (Meta meta : listAllGrade) {
@@ -219,13 +224,13 @@ public class TeachingViewServiceImpl implements TeachingViewService {
    * @author wangdawei
    */
   @Override
-  public List<Map<String, String>> getSubjectList() {
+  public List<Map<String, String>> getSubjectList(Integer phaseId) {
     UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
     Organization org = orgService.findOne(userSpace.getOrgId());
     Integer[] areaIds = StringUtils.toIntegerArray(org.getAreaIds().substring(1, org.getAreaIds().lastIndexOf(",")),
         ",");
     List<Meta> listAllSubjectByPhaseId = MetaUtils.getPhaseSubjectMetaProvider().listAllSubject(org.getId(),
-        userSpace.getPhaseId(), areaIds);
+        phaseId, areaIds);
     List<Map<String, String>> subjectList = new ArrayList<Map<String, String>>();
     if (userSpace.getSubjectId().intValue() != 0) {
       for (Meta meta : listAllSubjectByPhaseId) {
@@ -365,7 +370,7 @@ public class TeachingViewServiceImpl implements TeachingViewService {
     ValueWrapper element = teachingViewDataCache.get(cacheKey);
     if (element == null) {
       dataList = new ArrayList<Map<String, Object>>();
-      List<Map<String, String>> gradeList = getGradeList();
+      List<Map<String, String>> gradeList = getGradeList(searchVo.getPhaseId());
       UserSpace us = new UserSpace();
       us.addCustomCulomn("distinct userId");
       us.setOrgId(searchVo.getOrgId());
@@ -414,7 +419,7 @@ public class TeachingViewServiceImpl implements TeachingViewService {
     ValueWrapper element = teachingViewDataCache.get(cacheKey);
     if (element == null) {
       dataList = new ArrayList<Map<String, Object>>();
-      List<Map<String, String>> subjectList = getSubjectList();
+      List<Map<String, String>> subjectList = getSubjectList(searchVo.getPhaseId());
       UserSpace us = new UserSpace();
       us.setOrgId(searchVo.getOrgId());
       us.setSysRoleId(SysRole.TEACHER.getId());
@@ -881,7 +886,7 @@ public class TeachingViewServiceImpl implements TeachingViewService {
   public List<Map<String, Object>> getManagerDataList(final SearchVo searchVo, UserSpace userSpace) throws Exception {
     List<Map<String, Object>> dataList = null;
     if (userSpace != null && userSpace.getSysRoleId() != null) {
-      Integer sysRoleId = userSpace.getSysRoleId();
+      Integer sysRoleId = getSysRoleId();
       String cacheKey = createKey(SearchVo.TW_MANAGER, searchVo);
       ValueWrapper element = teachingViewDataCache.get(cacheKey);
       this.setDateRange(searchVo);// 设置时间限制
@@ -967,7 +972,32 @@ public class TeachingViewServiceImpl implements TeachingViewService {
     return dataList;
   }
 
-  /**
+  private Integer getSysRoleId() {
+	  List<UserSpace> userSpaceList = (List<UserSpace>) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.USER_SPACE_LIST); // 用户空间
+	  Integer sysRoleId = 0;
+	  Set<Integer> sysRoleIds = new HashSet<>();
+	  for (UserSpace sp : userSpaceList) {
+		sysRoleIds.add(sp.getSysRoleId());
+	  }
+	  
+	  if(sysRoleIds.contains(SysRole.XZ.getId())) {
+		  sysRoleId = SysRole.XZ.getId();
+	  }else if(sysRoleIds.contains(SysRole.FXZ.getId())) {
+		  sysRoleId = SysRole.FXZ.getId();
+	  }else if(sysRoleIds.contains(SysRole.ZR.getId())) {
+		  sysRoleId = SysRole.ZR.getId();
+	  }else if(sysRoleIds.contains(SysRole.NJZZ.getId())) {
+		  sysRoleId = SysRole.NJZZ.getId();
+	  }else if(sysRoleIds.contains(SysRole.XKZZ.getId())) {
+		  sysRoleId = SysRole.XKZZ.getId();
+	  }else if(sysRoleIds.contains(SysRole.BKZZ.getId())) {
+		  sysRoleId = SysRole.BKZZ.getId();
+	  }
+	
+	return sysRoleId;
+}
+
+/**
    * 根据身份获得对应用户
    * 
    * @author wangyao

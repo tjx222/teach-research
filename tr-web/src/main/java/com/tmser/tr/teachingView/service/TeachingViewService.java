@@ -22,9 +22,9 @@ import com.tmser.tr.uc.bo.UserSpace;
  */
 public interface TeachingViewService {
 
-  public List<Map<String, String>> getGradeList();
+  public List<Map<String, String>> getGradeList(Integer phaseId);
 
-  public List<Map<String, String>> getSubjectList();
+  public List<Map<String, String>> getSubjectList(Integer phaseId);
 
   public List<Map<String, Object>> getTeacherDataList(SearchVo searchVo) throws Exception;
 

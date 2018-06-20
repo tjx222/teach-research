@@ -35,6 +35,13 @@ define(["require","zepto","iscroll"], function (require) {
        		 	$( this ).addClass("act").siblings().removeClass("act"); 
 //    		}
     	});
+    	
+    	$("#phaselistwrap p").click(function () {
+    		if($(this).attr('data') != CURRENT_PHASE){
+    			location.href = location.href.replace(location.search,'')+"?phaseId="+$(this).attr('data');
+    		}
+		  });
+    	
     	$('.check_content_block span').click(function (e){  
     		$('.mask').show(); 
     		var menuzdy = "";
@@ -49,6 +56,10 @@ define(["require","zepto","iscroll"], function (require) {
     		}else if(contentid=="gradecontent"){
     			wrap = "wrap3";
     			menuzdy = "menuzdy3";
+    		}
+    		else if(contentid=="phaseSelect"){
+    			wrap = "phaselistwrap";
+    			menuzdy = "menuzdy4";
     		}
     		$('.'+menuzdy).show();
     		$('.'+menuzdy+' .check_block_menu').css({"left":e.clientX+"px","top":e.clientY+"px"})

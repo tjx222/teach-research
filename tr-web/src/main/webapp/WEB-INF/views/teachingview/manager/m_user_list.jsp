@@ -14,6 +14,7 @@
 	<div class="jyyl_nav">
 		当前位置：
 		<jy:nav id="jyyl_jxgl">
+		<jy:param name="phaseId" value="${param.phaseId }"></jy:param>
 		</jy:nav>
 	</div>
 	<input type="hidden" id="termId" value="${searchVo.termId}">
@@ -69,30 +70,6 @@
 					</b>
 					<span class="num_tip">（查阅数）</span>
 				</td>
-				<td rowspan="2" class="sort_click" style="cursor:pointer;width:104px;text-align:left;padding-left:5px;">
-					<b>
-						查阅计划总结
-						<span class="up sort_" data-id="plan_summary_read" data-value="1" data-phaseid="${_CURRENT_SPACE_.phaseId}"></span>
-						<span class="down sort_" data-id="plan_summary_read" data-value="2" data-phaseid="${_CURRENT_SPACE_.phaseId}"></span>
-					</b>
-					<span class="num_tip">（查阅数）</span>
-				</td>
-				<td rowspan="2" class="sort_click" style="cursor:pointer;width:104px;text-align:left;padding-left:5px;">
-					<b>
-						查阅教学文章
-						<span class="up sort_" data-id="thesis_read" data-value="1" data-phaseid="${_CURRENT_SPACE_.phaseId}"></span>
-						<span class="down sort_" data-id="thesis_read" data-value="2" data-phaseid="${_CURRENT_SPACE_.phaseId}"></span>
-					</b>
-					<span class="num_tip">（查阅数）</span>
-				</td>
-				<td rowspan="2" class="sort_click" style="cursor:pointer;width:104px;text-align:left;padding-left:5px;">
-					<b>
-						查阅听课记录
-						<span class="up sort_" data-id="lecture_read" data-value="1" data-phaseid="${_CURRENT_SPACE_.phaseId}"></span>
-						<span class="down sort_" data-id="lecture_read" data-value="2" data-phaseid="${_CURRENT_SPACE_.phaseId}"></span>
-					</b>
-					<span class="num_tip">（查阅数）</span>
-				</td>
 				<td colspan="2" style="width:180px;" class="remove_td">
 					集体备课
 				</td>
@@ -120,7 +97,7 @@
 					<c:forEach  items="${dataList}" var="data">
 						<tr class="change_bg">
 							<td style="width:88px;">
-								<a href="${ctx}jy/teachingView/manager/m_details?userId=${data.userId}&termId=${data.searchVo.termId}&orgId=${data.searchVo.orgId}">
+								<a href="${ctx}jy/teachingView/manager/m_details?userId=${data.userId}&phaseId=${param.phaseId }&termId=${data.searchVo.termId}&orgId=${data.searchVo.orgId}">
 									${data.userName}
 								</a>
 							</td>
@@ -140,24 +117,6 @@
 								<a href="${ctx}jy/teachingView/manager/m_lesson_fansi?userId=${data.userId}&phaseId=${data.searchVo.phaseId}&termId=${data.searchVo.termId}&orgId=${data.searchVo.orgId}">
 									<c:set var="cyfs" value="${cyfs+data.fansi_read}" ></c:set>
 									${data.fansi_read}
-								</a>
-							</td>
-							<td style="width:107px;">
-								<a href="${ctx}jy/teachingView/manager/m_checkPlanSummary?userId=${data.userId}&phaseId=${data.searchVo.phaseId}&termId=${data.searchVo.termId}&orgId=${data.searchVo.orgId}">
-									<c:set var="cyjhzj" value="${cyjhzj+data.plan_summary_read}" ></c:set>
-									${data.plan_summary_read}
-								</a>
-							</td>
-							<td style="width:107px;">
-								<a href="${ctx}jy/teachingView/manager/m_checkThesis?userId=${data.userId}&phaseId=${data.searchVo.phaseId}&termId=${data.searchVo.termId}&orgId=${data.searchVo.orgId}">
-									<c:set var="cyjxwz" value="${cyjxwz+data.thesis_read}" ></c:set>
-									${data.thesis_read}
-								</a>
-							</td>
-							<td style="width:107px;">
-								<a href="${ctx}jy/teachingView/manager/m_check_lecture?userId=${data.userId}&phaseId=${data.searchVo.phaseId}&termId=${data.searchVo.termId}&orgId=${data.searchVo.orgId}">
-									<c:set var="cytkjl" value="${cytkjl+data.lecture_read}" ></c:set>
-									${data.lecture_read}
 								</a>
 							</td>
 							<td style="width:87px;">
@@ -187,15 +146,6 @@
 					</td>
 					<td style="width:88px;">
 						${cyfs}
-					</td>
-					<td style="width:88px;">
-						${cyjhzj}
-					</td>
-					<td style="width:88px;">
-						${cyjxwz}
-					</td>
-					<td style="width:88px;">
-						${cytkjl}
 					</td>
 					<td style="width:88px;">
 						${cyjtbk}
