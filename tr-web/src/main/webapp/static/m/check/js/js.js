@@ -72,14 +72,15 @@ define(["require","zepto","iscroll"], function (require) {
 		 	 $('.mask').hide(); 
 		 	 var p1=$(this).attr("data-val");
 		 	 var s=$('.semester_wrap1');
-		 	 var type=TYPE;
-		 	 if(type==3){
-		 		 type=2;
-		 	 } 
+		 	 var type=s.attr("data-type");
 		 	 var userid=s.attr("data-userId");
 		 	 var grade=s.attr("data-grade");
 		 	 var subject=s.attr("data-subject");
-		 	 location.href = _WEB_CONTEXT_ + "/jy/check/lesson/"+type+"/tch/"+userid+"?grade="+grade+"&subject="+subject+"&fasciculeId=" + p1;//页面跳转并传参
+		 	var params="";
+		 	 if(type == 3){
+		 		params = "&wc="+s.attr("data-wc")+"&sc="+s.attr("data-sc")+"&cc="+s.attr("data-cc");
+		 	 }
+		 	 location.href = _WEB_CONTEXT_ + "/jy/check/lesson/"+type+"/tch/"+(type==3 ? "other/":"")+userid+"?grade="+grade+"&subject="+subject+"&fasciculeId=" + p1+params;//页面跳转并传参
 		  });
     	$('#gradelistwrap p').click(function(){
              $( this ).addClass("act").siblings().removeClass("act"); 

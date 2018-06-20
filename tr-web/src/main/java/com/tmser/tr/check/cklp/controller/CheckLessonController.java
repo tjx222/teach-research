@@ -205,7 +205,8 @@ public class CheckLessonController extends AbstractController {
       @RequestParam(value = "termId", required = false) Integer termId,
       @RequestParam(value = "fasciculeId", required = false) Integer fasciculeId, Model m) {
     if (searchType == null) {
-      searchType = 0;
+      searchType = 1;
+      termId = fasciculeId = fasciculeId == null ? 0 :fasciculeId ;
     }
     if (fasciculeId == null) {
       UserSpace us = userSpaceService.getUserSpace(userId, SysRole.TEACHER.getId(), grade, subject);
@@ -282,11 +283,12 @@ public class CheckLessonController extends AbstractController {
       @RequestParam(value = "searchType", required = false) Integer searchType,
       @RequestParam(value = "termId", required = false) Integer termId,
       @RequestParam(value = "fasciculeId", required = false) Integer fasciculeId, Model m) {
-    if (termId == null) {
-      termId = 0;
+	searchType = 1;
+    if (fasciculeId == null) {
+    	fasciculeId = 0;
     }
     m.addAttribute("checkIds", checkLessonService.checkedLessonMap(userId, grade, subject, type));
-    m.addAttribute("resList", checkLessonService.listTchLessonsOther(type, userId, grade, subject, searchType, termId));
+    m.addAttribute("resList", checkLessonService.listTchLessonsOther(type, userId, grade, subject, searchType, fasciculeId));
     m.addAttribute("userId", userId);
     m.addAttribute("type", type);
     m.addAttribute("grade", grade);
