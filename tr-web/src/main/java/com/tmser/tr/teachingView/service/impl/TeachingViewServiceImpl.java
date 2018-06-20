@@ -979,19 +979,11 @@ public class TeachingViewServiceImpl implements TeachingViewService {
 	  for (UserSpace sp : userSpaceList) {
 		sysRoleIds.add(sp.getSysRoleId());
 	  }
-	  
-	  if(sysRoleIds.contains(SysRole.XZ.getId())) {
-		  sysRoleId = SysRole.XZ.getId();
-	  }else if(sysRoleIds.contains(SysRole.FXZ.getId())) {
-		  sysRoleId = SysRole.FXZ.getId();
-	  }else if(sysRoleIds.contains(SysRole.ZR.getId())) {
-		  sysRoleId = SysRole.ZR.getId();
-	  }else if(sysRoleIds.contains(SysRole.NJZZ.getId())) {
-		  sysRoleId = SysRole.NJZZ.getId();
-	  }else if(sysRoleIds.contains(SysRole.XKZZ.getId())) {
-		  sysRoleId = SysRole.XKZZ.getId();
-	  }else if(sysRoleIds.contains(SysRole.BKZZ.getId())) {
-		  sysRoleId = SysRole.BKZZ.getId();
+	  SysRole[] roles = new SysRole[]{SysRole.XZ,SysRole.FXZ,SysRole.ZR,SysRole.NJZZ,SysRole.XKZZ,SysRole.BKZZ};
+	  for (SysRole sysRole : roles) {
+		if(sysRoleIds.contains(sysRole.getId())){
+			return sysRole.getId();
+		}
 	  }
 	
 	return sysRoleId;
@@ -1113,32 +1105,34 @@ public class TeachingViewServiceImpl implements TeachingViewService {
     UserSpace currentUserSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
     UserSpace userSpace = new UserSpace();
     userSpace.setOrgId(searchVo.getOrgId());
+    
     userSpace.setEnable(UserSpace.ENABLE);
     userSpace.setUserId(searchVo.getUserId());
     StringBuilder sql = new StringBuilder();
     Map<String, Object> paramMap = new HashMap<String, Object>();
     UserSpace us = userSpaceService.findOne(currentUserSpace.getId());
+    Integer sysRoleId = getSysRoleId();
     if (us.getPhaseId() != null && us.getPhaseId().equals(currentUserSpace.getPhaseId())) {
       userSpace.setPhaseId(currentUserSpace.getPhaseId());
     } else {
       sql.append(" and phaseId in (:phaseIds)");
       paramMap.put("phaseIds", Arrays.asList(new Integer[] { currentUserSpace.getPhaseId(), us.getPhaseId() }));
     }
-    if (SysRole.XZ.getId().equals(currentUserSpace.getSysRoleId())) {
+    if (SysRole.XZ.getId().equals(sysRoleId)) {
       sql.append(" and sysRoleId in (:sysRoleId)");
       paramMap.put("sysRoleId", Arrays.asList(SysRole.FXZ.getId(), SysRole.ZR.getId(), SysRole.XKZZ.getId(),
           SysRole.NJZZ.getId(), SysRole.BKZZ.getId()));
-    } else if (SysRole.FXZ.getId().equals(currentUserSpace.getSysRoleId())) {
+    } else if (SysRole.FXZ.getId().equals(sysRoleId)) {
       sql.append(" and sysRoleId in (:sysRoleId)");
       paramMap.put("sysRoleId",
           Arrays.asList(SysRole.ZR.getId(), SysRole.XKZZ.getId(), SysRole.NJZZ.getId(), SysRole.BKZZ.getId()));
-    } else if (SysRole.ZR.getId().equals(currentUserSpace.getSysRoleId())) {
+    } else if (SysRole.ZR.getId().equals(sysRoleId)) {
       sql.append(" and sysRoleId in (:sysRoleId)");
       paramMap.put("sysRoleId", Arrays.asList(SysRole.XKZZ.getId(), SysRole.NJZZ.getId(), SysRole.BKZZ.getId()));
-    } else if (SysRole.XKZZ.getId().equals(currentUserSpace.getSysRoleId())) {
+    } else if (SysRole.XKZZ.getId().equals(sysRoleId)) {
       sql.append(" and sysRoleId in (:sysRoleId)");
       paramMap.put("sysRoleId", Arrays.asList(SysRole.BKZZ.getId()));
-    } else if (SysRole.NJZZ.getId().equals(currentUserSpace.getSysRoleId())) {
+    } else if (SysRole.NJZZ.getId().equals(sysRoleId)) {
       sql.append(" and sysRoleId in (:sysRoleId)");
       paramMap.put("sysRoleId", Arrays.asList(SysRole.BKZZ.getId()));
     }
