@@ -48,6 +48,18 @@
 					</div>
 					<input type="hidden" id="draftNumId" value="${activityDraftNum}" />
 				</div>
+				 <c:if test="${fn:length(phases) > 1 }">
+				<div class="content_top_right">
+				 <label>学段：</label>
+                <div>
+                <select name="phaseId" id="phaseId" style="width: 10rem; border: none;  line-height: 3rem;  height: 3rem; font-size: 1.267rem; color: #999; background: #f7f8f9;">
+                 <c:forEach items="${phases }" var="phase">
+                   <option value="${phase.id }" ${phase.id == phaseId ? 'selected':'' }>${phase.name }</option>
+                 </c:forEach>
+                </select>
+                </div>
+				</div>
+				</c:if>
 			</div>
 			<c:if test="${!empty activityList.datalist && fn:length(activityList.datalist)>0}">
 			<div class="content_bottom" id="wrap">

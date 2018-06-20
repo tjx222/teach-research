@@ -30,6 +30,7 @@
 							<div class="ja"></div>
 							<input value="${act.id}" id="id" name="id" type="hidden">
 							<input id="typeId" name="typeId" type="hidden" value="1">
+							<input name="phaseId" type="hidden" value="${not empty act ? act.phaseId :phaseId }">
 							<h3>确定主备人及教案<span>*</span></h3>
 							<h4>学科：
 							<c:if test="${fn:length(subjectList) > 1}">

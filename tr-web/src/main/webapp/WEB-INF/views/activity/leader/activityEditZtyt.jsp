@@ -36,13 +36,13 @@
 						<ui:token></ui:token>
 						<input value="${act.id}" id="id" name="id" type="hidden">
 						<input id="typeId" name="typeId" type="hidden" value="2">
+						<input name="phaseId" type="hidden" value="${not empty act ? act.phaseId :phaseId }">
 						<div class="activity_wrap_right">
 							<div class="range_content">
 								<div class="range"></div>
 								<h3>确定参与范围<span>*</span></h3>
-								<input type="hidden" id="subjectIds" name="subjectIds" value=""/>
 								<h4>学科：<c:if test="${fn:length(subjectList) > 1}">
-								  <input type="hidden" id="subjectIds" name="subjectIds" value=",${sub.id },"/>
+								<input type="hidden" id="subjectIds" name="subjectIds" value=""/>
                   <select name="mainUserSubjectId" id="mainUserSubjectId" class="validate[required] chosen-select-deselect" <c:if test="${act.commentsNum>0 || haveTrack }">disabled="disabled"</c:if>>
                      <c:forEach items="${subjectList}" var="sub">
                      <option value="${sub.id}" <c:if test="${sub.id==act.mainUserSubjectId}"> selected="selected" </c:if>>${sub.name}</option>
