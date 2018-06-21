@@ -164,11 +164,7 @@ public class TeachingViewServiceImpl implements TeachingViewService {
     if (searchVo.getTermId() != null) {
       keyStr.append("term").append(searchVo.getTermId()).append("_");
     }
-    
-    if (searchVo.getPhaseId() != null) {
-        keyStr.append("phaseid").append(searchVo.getPhaseId()).append("_");
-    }
-    
+  
     if (searchVo.getGradeId() != null) {
       keyStr.append("grade").append(searchVo.getGradeId()).append("_");
     }
@@ -894,18 +890,18 @@ public class TeachingViewServiceImpl implements TeachingViewService {
         List<UserSpace> userSpaceList = new ArrayList<UserSpace>();
         dataList = new ArrayList<Map<String, Object>>();
         if (SysRole.XZ.getId().equals(sysRoleId)) {
-          userSpaceList = getUserBySysRoleId(userSpace, SysRole.FXZ.getId(), SysRole.ZR.getId(), SysRole.XKZZ.getId(),
+          userSpaceList = getUserBySysRoleId(userSpace, SysRole.XZ.getId(),SysRole.FXZ.getId(), SysRole.ZR.getId(), SysRole.XKZZ.getId(),
               SysRole.NJZZ.getId(), SysRole.BKZZ.getId());
         } else if (SysRole.FXZ.getId().equals(sysRoleId)) {
-          userSpaceList = getUserBySysRoleId(userSpace, SysRole.ZR.getId(), SysRole.XKZZ.getId(), SysRole.NJZZ.getId(),
+          userSpaceList = getUserBySysRoleId(userSpace, SysRole.FXZ.getId(),SysRole.ZR.getId(), SysRole.XKZZ.getId(), SysRole.NJZZ.getId(),
               SysRole.BKZZ.getId());
         } else if (SysRole.ZR.getId().equals(sysRoleId)) {
-          userSpaceList = getUserBySysRoleId(userSpace, SysRole.XKZZ.getId(), SysRole.NJZZ.getId(),
+          userSpaceList = getUserBySysRoleId(userSpace, SysRole.ZR.getId(),SysRole.XKZZ.getId(), SysRole.NJZZ.getId(),
               SysRole.BKZZ.getId());
         } else if (SysRole.XKZZ.getId().equals(sysRoleId)) {
-          userSpaceList = getUserBySysRoleId(userSpace, SysRole.BKZZ.getId());
+          userSpaceList = getUserBySysRoleId(userSpace, SysRole.XKZZ.getId(),SysRole.BKZZ.getId());
         } else if (SysRole.NJZZ.getId().equals(sysRoleId)) {
-          userSpaceList = getUserBySysRoleId(userSpace, SysRole.BKZZ.getId());
+          userSpaceList = getUserBySysRoleId(userSpace, SysRole.NJZZ.getId(), SysRole.BKZZ.getId());
         }
         Map<Integer, List<Integer>> userIdMap = new HashMap<Integer, List<Integer>>();
         Map<Integer, String> userNameMap = new HashMap<Integer, String>();
@@ -1017,13 +1013,11 @@ public class TeachingViewServiceImpl implements TeachingViewService {
       userSpace.setGradeId(userspace.getGradeId());
     }
     if (sysRoleId != null) {
-      sql.append(" and sysRoleId in (:sysRoleId) and userId <> :userId");
-      paramMap.put("userId", userspace.getUserId());
+      sql.append(" and sysRoleId in (:sysRoleId) ");
       paramMap.put("sysRoleId", Arrays.asList(sysRoleId));
     }
     userSpace.setSchoolYear((Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SCHOOLYEAR));
-    userSpace.addCustomCondition(" and sysRoleId <> :teacher " + sql.toString(), paramMap);
-    paramMap.put("teacher", SysRole.TEACHER.getId());
+    userSpace.addCustomCondition(sql.toString(), paramMap);
     return userSpaceService.findAll(userSpace);
   }
 
@@ -1120,21 +1114,21 @@ public class TeachingViewServiceImpl implements TeachingViewService {
     }
     if (SysRole.XZ.getId().equals(sysRoleId)) {
       sql.append(" and sysRoleId in (:sysRoleId)");
-      paramMap.put("sysRoleId", Arrays.asList(SysRole.FXZ.getId(), SysRole.ZR.getId(), SysRole.XKZZ.getId(),
+      paramMap.put("sysRoleId", Arrays.asList(SysRole.XZ.getId(),SysRole.FXZ.getId(), SysRole.ZR.getId(), SysRole.XKZZ.getId(),
           SysRole.NJZZ.getId(), SysRole.BKZZ.getId()));
     } else if (SysRole.FXZ.getId().equals(sysRoleId)) {
       sql.append(" and sysRoleId in (:sysRoleId)");
       paramMap.put("sysRoleId",
-          Arrays.asList(SysRole.ZR.getId(), SysRole.XKZZ.getId(), SysRole.NJZZ.getId(), SysRole.BKZZ.getId()));
+          Arrays.asList(SysRole.FXZ.getId(),SysRole.ZR.getId(), SysRole.XKZZ.getId(), SysRole.NJZZ.getId(), SysRole.BKZZ.getId()));
     } else if (SysRole.ZR.getId().equals(sysRoleId)) {
       sql.append(" and sysRoleId in (:sysRoleId)");
-      paramMap.put("sysRoleId", Arrays.asList(SysRole.XKZZ.getId(), SysRole.NJZZ.getId(), SysRole.BKZZ.getId()));
+      paramMap.put("sysRoleId", Arrays.asList(SysRole.ZR.getId(),SysRole.XKZZ.getId(), SysRole.NJZZ.getId(), SysRole.BKZZ.getId()));
     } else if (SysRole.XKZZ.getId().equals(sysRoleId)) {
       sql.append(" and sysRoleId in (:sysRoleId)");
-      paramMap.put("sysRoleId", Arrays.asList(SysRole.BKZZ.getId()));
+      paramMap.put("sysRoleId", Arrays.asList(SysRole.XKZZ.getId(),SysRole.BKZZ.getId()));
     } else if (SysRole.NJZZ.getId().equals(sysRoleId)) {
       sql.append(" and sysRoleId in (:sysRoleId)");
-      paramMap.put("sysRoleId", Arrays.asList(SysRole.BKZZ.getId()));
+      paramMap.put("sysRoleId", Arrays.asList(SysRole.NJZZ.getId(),SysRole.BKZZ.getId()));
     }
     userSpace.addCustomCondition(sql.toString(), paramMap);
     userSpace.setSchoolYear((Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SCHOOLYEAR));

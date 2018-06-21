@@ -9,9 +9,6 @@ public enum ManagerView {
 	JIAOAN_READ("jiaoan_read","教案查阅数"),
 	KEJIAN_READ("kejian_read","课件查阅数"),
 	FANSI_READ("fansi_read","反思查阅数"),
-	PLAN_SUMMAREY_READ("plan_summary_read","计划总结查阅数"),
-	LECTURE_READ("lecture_read","听课记录查阅数"),
-	THESIS_READ("thesis_read","教学文章查阅数"),
 	ACTIVITY_READ("activity_read","集体备课查阅数"),
 	ACTIVITY_ORIGINATION("activity_origination","集体备课发起数");
 	
