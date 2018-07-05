@@ -189,6 +189,18 @@
 						<ui:upload_m fileType="doc,docx,ppt,pptx,pdf" fileSize="50" startElementId="save" beforeupload="start" callback="afterUpload" relativePath="rethink/o_${_CURRENT_USER_.orgId}/u_${_CURRENT_USER_.id}"></ui:upload_m>					
 					</strong>
 				</div>
+				<div id="qt_jcsj" class="form_input" >
+                            <label>教材书籍</label>
+                            <strong class="select" id="bookIdSelector">请选择<q></q></strong>
+                            <div class="menu_list" >
+                                <span class="menu_list_top"></span>
+                                 <div id="bookIdItems" class="menu_list_wrap1" style="height:7rem"> 
+                                      <c:forEach items="${books }" var="book">
+                                        <p level="leaf" value="${book.comId }" >${book.comName } </p>
+                                      </c:forEach>
+                                 </div>
+                            </div>
+                </div>
 				<div>
 					<input id="save" type="button" class="btn_edit" value="上传"> 
 					<input type="button" class="btn_cencel" value="取消">
@@ -259,7 +271,7 @@
 					</div>
 					<c:forEach var="fansi" items="${rethinkList.datalist }">
 						<jy:ds key="${fansi.resId }" className="com.tmser.tr.manage.resources.service.ResourcesService" var="res"/>
-						<div class="courseware_ppt" planId="${fansi.planId }" planType="${fansi.planType }" lessonId="${fansi.lessonId }" resId="${fansi.resId }" >
+						<div class="courseware_ppt" planId="${fansi.planId }" planType="${fansi.planType }" lessonId="${empty fansi.lessonId ? fansi.bookId : fansi.lessonId}" resId="${fansi.resId }" >
 							<div class="courseware_img_1">反思</div>
 							<h3>${fansi.planName }</h3>
 							<p><ui:icon ext="${res.ext }" title="${fansi.planName }"></ui:icon></p>

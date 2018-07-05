@@ -190,6 +190,15 @@ define(["require","zepto","iscroll"], function (require) {
     		});
     	});
     	
+    	$("#bookIdItems").find("p[level='leaf']").each(function(){
+    		$(this).click(function(){
+    			$(this).addClass("act").siblings().removeClass("act");
+             	$('.cw_menu_wrap').hide();
+             	$("#bookIdSelector").html($(this).html());
+             	$("input[name='bookId']").val($(this).attr("value"));
+    		});
+    	});
+    	
     	$(".enclosure_del").click(function(){
     		$(".enclosure_name").hide();
         	$("#uploadId").show();
@@ -336,6 +345,7 @@ define(["require","zepto","iscroll"], function (require) {
     	if(typeStr=="kh"){
     		$("#kh_kt").show();
     		$("#qt_kt").hide();
+    		$("#qt_jcsj").hide();
     		$("#planType").val(2);
     		$("#planName").val("");
     		$("#planName").attr("name","planName");
@@ -351,6 +361,9 @@ define(["require","zepto","iscroll"], function (require) {
     		$("#planType").val(3);
     		$("#kh_kt").hide();
     		$("#qt_kt").show();
+    		$("#qt_jcsj").show();
+    		$("#bookIdItems").find("p").removeClass("act");
+    		$('.menu_list').hide();
     		$(".add_upload_title h3").html("撰写其他反思");
     	}
     	$('.add_upload_wrap').show();
@@ -367,6 +380,7 @@ define(["require","zepto","iscroll"], function (require) {
     	if(planType=="2"){
     		$("#kh_kt").show();
     		$("#qt_kt").hide();
+    		$("#qt_jcsj").hide();
     		$("#lessonId").val(lessonId);
     		$("#planName").val(lessonName);
     		$("#planName").attr("name","planName");
@@ -380,6 +394,7 @@ define(["require","zepto","iscroll"], function (require) {
     		$("#planType").val(3);
     		$("#kh_kt").hide();
     		$("#qt_kt").show();
+    		$("#qt_jcsj").show();
     		$(".add_upload_title h3").html("修改其他反思");
     	}
     	if(resId!=""){
@@ -394,8 +409,13 @@ define(["require","zepto","iscroll"], function (require) {
     					$("#uploadFileName").html(data.res.name+"."+data.res.ext);
     					$("#resId").val(resId);
     					if(lessonId!=null && lessonId!=""){
-    						$("#wrap1").find("p[value='"+lessonId+"']").addClass("act");
-    						$("#uploadLesson").html($("#wrap1").find("p[value='"+lessonId+"']").html()+"<q></q>");
+    						if(planType=="3"){
+    							$("#bookIdItems").find("p[value='"+lessonId+"']").addClass("act");
+    							$("#bookIdSelector").html($("#bookIdItems").find("p[value='"+lessonId+"']").html()+"<q></q>");
+    						}else{
+    							$("#wrap1").find("p[value='"+lessonId+"']").addClass("act");
+    							$("#uploadLesson").html($("#wrap1").find("p[value='"+lessonId+"']").html()+"<q></q>");
+    						}
     					}
     				}
     			}

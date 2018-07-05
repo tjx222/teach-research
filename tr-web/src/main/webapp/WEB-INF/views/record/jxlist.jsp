@@ -98,12 +98,6 @@
 							<c:when test="${name1=='教学反思'}">
 								<dt>您还没有可精选的反思，赶紧去“<a href="./jy/rethink/index" target="_blank"  style="color:#014efd;">撰写反思</a>”吧！</dt>
 							</c:when>
-							<c:when test="${name1=='教学文章'}">
-								<dt>您还没有可精选的教学文章，赶紧去“<a href="./jy/thesis/index" target="_blank"  style="color:#014efd;">上传教学文章</a>”吧！</dt>
-							</c:when>
-							<c:when test="${name1=='计划总结'}">
-								<dt>您还没有可精选的计划总结，赶紧去“<a href="./jy/planSummary/index" target="_blank"  style="color:#014efd;">上传计划总结</a>”吧！</dt>
-							</c:when>
 							<c:otherwise>
 								<dt>您还没有可精选的教案，赶紧去“<a href="./jy/toWriteLessonPlan" target="_blank"  style="color:#014efd;">撰写教案</a>”吧！</dt>
 							</c:otherwise>

@@ -49,7 +49,7 @@ define(["require","zepto","iscroll","placeholder"], function (require) {
     	});
     	
     	jq("#listTable").on("click","span[status='name']",function(){ //查看单个听课记录
-    		location.href = _WEB_CONTEXT_+"/jy/lecturerecords/seetopic?id="+$(this).attr("resId");
+    		scanResFile_m(jq(this).attr("resId"));
     	});
     }
     
