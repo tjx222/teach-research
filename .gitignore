@@ -10,3 +10,4 @@ randcode.jpg
 *.log
 target/
 .project
+.idea/
