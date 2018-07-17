@@ -142,11 +142,11 @@ define(["require","zepto","iscroll","editor"], function (require) {
     		var title=$('input[name=title]').val();
     		var redTitleId=$('#ht_title').val();
     		var type=$('input[name=type]').val();
-    		if($('#redTitleId').val()==""||$('#redTitleId').val()==null){
-    			$('#redTitleId').val($('.ht_select_wrap #scroller p').attr("data-id"));
-    		}
     		var words="";
     		if(type==1){
+    			if($('#redTitleId').val()==""||$('#redTitleId').val()==null){
+        			$('#redTitleId').val($('.ht_select_wrap #scroller p').attr("data-id"));
+        		}
     			if(redTitleId==null||redTitleId==""){
         			successAlert("请添加红头");
         			return false;

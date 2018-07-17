@@ -79,7 +79,7 @@ public class CheckLessonServiceImpl implements CheckLessonService {
     usmodel.setSysRoleId(SysRole.TEACHER.getId());
     usmodel.setEnable(UserSpace.ENABLE);
     usmodel.setOrgId(u.getOrgId());
-    usmodel.setSchoolYear(schoolYear);
+   // usmodel.setSchoolYear(schoolYear);
     List<UserSpace> allUser = userSpaceDao.listAll(usmodel);
 
     for (UserSpace us : allUser) {
