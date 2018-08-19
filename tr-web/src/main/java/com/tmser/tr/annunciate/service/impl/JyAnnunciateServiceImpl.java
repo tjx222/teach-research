@@ -27,7 +27,6 @@ import com.tmser.tr.common.utils.WebThreadLocalUtils;
 import com.tmser.tr.manage.org.bo.Organization;
 import com.tmser.tr.manage.org.service.OrganizationService;
 import com.tmser.tr.manage.resources.service.ResourcesService;
-import com.tmser.tr.uc.SysRole;
 import com.tmser.tr.uc.bo.UserSpace;
 import com.tmser.tr.uc.utils.CurrentUserContext;
 import com.tmser.tr.uc.utils.SessionKey;
@@ -127,15 +126,8 @@ public class JyAnnunciateServiceImpl extends AbstractService<JyAnnunciate, Integ
 			
 			jyAnnunciateDao.update(annunciate);
 		}else {
-			// TODO Auto-generated method stub
-			Integer roleId=userSpace.getSysRoleId().intValue();
-			if (roleId==SysRole.JYZR.getId().intValue()||roleId==SysRole.JYY.getId().intValue()) {//是教研主任或者教研员
-				annunciate.setAnnunciateType(1);
-				annunciate.setIsForward(0);
-			}else {
-				annunciate.setAnnunciateType(0);
-				annunciate.setIsForward(1);
-			}
+			annunciate.setAnnunciateType(0);
+			annunciate.setIsForward(1);
 			if(StringUtils.isEmpty(annunciate.getForwardDescription())){
 				annunciate.setForwardDescription("");
 			}
@@ -163,7 +155,6 @@ public class JyAnnunciateServiceImpl extends AbstractService<JyAnnunciate, Integ
 	@Override
 	public JyAnnunciate getPreAnnunciate(Integer id, Integer orgId,
 			Integer status,Integer type) {
-		// TODO Auto-generated method stub
 		JyAnnunciate jAnnunciate=new JyAnnunciate();
 		jAnnunciate.setId(id);
 		jAnnunciate.setOrgId(orgId);
@@ -183,7 +174,6 @@ public class JyAnnunciateServiceImpl extends AbstractService<JyAnnunciate, Integ
 	@Override
 	public JyAnnunciate getNextAnnunciate(Integer id, Integer orgId,
 			Integer status,Integer type) {
-		// TODO Auto-generated method stub
 		JyAnnunciate jAnnunciate=new JyAnnunciate();
 		jAnnunciate.setId(id);
 		jAnnunciate.setOrgId(orgId);

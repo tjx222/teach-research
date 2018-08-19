@@ -114,13 +114,11 @@ public class LessonPlanServiceImpl extends AbstractService<LessonPlan, Integer> 
   public PageList<LessonPlan> findValidPlanList(LessonPlan lp) {
     // 通过不同情况封装不同查询条件,当前学年 ,用户,listPage
     User user = CurrentUserContext.getCurrentUser(); // 用户空间
-    Integer schoolYear = (Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SCHOOLYEAR);// 学年
 
     lp.setUserId(user.getId());// 用户Id
     lp.setPlanType(LessonPlan.JIAO_AN);// 课件
     lp.setEnable(1);// 有效
     lp.setOrgId(user.getOrgId());// 机构Id
-    lp.setSchoolYear(schoolYear);// 学年
 
     lp.addOrder("lastupDttm desc");
 
@@ -138,7 +136,6 @@ public class LessonPlanServiceImpl extends AbstractService<LessonPlan, Integer> 
   @Override
   public List<LessonPlan> findAllPlanList() {
     UserSpace userSpace = (UserSpace) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SPACE); // 用户空间
-    Integer schoolYear = (Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SCHOOLYEAR);// 学年
     if (userSpace != null) {
       LessonPlan lp = new LessonPlan();
       lp.setUserId(userSpace.getUserId());// 用户Id
@@ -147,7 +144,6 @@ public class LessonPlanServiceImpl extends AbstractService<LessonPlan, Integer> 
       lp.setOrgId(userSpace.getOrgId());// 机构Id
       lp.setGradeId(userSpace.getGradeId());// 年级Id
       lp.setSubjectId(userSpace.getSubjectId());// 学科Id
-      lp.setSchoolYear(schoolYear);// 学年
       return lessonPlanDao.listAll(lp);
     } else {
       return null;

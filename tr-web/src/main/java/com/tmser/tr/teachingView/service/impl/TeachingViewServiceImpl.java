@@ -271,7 +271,6 @@ public class TeachingViewServiceImpl implements TeachingViewService {
       UserSpace us = new UserSpace();
       us.setOrgId(searchVo.getOrgId());
       us.setSysRoleId(SysRole.TEACHER.getId().intValue());
-      us.setSchoolYear(schoolYear);
       us.setGradeId(searchVo.getGradeId());
       us.setSubjectId(searchVo.getSubjectId());
       us.setEnable(1);
@@ -1016,7 +1015,6 @@ public class TeachingViewServiceImpl implements TeachingViewService {
       sql.append(" and sysRoleId in (:sysRoleId) ");
       paramMap.put("sysRoleId", Arrays.asList(sysRoleId));
     }
-    userSpace.setSchoolYear((Integer) WebThreadLocalUtils.getSessionAttrbitue(SessionKey.CURRENT_SCHOOLYEAR));
     userSpace.addCustomCondition(sql.toString(), paramMap);
     return userSpaceService.findAll(userSpace);
   }
