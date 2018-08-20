@@ -59,10 +59,6 @@
 				<span>${user.cercode }</span>
 			</div>
 			<div class="unit">
-				<label>邮件地址：</label>
-				<span>${user.mail }</span>
-			</div>
-			<div class="unit">
 				<label>联系电话：</label>
 				<span>${user.cellphone }</span>
 			</div>

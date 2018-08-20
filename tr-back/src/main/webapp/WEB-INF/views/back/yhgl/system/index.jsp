@@ -10,7 +10,6 @@
 <div class="panelBar">
 	<ul class="toolBar">
 		<li><a class="add" href="jy/back/yhgl/sys/editUser" target="dialog" mask="true" width="510" heigth="400"><span>新建账号</span></a></li>
-		<li><a href="${ctx}jy/back/yhgl/exportOrgUser?userType=2" class="icon" ><span>导出</span></a></li>
 		<li class="line">line</li>
 	</ul>
 	<div class="form_cont">

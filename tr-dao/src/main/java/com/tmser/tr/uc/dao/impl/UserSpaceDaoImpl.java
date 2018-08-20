@@ -79,7 +79,7 @@ public class UserSpaceDaoImpl extends AbstractDAO<UserSpace,Integer> implements 
 		map.put("orgId", orgId);
 		map.put("schoolYear", schoolYear);
 		
-		String deleteSql = "delete UserMenu where sysRoleId in (select r.id from Role r where  r.solutionId = :solutionId ) and "
+/*		String deleteSql = "delete UserMenu where sysRoleId in (select r.id from Role r where  r.solutionId = :solutionId ) and "
 				+ " userId in (select distinct s.userId from UserSpace s "
 				+ " where s.orgId=:orgId and s.schoolYear=:schoolYear) ";
 				
@@ -96,13 +96,13 @@ public class UserSpaceDaoImpl extends AbstractDAO<UserSpace,Integer> implements 
 		
 	    rs = super.updateWithNamedSql(sql,map);//更新菜单
 	    
-	    logger.debug("update solution id=[{}] of school id=[{}] effect sys_user_menu [{}] lines ",solutionId,orgId,rs);
+	    logger.debug("update solution id=[{}] of school id=[{}] effect sys_user_menu [{}] lines ",solutionId,orgId,rs);*/
 		
-		sql = "update UserSpace s "
+		String sql = "update UserSpace s "
 				+ "set s.roleId=(select r.id from Role r where r.sysRoleId=s.sysRoleId and r.solutionId = :solutionId LIMIT 0,1)"
 				+ "	where exists (select 1"
 				+ "	from  Role r where r.sysRoleId=s.sysRoleId and r.solutionId =:solutionId and s.orgId=:orgId and s.schoolYear=:schoolYear) and s.schoolYear=:schoolYear and s.orgId=:orgId";
-		rs = updateWithNamedSql(sql,map);//更新身份
+		int rs = updateWithNamedSql(sql,map);//更新身份
 		
 		logger.debug("update solution id=[{}] of school id=[{}] effect sys_user_space [{}] lines ",solutionId,orgId,rs);
 	}

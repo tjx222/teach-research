@@ -43,7 +43,7 @@
 </c:if>
 </body>
 <script type="text/javascript">
-
+var AREA_ORGS = {};
 function beforeSubmit(obj){
 	var $form = $(obj);
 	var type= $('input:radio[name="scope"]:checked').val() == 0 ? 0:1;
@@ -194,7 +194,6 @@ $(document).ready(function(){
 	});
 	
 });
-
 //展开并勾选已选择的机构
 function callback(data){
 	var areaNode1 = backUser_ztreeObj.getNodesByFilter(function(node){
@@ -206,11 +205,13 @@ function callback(data){
 	}
 	var scopeList = data.scopeList;
 	for(var i=0;i<scopeList.length;i++){
+		debugger;
 		var areaNode = backUser_ztreeObj.getNodesByFilter(function(node){
 			return (node.flag=='area' && node.id==scopeList[i].areaId);
 		},true);
-		if(scopeList[0].orgId != 0){
+		if(scopeList[0].orgId != 0 ){
 			$("#asorg").attr("checked",'checked');
+			if(!AREA_ORGS.hasOwnProperty("_area_"+areaNode.id)){
 		    $.ajax({
 		        async : false,
 		    	type : "post",
@@ -218,6 +219,7 @@ function callback(data){
 		    	url : url, 
 		    	data : {"areaId":areaNode.id},
 		    	success : function(data){ 
+		    		AREA_ORGS["_area_"+areaNode.id] = data;
 		    		//加入子节点
 		    		if(eval(data).length>0){
 		    			$.each(data,function(index,obj){ 
@@ -226,6 +228,7 @@ function callback(data){
 		    		}
 		    	}
 		    });
+			}
 		    //勾选机构节点
 		    var orgNode = backUser_ztreeObj.getNodeByParam("id", scopeList[i].orgId, areaNode);
 		    backUser_ztreeObj.checkNode(orgNode, true, true);

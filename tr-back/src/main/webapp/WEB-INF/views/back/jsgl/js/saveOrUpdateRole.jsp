@@ -26,12 +26,12 @@
 			
 			<p>
 				<label>权限标识：</label> 
-				<input type="text" name="roleCode" value="${role.roleCode }" required="required">
+				<input class="required" type="text" name="roleCode" value="${role.roleCode }" required="required" maxlength="10">
 			</p>
 			
 			<p>
 				<label>角色说明：</label>
-				<textarea maxlength="500" rows="1" cols="33" name="roleDesc" >${role.roleDesc}</textarea>
+				<textarea maxlength="128" rows="1" cols="33" name="roleDesc" >${role.roleDesc}</textarea>
 			</p>
 			
 			<p style="margin-top: 20px;width: 100%;">
