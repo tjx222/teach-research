@@ -1,11 +1,12 @@
 /**
- * Tmser.com Inc.
- * Copyright (c) 2015-2017 All Rights Reserved.
+ * Tmser.com Inc. Copyright (c) 2015-2017 All Rights Reserved.
  */
+
 package com.tmser.tr.common.web.interceptor;
 
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,8 +29,7 @@ import com.tmser.tr.common.utils.CookieUtils;
  * </pre>
  *
  * @author tmser
- * @version $Id: AvoidDuplicateSubmissionInterceptor.java, v 1.0 2015年4月6日
- *          下午9:25:50 tmser Exp $
+ * @version $Id: AvoidDuplicateSubmissionInterceptor.java, v 1.0 2015年4月6日 下午9:25:50 tmser Exp $
  */
 public class JsessionIdSetInterceptor extends HandlerInterceptorAdapter implements InitializingBean {
   private static final Logger logger = LoggerFactory.getLogger(JsessionIdSetInterceptor.class);
@@ -107,8 +107,8 @@ public class JsessionIdSetInterceptor extends HandlerInterceptorAdapter implemen
       UriComponentsBuilder rb = UriComponentsBuilder.fromUriString(lookupPath);
       Map<String, String[]> params = request.getParameterMap();
       if (params != null) {
-        for (String key : params.keySet()) {
-          rb.queryParam(key, params.get(key));
+        for (Entry<String, String[]> key : params.entrySet()) {
+          rb.queryParam(key.getKey(), key.getValue());
         }
       }
 
@@ -149,8 +149,7 @@ public class JsessionIdSetInterceptor extends HandlerInterceptorAdapter implemen
   /**
    * Setter method for property <tt>urlPathHelper</tt>.
    *
-   * @param urlPathHelper
-   *          UrlPathHelper value to be assigned to property urlPathHelper
+   * @param urlPathHelper UrlPathHelper value to be assigned to property urlPathHelper
    */
   public void setUrlPathHelper(UrlPathHelper urlPathHelper) {
     this.urlPathHelper = urlPathHelper;
@@ -159,8 +158,7 @@ public class JsessionIdSetInterceptor extends HandlerInterceptorAdapter implemen
   /**
    * Setter method for property <tt>pathMatcher</tt>.
    *
-   * @param pathMatcher
-   *          PathMatcher value to be assigned to property pathMatcher
+   * @param pathMatcher PathMatcher value to be assigned to property pathMatcher
    */
   public void setPathMatcher(PathMatcher pathMatcher) {
     this.pathMatcher = pathMatcher;
@@ -169,8 +167,7 @@ public class JsessionIdSetInterceptor extends HandlerInterceptorAdapter implemen
   /**
    * Setter method for property <tt>officeViewPathPattern</tt>.
    *
-   * @param officeViewPathPattern
-   *          Set<String> value to be assigned to property officeViewPathPattern
+   * @param officeViewPathPattern Set<String> value to be assigned to property officeViewPathPattern
    */
   public void setOfficeViewPathPattern(Set<String> officeViewPathPattern) {
     this.officeViewPathPattern = officeViewPathPattern;
@@ -179,8 +176,7 @@ public class JsessionIdSetInterceptor extends HandlerInterceptorAdapter implemen
   /**
    * Setter method for property <tt>officePage</tt>.
    *
-   * @param officePage
-   *          String value to be assigned to property officePage
+   * @param officePage String value to be assigned to property officePage
    */
   public void setOfficePage(String officePage) {
     this.officePage = officePage;
