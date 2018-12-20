@@ -40,8 +40,6 @@
 				<groupId>com.tmser</groupId>
 				<artifactId>jsqlparser</artifactId>
 				<version>${jsqlparser.version}</version>
-				<scope>system</scope>
-        		<systemPath>${project.basedir}/src/main/jsqlparser-1.0.2.jar</systemPath>
 			</dependency>
 			
     	   <dependency>
@@ -92,8 +90,8 @@
 				 	<resource>
 						 <directory>src/main/resources</directory>
 						 <includes>  
-		                    <include>**/*.*</include> 
-		                 </includes>  
+		                    <include>**/*.*</include>
+		                 </includes>
 						  <excludes>
 				          	<exclude>config/init/*.properties</exclude>
 				          </excludes>
@@ -102,6 +100,26 @@
 			</build>
 		</profile>
 	</profiles>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.xsd</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+				<excludes>
+					<exclude>config/build/*.*</exclude>
+				</excludes>
+			</resource>
+		</resources>
+	</build>
 	
 	<modules>
 		<module>../tr-utils</module>

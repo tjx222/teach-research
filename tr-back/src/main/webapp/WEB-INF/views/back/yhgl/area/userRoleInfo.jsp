@@ -48,7 +48,7 @@
 							            	</td>
 								            <td>
 									            <a title="查看"  target="dialog" href="${ctx}jy/back/yhgl/lookUnitUserRole?id=${data.id}" class="btnSee" mask="true"></a>
-												<a title="确定要删除吗？" target="ajaxTodo" href="${ctx}jy/back/yhgl/delUserRole?id=${data.id }&userId=${data.userId}"  class="btnDelete" callback="reloadUnitRole"></a>
+												<a title="确定要删除吗？" target="ajaxTodo" href="${ctx}jy/back/yhgl/delUserSpace?id=${data.id }&userId=${data.userId}"  class="btnDelete" callback="reloadUnitRole"></a>
 											</td>
 								        </tr>
 								     </c:forEach>

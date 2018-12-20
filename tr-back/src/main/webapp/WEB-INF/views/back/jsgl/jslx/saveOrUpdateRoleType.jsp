@@ -26,7 +26,7 @@
 			</p>
 			<p>
 				<label>角色类型描述：</label>
-				<textarea id="ds" maxlength="500" name="roleTypeDesc" cols="30" rows="1">${roleType.roleTypeDesc }</textarea>
+				<textarea id="ds" maxlength="128" name="roleTypeDesc" cols="30" rows="1">${roleType.roleTypeDesc }</textarea>
 			</p>
 			<p>
 				<label>角色类型入口：</label>

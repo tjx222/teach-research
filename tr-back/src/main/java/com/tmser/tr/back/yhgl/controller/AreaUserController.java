@@ -216,7 +216,7 @@ public class AreaUserController extends AbstractController {
 	@ResponseBody
 	public Object valUnitName(Model model, Login login) {
 		List<Login> findAllList = loginService.findAll(login);
-		return findAllList == null || findAllList.size() == 0;
+		return findAllList == null || findAllList.isEmpty();
 	}
 
 	/**
